@@ -1,5 +1,49 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<oslc4j_tc:Toolchain xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:oslc4j_tc="http://org.eclipse.lyo/oslc4j/toolChain">
-  <specification/>
+<oslc4j_tc:Toolchain xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:oslc4j_ai="http://org.eclipse.lyo/oslc4j/adaptorInterface" xmlns:oslc4j_tc="http://org.eclipse.lyo/oslc4j/toolChain">
+  <adaptorInterfaces name="RM" javaClassBaseNamespace="co.oslc.refimpl.rm.gen" javaFilesBasePath="../src/server-rm/src/main/java/" jspFilesBasePath="../src/server-rm/src/main/webapp/" javascriptFilesBasePath="../src/server-rm/src/main/webapp/">
+    <serviceProviderCatalog title="Service Provider Catalog" description="Service Provider Catalog">
+      <serviceProviders title="RM Service Provider" description="Service Provider for the RM domain resources" serviceNamespace="">
+        <services domainSpecification="//@specification/@domainSpecifications[name='DummyDomain']">
+          <creationFactories title="CreationFactory" label="CreationFactory" creationURI="create">
+            <resourceTypes href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#//@domainSpecifications[name='Requirements%20Management%20shapes']/@resources[name='Requirement']"/>
+          </creationFactories>
+          <queryCapabilities title="QueryCapability" label="QueryCapability" queryBaseURI="query">
+            <resourceTypes href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#//@domainSpecifications[name='Requirements%20Management%20shapes']/@resources[name='Requirement']"/>
+          </queryCapabilities>
+          <selectionDialogs title="SelectionDialog" label="SelectionDialog" dialogURI="selector">
+            <resourceTypes href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#//@domainSpecifications[name='Requirements%20Management%20shapes']/@resources[name='Requirement']"/>
+          </selectionDialogs>
+          <creationDialogs title="CreationDialog" label="CreationDialog" dialogURI="creator">
+            <resourceTypes href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#//@domainSpecifications[name='Requirements%20Management%20shapes']/@resources[name='Requirement']"/>
+          </creationDialogs>
+          <basicCapabilities delete="true" update="true">
+            <resourceTypes href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#//@domainSpecifications[name='Requirements%20Management%20shapes']/@resources[name='Requirement']"/>
+          </basicCapabilities>
+          <usages>requirements</usages>
+        </services>
+        <services>
+          <domainSpecification href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#//@domainSpecifications[name='Requirements%20Management%20shapes']"/>
+          <creationFactories title="CreationFactory" label="CreationFactory" creationURI="create">
+            <resourceTypes href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#//@domainSpecifications[name='Requirements%20Management%20shapes']/@resources[name='RequirementCollection']"/>
+          </creationFactories>
+          <queryCapabilities title="QueryCapability" label="QueryCapability" queryBaseURI="query">
+            <resourceTypes href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#//@domainSpecifications[name='Requirements%20Management%20shapes']/@resources[name='RequirementCollection']"/>
+          </queryCapabilities>
+          <selectionDialogs title="SelectionDialog" label="SelectionDialog" dialogURI="selector">
+            <resourceTypes href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#//@domainSpecifications[name='Requirements%20Management%20shapes']/@resources[name='RequirementCollection']"/>
+          </selectionDialogs>
+          <basicCapabilities>
+            <resourceTypes href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#//@domainSpecifications[name='Requirements%20Management%20shapes']/@resources[name='RequirementCollection']"/>
+          </basicCapabilities>
+        </services>
+      </serviceProviders>
+    </serviceProviderCatalog>
+    <specification/>
+    <requiredAdaptors xsi:type="oslc4j_ai:GenericRequiredAdaptor" serviceProviderCatalogURI="http://your.host.com/adaptor/services/catalog/singleton" name="GenericRequiredAdaptor"/>
+  </adaptorInterfaces>
+  <specification>
+    <domainSpecifications name="DummyDomain" namespaceURI="http://your.organisation.domain/nsp1#" namespacePrefix="//@specification/@domainPrefixes[name='nsp1']"/>
+    <domainPrefixes name="nsp1"/>
+  </specification>
   <vocabularies/>
 </oslc4j_tc:Toolchain>
