@@ -1,0 +1,40 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<name>OSLC 2019 RefImpl (parent)</name>
+	<groupId>co.oslc.refimpl.servers</groupId>
+	<artifactId>parent</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<packaging>pom</packaging>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+		<maven.compiler.source>1.8</maven.compiler.source>
+		<maven.compiler.target>1.8</maven.compiler.target>
+		<version.lyo>4.0.0-SNAPSHOT</version.lyo>
+	</properties>
+
+  <modules>
+    <module>server-rm</module>
+  </modules>
+
+	<repositories>
+		<repository>
+			<id>lyo-releases</id>
+			<name>Eclipse Lyo Releases</name>
+			<url>https://repo.eclipse.org/content/repositories/lyo-releases/</url>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+		</repository>
+		<repository>
+			<id>lyo-snapshots</id>
+			<name>Eclipse Lyo Snapshots</name>
+			<url>https://repo.eclipse.org/content/repositories/lyo-snapshots/</url>
+			<releases>
+				<enabled>false</enabled>
+			</releases>
+		</repository>
+	</repositories>
+</project>

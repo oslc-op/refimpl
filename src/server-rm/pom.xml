@@ -1,0 +1,142 @@
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns="http://maven.apache.org/POM/4.0.0"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>co.oslc.refimpl.servers</groupId>
+    <artifactId>parent</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+  </parent>
+  <name>OSLC RM Server (2019 RefImpl)</name>
+  <artifactId>server-rm</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <packaging>war</packaging>
+
+  <properties></properties>
+
+  <dependencies>
+    <!-- Adaptor-specific dependencies -->
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-simple</artifactId>
+      <version>1.7.21</version>
+      <scope>runtime</scope>
+    </dependency>
+    <!-- <dependency>
+      <groupId>io.swagger</groupId>
+      <artifactId>swagger-jaxrs</artifactId>
+      <version>1.5.17</version>
+    </dependency> -->
+
+    <!-- Lyo dependencies -->
+    <dependency>
+      <groupId>org.eclipse.lyo.oslc4j.core</groupId>
+      <artifactId>oslc4j-core</artifactId>
+      <version>${version.lyo}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.eclipse.lyo.oslc4j.core</groupId>
+      <artifactId>oslc4j-jena-provider</artifactId>
+      <version>${version.lyo}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.eclipse.lyo.oslc4j.core</groupId>
+      <artifactId>oslc4j-json4j-provider</artifactId>
+      <version>${version.lyo}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.eclipse.lyo</groupId>
+      <artifactId>oslc-domains</artifactId>
+      <version>0.0.2-SNAPSHOT</version>
+<!--
+      <exclusions>
+        <exclusion>
+          <groupId>javax.servlet</groupId>
+          <artifactId>jstl</artifactId>
+        </exclusion>
+      </exclusions>
+-->
+    </dependency>
+
+    <dependency>
+      <groupId>org.glassfish.jersey.core</groupId>
+      <artifactId>jersey-server</artifactId>
+      <version>2.25.1</version>
+    </dependency>
+    <dependency>
+      <groupId>org.glassfish.jersey.containers</groupId>
+      <artifactId>jersey-container-servlet</artifactId>
+      <version>2.25.1</version>
+    </dependency>
+
+    <!-- <dependency>
+      <groupId>org.eclipse.lyo.server</groupId>
+      <artifactId>oauth-core</artifactId>
+      <version>${version.lyo}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.eclipse.lyo.server</groupId>
+      <artifactId>oauth-consumer-store</artifactId>
+      <version>${version.lyo}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.eclipse.lyo.server</groupId>
+      <artifactId>oauth-webapp</artifactId>
+      <version>${version.lyo}</version>
+      <type>war</type>
+    </dependency> -->
+
+    <dependency>
+      <groupId>org.eclipse.lyo.clients</groupId>
+      <artifactId>oslc4j-client</artifactId>
+      <version>${version.lyo}</version>
+    </dependency>
+
+    <!-- Servlet-related dependencies -->
+    <dependency>
+      <groupId>javax.servlet</groupId>
+      <artifactId>javax.servlet-api</artifactId>
+      <version>3.1.0</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>javax.servlet.jsp.jstl</groupId>
+      <artifactId>javax.servlet.jsp.jstl-api</artifactId>
+      <version>1.2.2</version>
+      <scope>provided</scope>
+    </dependency>
+
+    <!-- Test dependencies -->
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>4.12</version>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.eclipse.jetty</groupId>
+        <artifactId>jetty-maven-plugin</artifactId>
+        <version>9.4.19.v20190610</version>
+        <configuration>
+          <webAppConfig>
+            <contextPath>/</contextPath>
+          </webAppConfig>
+          <reload>automatic</reload>
+          <scanIntervalSeconds>5</scanIntervalSeconds>
+          <systemProperties>
+            <systemProperty>
+              <name>jetty.port</name>
+              <value>8800</value>
+            </systemProperty>
+          </systemProperties>
+          <stopKey/>
+          <stopPort/>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+</project>
