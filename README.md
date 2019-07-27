@@ -4,6 +4,18 @@
 [join](https://github.com/oslc-op/oslc-admin/blob/master/CONTRIBUTING.md#online-meetings) one of
 our weekly calls.
 
+## Getting started
+
+```
+cd src/server-rm
+
+mvn clean package
+docker build -t refimpl-server-rm .
+docker run -p 8800:8080 refimpl-server-rm
+# OR
+mvn clean jetty:run
+```
+
 ## License
 
 This program and the accompanying materials are made available under the terms of the Eclipse Public
