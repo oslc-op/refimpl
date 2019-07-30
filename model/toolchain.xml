@@ -41,6 +41,70 @@
     <specification/>
     <requiredAdaptors xsi:type="oslc4j_ai:GenericRequiredAdaptor" serviceProviderCatalogURI="http://your.host.com/adaptor/services/catalog/singleton" name="GenericRequiredAdaptor"/>
   </adaptorInterfaces>
+  <adaptorInterfaces name="CM" javaClassBaseNamespace="co.oslc.refimpl.cm.gen" javaFilesBasePath="../src/server-cm/src/main/java/" jspFilesBasePath="../src/server-cm/src/main/webapp/" javascriptFilesBasePath="../src/server-cm/src/main/webapp/">
+    <serviceProviderCatalog title="Service Provider Catalog" description="Service Provider Catalog">
+      <serviceProviders title="Service Provider" description="Service Provider">
+        <services>
+          <domainSpecification href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#//@domainSpecifications[name='Change%20Management%20shapes']"/>
+          <creationFactories title="ChangeRequestCF" label="Change Request Creation Factory" creationURI="create_change_request">
+            <resourceTypes href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#//@domainSpecifications[name='Change%20Management%20shapes']/@resources[name='ChangeRequest']"/>
+          </creationFactories>
+          <queryCapabilities title="QC" label="Query Capability" queryBaseURI="query">
+            <resourceTypes href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#//@domainSpecifications[name='Change%20Management%20shapes']/@resources[name='ChangeRequest']"/>
+            <resourceTypes href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#//@domainSpecifications[name='Change%20Management%20shapes']/@resources[name='Defect']"/>
+            <resourceTypes href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#//@domainSpecifications[name='Change%20Management%20shapes']/@resources[name='Task']"/>
+            <resourceTypes href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#//@domainSpecifications[name='Change%20Management%20shapes']/@resources[name='ReviewTask']"/>
+            <resourceTypes href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#//@domainSpecifications[name='Change%20Management%20shapes']/@resources[name='ChangeNotice']"/>
+            <resourceTypes href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#//@domainSpecifications[name='Change%20Management%20shapes']/@resources[name='Enhancement']"/>
+          </queryCapabilities>
+          <selectionDialogs title="ChangeRequestDlgSel" label="Change Request Selection Dialog" dialogURI="select_change_request">
+            <resourceTypes href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#//@domainSpecifications[name='Change%20Management%20shapes']/@resources[name='ChangeRequest']"/>
+          </selectionDialogs>
+          <selectionDialogs title="DefectDlgSel" label="Defect Selection Dialog" dialogURI="select_defect">
+            <resourceTypes href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#//@domainSpecifications[name='Change%20Management%20shapes']/@resources[name='Defect']"/>
+          </selectionDialogs>
+          <selectionDialogs title="TaskDlgSel" label="Task Selection Dialog" dialogURI="select_task">
+            <resourceTypes href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#//@domainSpecifications[name='Change%20Management%20shapes']/@resources[name='Task']"/>
+          </selectionDialogs>
+          <selectionDialogs title="ReviewTaskDlgSel" label="Review Task Selection Dialog" dialogURI="select_review_task">
+            <resourceTypes href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#//@domainSpecifications[name='Change%20Management%20shapes']/@resources[name='ReviewTask']"/>
+          </selectionDialogs>
+          <selectionDialogs title="ChangeNoticeDlgSel" label="Change Notice Selection Dialog" dialogURI="select_change_notice">
+            <resourceTypes href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#//@domainSpecifications[name='Change%20Management%20shapes']/@resources[name='ChangeNotice']"/>
+          </selectionDialogs>
+          <selectionDialogs title="EnhancementDlgSel" label="Enhancement Selection Dialog" dialogURI="select_enhancement">
+            <resourceTypes href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#//@domainSpecifications[name='Change%20Management%20shapes']/@resources[name='Enhancement']"/>
+          </selectionDialogs>
+          <creationDialogs title="DefectDlgCr" label="Defect Creation Dialog" dialogURI="create_defect">
+            <resourceTypes href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#//@domainSpecifications[name='Change%20Management%20shapes']/@resources[name='Defect']"/>
+          </creationDialogs>
+          <creationDialogs title="TaskDlgCr" label="Task Creation Dialog" dialogURI="create_task">
+            <resourceTypes href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#//@domainSpecifications[name='Change%20Management%20shapes']/@resources[name='Task']"/>
+          </creationDialogs>
+          <creationDialogs title="ReviewTaskDlgCr" label="Review Task Creation Dialog" dialogURI="create_review_task">
+            <resourceTypes href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#//@domainSpecifications[name='Change%20Management%20shapes']/@resources[name='ReviewTask']"/>
+          </creationDialogs>
+          <creationDialogs title="ChangeNoticeDlgCr" label="Change Notice Creation Dialog" dialogURI="create_change_notice">
+            <resourceTypes href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#//@domainSpecifications[name='Change%20Management%20shapes']/@resources[name='ChangeNotice']"/>
+          </creationDialogs>
+          <creationDialogs title="EnhancementDlgCr" label="Enhancement Creation Dialog" dialogURI="create_enhancement">
+            <resourceTypes href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#//@domainSpecifications[name='Change%20Management%20shapes']/@resources[name='Enhancement']"/>
+          </creationDialogs>
+          <basicCapabilities update="true">
+            <resourceTypes href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#//@domainSpecifications[name='Change%20Management%20shapes']/@resources[name='ChangeRequest']"/>
+            <resourceTypes href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#//@domainSpecifications[name='Change%20Management%20shapes']/@resources[name='Defect']"/>
+            <resourceTypes href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#//@domainSpecifications[name='Change%20Management%20shapes']/@resources[name='Task']"/>
+            <resourceTypes href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#//@domainSpecifications[name='Change%20Management%20shapes']/@resources[name='ReviewTask']"/>
+            <resourceTypes href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#//@domainSpecifications[name='Change%20Management%20shapes']/@resources[name='ChangeNotice']"/>
+            <resourceTypes href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#//@domainSpecifications[name='Change%20Management%20shapes']/@resources[name='Enhancement']"/>
+          </basicCapabilities>
+          <usages>change_requests</usages>
+        </services>
+      </serviceProviders>
+    </serviceProviderCatalog>
+    <specification/>
+    <requiredAdaptors xsi:type="oslc4j_ai:GenericRequiredAdaptor" serviceProviderCatalogURI="http://your.host.com/adaptor/services/catalog/singleton" name="GenericRequiredAdaptor"/>
+  </adaptorInterfaces>
   <specification>
     <domainSpecifications name="DummyDomain" namespaceURI="http://your.organisation.domain/nsp1#" namespacePrefix="//@specification/@domainPrefixes[name='nsp1']"/>
     <domainPrefixes name="nsp1"/>
