@@ -7,11 +7,18 @@ our weekly calls.
 ## Getting started
 
 ```
-cd src/server-rm
+cd src/server-rm/
 
 mvn clean package
 docker build -t refimpl-server-rm .
 docker run -p 8800:8080 refimpl-server-rm
+# OR
+mvn clean jetty:run
+
+cd ../server-cm/
+mvn clean package
+docker build -t refimpl-server-cm .
+docker run -p 8801:8080 refimpl-server-cm
 # OR
 mvn clean jetty:run
 ```

@@ -18,6 +18,7 @@
 
   <modules>
     <module>server-rm</module>
+    <module>server-cm</module>
   </modules>
 
 	<dependencyManagement>
