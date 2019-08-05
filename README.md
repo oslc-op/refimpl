@@ -21,6 +21,13 @@ docker build -t refimpl-server-cm .
 docker run -p 8801:8080 refimpl-server-cm
 # OR
 mvn clean jetty:run
+
+cd ../server-qm/
+mvn clean package
+docker build -t refimpl-server-cm .
+docker run -p 8802:8080 refimpl-server-cm
+# OR
+mvn clean jetty:run
 ```
 
 ## License
