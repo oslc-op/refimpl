@@ -105,6 +105,94 @@
     <specification/>
     <requiredAdaptors xsi:type="oslc4j_ai:GenericRequiredAdaptor" serviceProviderCatalogURI="http://your.host.com/adaptor/services/catalog/singleton" name="GenericRequiredAdaptor"/>
   </adaptorInterfaces>
+  <adaptorInterfaces name="QM" javaClassBaseNamespace="co.oslc.refimpl.qm.gen" javaFilesBasePath="../src/server-qm/src/main/java/" jspFilesBasePath="../src/server-qm/src/main/webapp/" javascriptFilesBasePath="../src/server-qm/src/main/webapp/">
+    <serviceProviderCatalog title="Service Provider Catalog" description="Service Provider Catalog">
+      <serviceProviders title="QM Service Provider" description="Quality Management Spec Service Provider">
+        <services>
+          <domainSpecification href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#//@domainSpecifications[name='Quality%20Management']"/>
+          <creationFactories title="TestCaseCF" label="Test Case Creation Factory" creationURI="create">
+            <resourceTypes href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#//@domainSpecifications[name='Quality%20Management']/@resources[name='TestCase']"/>
+          </creationFactories>
+          <queryCapabilities title="TestCaseQC" label="Test Case Query Capability" queryBaseURI="query">
+            <resourceTypes href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#//@domainSpecifications[name='Quality%20Management']/@resources[name='TestCase']"/>
+          </queryCapabilities>
+          <selectionDialogs title="TestCaseSD" label="Test Case Selection Dialog" dialogURI="selector">
+            <resourceTypes href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#//@domainSpecifications[name='Quality%20Management']/@resources[name='TestCase']"/>
+          </selectionDialogs>
+          <basicCapabilities>
+            <resourceTypes href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#//@domainSpecifications[name='Quality%20Management']/@resources[name='TestCase']"/>
+          </basicCapabilities>
+          <usages>cases</usages>
+        </services>
+        <services>
+          <domainSpecification href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#//@domainSpecifications[name='Quality%20Management']"/>
+          <creationFactories title="TestPlanCF" label="Test Plan Creation Factory" creationURI="create">
+            <resourceTypes href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#//@domainSpecifications[name='Quality%20Management']/@resources[name='TestPlan']"/>
+          </creationFactories>
+          <queryCapabilities title="TestPlanQC" label="Test Plan Query Capability" queryBaseURI="query">
+            <resourceTypes href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#//@domainSpecifications[name='Quality%20Management']/@resources[name='TestPlan']"/>
+          </queryCapabilities>
+          <selectionDialogs title="TestPlanSD" label="Test Plan Selection Dialog" dialogURI="selector">
+            <resourceTypes href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#//@domainSpecifications[name='Quality%20Management']/@resources[name='TestPlan']"/>
+          </selectionDialogs>
+          <basicCapabilities>
+            <resourceTypes href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#//@domainSpecifications[name='Quality%20Management']/@resources[name='TestPlan']"/>
+          </basicCapabilities>
+          <usages>plans</usages>
+        </services>
+        <services>
+          <domainSpecification href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#//@domainSpecifications[name='Quality%20Management']"/>
+          <creationFactories title="TestScriptCF" label="Test Script Creation Factory" creationURI="create">
+            <resourceTypes href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#//@domainSpecifications[name='Quality%20Management']/@resources[name='TestScript']"/>
+          </creationFactories>
+          <queryCapabilities title="TestScriptQC" label="Test Script Query Capability" queryBaseURI="query">
+            <resourceTypes href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#//@domainSpecifications[name='Quality%20Management']/@resources[name='TestScript']"/>
+          </queryCapabilities>
+          <selectionDialogs title="TestScriptSD" label="Test Script Selection Dialog" dialogURI="selector">
+            <resourceTypes href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#//@domainSpecifications[name='Quality%20Management']/@resources[name='TestScript']"/>
+          </selectionDialogs>
+          <basicCapabilities>
+            <resourceTypes href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#//@domainSpecifications[name='Quality%20Management']/@resources[name='TestScript']"/>
+          </basicCapabilities>
+          <usages>scripts</usages>
+        </services>
+        <services>
+          <domainSpecification href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#//@domainSpecifications[name='Quality%20Management']"/>
+          <creationFactories title="TestResultCF" label="Test Result Creation Factory" creationURI="create">
+            <resourceTypes href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#//@domainSpecifications[name='Quality%20Management']/@resources[name='TestResult']"/>
+          </creationFactories>
+          <queryCapabilities title="TestResultQC" label="Test Result Query Capability" queryBaseURI="query">
+            <resourceTypes href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#//@domainSpecifications[name='Quality%20Management']/@resources[name='TestResult']"/>
+          </queryCapabilities>
+          <selectionDialogs title="TestResultSD" label="Test Result Selection Dialog" dialogURI="selector">
+            <resourceTypes href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#//@domainSpecifications[name='Quality%20Management']/@resources[name='TestResult']"/>
+          </selectionDialogs>
+          <basicCapabilities>
+            <resourceTypes href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#//@domainSpecifications[name='Quality%20Management']/@resources[name='TestResult']"/>
+          </basicCapabilities>
+          <usages>results</usages>
+        </services>
+        <services>
+          <domainSpecification href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#//@domainSpecifications[name='Quality%20Management']"/>
+          <creationFactories title="TestExecutionRecordCF" label="Test Execution Record Creation Factory" creationURI="create">
+            <resourceTypes href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#//@domainSpecifications[name='Quality%20Management']/@resources[name='TestExecutionRecord']"/>
+          </creationFactories>
+          <queryCapabilities title="TestExecutionRecordQC" label="Test Execution Record Query Capability" queryBaseURI="query">
+            <resourceTypes href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#//@domainSpecifications[name='Quality%20Management']/@resources[name='TestExecutionRecord']"/>
+          </queryCapabilities>
+          <selectionDialogs title="TestExecutionRecordSD" label="Test Execution Record Selection Dialog" dialogURI="selector">
+            <resourceTypes href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#//@domainSpecifications[name='Quality%20Management']/@resources[name='TestExecutionRecord']"/>
+          </selectionDialogs>
+          <basicCapabilities>
+            <resourceTypes href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#//@domainSpecifications[name='Quality%20Management']/@resources[name='TestExecutionRecord']"/>
+          </basicCapabilities>
+          <usages>execution_records</usages>
+        </services>
+      </serviceProviders>
+    </serviceProviderCatalog>
+    <specification/>
+    <requiredAdaptors xsi:type="oslc4j_ai:GenericRequiredAdaptor" serviceProviderCatalogURI="http://your.host.com/adaptor/services/catalog/singleton" name="GenericRequiredAdaptor"/>
+  </adaptorInterfaces>
   <specification>
     <domainSpecifications name="DummyDomain" namespaceURI="http://your.organisation.domain/nsp1#" namespacePrefix="//@specification/@domainPrefixes[name='nsp1']"/>
     <domainPrefixes name="nsp1"/>
