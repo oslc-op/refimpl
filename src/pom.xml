@@ -20,6 +20,7 @@
     <module>server-rm</module>
     <module>server-cm</module>
     <module>server-qm</module>
+    <module>server-am</module>
   </modules>
 
 	<dependencyManagement>
