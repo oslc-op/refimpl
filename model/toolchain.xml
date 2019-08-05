@@ -193,6 +193,46 @@
     <specification/>
     <requiredAdaptors xsi:type="oslc4j_ai:GenericRequiredAdaptor" serviceProviderCatalogURI="http://your.host.com/adaptor/services/catalog/singleton" name="GenericRequiredAdaptor"/>
   </adaptorInterfaces>
+  <adaptorInterfaces name="AM" javaClassBaseNamespace="co.oslc.refimpl.am.gen" javaFilesBasePath="../src/server-am/src/main/java/" jspFilesBasePath="../src/server-am/src/main/webapp/" javascriptFilesBasePath="../src/server-am/src/main/webapp/">
+    <serviceProviderCatalog title="Service Provider Catalog" description="Service Provider Catalog">
+      <serviceProviders title="Service Provider" description="Service Provider">
+        <services>
+          <domainSpecification href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#//@domainSpecifications[name='Architecture%20Management']"/>
+          <creationFactories title="ResourceCF" label="OSLC Resource Creation Factory" creationURI="create">
+            <resourceTypes href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#//@domainSpecifications[name='Architecture%20Management']/@resources[name='Resource']"/>
+          </creationFactories>
+          <queryCapabilities title="ResourceQC" label="OSLC Resource Query Capability" queryBaseURI="query">
+            <resourceTypes href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#//@domainSpecifications[name='Architecture%20Management']/@resources[name='Resource']"/>
+          </queryCapabilities>
+          <selectionDialogs title="ResourceSD" label="OSLC Resource Selection Dialog" dialogURI="selector">
+            <resourceTypes href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#//@domainSpecifications[name='Architecture%20Management']/@resources[name='Resource']"/>
+          </selectionDialogs>
+          <basicCapabilities>
+            <resourceTypes href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#//@domainSpecifications[name='Architecture%20Management']/@resources[name='Resource']"/>
+          </basicCapabilities>
+          <usages>resources</usages>
+        </services>
+        <services>
+          <domainSpecification href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#//@domainSpecifications[name='Architecture%20Management']"/>
+          <creationFactories title="LinkTypeCF" label="LinkType Creation Factory" creationURI="create">
+            <resourceTypes href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#//@domainSpecifications[name='Architecture%20Management']/@resources[name='LinkType']"/>
+          </creationFactories>
+          <queryCapabilities title="LinkTypeQC" label="LinkType Query Capability" queryBaseURI="query">
+            <resourceTypes href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#//@domainSpecifications[name='Architecture%20Management']/@resources[name='LinkType']"/>
+          </queryCapabilities>
+          <selectionDialogs title="LinkTypeSD" label="LinkType Selection Dialog" dialogURI="selector">
+            <resourceTypes href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#//@domainSpecifications[name='Architecture%20Management']/@resources[name='LinkType']"/>
+          </selectionDialogs>
+          <basicCapabilities>
+            <resourceTypes href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#//@domainSpecifications[name='Architecture%20Management']/@resources[name='LinkType']"/>
+          </basicCapabilities>
+          <usages>links</usages>
+        </services>
+      </serviceProviders>
+    </serviceProviderCatalog>
+    <specification/>
+    <requiredAdaptors xsi:type="oslc4j_ai:GenericRequiredAdaptor" serviceProviderCatalogURI="http://your.host.com/adaptor/services/catalog/singleton" name="GenericRequiredAdaptor"/>
+  </adaptorInterfaces>
   <specification>
     <domainSpecifications name="DummyDomain" namespaceURI="http://your.organisation.domain/nsp1#" namespacePrefix="//@specification/@domainPrefixes[name='nsp1']"/>
     <domainPrefixes name="nsp1"/>
