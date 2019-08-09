@@ -226,6 +226,8 @@ public class ServiceProviderCatalogSingleton
     {
         try {
             // Start of user code initServiceProviders
+            serviceProviderCatalog.setTitle("RM Service Provider Catalog");
+            serviceProviderCatalog.setDescription("Service Provider Catalog for the Requirements Management Server");
             // End of user code
 
             ServiceProviderInfo [] serviceProviderInfos = RMManager.getServiceProviderInfos(httpServletRequest);

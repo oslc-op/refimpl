@@ -5,13 +5,13 @@
  *  All rights reserved. This program and the accompanying materials
  *  are made available under the terms of the Eclipse Public License v1.0
  *  and Eclipse Distribution License v. 1.0 which accompanies this distribution.
- *  
+ *
  *  The Eclipse Public License is available at http://www.eclipse.org/legal/epl-v10.html
  *  and the Eclipse Distribution License is available at
  *  http://www.eclipse.org/org/documents/edl-v10.php.
- *  
+ *
  *  Contributors:
- *  
+ *
  *	   Sam Padgett	       - initial API and implementation
  *     Michael Fiedler     - adapted for OSLC4J
  *     Jad El-khoury        - initial implementation of code generator (https://bugs.eclipse.org/bugs/show_bug.cgi?id=422448)
@@ -73,7 +73,10 @@ public class RMManager {
         ServiceProviderInfo[] serviceProviderInfos = {};
         
         // Start of user code "ServiceProviderInfo[] getServiceProviderInfos(...)"
-        // TODO Implement code to return the set of ServiceProviders
+        ServiceProviderInfo spInfo = new ServiceProviderInfo();
+        spInfo.serviceProviderId = "default_sp";
+        spInfo.name = "Default ServiceProvider";
+        serviceProviderInfos = new ServiceProviderInfo[] {spInfo};
         // End of user code
         return serviceProviderInfos;
     }
@@ -92,7 +95,7 @@ public class RMManager {
         List<Requirement> resources = null;
         
         // Start of user code RequirementSelector
-        // TODO Implement code to return a set of resources, based on search criteria 
+        // TODO Implement code to return a set of resources, based on search criteria
         // End of user code
         return resources;
     }
@@ -157,7 +160,7 @@ public class RMManager {
         List<RequirementCollection> resources = null;
         
         // Start of user code RequirementCollectionSelector
-        // TODO Implement code to return a set of resources, based on search criteria 
+        // TODO Implement code to return a set of resources, based on search criteria
         // End of user code
         return resources;
     }
