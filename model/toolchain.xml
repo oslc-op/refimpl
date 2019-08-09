@@ -3,17 +3,18 @@
   <adaptorInterfaces name="RM" javaClassBaseNamespace="co.oslc.refimpl.rm.gen" javaFilesBasePath="../src/server-rm/src/main/java/" jspFilesBasePath="../src/server-rm/src/main/webapp/" javascriptFilesBasePath="../src/server-rm/src/main/webapp/">
     <serviceProviderCatalog title="Service Provider Catalog" description="Service Provider Catalog">
       <serviceProviders title="RM Service Provider" description="Service Provider for the RM domain resources" serviceNamespace="">
-        <services domainSpecification="//@specification/@domainSpecifications[name='DummyDomain']">
-          <creationFactories title="CreationFactory" label="CreationFactory" creationURI="create">
+        <services>
+          <domainSpecification href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#//@domainSpecifications[name='Requirements%20Management%20shapes']"/>
+          <creationFactories title="RequirementCF" label="Requirements Creation Factory" creationURI="create">
             <resourceTypes href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#//@domainSpecifications[name='Requirements%20Management%20shapes']/@resources[name='Requirement']"/>
           </creationFactories>
-          <queryCapabilities title="QueryCapability" label="QueryCapability" queryBaseURI="query">
+          <queryCapabilities title="RequirementQC" label="Requirements Query Capability" queryBaseURI="query">
             <resourceTypes href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#//@domainSpecifications[name='Requirements%20Management%20shapes']/@resources[name='Requirement']"/>
           </queryCapabilities>
-          <selectionDialogs title="SelectionDialog" label="SelectionDialog" dialogURI="selector">
+          <selectionDialogs title="RequirementSD" label="Requirements Selection Dialog" dialogURI="selector">
             <resourceTypes href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#//@domainSpecifications[name='Requirements%20Management%20shapes']/@resources[name='Requirement']"/>
           </selectionDialogs>
-          <creationDialogs title="CreationDialog" label="CreationDialog" dialogURI="creator">
+          <creationDialogs title="RequirementCD" label="Requirements Creation Dialog" dialogURI="creator">
             <resourceTypes href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#//@domainSpecifications[name='Requirements%20Management%20shapes']/@resources[name='Requirement']"/>
           </creationDialogs>
           <basicCapabilities delete="true" update="true">
@@ -23,18 +24,19 @@
         </services>
         <services>
           <domainSpecification href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#//@domainSpecifications[name='Requirements%20Management%20shapes']"/>
-          <creationFactories title="CreationFactory" label="CreationFactory" creationURI="create">
+          <creationFactories title="RequirementCollectionCF" label="Requirement Collections Creation Factory" creationURI="create">
             <resourceTypes href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#//@domainSpecifications[name='Requirements%20Management%20shapes']/@resources[name='RequirementCollection']"/>
           </creationFactories>
-          <queryCapabilities title="QueryCapability" label="QueryCapability" queryBaseURI="query">
+          <queryCapabilities title="RequirementCollectionQC" label="Requirement Collections Query Capability" queryBaseURI="query">
             <resourceTypes href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#//@domainSpecifications[name='Requirements%20Management%20shapes']/@resources[name='RequirementCollection']"/>
           </queryCapabilities>
-          <selectionDialogs title="SelectionDialog" label="SelectionDialog" dialogURI="selector">
+          <selectionDialogs title="RequirementCollectionSD" label="Requirement Collections Selection Dialog" dialogURI="selector">
             <resourceTypes href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#//@domainSpecifications[name='Requirements%20Management%20shapes']/@resources[name='RequirementCollection']"/>
           </selectionDialogs>
           <basicCapabilities>
             <resourceTypes href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#//@domainSpecifications[name='Requirements%20Management%20shapes']/@resources[name='RequirementCollection']"/>
           </basicCapabilities>
+          <usages>requirement_collections</usages>
         </services>
       </serviceProviders>
     </serviceProviderCatalog>

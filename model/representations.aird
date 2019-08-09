@@ -1400,7 +1400,7 @@
       </ownedStyle>
       <actualMapping xmi:type="description_1:EdgeMapping" href="platform:/plugin/org.eclipse.lyo.tools.toolchain.design/description/ToolChainModel.odesign#//@ownedViewpoints[name='ToolchainViewpoint']/@ownedRepresentations[name='AdaptorInterfaceDiagram']/@defaultLayer/@edgeMappings[name='ServiceCapabilityToManagedResource']"/>
     </ownedDiagramElements>
-    <ownedDiagramElements xmi:type="diagram:DNode" xmi:id="_WONhILCwEemIy4JCdJFCBQ" name="CreationFactory" outgoingEdges="_YxpuQLCwEemIy4JCdJFCBQ" incomingEdges="_WOqNELCwEemIy4JCdJFCBQ" width="10" height="10" resizeKind="NSEW">
+    <ownedDiagramElements xmi:type="diagram:DNode" xmi:id="_WONhILCwEemIy4JCdJFCBQ" name="RequirementCF" outgoingEdges="_YxpuQLCwEemIy4JCdJFCBQ" incomingEdges="_WOqNELCwEemIy4JCdJFCBQ" width="10" height="10" resizeKind="NSEW">
       <target xmi:type="oslc4j_ai:CreationFactory" href="toolchain.xml#//@adaptorInterfaces.0/@serviceProviderCatalog/@serviceProviders.0/@services.0/@creationFactories.0"/>
       <semanticElements xmi:type="oslc4j_ai:CreationFactory" href="toolchain.xml#//@adaptorInterfaces.0/@serviceProviderCatalog/@serviceProviders.0/@services.0/@creationFactories.0"/>
       <arrangeConstraints>KEEP_LOCATION</arrangeConstraints>
@@ -1411,7 +1411,7 @@
       </ownedStyle>
       <actualMapping xmi:type="description_1:NodeMapping" href="platform:/plugin/org.eclipse.lyo.tools.toolchain.design/description/ToolChainModel.odesign#//@ownedViewpoints[name='ToolchainViewpoint']/@ownedRepresentations[name='AdaptorInterfaceDiagram']/@defaultLayer/@nodeMappings[name='AdaptorInterface.CreationFactory']"/>
     </ownedDiagramElements>
-    <ownedDiagramElements xmi:type="diagram:DNode" xmi:id="_MVe2kLCyEemIy4JCdJFCBQ" name="CreationFactory" outgoingEdges="_fKf0wLCyEemIy4JCdJFCBQ" incomingEdges="_MVkWILCyEemIy4JCdJFCBQ" width="10" height="10" resizeKind="NSEW">
+    <ownedDiagramElements xmi:type="diagram:DNode" xmi:id="_MVe2kLCyEemIy4JCdJFCBQ" name="RequirementCollectionCF" outgoingEdges="_fKf0wLCyEemIy4JCdJFCBQ" incomingEdges="_MVkWILCyEemIy4JCdJFCBQ" width="10" height="10" resizeKind="NSEW">
       <target xmi:type="oslc4j_ai:CreationFactory" href="toolchain.xml#//@adaptorInterfaces.0/@serviceProviderCatalog/@serviceProviders.0/@services.1/@creationFactories.0"/>
       <semanticElements xmi:type="oslc4j_ai:CreationFactory" href="toolchain.xml#//@adaptorInterfaces.0/@serviceProviderCatalog/@serviceProviders.0/@services.1/@creationFactories.0"/>
       <arrangeConstraints>KEEP_LOCATION</arrangeConstraints>
@@ -1438,7 +1438,7 @@
       </ownedStyle>
       <actualMapping xmi:type="description_1:EdgeMapping" href="platform:/plugin/org.eclipse.lyo.tools.toolchain.design/description/ToolChainModel.odesign#//@ownedViewpoints[name='ToolchainViewpoint']/@ownedRepresentations[name='AdaptorInterfaceDiagram']/@defaultLayer/@edgeMappings[name='ServiceCapabilityToManagedResource']"/>
     </ownedDiagramElements>
-    <ownedDiagramElements xmi:type="diagram:DNode" xmi:id="_ab8s4LCwEemIy4JCdJFCBQ" name="QueryCapability" outgoingEdges="_b3oAsLCwEemIy4JCdJFCBQ" incomingEdges="_adN4MLCwEemIy4JCdJFCBQ" width="10" height="10" resizeKind="NSEW">
+    <ownedDiagramElements xmi:type="diagram:DNode" xmi:id="_ab8s4LCwEemIy4JCdJFCBQ" name="RequirementQC" outgoingEdges="_b3oAsLCwEemIy4JCdJFCBQ" incomingEdges="_adN4MLCwEemIy4JCdJFCBQ" width="10" height="10" resizeKind="NSEW">
       <target xmi:type="oslc4j_ai:QueryCapability" href="toolchain.xml#//@adaptorInterfaces.0/@serviceProviderCatalog/@serviceProviders.0/@services.0/@queryCapabilities.0"/>
       <semanticElements xmi:type="oslc4j_ai:QueryCapability" href="toolchain.xml#//@adaptorInterfaces.0/@serviceProviderCatalog/@serviceProviders.0/@services.0/@queryCapabilities.0"/>
       <arrangeConstraints>KEEP_LOCATION</arrangeConstraints>
@@ -1449,7 +1449,7 @@
       </ownedStyle>
       <actualMapping xmi:type="description_1:NodeMapping" href="platform:/plugin/org.eclipse.lyo.tools.toolchain.design/description/ToolChainModel.odesign#//@ownedViewpoints[name='ToolchainViewpoint']/@ownedRepresentations[name='AdaptorInterfaceDiagram']/@defaultLayer/@nodeMappings[name='AdaptorInterface.QueryCapability']"/>
     </ownedDiagramElements>
-    <ownedDiagramElements xmi:type="diagram:DNode" xmi:id="_Ni6TALCyEemIy4JCdJFCBQ" name="QueryCapability" outgoingEdges="_h_nAsLCyEemIy4JCdJFCBQ" incomingEdges="_Ni-kcLCyEemIy4JCdJFCBQ" width="10" height="10" resizeKind="NSEW">
+    <ownedDiagramElements xmi:type="diagram:DNode" xmi:id="_Ni6TALCyEemIy4JCdJFCBQ" name="RequirementCollectionQC" outgoingEdges="_h_nAsLCyEemIy4JCdJFCBQ" incomingEdges="_Ni-kcLCyEemIy4JCdJFCBQ" width="10" height="10" resizeKind="NSEW">
       <target xmi:type="oslc4j_ai:QueryCapability" href="toolchain.xml#//@adaptorInterfaces.0/@serviceProviderCatalog/@serviceProviders.0/@services.1/@queryCapabilities.0"/>
       <semanticElements xmi:type="oslc4j_ai:QueryCapability" href="toolchain.xml#//@adaptorInterfaces.0/@serviceProviderCatalog/@serviceProviders.0/@services.1/@queryCapabilities.0"/>
       <arrangeConstraints>KEEP_LOCATION</arrangeConstraints>
@@ -1476,7 +1476,7 @@
       </ownedStyle>
       <actualMapping xmi:type="description_1:EdgeMapping" href="platform:/plugin/org.eclipse.lyo.tools.toolchain.design/description/ToolChainModel.odesign#//@ownedViewpoints[name='ToolchainViewpoint']/@ownedRepresentations[name='AdaptorInterfaceDiagram']/@defaultLayer/@edgeMappings[name='ServiceCapabilityToManagedResource']"/>
     </ownedDiagramElements>
-    <ownedDiagramElements xmi:type="diagram:DNode" xmi:id="_qsTggLCxEemIy4JCdJFCBQ" name="SelectionDialog" outgoingEdges="_v6CewLCzEemIy4JCdJFCBQ" incomingEdges="_qsu-ULCxEemIy4JCdJFCBQ" width="10" height="10" resizeKind="NSEW">
+    <ownedDiagramElements xmi:type="diagram:DNode" xmi:id="_qsTggLCxEemIy4JCdJFCBQ" name="RequirementSD" outgoingEdges="_v6CewLCzEemIy4JCdJFCBQ" incomingEdges="_qsu-ULCxEemIy4JCdJFCBQ" width="10" height="10" resizeKind="NSEW">
       <target xmi:type="oslc4j_ai:Dialog" href="toolchain.xml#//@adaptorInterfaces.0/@serviceProviderCatalog/@serviceProviders.0/@services.0/@selectionDialogs.0"/>
       <semanticElements xmi:type="oslc4j_ai:Dialog" href="toolchain.xml#//@adaptorInterfaces.0/@serviceProviderCatalog/@serviceProviders.0/@services.0/@selectionDialogs.0"/>
       <arrangeConstraints>KEEP_LOCATION</arrangeConstraints>
@@ -1487,7 +1487,7 @@
       </ownedStyle>
       <actualMapping xmi:type="description_1:NodeMapping" href="platform:/plugin/org.eclipse.lyo.tools.toolchain.design/description/ToolChainModel.odesign#//@ownedViewpoints[name='ToolchainViewpoint']/@ownedRepresentations[name='AdaptorInterfaceDiagram']/@defaultLayer/@nodeMappings[name='AdaptorInterface.SelectionDialog']"/>
     </ownedDiagramElements>
-    <ownedDiagramElements xmi:type="diagram:DNode" xmi:id="_Reh0ALCyEemIy4JCdJFCBQ" name="SelectionDialog" outgoingEdges="_jGcF4LCyEemIy4JCdJFCBQ" incomingEdges="_RekQQLCyEemIy4JCdJFCBQ" width="10" height="10" resizeKind="NSEW">
+    <ownedDiagramElements xmi:type="diagram:DNode" xmi:id="_Reh0ALCyEemIy4JCdJFCBQ" name="RequirementCollectionSD" outgoingEdges="_jGcF4LCyEemIy4JCdJFCBQ" incomingEdges="_RekQQLCyEemIy4JCdJFCBQ" width="10" height="10" resizeKind="NSEW">
       <target xmi:type="oslc4j_ai:Dialog" href="toolchain.xml#//@adaptorInterfaces.0/@serviceProviderCatalog/@serviceProviders.0/@services.1/@selectionDialogs.0"/>
       <semanticElements xmi:type="oslc4j_ai:Dialog" href="toolchain.xml#//@adaptorInterfaces.0/@serviceProviderCatalog/@serviceProviders.0/@services.1/@selectionDialogs.0"/>
       <arrangeConstraints>KEEP_LOCATION</arrangeConstraints>
@@ -1506,7 +1506,7 @@
       </ownedStyle>
       <actualMapping xmi:type="description_1:EdgeMapping" href="platform:/plugin/org.eclipse.lyo.tools.toolchain.design/description/ToolChainModel.odesign#//@ownedViewpoints[name='ToolchainViewpoint']/@ownedRepresentations[name='AdaptorInterfaceDiagram']/@defaultLayer/@edgeMappings[name='ServiceToCapability']"/>
     </ownedDiagramElements>
-    <ownedDiagramElements xmi:type="diagram:DNode" xmi:id="_sfFswLCxEemIy4JCdJFCBQ" name="CreationDialog" outgoingEdges="_w-2KsLCzEemIy4JCdJFCBQ" incomingEdges="_sfJXILCxEemIy4JCdJFCBQ" width="10" height="10" resizeKind="NSEW">
+    <ownedDiagramElements xmi:type="diagram:DNode" xmi:id="_sfFswLCxEemIy4JCdJFCBQ" name="RequirementCD" outgoingEdges="_w-2KsLCzEemIy4JCdJFCBQ" incomingEdges="_sfJXILCxEemIy4JCdJFCBQ" width="10" height="10" resizeKind="NSEW">
       <target xmi:type="oslc4j_ai:Dialog" href="toolchain.xml#//@adaptorInterfaces.0/@serviceProviderCatalog/@serviceProviders.0/@services.0/@creationDialogs.0"/>
       <semanticElements xmi:type="oslc4j_ai:Dialog" href="toolchain.xml#//@adaptorInterfaces.0/@serviceProviderCatalog/@serviceProviders.0/@services.0/@creationDialogs.0"/>
       <arrangeConstraints>KEEP_LOCATION</arrangeConstraints>

@@ -59,12 +59,11 @@ import org.eclipse.lyo.oslc.domains.Person;
 import org.eclipse.lyo.oslc.domains.rm.Requirement;
 import org.eclipse.lyo.oslc.domains.rm.RequirementCollection;
 import org.eclipse.lyo.oslc.domains.DctermsDomainConstants;
-import co.oslc.refimpl.rm.gen.resources.Nsp1DomainConstants;
 import org.eclipse.lyo.oslc.domains.FoafDomainConstants;
 import org.eclipse.lyo.oslc4j.core.model.OslcDomainConstants;
 import org.eclipse.lyo.oslc.domains.rm.Oslc_rmDomainConstants;
 import co.oslc.refimpl.rm.gen.services.RequirementsService;
-import co.oslc.refimpl.rm.gen.services.ServiceProviderService2;
+import co.oslc.refimpl.rm.gen.services.Requirement_collectionsService;
 
 // Start of user code imports
 // End of user code
@@ -91,7 +90,7 @@ public class Application extends javax.ws.rs.core.Application {
         RESOURCE_CLASSES.addAll(JenaProvidersRegistry.getProviders());
         RESOURCE_CLASSES.addAll(Json4JProvidersRegistry.getProviders());
         RESOURCE_CLASSES.add(RequirementsService.class);
-        RESOURCE_CLASSES.add(ServiceProviderService2.class);
+        RESOURCE_CLASSES.add(Requirement_collectionsService.class);
 
         // Catalog resources
         RESOURCE_CLASSES.add(ServiceProviderCatalogService.class);

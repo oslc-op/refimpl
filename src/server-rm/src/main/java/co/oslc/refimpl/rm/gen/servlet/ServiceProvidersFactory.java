@@ -46,12 +46,11 @@ import org.eclipse.lyo.oslc4j.core.OSLC4JUtils;
 import co.oslc.refimpl.rm.gen.ServiceProviderInfo;
 
 import org.eclipse.lyo.oslc.domains.DctermsDomainConstants;
-import co.oslc.refimpl.rm.gen.resources.Nsp1DomainConstants;
 import org.eclipse.lyo.oslc.domains.FoafDomainConstants;
 import org.eclipse.lyo.oslc4j.core.model.OslcDomainConstants;
 import org.eclipse.lyo.oslc.domains.rm.Oslc_rmDomainConstants;
 import co.oslc.refimpl.rm.gen.services.RequirementsService;
-import co.oslc.refimpl.rm.gen.services.ServiceProviderService2;
+import co.oslc.refimpl.rm.gen.services.Requirement_collectionsService;
 
 // Start of user code imports
 // End of user code
@@ -60,7 +59,7 @@ public class ServiceProvidersFactory
 {
     private static Class<?>[] RESOURCE_CLASSES =
     {
-        RequirementsService.class, ServiceProviderService2.class
+        RequirementsService.class, Requirement_collectionsService.class
     };
 
     private ServiceProvidersFactory()
@@ -126,8 +125,6 @@ public class ServiceProvidersFactory
             new PrefixDefinition(OslcConstants.RDF_NAMESPACE_PREFIX, new URI(OslcConstants.RDF_NAMESPACE)),
             new PrefixDefinition(OslcConstants.RDFS_NAMESPACE_PREFIX, new URI(OslcConstants.RDFS_NAMESPACE)),
             new PrefixDefinition(DctermsDomainConstants.DUBLIN_CORE_NAMSPACE_PREFIX, new URI(DctermsDomainConstants.DUBLIN_CORE_NAMSPACE))
-,
-            new PrefixDefinition(Nsp1DomainConstants.DUMMYDOMAIN_NAMSPACE_PREFIX, new URI(Nsp1DomainConstants.DUMMYDOMAIN_NAMSPACE))
 ,
             new PrefixDefinition(FoafDomainConstants.FOAF_NAMSPACE_PREFIX, new URI(FoafDomainConstants.FOAF_NAMSPACE))
 ,

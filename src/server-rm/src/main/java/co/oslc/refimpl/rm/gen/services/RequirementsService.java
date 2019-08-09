@@ -76,7 +76,7 @@ import org.eclipse.lyo.oslc4j.core.model.AbstractResource;
 
 import co.oslc.refimpl.rm.gen.RMManager;
 import co.oslc.refimpl.rm.gen.RMConstants;
-import co.oslc.refimpl.rm.gen.resources.Nsp1DomainConstants;
+import org.eclipse.lyo.oslc.domains.rm.Oslc_rmDomainConstants;
 import org.eclipse.lyo.oslc.domains.rm.Oslc_rmDomainConstants;
 import co.oslc.refimpl.rm.gen.servlet.ServiceProviderCatalogSingleton;
 import org.eclipse.lyo.oslc.domains.Person;
@@ -87,7 +87,7 @@ import org.eclipse.lyo.oslc.domains.rm.Requirement;
 
 // Start of user code pre_class_code
 // End of user code
-@OslcService(Nsp1DomainConstants.DUMMYDOMAIN_DOMAIN)
+@OslcService(Oslc_rmDomainConstants.REQUIREMENTS_MANAGEMENT_SHAPES_DOMAIN)
 @Path("serviceProviders/{serviceProviderId}/service1/requirements")
 public class RequirementsService
 {
@@ -117,8 +117,8 @@ public class RequirementsService
 
     @OslcQueryCapability
     (
-        title = "QueryCapability",
-        label = "QueryCapability",
+        title = "RequirementQC",
+        label = "Requirements Query Capability",
         resourceShape = OslcConstants.PATH_RESOURCE_SHAPES + "/" + Oslc_rmDomainConstants.REQUIREMENT_PATH,
         resourceTypes = {Oslc_rmDomainConstants.REQUIREMENT_TYPE},
         usages = {}
@@ -193,8 +193,8 @@ public class RequirementsService
 
     @OslcDialog
     (
-         title = "SelectionDialog",
-         label = "SelectionDialog",
+         title = "RequirementSD",
+         label = "Requirements Selection Dialog",
          uri = "serviceProviders/{serviceProviderId}/service1/requirements/selector",
          hintWidth = "0px",
          hintHeight = "0px",
@@ -249,8 +249,8 @@ public class RequirementsService
      */
     @OslcCreationFactory
     (
-         title = "CreationFactory",
-         label = "CreationFactory",
+         title = "RequirementCF",
+         label = "Requirements Creation Factory",
          resourceShapes = {OslcConstants.PATH_RESOURCE_SHAPES + "/" + Oslc_rmDomainConstants.REQUIREMENT_PATH},
          resourceTypes = {Oslc_rmDomainConstants.REQUIREMENT_TYPE},
          usages = {}
@@ -304,8 +304,8 @@ public class RequirementsService
      */
     @OslcDialog
     (
-         title = "CreationDialog",
-         label = "CreationDialog",
+         title = "RequirementCD",
+         label = "Requirements Creation Dialog",
          uri = "serviceProviders/{serviceProviderId}/service1/requirements/creator",
          hintWidth = "0px",
          hintHeight = "0px",
