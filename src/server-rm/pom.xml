@@ -7,15 +7,28 @@
     <artifactId>parent</artifactId>
     <version>0.0.1-SNAPSHOT</version>
   </parent>
-  <name>OSLC RM Server (2019 RefImpl)</name>
+  <name>OSLC Requirements Management Server (2019 RefImpl)</name>
   <artifactId>server-rm</artifactId>
   <version>0.0.1-SNAPSHOT</version>
   <packaging>war</packaging>
 
-  <properties></properties>
+  <properties>
+    <version.lucene>7.7.2</version.lucene>
+  </properties>
 
   <dependencies>
     <!-- Adaptor-specific dependencies -->
+    <dependency>
+      <groupId>org.apache.lucene</groupId>
+      <artifactId>lucene-core</artifactId>
+      <version>${version.lucene}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.lucene</groupId>
+      <artifactId>lucene-queryparser</artifactId>
+      <version>${version.lucene}</version>
+    </dependency>
+
     <dependency>
       <groupId>org.slf4j</groupId>
       <artifactId>slf4j-simple</artifactId>

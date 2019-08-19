@@ -45,7 +45,7 @@ To revert to the default generated content, delete all content in this file, and
 <% int i = 0; for (Requirement r : resources) { %>
   <% if (i > 0) { %>,<% } %>
   {
-    "oslc:label" : "<%= r.toString() %>",
+    "oslc:label" : "<%= r.getShortTitle() %>: <%= r.getTitle() %>",
     "rdf:resource" : "<%= r.getAbout() %>"
   }
 <% i++; } %>
