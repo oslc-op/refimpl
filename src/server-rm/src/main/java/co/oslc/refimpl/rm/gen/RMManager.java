@@ -31,6 +31,8 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 import java.util.stream.Collectors;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.ServletContextEvent;
@@ -78,6 +80,7 @@ public class RMManager {
     private final static Map<String, Map<String, Requirement>> requirements = new HashMap<>();
     private final static Directory searchIndex = new ByteBuffersDirectory();
     private static final StandardAnalyzer indexAnalyser = new StandardAnalyzer();
+    private static final Executor indexer = Executors.newSingleThreadExecutor();
     // End of user code
 
     // Start of user code class_methods
@@ -93,11 +96,13 @@ public class RMManager {
     }
 
     private static void addToIndex(final Requirement requirement, final String serviceProviderId) {
-        try(IndexWriter indexWriter = getIndexWriter()) {
-            indexWriter.addDocument(documentFor(requirement, serviceProviderId));
-        } catch (IOException e) {
-            log.warn("Error with Lucene index");
-        }
+        indexer.execute(() -> {
+            try(IndexWriter indexWriter = getIndexWriter()) {
+                indexWriter.addDocument(documentFor(requirement, serviceProviderId));
+            } catch (IOException e) {
+                log.warn("Error with Lucene index");
+            }
+        });
     }
 
     private static Document documentFor(final Requirement requirement, final String serviceProviderId) {
