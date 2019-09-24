@@ -38,6 +38,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.ServletContextEvent;
 import java.util.List;
 
+import javax.ws.rs.WebApplicationException;
+import javax.ws.rs.core.Response;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
@@ -78,6 +80,7 @@ public class RMManager {
     // Start of user code class_attributes
     private final static Logger log = LoggerFactory.getLogger(RMManager.class);
     private final static Map<String, Map<String, Requirement>> requirements = new HashMap<>();
+    private final static Map<String, Map<String, RequirementCollection>> requirementCollections = new HashMap<>();
     private final static Directory searchIndex = new ByteBuffersDirectory();
     private static final StandardAnalyzer indexAnalyser = new StandardAnalyzer();
     private static final Executor indexer = Executors.newSingleThreadExecutor();
@@ -94,6 +97,19 @@ public class RMManager {
         }
         return requirements.get(serviceProvider);
     }
+
+    // TODO Andrew@2019-09-24: refactor
+    public static Map<String, RequirementCollection> requirementCollectionsForSP(String serviceProvider) {
+        if (!requirementCollections.containsKey(serviceProvider)) {
+            synchronized (requirementCollections) {
+                if (!requirementCollections.containsKey(serviceProvider)) {
+                    requirementCollections.put(serviceProvider, Collections.synchronizedMap(new LinkedHashMap<>()));
+                }
+            }
+        }
+        return requirementCollections.get(serviceProvider);
+    }
+
 
     private static void addToIndex(final Requirement requirement, final String serviceProviderId) {
         indexer.execute(() -> {
@@ -290,7 +306,17 @@ public class RMManager {
         RequirementCollection newResource = null;
 
         // Start of user code createRequirementCollection
-        // TODO Implement code to create a resource
+        if(aResource == null) {
+            throw new WebApplicationException(Response.Status.BAD_REQUEST);
+        }
+        final Map<String, RequirementCollection> resources = requirementCollectionsForSP(serviceProviderId);
+        aResource.setAbout(RMResourcesFactory.constructURIForRequirementCollection(serviceProviderId, aResource.getIdentifier()));
+        aResource.setCreated(new Date());
+        resources.put(aResource.getIdentifier(), aResource);
+        log.info("Created {}", aResource.getShortTitle());
+        newResource = aResource;
+        // TODO Andrew@2019-09-24: add to index
+//        addToIndex(newResource, serviceProviderId);
         // End of user code
         return newResource;
     }
@@ -301,7 +327,9 @@ public class RMManager {
         RequirementCollection aResource = null;
 
         // Start of user code getRequirementCollection
-        // TODO Implement code to return a resource
+        // TODO Andrew@2019-09-24: add delete/update capability
+        final Map<String, RequirementCollection> resources = requirementCollectionsForSP(serviceProviderId);
+        aResource = resources.get(requirementCollectionId);
         // End of user code
         return aResource;
     }
