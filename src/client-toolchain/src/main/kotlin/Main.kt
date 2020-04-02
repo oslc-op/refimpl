@@ -1,85 +1,130 @@
-import kotlinx.coroutines.Deferred
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.async
-import kotlinx.coroutines.awaitAll
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.*
 import org.eclipse.lyo.oslc.domains.rm.Requirement
 import org.eclipse.lyo.oslc.domains.rm.RequirementCollection
 import org.eclipse.lyo.oslc4j.client.OslcClient
-import org.eclipse.lyo.oslc4j.core.model.AbstractResource
-import org.eclipse.lyo.oslc4j.core.model.CreationFactory
-import org.eclipse.lyo.oslc4j.core.model.Link
-import org.eclipse.lyo.oslc4j.core.model.ServiceProvider
-import org.eclipse.lyo.oslc4j.core.model.ServiceProviderCatalog
+import org.eclipse.lyo.oslc4j.core.annotation.OslcResourceShape
+import org.eclipse.lyo.oslc4j.core.model.*
 import java.net.URI
-import java.util.Date
+import java.util.*
 import javax.ws.rs.core.Response
+import kotlin.collections.HashSet
+import kotlin.system.measureNanoTime
 
 private val NS_REQUIREMENT = URI.create("http://open-services.net/ns/rm#Requirement")
 private val NS_REQUIREMENT_COLL = URI.create("http://open-services.net/ns/rm#RequirementCollection")
 
+
 fun main() {
     println("Populating OSLC RefImpl servers with sample data.\n")
     val client = OslcClient()
-    val rm_spc = "http://localhost:8800/services/catalog/singleton"
 
-    val rmCatalog = client.getResource(rm_spc, ServiceProviderCatalog::class.java)
+    val rmTraverser = ServiceProviderCatalogTraverser("http://localhost:8800/services/catalog/singleton", client)
+    val reqPopulator = CreationFactoryPopulator(client, rmTraverser, 50, RandomResourceGen(::genRequirement),
+            Requirement::class.java)
+    reqPopulator.populate()
+    val reqCollPopulator = CreationFactoryPopulator(client, rmTraverser, 20,
+            RandomResourceGen(::genRequirementColl), RequirementCollection::class.java)
+    reqCollPopulator.populate()
+}
 
-    println("Fetched the ${rmCatalog.title}")
+class ServiceProviderCatalogTraverser(private val spCatalog: String, private val client: OslcClient) {
+    private val providers: MutableSet<ServiceProvider> = HashSet()
 
-    val spUris = rmCatalog.serviceProviders.map { it.about }
-    val providers = client.getResources(spUris, ServiceProvider::class.java)
-
-    var reqGen = RandomResourceGen(::genRequirement)
-    var reqCollGen = RandomResourceGen(::genRequirementColl)
-
-    providers.forEach { sp ->
-        println("-> contains ${sp.title}")
-        sp.services.forEach { svc ->
-            println("   -> contains a Service with (CF filter):")
-            svc.creationFactories.forEach { cf ->
-                println("      -> ${cf.label}")
-//                cf.resourceShapes.forEach {
-//                    println("        ~> ${it} shape")
-//                }
-                cf.resourceTypes.forEach { cfType ->
-                    // TODO Andrew@2019-09-24: delete all resources of this type
-                    println("        ~> ${cfType} type")
-                    if (cfType == NS_REQUIREMENT) {
-                        val requirementLinks = postResources(client, cf, sp, 0, reqGen)
-                        println("Created ${requirementLinks.size} Requirements")
-                    } else if (cfType == NS_REQUIREMENT_COLL) {
-                        val reqCollectionLinks = postResources(client, cf, sp, 1, reqCollGen)
-                        println("Created ${reqCollectionLinks.size} Requirement Collections")
-                    }
+    fun fetchAllProviders(): Set<ServiceProvider> {
+        if (providers.isEmpty()) {
+            val rootCatalogURI = URI.create(spCatalog)
+            runBlocking {
+                launch(Dispatchers.IO) {
+                    fetchProvidersRecursive(rootCatalogURI, this)
                 }
+            }
+        }
+        return providers.toSet()
+    }
+
+    private suspend fun fetchProvidersRecursive(catalogURI: URI, coroutineScope: CoroutineScope) {
+        val catalog = client.getResource(spCatalog, ServiceProviderCatalog::class.java)
+        println("Scanned catalog ${catalog.title}")
+        synchronized(providers) {
+            providers.addAll(catalog.serviceProviders)
+        }
+        catalog.referencedServiceProviderCatalogs.forEach {
+            coroutineScope.launch {
+                fetchProvidersRecursive(it, coroutineScope)
             }
         }
     }
 
 }
 
+class CreationFactoryPopulator<T : AbstractResource>(private val client: OslcClient, private val catalogTraverser: ServiceProviderCatalogTraverser, private val genCount: Int, private val genFunc: RandomResourceGen<T>, private val clazz: Class<T>) {
+    fun populate() {
+        val factories = filterRelevantFactories()
+        val resources: MutableList<Link> = ArrayList()
+        val nanoTime: Long = measureNanoTime {
+            runBlocking {
+                factories.forEach {
+                    launch(Dispatchers.IO) {
+                        synchronized(resources) {
+                            val postResources: Set<Link> = postResources(client, it.second, it.first, genCount, genFunc, this)
+                            resources.addAll(postResources)
+                        }
+                    }
+                }
+            }
+        }
+        println("Created ${resources.size} in ${nanoTime/1000/1000}ms")
+    }
 
-fun <T: AbstractResource> postResources(client: OslcClient, cf: CreationFactory, sp: ServiceProvider, count: Int, generator: RandomResourceGen<T>): Set<Link> {
+    private inline fun filterRelevantFactories(): List<Pair<ServiceProvider, CreationFactory>> {
+        val describedByShape: Set<String> = clazz.getAnnotation(OslcResourceShape::class.java).describes.toSet()
+        // TODO: 2020-04-02 these may be too lax semantics and we may need to compare strictly by the shape URI
+        val factories = discoverCreationFactories().filter { (_, cf) ->
+            cf.resourceTypes.any { describedByShape.contains(it.toString()) }
+        }
+        return factories
+    }
+
+    private fun discoverCreationFactories(): List<Pair<ServiceProvider, CreationFactory>> {
+        val creationFactorties: List<Pair<ServiceProvider, CreationFactory>> = catalogTraverser.fetchAllProviders()
+                .flatMap { sp -> sp.services.toList().map { svc -> Pair(sp, svc) } }
+                .flatMap { (sp, svc) -> svc.creationFactories.toList().map { cf -> Pair(sp, cf) } }
+        return creationFactorties
+    }
+
+}
+
+fun <T : AbstractResource> postResources(client: OslcClient, cf: CreationFactory, sp: ServiceProvider, count: Int, generator: RandomResourceGen<T>, scope: CoroutineScope): Set<Link> {
     val createdUrls = HashSet<Link>()
     val resources = generator.generate(sp, count)
     val responsesAsync: List<Deferred<Pair<Response, T>>> = resources.map { r ->
-        GlobalScope.async {
-            Pair(client.createResource(cf.creation.toString(), r, "text/turtle"), r)
-        }
-    }
-    runBlocking {
-        val responses: List<Pair<Response, T>> = responsesAsync.awaitAll()
-        responses.forEach { (response, r) ->
+        scope.async {
+            val cfURI = cf.creation.toString()
+            val response = client.createResource(cfURI, r, "text/turtle")
             if (response.status < 400) {
                 val headers = response.headers
                 val url: String? = headers["Location"]?.single() as String
-                if(url != null) {
-                    createdUrls.add(Link(URI.create(url), "TBD"))
-                    println("$r created at $url")
+                if (url != null) {
+                    println("$url created via $cfURI")
+                } else {
+                    println("WARNING! A Resource was created but no Location was given")
                 }
+
             } else {
-                println("Failed to create $r")
+                println("Failed to create a resource via $cfURI")
+            }
+            Pair(response, r)
+        }
+    }
+    runBlocking(scope.coroutineContext) {
+        val responses: List<Pair<Response, T>> = responsesAsync.awaitAll()
+        responses.forEach { (response, _) ->
+            if (response.status < 400) {
+                val headers = response.headers
+                val url: String? = headers["Location"]?.single() as String
+                if (url != null) {
+                    createdUrls.add(Link(URI.create(url), "TBD"))
+                }
             }
         }
     }
