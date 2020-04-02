@@ -76,8 +76,8 @@ class CreationFactoryPopulator<T : AbstractResource>(private val client: OslcCli
             runBlocking {
                 factories.forEach {
                     launch(Dispatchers.IO) {
+                        val postResources: Set<Link> = postResources(client, it.second, it.first, genCount, genFunc, this)
                         synchronized(resources) {
-                            val postResources: Set<Link> = postResources(client, it.second, it.first, genCount, genFunc, this)
                             resources.addAll(postResources)
                         }
                     }
@@ -119,7 +119,7 @@ fun <T : AbstractResource> postResources(client: OslcClient, cf: CreationFactory
                         if (response.status < 400) {
                             val headers = response.headers
                             val location: MutableList<Any>? = headers["Location"]
-                            if(location != null) {
+                            if (location != null) {
                                 val url: String = location.single() as String
                                 println("$url created via $cfURI")
                             } else {
@@ -145,7 +145,7 @@ fun <T : AbstractResource> postResources(client: OslcClient, cf: CreationFactory
                 if (response.status < 400) {
                     val headers = response.headers
                     val location: MutableList<Any>? = headers["Location"]
-                    if(location != null) {
+                    if (location != null) {
                         val url: String = location.single() as String
                         createdUrls.add(Link(URI.create(url), "TBD"))
                     }
