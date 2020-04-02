@@ -30,6 +30,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.text.SimpleDateFormat;
+import java.text.ParseException;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -53,13 +54,17 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.core.UriBuilder;
 
+import org.apache.wink.json4j.JSONException;
 import org.apache.wink.json4j.JSONObject;
 import org.eclipse.lyo.oslc4j.provider.json4j.JsonHelper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.eclipse.lyo.oslc4j.core.OSLC4JUtils;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcCreationFactory;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcDialog;
@@ -101,12 +106,14 @@ import org.eclipse.lyo.oslc.domains.qm.TestScript;
 // Start of user code pre_class_code
 // End of user code
 @OslcService(Oslc_qmDomainConstants.QUALITY_MANAGEMENT_DOMAIN)
-@Path("serviceProviders/{serviceProviderId}/service4/testResults")
+@Path("service4/testResults")
 public class ResultsService
 {
     @Context private HttpServletRequest httpServletRequest;
     @Context private HttpServletResponse httpServletResponse;
     @Context private UriInfo uriInfo;
+
+    private static final Logger log = LoggerFactory.getLogger(ResultsService.class);
 
     // Start of user code class_attributes
     // End of user code
@@ -140,7 +147,7 @@ public class ResultsService
     @Path("query")
     @Produces({OslcMediaType.APPLICATION_RDF_XML, OslcMediaType.APPLICATION_JSON_LD, OslcMediaType.TEXT_TURTLE, OslcMediaType.APPLICATION_XML, OslcMediaType.APPLICATION_JSON})
     public TestResult[] queryTestResults(
-                                                    @PathParam("serviceProviderId") final String serviceProviderId ,
+                                                    
                                                      @QueryParam("oslc.where") final String where,
                                                      @QueryParam("page") final String pageString,
                                                     @QueryParam("limit") final String limitString) throws IOException, ServletException
@@ -158,15 +165,15 @@ public class ResultsService
         // Here additional logic can be implemented that complements main action taken in QMManager
         // End of user code
 
-        final List<TestResult> resources = QMManager.queryTestResults(httpServletRequest, serviceProviderId, where, page, limit);
+        final List<TestResult> resources = QMManager.queryTestResults(httpServletRequest, where, page, limit);
         return resources.toArray(new TestResult [resources.size()]);
     }
 
     @GET
     @Path("query")
     @Produces({ MediaType.TEXT_HTML })
-    public Response queryTestResultsAsHtml(
-                                    @PathParam("serviceProviderId") final String serviceProviderId ,
+    public void queryTestResultsAsHtml(
+                                    
                                        @QueryParam("oslc.where") final String where,
                                        @QueryParam("page") final String pageString,
                                     @QueryParam("limit") final String limitString) throws ServletException, IOException
@@ -183,7 +190,7 @@ public class ResultsService
         // Start of user code queryTestResultsAsHtml
         // End of user code
 
-        final List<TestResult> resources = QMManager.queryTestResults(httpServletRequest, serviceProviderId, where, page, limit);
+        final List<TestResult> resources = QMManager.queryTestResults(httpServletRequest, where, page, limit);
 
         if (resources!= null) {
             httpServletRequest.setAttribute("resources", resources);
@@ -199,6 +206,7 @@ public class ResultsService
             }
             RequestDispatcher rd = httpServletRequest.getRequestDispatcher("/co/oslc/refimpl/qm/gen/testresultscollection.jsp");
             rd.forward(httpServletRequest,httpServletResponse);
+            return;
         }
 
         throw new WebApplicationException(Status.NOT_FOUND);
@@ -208,7 +216,7 @@ public class ResultsService
     (
          title = "TestResultSD",
          label = "Test Result Selection Dialog",
-         uri = "serviceProviders/{serviceProviderId}/service4/testResults/selector",
+         uri = "service4/testResults/selector",
          hintWidth = "0px",
          hintHeight = "0px",
          resourceTypes = {Oslc_qmDomainConstants.TESTRESULT_TYPE},
@@ -219,38 +227,32 @@ public class ResultsService
     @Consumes({ MediaType.TEXT_HTML, MediaType.WILDCARD })
     public void TestResultSelector(
         @QueryParam("terms") final String terms
-        , @PathParam("serviceProviderId") final String serviceProviderId
+        
         ) throws ServletException, IOException
     {
-        try {
-            // Start of user code TestResultSelector_init
+        // Start of user code TestResultSelector_init
             // End of user code
 
-            httpServletRequest.setAttribute("selectionUri",UriBuilder.fromUri(OSLC4JUtils.getServletURI()).path(uriInfo.getPath()).build().toString());
-            // Start of user code TestResultSelector_setAttributes
+        httpServletRequest.setAttribute("selectionUri",UriBuilder.fromUri(OSLC4JUtils.getServletURI()).path(uriInfo.getPath()).build().toString());
+        // Start of user code TestResultSelector_setAttributes
             // End of user code
 
-            if (terms != null ) {
-                httpServletRequest.setAttribute("terms", terms);
-                final List<TestResult> resources = QMManager.TestResultSelector(httpServletRequest, serviceProviderId, terms);
-                if (resources!= null) {
-                            httpServletRequest.setAttribute("resources", resources);
-                            RequestDispatcher rd = httpServletRequest.getRequestDispatcher("/co/oslc/refimpl/qm/gen/testresultselectorresults.jsp");
-                            rd.forward(httpServletRequest, httpServletResponse);
-                }
-                //a empty search should return an empty list and not NULL!
-                throw new WebApplicationException(Status.NOT_FOUND);
-
-            } else {
-                try {
-                    RequestDispatcher rd = httpServletRequest.getRequestDispatcher("/co/oslc/refimpl/qm/gen/testresultselector.jsp");
-                    rd.forward(httpServletRequest, httpServletResponse);
-                } catch (Exception e) {
-                    throw new ServletException(e);
-                }
+        if (terms != null ) {
+            httpServletRequest.setAttribute("terms", terms);
+            final List<TestResult> resources = QMManager.TestResultSelector(httpServletRequest, terms);
+            if (resources!= null) {
+                        httpServletRequest.setAttribute("resources", resources);
+                        RequestDispatcher rd = httpServletRequest.getRequestDispatcher("/co/oslc/refimpl/qm/gen/testresultselectorresults.jsp");
+                        rd.forward(httpServletRequest, httpServletResponse);
+                        return;
             }
-        } catch (Exception e) {
-            throw new WebApplicationException(e);
+            log.error("A empty search should return an empty list and not NULL!");
+            throw new WebApplicationException(Status.INTERNAL_SERVER_ERROR);
+
+        } else {
+            RequestDispatcher rd = httpServletRequest.getRequestDispatcher("/co/oslc/refimpl/qm/gen/testresultselector.jsp");
+            rd.forward(httpServletRequest, httpServletResponse);
+            return;
         }
     }
 
@@ -273,31 +275,26 @@ public class ResultsService
     @Consumes({OslcMediaType.APPLICATION_RDF_XML, OslcMediaType.APPLICATION_JSON_LD, OslcMediaType.TEXT_TURTLE, OslcMediaType.APPLICATION_XML, OslcMediaType.APPLICATION_JSON })
     @Produces({OslcMediaType.APPLICATION_RDF_XML, OslcMediaType.APPLICATION_JSON_LD, OslcMediaType.TEXT_TURTLE, OslcMediaType.APPLICATION_XML, OslcMediaType.APPLICATION_JSON})
     public Response createTestResult(
-            @PathParam("serviceProviderId") final String serviceProviderId ,
+            
             final TestResult aResource
         ) throws IOException, ServletException
     {
-        try {
-            TestResult newResource = QMManager.createTestResult(httpServletRequest, aResource, serviceProviderId);
-            httpServletResponse.setHeader("ETag", QMManager.getETagFromTestResult(newResource));
-            return Response.created(newResource.getAbout()).entity(newResource).header(QMConstants.HDR_OSLC_VERSION, QMConstants.OSLC_VERSION_V2).build();
-        } catch (Exception e) {
-            e.printStackTrace();
-            throw new WebApplicationException(e);
-        }
+        TestResult newResource = QMManager.createTestResult(httpServletRequest, aResource);
+        httpServletResponse.setHeader("ETag", QMManager.getETagFromTestResult(newResource));
+        return Response.created(newResource.getAbout()).entity(newResource).header(QMConstants.HDR_OSLC_VERSION, QMConstants.OSLC_VERSION_V2).build();
     }
 
     @GET
     @Path("{testResultId}")
     @Produces({OslcMediaType.APPLICATION_RDF_XML, OslcMediaType.APPLICATION_JSON_LD, OslcMediaType.TEXT_TURTLE, OslcMediaType.APPLICATION_XML, OslcMediaType.APPLICATION_JSON})
     public TestResult getTestResult(
-                @PathParam("serviceProviderId") final String serviceProviderId, @PathParam("testResultId") final String testResultId
+                @PathParam("testResultId") final String testResultId
         ) throws IOException, ServletException, URISyntaxException
     {
         // Start of user code getResource_init
         // End of user code
 
-        final TestResult aTestResult = QMManager.getTestResult(httpServletRequest, serviceProviderId, testResultId);
+        final TestResult aTestResult = QMManager.getTestResult(httpServletRequest, testResultId);
 
         if (aTestResult != null) {
             // Start of user code getTestResult
@@ -312,14 +309,14 @@ public class ResultsService
     @GET
     @Path("{testResultId}")
     @Produces({ MediaType.TEXT_HTML })
-    public Response getTestResultAsHtml(
-        @PathParam("serviceProviderId") final String serviceProviderId, @PathParam("testResultId") final String testResultId
+    public void getTestResultAsHtml(
+        @PathParam("testResultId") final String testResultId
         ) throws ServletException, IOException, URISyntaxException
     {
         // Start of user code getTestResultAsHtml_init
         // End of user code
 
-        final TestResult aTestResult = QMManager.getTestResult(httpServletRequest, serviceProviderId, testResultId);
+        final TestResult aTestResult = QMManager.getTestResult(httpServletRequest, testResultId);
 
         if (aTestResult != null) {
             httpServletRequest.setAttribute("aTestResult", aTestResult);
@@ -328,6 +325,7 @@ public class ResultsService
 
             RequestDispatcher rd = httpServletRequest.getRequestDispatcher("/co/oslc/refimpl/qm/gen/testresult.jsp");
             rd.forward(httpServletRequest,httpServletResponse);
+            return;
         }
 
         throw new WebApplicationException(Status.NOT_FOUND);
@@ -337,7 +335,7 @@ public class ResultsService
     @Path("{testResultId}")
     @Produces({OslcMediaType.APPLICATION_X_OSLC_COMPACT_XML})
     public Compact getTestResultCompact(
-        @PathParam("serviceProviderId") final String serviceProviderId, @PathParam("testResultId") final String testResultId
+        @PathParam("testResultId") final String testResultId
         ) throws ServletException, IOException, URISyntaxException
     {
         String iconUri = OSLC4JUtils.getPublicURI() + "/images/ui_preview_icon.gif";
@@ -350,7 +348,7 @@ public class ResultsService
         //TODO: adjust the preview height & width values from the default values provided above.
         // End of user code
 
-        final TestResult aTestResult = QMManager.getTestResult(httpServletRequest, serviceProviderId, testResultId);
+        final TestResult aTestResult = QMManager.getTestResult(httpServletRequest, testResultId);
 
         if (aTestResult != null) {
             final Compact compact = new Compact();
@@ -384,13 +382,13 @@ public class ResultsService
     @Path("{testResultId}/smallPreview")
     @Produces({ MediaType.TEXT_HTML })
     public void getTestResultAsHtmlSmallPreview(
-        @PathParam("serviceProviderId") final String serviceProviderId, @PathParam("testResultId") final String testResultId
+        @PathParam("testResultId") final String testResultId
         ) throws ServletException, IOException, URISyntaxException
     {
         // Start of user code getTestResultAsHtmlSmallPreview_init
         // End of user code
 
-        final TestResult aTestResult = QMManager.getTestResult(httpServletRequest, serviceProviderId, testResultId);
+        final TestResult aTestResult = QMManager.getTestResult(httpServletRequest, testResultId);
 
         if (aTestResult != null) {
             httpServletRequest.setAttribute("aTestResult", aTestResult);
@@ -401,6 +399,7 @@ public class ResultsService
             httpServletResponse.addHeader(QMConstants.HDR_OSLC_VERSION, QMConstants.OSLC_VERSION_V2);
             addCORSHeaders(httpServletResponse);
             rd.forward(httpServletRequest, httpServletResponse);
+            return;
         }
 
         throw new WebApplicationException(Status.NOT_FOUND);
@@ -410,13 +409,13 @@ public class ResultsService
     @Path("{testResultId}/largePreview")
     @Produces({ MediaType.TEXT_HTML })
     public void getTestResultAsHtmlLargePreview(
-        @PathParam("serviceProviderId") final String serviceProviderId, @PathParam("testResultId") final String testResultId
+        @PathParam("testResultId") final String testResultId
         ) throws ServletException, IOException, URISyntaxException
     {
         // Start of user code getTestResultAsHtmlLargePreview_init
         // End of user code
 
-        final TestResult aTestResult = QMManager.getTestResult(httpServletRequest, serviceProviderId, testResultId);
+        final TestResult aTestResult = QMManager.getTestResult(httpServletRequest, testResultId);
 
         if (aTestResult != null) {
             httpServletRequest.setAttribute("aTestResult", aTestResult);
@@ -427,6 +426,7 @@ public class ResultsService
             httpServletResponse.addHeader(QMConstants.HDR_OSLC_VERSION, QMConstants.OSLC_VERSION_V2);
             addCORSHeaders(httpServletResponse);
             rd.forward(httpServletRequest, httpServletResponse);
+            return;
         }
 
         throw new WebApplicationException(Status.NOT_FOUND);

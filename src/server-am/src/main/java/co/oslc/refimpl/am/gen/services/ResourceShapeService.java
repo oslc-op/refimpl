@@ -91,7 +91,7 @@ public class ResourceShapeService
     @GET
     @Path("{resourceShapePath}")
     @Produces({ MediaType.TEXT_HTML })
-    public Response getResourceShapeAsHtml(
+    public void getResourceShapeAsHtml(
             @PathParam("resourceShapePath") final String resourceShapePath
         ) throws ServletException, IOException, URISyntaxException, OslcCoreApplicationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException
     {
@@ -105,6 +105,7 @@ public class ResourceShapeService
             
             RequestDispatcher rd = httpServletRequest.getRequestDispatcher("/co/oslc/refimpl/am/gen/resourceshape.jsp");
             rd.forward(httpServletRequest,httpServletResponse);
+            return;
         }
         throw new WebApplicationException(Status.NOT_FOUND);
     }

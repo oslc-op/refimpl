@@ -46,63 +46,61 @@ public class AMResourcesFactory {
     // End of user code
 
     //methods for LinkType resource
-    public static LinkType createLinkType(final String serviceProviderId, final String linkTypeId)
-           throws URISyntaxException
+    public static LinkType createLinkType(final String linkTypeId)
     {
-        return new LinkType(constructURIForLinkType(serviceProviderId, linkTypeId));
+        return new LinkType(constructURIForLinkType(linkTypeId));
     }
     
-    public static URI constructURIForLinkType(final String serviceProviderId, final String linkTypeId)
+    public static URI constructURIForLinkType(final String linkTypeId)
     {
         String basePath = OSLC4JUtils.getServletURI();
         Map<String, Object> pathParameters = new HashMap<String, Object>();
-        pathParameters.put("serviceProviderId", serviceProviderId);
         pathParameters.put("linkTypeId", linkTypeId);
-        String instanceURI = "serviceProviders/{serviceProviderId}/service2/linkTypes/{linkTypeId}";
+        String instanceURI = "service2/linkTypes/{linkTypeId}";
     
         final UriBuilder builder = UriBuilder.fromUri(basePath);
         return builder.path(instanceURI).buildFromMap(pathParameters);
     }
     
-    public static Link constructLinkForLinkType(final String serviceProviderId, final String linkTypeId , final String label)
+    public static Link constructLinkForLinkType(final String linkTypeId , final String label)
     {
-        return new Link(constructURIForLinkType(serviceProviderId, linkTypeId), label);
+        return new Link(constructURIForLinkType(linkTypeId), label);
     }
     
-    public static Link constructLinkForLinkType(final String serviceProviderId, final String linkTypeId)
+    public static Link constructLinkForLinkType(final String linkTypeId)
     {
-        return new Link(constructURIForLinkType(serviceProviderId, linkTypeId));
+        return new Link(constructURIForLinkType(linkTypeId));
     }
+    
     
 
     //methods for Resource resource
-    public static Resource createResource(final String serviceProviderId, final String resourceId)
-           throws URISyntaxException
+    public static Resource createResource(final String resourceId)
     {
-        return new Resource(constructURIForResource(serviceProviderId, resourceId));
+        return new Resource(constructURIForResource(resourceId));
     }
     
-    public static URI constructURIForResource(final String serviceProviderId, final String resourceId)
+    public static URI constructURIForResource(final String resourceId)
     {
         String basePath = OSLC4JUtils.getServletURI();
         Map<String, Object> pathParameters = new HashMap<String, Object>();
-        pathParameters.put("serviceProviderId", serviceProviderId);
         pathParameters.put("resourceId", resourceId);
-        String instanceURI = "serviceProviders/{serviceProviderId}/service1/resources/{resourceId}";
+        String instanceURI = "service1/resources/{resourceId}";
     
         final UriBuilder builder = UriBuilder.fromUri(basePath);
         return builder.path(instanceURI).buildFromMap(pathParameters);
     }
     
-    public static Link constructLinkForResource(final String serviceProviderId, final String resourceId , final String label)
+    public static Link constructLinkForResource(final String resourceId , final String label)
     {
-        return new Link(constructURIForResource(serviceProviderId, resourceId), label);
+        return new Link(constructURIForResource(resourceId), label);
     }
     
-    public static Link constructLinkForResource(final String serviceProviderId, final String resourceId)
+    public static Link constructLinkForResource(final String resourceId)
     {
-        return new Link(constructURIForResource(serviceProviderId, resourceId));
+        return new Link(constructURIForResource(resourceId));
     }
+    
     
 
 }

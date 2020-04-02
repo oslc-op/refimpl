@@ -47,7 +47,6 @@ public class RMResourcesFactory {
 
     //methods for Requirement resource
     public static Requirement createRequirement(final String serviceProviderId, final String requirementId)
-           throws URISyntaxException
     {
         return new Requirement(constructURIForRequirement(serviceProviderId, requirementId));
     }
@@ -74,10 +73,10 @@ public class RMResourcesFactory {
         return new Link(constructURIForRequirement(serviceProviderId, requirementId));
     }
     
+    
 
     //methods for RequirementCollection resource
     public static RequirementCollection createRequirementCollection(final String serviceProviderId, final String requirementCollectionId)
-           throws URISyntaxException
     {
         return new RequirementCollection(constructURIForRequirementCollection(serviceProviderId, requirementCollectionId));
     }
@@ -103,6 +102,7 @@ public class RMResourcesFactory {
     {
         return new Link(constructURIForRequirementCollection(serviceProviderId, requirementCollectionId));
     }
+    
     
 
 }

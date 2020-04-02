@@ -24,6 +24,20 @@
 
 package co.oslc.refimpl.rm.gen;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.ServletContextEvent;
+import java.util.List;
+
+import org.eclipse.lyo.oslc4j.core.model.ServiceProvider;
+import org.eclipse.lyo.oslc4j.core.model.AbstractResource;
+import co.oslc.refimpl.rm.gen.servlet.ServiceProviderCatalogSingleton;
+import co.oslc.refimpl.rm.gen.ServiceProviderInfo;
+import org.eclipse.lyo.oslc.domains.Person;
+import org.eclipse.lyo.oslc.domains.rm.Requirement;
+import org.eclipse.lyo.oslc.domains.rm.RequirementCollection;
+
+
+// Start of user code imports
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -34,9 +48,6 @@ import java.util.Map;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 import java.util.stream.Collectors;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.ServletContextEvent;
-import java.util.List;
 
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Response;
@@ -51,25 +62,17 @@ import org.apache.lucene.index.IndexWriterConfig;
 import org.apache.lucene.index.Term;
 import org.apache.lucene.queryparser.classic.ParseException;
 import org.apache.lucene.queryparser.classic.QueryParser;
-import org.apache.lucene.queryparser.xml.builders.BooleanQueryBuilder;
 import org.apache.lucene.search.BooleanClause;
 import org.apache.lucene.search.BooleanQuery;
 import org.apache.lucene.search.IndexSearcher;
-import org.apache.lucene.search.MultiCollectorManager;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.ScoreDoc;
 import org.apache.lucene.search.TermQuery;
 import org.apache.lucene.search.TopDocs;
 import org.apache.lucene.store.ByteBuffersDirectory;
 import org.apache.lucene.store.Directory;
-import org.eclipse.lyo.oslc.domains.rm.Requirement;
-import org.eclipse.lyo.oslc.domains.rm.RequirementCollection;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import static jdk.nashorn.internal.objects.NativeString.search;
-
-// Start of user code imports
 // End of user code
 
 // Start of user code pre_class_code
@@ -85,7 +88,8 @@ public class RMManager {
     private static final StandardAnalyzer indexAnalyser = new StandardAnalyzer();
     private static final Executor indexer = Executors.newSingleThreadExecutor();
     // End of user code
-
+    
+    
     // Start of user code class_methods
     public static Map<String, Requirement> requirementsForSP(String serviceProvider) {
         if (!requirements.containsKey(serviceProvider)) {
@@ -138,15 +142,6 @@ public class RMManager {
         return document;
     }
 
-    // End of user code
-
-    public static void contextInitializeServletListener(final ServletContextEvent servletContextEvent)
-    {
-
-        // Start of user code contextInitializeServletListener
-        // End of user code
-    }
-
     private static IndexWriter getIndexWriter() {
         try {
             IndexWriterConfig indexWriterConfig = new IndexWriterConfig(indexAnalyser);
@@ -155,10 +150,18 @@ public class RMManager {
             throw new IllegalStateException(e);
         }
     }
+    // End of user code
 
-    public static void contextDestroyServletListener(ServletContextEvent servletContextEvent)
+    public static void contextInitializeServletListener(final ServletContextEvent servletContextEvent)
     {
+        
+        // Start of user code contextInitializeServletListener
+        // End of user code
+    }
 
+    public static void contextDestroyServletListener(ServletContextEvent servletContextEvent) 
+    {
+        
         // Start of user code contextDestroyed
         // TODO Implement code to shutdown connections to data backbone etc...
         // End of user code
@@ -167,7 +170,7 @@ public class RMManager {
     public static ServiceProviderInfo[] getServiceProviderInfos(HttpServletRequest httpServletRequest)
     {
         ServiceProviderInfo[] serviceProviderInfos = {};
-
+        
         // Start of user code "ServiceProviderInfo[] getServiceProviderInfos(...)"
         ServiceProviderInfo spInfo = new ServiceProviderInfo();
         spInfo.serviceProviderId = "default_sp";
@@ -180,7 +183,7 @@ public class RMManager {
     public static List<Requirement> queryRequirements(HttpServletRequest httpServletRequest, final String serviceProviderId, String where, int page, int limit)
     {
         List<Requirement> resources = null;
-
+        
         // Start of user code queryRequirements
         final Map<String, Requirement> requirements = requirementsForSP(serviceProviderId);
         // page starts from 0
@@ -192,12 +195,10 @@ public class RMManager {
         // End of user code
         return resources;
     }
-
-    public static List<Requirement> RequirementSelector(HttpServletRequest httpServletRequest,
-            final String serviceProviderId, String terms)
+    public static List<Requirement> RequirementSelector(HttpServletRequest httpServletRequest, final String serviceProviderId, String terms)   
     {
         List<Requirement> resources = null;
-
+        
         // Start of user code RequirementSelector
         final Map<String, Requirement> requirements = requirementsForSP(serviceProviderId);
         try {
@@ -228,7 +229,7 @@ public class RMManager {
     public static Requirement createRequirement(HttpServletRequest httpServletRequest, final Requirement aResource, final String serviceProviderId)
     {
         Requirement newResource = null;
-
+        
         // Start of user code createRequirement
         final Map<String, Requirement> requirements = requirementsForSP(serviceProviderId);
         aResource.setAbout(RMResourcesFactory.constructURIForRequirement(serviceProviderId, aResource.getIdentifier()));
@@ -241,11 +242,10 @@ public class RMManager {
         return newResource;
     }
 
-
     public static Requirement createRequirementFromDialog(HttpServletRequest httpServletRequest, final Requirement aResource, final String serviceProviderId)
     {
         Requirement newResource = null;
-
+        
         // Start of user code createRequirementFromDialog
         // TODO Implement code to create a resource
         // End of user code
@@ -255,7 +255,7 @@ public class RMManager {
     public static Requirement getRequirement(HttpServletRequest httpServletRequest, final String serviceProviderId, final String requirementId)
     {
         Requirement aResource = null;
-
+        
         // Start of user code getRequirement
         final Map<String, Requirement> requirements = requirementsForSP(serviceProviderId);
         aResource = requirements.get(requirementId);
@@ -284,18 +284,16 @@ public class RMManager {
     public static List<RequirementCollection> queryRequirementCollections(HttpServletRequest httpServletRequest, final String serviceProviderId, String where, int page, int limit)
     {
         List<RequirementCollection> resources = null;
-
+        
         // Start of user code queryRequirementCollections
         // TODO Implement code to return a set of resources
         // End of user code
         return resources;
     }
-
-    public static List<RequirementCollection> RequirementCollectionSelector(
-            HttpServletRequest httpServletRequest, final String serviceProviderId, String terms)
+    public static List<RequirementCollection> RequirementCollectionSelector(HttpServletRequest httpServletRequest, final String serviceProviderId, String terms)   
     {
         List<RequirementCollection> resources = null;
-
+        
         // Start of user code RequirementCollectionSelector
         // TODO Implement code to return a set of resources, based on search criteria
         // End of user code
@@ -304,7 +302,7 @@ public class RMManager {
     public static RequirementCollection createRequirementCollection(HttpServletRequest httpServletRequest, final RequirementCollection aResource, final String serviceProviderId)
     {
         RequirementCollection newResource = null;
-
+        
         // Start of user code createRequirementCollection
         if(aResource == null) {
             throw new WebApplicationException(Response.Status.BAD_REQUEST);
@@ -325,7 +323,7 @@ public class RMManager {
     public static RequirementCollection getRequirementCollection(HttpServletRequest httpServletRequest, final String serviceProviderId, final String requirementCollectionId)
     {
         RequirementCollection aResource = null;
-
+        
         // Start of user code getRequirementCollection
         // TODO Andrew@2019-09-24: add delete/update capability
         final Map<String, RequirementCollection> resources = requirementCollectionsForSP(serviceProviderId);
@@ -333,6 +331,7 @@ public class RMManager {
         // End of user code
         return aResource;
     }
+
 
 
 

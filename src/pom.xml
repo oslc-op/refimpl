@@ -57,7 +57,7 @@
 			<dependency>
 				<groupId>org.eclipse.lyo</groupId>
 				<artifactId>oslc-domains</artifactId>
-				<version>0.0.2-SNAPSHOT</version>
+				<version>4.0.0-SNAPSHOT</version>
 			</dependency>
 
 			<dependency>

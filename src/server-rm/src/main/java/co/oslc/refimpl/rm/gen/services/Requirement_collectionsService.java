@@ -30,6 +30,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.text.SimpleDateFormat;
+import java.text.ParseException;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -53,13 +54,17 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.core.UriBuilder;
 
+import org.apache.wink.json4j.JSONException;
 import org.apache.wink.json4j.JSONObject;
 import org.eclipse.lyo.oslc4j.provider.json4j.JsonHelper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.eclipse.lyo.oslc4j.core.OSLC4JUtils;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcCreationFactory;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcDialog;
@@ -94,6 +99,8 @@ public class Requirement_collectionsService
     @Context private HttpServletRequest httpServletRequest;
     @Context private HttpServletResponse httpServletResponse;
     @Context private UriInfo uriInfo;
+
+    private static final Logger log = LoggerFactory.getLogger(Requirement_collectionsService.class);
 
     // Start of user code class_attributes
     // End of user code
@@ -152,7 +159,7 @@ public class Requirement_collectionsService
     @GET
     @Path("query")
     @Produces({ MediaType.TEXT_HTML })
-    public Response queryRequirementCollectionsAsHtml(
+    public void queryRequirementCollectionsAsHtml(
                                     @PathParam("serviceProviderId") final String serviceProviderId ,
                                        @QueryParam("oslc.where") final String where,
                                        @QueryParam("page") final String pageString,
@@ -186,6 +193,7 @@ public class Requirement_collectionsService
             }
             RequestDispatcher rd = httpServletRequest.getRequestDispatcher("/co/oslc/refimpl/rm/gen/requirementcollectionscollection.jsp");
             rd.forward(httpServletRequest,httpServletResponse);
+            return;
         }
 
         throw new WebApplicationException(Status.NOT_FOUND);
@@ -209,35 +217,29 @@ public class Requirement_collectionsService
         , @PathParam("serviceProviderId") final String serviceProviderId
         ) throws ServletException, IOException
     {
-        try {
-            // Start of user code RequirementCollectionSelector_init
+        // Start of user code RequirementCollectionSelector_init
             // End of user code
 
-            httpServletRequest.setAttribute("selectionUri",UriBuilder.fromUri(OSLC4JUtils.getServletURI()).path(uriInfo.getPath()).build().toString());
-            // Start of user code RequirementCollectionSelector_setAttributes
+        httpServletRequest.setAttribute("selectionUri",UriBuilder.fromUri(OSLC4JUtils.getServletURI()).path(uriInfo.getPath()).build().toString());
+        // Start of user code RequirementCollectionSelector_setAttributes
             // End of user code
 
-            if (terms != null ) {
-                httpServletRequest.setAttribute("terms", terms);
-                final List<RequirementCollection> resources = RMManager.RequirementCollectionSelector(httpServletRequest, serviceProviderId, terms);
-                if (resources!= null) {
-                            httpServletRequest.setAttribute("resources", resources);
-                            RequestDispatcher rd = httpServletRequest.getRequestDispatcher("/co/oslc/refimpl/rm/gen/requirementcollectionselectorresults.jsp");
-                            rd.forward(httpServletRequest, httpServletResponse);
-                }
-                //a empty search should return an empty list and not NULL!
-                throw new WebApplicationException(Status.NOT_FOUND);
-
-            } else {
-                try {
-                    RequestDispatcher rd = httpServletRequest.getRequestDispatcher("/co/oslc/refimpl/rm/gen/requirementcollectionselector.jsp");
-                    rd.forward(httpServletRequest, httpServletResponse);
-                } catch (Exception e) {
-                    throw new ServletException(e);
-                }
+        if (terms != null ) {
+            httpServletRequest.setAttribute("terms", terms);
+            final List<RequirementCollection> resources = RMManager.RequirementCollectionSelector(httpServletRequest, serviceProviderId, terms);
+            if (resources!= null) {
+                        httpServletRequest.setAttribute("resources", resources);
+                        RequestDispatcher rd = httpServletRequest.getRequestDispatcher("/co/oslc/refimpl/rm/gen/requirementcollectionselectorresults.jsp");
+                        rd.forward(httpServletRequest, httpServletResponse);
+                        return;
             }
-        } catch (Exception e) {
-            throw new WebApplicationException(e);
+            log.error("A empty search should return an empty list and not NULL!");
+            throw new WebApplicationException(Status.INTERNAL_SERVER_ERROR);
+
+        } else {
+            RequestDispatcher rd = httpServletRequest.getRequestDispatcher("/co/oslc/refimpl/rm/gen/requirementcollectionselector.jsp");
+            rd.forward(httpServletRequest, httpServletResponse);
+            return;
         }
     }
 
@@ -264,14 +266,9 @@ public class Requirement_collectionsService
             final RequirementCollection aResource
         ) throws IOException, ServletException
     {
-        try {
-            RequirementCollection newResource = RMManager.createRequirementCollection(httpServletRequest, aResource, serviceProviderId);
-            httpServletResponse.setHeader("ETag", RMManager.getETagFromRequirementCollection(newResource));
-            return Response.created(newResource.getAbout()).entity(newResource).header(RMConstants.HDR_OSLC_VERSION, RMConstants.OSLC_VERSION_V2).build();
-        } catch (Exception e) {
-            e.printStackTrace();
-            throw new WebApplicationException(e);
-        }
+        RequirementCollection newResource = RMManager.createRequirementCollection(httpServletRequest, aResource, serviceProviderId);
+        httpServletResponse.setHeader("ETag", RMManager.getETagFromRequirementCollection(newResource));
+        return Response.created(newResource.getAbout()).entity(newResource).header(RMConstants.HDR_OSLC_VERSION, RMConstants.OSLC_VERSION_V2).build();
     }
 
     @GET
@@ -299,7 +296,7 @@ public class Requirement_collectionsService
     @GET
     @Path("{requirementCollectionId}")
     @Produces({ MediaType.TEXT_HTML })
-    public Response getRequirementCollectionAsHtml(
+    public void getRequirementCollectionAsHtml(
         @PathParam("serviceProviderId") final String serviceProviderId, @PathParam("requirementCollectionId") final String requirementCollectionId
         ) throws ServletException, IOException, URISyntaxException
     {
@@ -315,6 +312,7 @@ public class Requirement_collectionsService
 
             RequestDispatcher rd = httpServletRequest.getRequestDispatcher("/co/oslc/refimpl/rm/gen/requirementcollection.jsp");
             rd.forward(httpServletRequest,httpServletResponse);
+            return;
         }
 
         throw new WebApplicationException(Status.NOT_FOUND);
@@ -388,6 +386,7 @@ public class Requirement_collectionsService
             httpServletResponse.addHeader(RMConstants.HDR_OSLC_VERSION, RMConstants.OSLC_VERSION_V2);
             addCORSHeaders(httpServletResponse);
             rd.forward(httpServletRequest, httpServletResponse);
+            return;
         }
 
         throw new WebApplicationException(Status.NOT_FOUND);
@@ -414,6 +413,7 @@ public class Requirement_collectionsService
             httpServletResponse.addHeader(RMConstants.HDR_OSLC_VERSION, RMConstants.OSLC_VERSION_V2);
             addCORSHeaders(httpServletResponse);
             rd.forward(httpServletRequest, httpServletResponse);
+            return;
         }
 
         throw new WebApplicationException(Status.NOT_FOUND);

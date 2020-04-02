@@ -56,183 +56,177 @@ public class CMResourcesFactory {
     // End of user code
 
     //methods for ChangeNotice resource
-    public static ChangeNotice createChangeNotice(final String serviceProviderId, final String changeNoticeId)
-           throws URISyntaxException
+    public static ChangeNotice createChangeNotice(final String changeNoticeId)
     {
-        return new ChangeNotice(constructURIForChangeNotice(serviceProviderId, changeNoticeId));
+        return new ChangeNotice(constructURIForChangeNotice(changeNoticeId));
     }
     
-    public static URI constructURIForChangeNotice(final String serviceProviderId, final String changeNoticeId)
+    public static URI constructURIForChangeNotice(final String changeNoticeId)
     {
         String basePath = OSLC4JUtils.getServletURI();
         Map<String, Object> pathParameters = new HashMap<String, Object>();
-        pathParameters.put("serviceProviderId", serviceProviderId);
         pathParameters.put("changeNoticeId", changeNoticeId);
-        String instanceURI = "serviceProviders/{serviceProviderId}/resources/changeNotices/{changeNoticeId}";
+        String instanceURI = "resources/changeNotices/{changeNoticeId}";
     
         final UriBuilder builder = UriBuilder.fromUri(basePath);
         return builder.path(instanceURI).buildFromMap(pathParameters);
     }
     
-    public static Link constructLinkForChangeNotice(final String serviceProviderId, final String changeNoticeId , final String label)
+    public static Link constructLinkForChangeNotice(final String changeNoticeId , final String label)
     {
-        return new Link(constructURIForChangeNotice(serviceProviderId, changeNoticeId), label);
+        return new Link(constructURIForChangeNotice(changeNoticeId), label);
     }
     
-    public static Link constructLinkForChangeNotice(final String serviceProviderId, final String changeNoticeId)
+    public static Link constructLinkForChangeNotice(final String changeNoticeId)
     {
-        return new Link(constructURIForChangeNotice(serviceProviderId, changeNoticeId));
+        return new Link(constructURIForChangeNotice(changeNoticeId));
     }
+    
     
 
     //methods for ChangeRequest resource
-    public static ChangeRequest createChangeRequest(final String serviceProviderId, final String changeRequestId)
-           throws URISyntaxException
+    public static ChangeRequest createChangeRequest(final String changeRequestId)
     {
-        return new ChangeRequest(constructURIForChangeRequest(serviceProviderId, changeRequestId));
+        return new ChangeRequest(constructURIForChangeRequest(changeRequestId));
     }
     
-    public static URI constructURIForChangeRequest(final String serviceProviderId, final String changeRequestId)
+    public static URI constructURIForChangeRequest(final String changeRequestId)
     {
         String basePath = OSLC4JUtils.getServletURI();
         Map<String, Object> pathParameters = new HashMap<String, Object>();
-        pathParameters.put("serviceProviderId", serviceProviderId);
         pathParameters.put("changeRequestId", changeRequestId);
-        String instanceURI = "serviceProviders/{serviceProviderId}/resources/changeRequests/{changeRequestId}";
+        String instanceURI = "resources/changeRequests/{changeRequestId}";
     
         final UriBuilder builder = UriBuilder.fromUri(basePath);
         return builder.path(instanceURI).buildFromMap(pathParameters);
     }
     
-    public static Link constructLinkForChangeRequest(final String serviceProviderId, final String changeRequestId , final String label)
+    public static Link constructLinkForChangeRequest(final String changeRequestId , final String label)
     {
-        return new Link(constructURIForChangeRequest(serviceProviderId, changeRequestId), label);
+        return new Link(constructURIForChangeRequest(changeRequestId), label);
     }
     
-    public static Link constructLinkForChangeRequest(final String serviceProviderId, final String changeRequestId)
+    public static Link constructLinkForChangeRequest(final String changeRequestId)
     {
-        return new Link(constructURIForChangeRequest(serviceProviderId, changeRequestId));
+        return new Link(constructURIForChangeRequest(changeRequestId));
     }
+    
     
 
     //methods for Defect resource
-    public static Defect createDefect(final String serviceProviderId, final String defectId)
-           throws URISyntaxException
+    public static Defect createDefect(final String defectId)
     {
-        return new Defect(constructURIForDefect(serviceProviderId, defectId));
+        return new Defect(constructURIForDefect(defectId));
     }
     
-    public static URI constructURIForDefect(final String serviceProviderId, final String defectId)
+    public static URI constructURIForDefect(final String defectId)
     {
         String basePath = OSLC4JUtils.getServletURI();
         Map<String, Object> pathParameters = new HashMap<String, Object>();
-        pathParameters.put("serviceProviderId", serviceProviderId);
         pathParameters.put("defectId", defectId);
-        String instanceURI = "serviceProviders/{serviceProviderId}/resources/defects/{defectId}";
+        String instanceURI = "resources/defects/{defectId}";
     
         final UriBuilder builder = UriBuilder.fromUri(basePath);
         return builder.path(instanceURI).buildFromMap(pathParameters);
     }
     
-    public static Link constructLinkForDefect(final String serviceProviderId, final String defectId , final String label)
+    public static Link constructLinkForDefect(final String defectId , final String label)
     {
-        return new Link(constructURIForDefect(serviceProviderId, defectId), label);
+        return new Link(constructURIForDefect(defectId), label);
     }
     
-    public static Link constructLinkForDefect(final String serviceProviderId, final String defectId)
+    public static Link constructLinkForDefect(final String defectId)
     {
-        return new Link(constructURIForDefect(serviceProviderId, defectId));
+        return new Link(constructURIForDefect(defectId));
     }
+    
     
 
     //methods for Enhancement resource
-    public static Enhancement createEnhancement(final String serviceProviderId, final String enhancementId)
-           throws URISyntaxException
+    public static Enhancement createEnhancement(final String enhancementId)
     {
-        return new Enhancement(constructURIForEnhancement(serviceProviderId, enhancementId));
+        return new Enhancement(constructURIForEnhancement(enhancementId));
     }
     
-    public static URI constructURIForEnhancement(final String serviceProviderId, final String enhancementId)
+    public static URI constructURIForEnhancement(final String enhancementId)
     {
         String basePath = OSLC4JUtils.getServletURI();
         Map<String, Object> pathParameters = new HashMap<String, Object>();
-        pathParameters.put("serviceProviderId", serviceProviderId);
         pathParameters.put("enhancementId", enhancementId);
-        String instanceURI = "serviceProviders/{serviceProviderId}/resources/enhancements/{enhancementId}";
+        String instanceURI = "resources/enhancements/{enhancementId}";
     
         final UriBuilder builder = UriBuilder.fromUri(basePath);
         return builder.path(instanceURI).buildFromMap(pathParameters);
     }
     
-    public static Link constructLinkForEnhancement(final String serviceProviderId, final String enhancementId , final String label)
+    public static Link constructLinkForEnhancement(final String enhancementId , final String label)
     {
-        return new Link(constructURIForEnhancement(serviceProviderId, enhancementId), label);
+        return new Link(constructURIForEnhancement(enhancementId), label);
     }
     
-    public static Link constructLinkForEnhancement(final String serviceProviderId, final String enhancementId)
+    public static Link constructLinkForEnhancement(final String enhancementId)
     {
-        return new Link(constructURIForEnhancement(serviceProviderId, enhancementId));
+        return new Link(constructURIForEnhancement(enhancementId));
     }
+    
     
 
     //methods for ReviewTask resource
-    public static ReviewTask createReviewTask(final String serviceProviderId, final String reviewTaskId)
-           throws URISyntaxException
+    public static ReviewTask createReviewTask(final String reviewTaskId)
     {
-        return new ReviewTask(constructURIForReviewTask(serviceProviderId, reviewTaskId));
+        return new ReviewTask(constructURIForReviewTask(reviewTaskId));
     }
     
-    public static URI constructURIForReviewTask(final String serviceProviderId, final String reviewTaskId)
+    public static URI constructURIForReviewTask(final String reviewTaskId)
     {
         String basePath = OSLC4JUtils.getServletURI();
         Map<String, Object> pathParameters = new HashMap<String, Object>();
-        pathParameters.put("serviceProviderId", serviceProviderId);
         pathParameters.put("reviewTaskId", reviewTaskId);
-        String instanceURI = "serviceProviders/{serviceProviderId}/resources/reviewTasks/{reviewTaskId}";
+        String instanceURI = "resources/reviewTasks/{reviewTaskId}";
     
         final UriBuilder builder = UriBuilder.fromUri(basePath);
         return builder.path(instanceURI).buildFromMap(pathParameters);
     }
     
-    public static Link constructLinkForReviewTask(final String serviceProviderId, final String reviewTaskId , final String label)
+    public static Link constructLinkForReviewTask(final String reviewTaskId , final String label)
     {
-        return new Link(constructURIForReviewTask(serviceProviderId, reviewTaskId), label);
+        return new Link(constructURIForReviewTask(reviewTaskId), label);
     }
     
-    public static Link constructLinkForReviewTask(final String serviceProviderId, final String reviewTaskId)
+    public static Link constructLinkForReviewTask(final String reviewTaskId)
     {
-        return new Link(constructURIForReviewTask(serviceProviderId, reviewTaskId));
+        return new Link(constructURIForReviewTask(reviewTaskId));
     }
+    
     
 
     //methods for Task resource
-    public static Task createTask(final String serviceProviderId, final String taskId)
-           throws URISyntaxException
+    public static Task createTask(final String taskId)
     {
-        return new Task(constructURIForTask(serviceProviderId, taskId));
+        return new Task(constructURIForTask(taskId));
     }
     
-    public static URI constructURIForTask(final String serviceProviderId, final String taskId)
+    public static URI constructURIForTask(final String taskId)
     {
         String basePath = OSLC4JUtils.getServletURI();
         Map<String, Object> pathParameters = new HashMap<String, Object>();
-        pathParameters.put("serviceProviderId", serviceProviderId);
         pathParameters.put("taskId", taskId);
-        String instanceURI = "serviceProviders/{serviceProviderId}/resources/tasks/{taskId}";
+        String instanceURI = "resources/tasks/{taskId}";
     
         final UriBuilder builder = UriBuilder.fromUri(basePath);
         return builder.path(instanceURI).buildFromMap(pathParameters);
     }
     
-    public static Link constructLinkForTask(final String serviceProviderId, final String taskId , final String label)
+    public static Link constructLinkForTask(final String taskId , final String label)
     {
-        return new Link(constructURIForTask(serviceProviderId, taskId), label);
+        return new Link(constructURIForTask(taskId), label);
     }
     
-    public static Link constructLinkForTask(final String serviceProviderId, final String taskId)
+    public static Link constructLinkForTask(final String taskId)
     {
-        return new Link(constructURIForTask(serviceProviderId, taskId));
+        return new Link(constructURIForTask(taskId));
     }
+    
     
 
 }

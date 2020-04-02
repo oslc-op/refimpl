@@ -3,7 +3,7 @@
   <adaptorInterfaces name="RM" javaClassBaseNamespace="co.oslc.refimpl.rm.gen" javaFilesBasePath="../src/server-rm/src/main/java/" jspFilesBasePath="../src/server-rm/src/main/webapp/" javascriptFilesBasePath="../src/server-rm/src/main/webapp/">
     <serviceProviderCatalog title="Service Provider Catalog" description="Service Provider Catalog">
       <serviceProviders title="RM Service Provider" description="Service Provider for the RM domain resources" serviceNamespace="">
-        <services>
+        <services serviceNamespace="relativeToServiceProvider">
           <domainSpecification href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#//@domainSpecifications[name='Requirements%20Management%20shapes']"/>
           <creationFactories title="RequirementCF" label="Requirements Creation Factory" creationURI="create">
             <resourceTypes href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#//@domainSpecifications[name='Requirements%20Management%20shapes']/@resources[name='Requirement']"/>
@@ -22,7 +22,7 @@
           </basicCapabilities>
           <usages>requirements</usages>
         </services>
-        <services>
+        <services serviceNamespace="relativeToServiceProvider">
           <domainSpecification href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#//@domainSpecifications[name='Requirements%20Management%20shapes']"/>
           <creationFactories title="RequirementCollectionCF" label="Requirement Collections Creation Factory" creationURI="create">
             <resourceTypes href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#//@domainSpecifications[name='Requirements%20Management%20shapes']/@resources[name='RequirementCollection']"/>

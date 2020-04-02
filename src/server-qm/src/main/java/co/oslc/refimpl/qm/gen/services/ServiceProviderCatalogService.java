@@ -145,6 +145,7 @@ public class ServiceProviderCatalogService
             RequestDispatcher rd = httpServletRequest.getRequestDispatcher("/co/oslc/refimpl/qm/gen/serviceprovidercatalog.jsp");
             try {
                 rd.forward(httpServletRequest, httpServletResponse);
+                return;
             } catch (Exception e) {
                 e.printStackTrace();
                 throw new WebApplicationException(e);

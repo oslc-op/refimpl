@@ -30,6 +30,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.text.SimpleDateFormat;
+import java.text.ParseException;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -53,13 +54,17 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.core.UriBuilder;
 
+import org.apache.wink.json4j.JSONException;
 import org.apache.wink.json4j.JSONObject;
 import org.eclipse.lyo.oslc4j.provider.json4j.JsonHelper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.eclipse.lyo.oslc4j.core.OSLC4JUtils;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcCreationFactory;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcDialog;
@@ -88,12 +93,14 @@ import org.eclipse.lyo.oslc.domains.am.Resource;
 // Start of user code pre_class_code
 // End of user code
 @OslcService(Oslc_amDomainConstants.ARCHITECTURE_MANAGEMENT_DOMAIN)
-@Path("serviceProviders/{serviceProviderId}/service1/resources")
+@Path("service1/resources")
 public class ResourcesService
 {
     @Context private HttpServletRequest httpServletRequest;
     @Context private HttpServletResponse httpServletResponse;
     @Context private UriInfo uriInfo;
+
+    private static final Logger log = LoggerFactory.getLogger(ResourcesService.class);
 
     // Start of user code class_attributes
     // End of user code
@@ -127,7 +134,7 @@ public class ResourcesService
     @Path("query")
     @Produces({OslcMediaType.APPLICATION_RDF_XML, OslcMediaType.APPLICATION_JSON_LD, OslcMediaType.TEXT_TURTLE, OslcMediaType.APPLICATION_XML, OslcMediaType.APPLICATION_JSON})
     public Resource[] queryResources(
-                                                    @PathParam("serviceProviderId") final String serviceProviderId ,
+                                                    
                                                      @QueryParam("oslc.where") final String where,
                                                      @QueryParam("page") final String pageString,
                                                     @QueryParam("limit") final String limitString) throws IOException, ServletException
@@ -145,15 +152,15 @@ public class ResourcesService
         // Here additional logic can be implemented that complements main action taken in AMManager
         // End of user code
 
-        final List<Resource> resources = AMManager.queryResources(httpServletRequest, serviceProviderId, where, page, limit);
+        final List<Resource> resources = AMManager.queryResources(httpServletRequest, where, page, limit);
         return resources.toArray(new Resource [resources.size()]);
     }
 
     @GET
     @Path("query")
     @Produces({ MediaType.TEXT_HTML })
-    public Response queryResourcesAsHtml(
-                                    @PathParam("serviceProviderId") final String serviceProviderId ,
+    public void queryResourcesAsHtml(
+                                    
                                        @QueryParam("oslc.where") final String where,
                                        @QueryParam("page") final String pageString,
                                     @QueryParam("limit") final String limitString) throws ServletException, IOException
@@ -170,7 +177,7 @@ public class ResourcesService
         // Start of user code queryResourcesAsHtml
         // End of user code
 
-        final List<Resource> resources = AMManager.queryResources(httpServletRequest, serviceProviderId, where, page, limit);
+        final List<Resource> resources = AMManager.queryResources(httpServletRequest, where, page, limit);
 
         if (resources!= null) {
             httpServletRequest.setAttribute("resources", resources);
@@ -186,6 +193,7 @@ public class ResourcesService
             }
             RequestDispatcher rd = httpServletRequest.getRequestDispatcher("/co/oslc/refimpl/am/gen/resourcescollection.jsp");
             rd.forward(httpServletRequest,httpServletResponse);
+            return;
         }
 
         throw new WebApplicationException(Status.NOT_FOUND);
@@ -195,7 +203,7 @@ public class ResourcesService
     (
          title = "ResourceSD",
          label = "OSLC Resource Selection Dialog",
-         uri = "serviceProviders/{serviceProviderId}/service1/resources/selector",
+         uri = "service1/resources/selector",
          hintWidth = "0px",
          hintHeight = "0px",
          resourceTypes = {Oslc_amDomainConstants.RESOURCE_TYPE},
@@ -206,38 +214,32 @@ public class ResourcesService
     @Consumes({ MediaType.TEXT_HTML, MediaType.WILDCARD })
     public void ResourceSelector(
         @QueryParam("terms") final String terms
-        , @PathParam("serviceProviderId") final String serviceProviderId
+        
         ) throws ServletException, IOException
     {
-        try {
-            // Start of user code ResourceSelector_init
+        // Start of user code ResourceSelector_init
             // End of user code
 
-            httpServletRequest.setAttribute("selectionUri",UriBuilder.fromUri(OSLC4JUtils.getServletURI()).path(uriInfo.getPath()).build().toString());
-            // Start of user code ResourceSelector_setAttributes
+        httpServletRequest.setAttribute("selectionUri",UriBuilder.fromUri(OSLC4JUtils.getServletURI()).path(uriInfo.getPath()).build().toString());
+        // Start of user code ResourceSelector_setAttributes
             // End of user code
 
-            if (terms != null ) {
-                httpServletRequest.setAttribute("terms", terms);
-                final List<Resource> resources = AMManager.ResourceSelector(httpServletRequest, serviceProviderId, terms);
-                if (resources!= null) {
-                            httpServletRequest.setAttribute("resources", resources);
-                            RequestDispatcher rd = httpServletRequest.getRequestDispatcher("/co/oslc/refimpl/am/gen/resourceselectorresults.jsp");
-                            rd.forward(httpServletRequest, httpServletResponse);
-                }
-                //a empty search should return an empty list and not NULL!
-                throw new WebApplicationException(Status.NOT_FOUND);
-
-            } else {
-                try {
-                    RequestDispatcher rd = httpServletRequest.getRequestDispatcher("/co/oslc/refimpl/am/gen/resourceselector.jsp");
-                    rd.forward(httpServletRequest, httpServletResponse);
-                } catch (Exception e) {
-                    throw new ServletException(e);
-                }
+        if (terms != null ) {
+            httpServletRequest.setAttribute("terms", terms);
+            final List<Resource> resources = AMManager.ResourceSelector(httpServletRequest, terms);
+            if (resources!= null) {
+                        httpServletRequest.setAttribute("resources", resources);
+                        RequestDispatcher rd = httpServletRequest.getRequestDispatcher("/co/oslc/refimpl/am/gen/resourceselectorresults.jsp");
+                        rd.forward(httpServletRequest, httpServletResponse);
+                        return;
             }
-        } catch (Exception e) {
-            throw new WebApplicationException(e);
+            log.error("A empty search should return an empty list and not NULL!");
+            throw new WebApplicationException(Status.INTERNAL_SERVER_ERROR);
+
+        } else {
+            RequestDispatcher rd = httpServletRequest.getRequestDispatcher("/co/oslc/refimpl/am/gen/resourceselector.jsp");
+            rd.forward(httpServletRequest, httpServletResponse);
+            return;
         }
     }
 
@@ -260,31 +262,26 @@ public class ResourcesService
     @Consumes({OslcMediaType.APPLICATION_RDF_XML, OslcMediaType.APPLICATION_JSON_LD, OslcMediaType.TEXT_TURTLE, OslcMediaType.APPLICATION_XML, OslcMediaType.APPLICATION_JSON })
     @Produces({OslcMediaType.APPLICATION_RDF_XML, OslcMediaType.APPLICATION_JSON_LD, OslcMediaType.TEXT_TURTLE, OslcMediaType.APPLICATION_XML, OslcMediaType.APPLICATION_JSON})
     public Response createResource(
-            @PathParam("serviceProviderId") final String serviceProviderId ,
+            
             final Resource aResource
         ) throws IOException, ServletException
     {
-        try {
-            Resource newResource = AMManager.createResource(httpServletRequest, aResource, serviceProviderId);
-            httpServletResponse.setHeader("ETag", AMManager.getETagFromResource(newResource));
-            return Response.created(newResource.getAbout()).entity(newResource).header(AMConstants.HDR_OSLC_VERSION, AMConstants.OSLC_VERSION_V2).build();
-        } catch (Exception e) {
-            e.printStackTrace();
-            throw new WebApplicationException(e);
-        }
+        Resource newResource = AMManager.createResource(httpServletRequest, aResource);
+        httpServletResponse.setHeader("ETag", AMManager.getETagFromResource(newResource));
+        return Response.created(newResource.getAbout()).entity(newResource).header(AMConstants.HDR_OSLC_VERSION, AMConstants.OSLC_VERSION_V2).build();
     }
 
     @GET
     @Path("{resourceId}")
     @Produces({OslcMediaType.APPLICATION_RDF_XML, OslcMediaType.APPLICATION_JSON_LD, OslcMediaType.TEXT_TURTLE, OslcMediaType.APPLICATION_XML, OslcMediaType.APPLICATION_JSON})
     public Resource getResource(
-                @PathParam("serviceProviderId") final String serviceProviderId, @PathParam("resourceId") final String resourceId
+                @PathParam("resourceId") final String resourceId
         ) throws IOException, ServletException, URISyntaxException
     {
         // Start of user code getResource_init
         // End of user code
 
-        final Resource aResource = AMManager.getResource(httpServletRequest, serviceProviderId, resourceId);
+        final Resource aResource = AMManager.getResource(httpServletRequest, resourceId);
 
         if (aResource != null) {
             // Start of user code getResource
@@ -299,14 +296,14 @@ public class ResourcesService
     @GET
     @Path("{resourceId}")
     @Produces({ MediaType.TEXT_HTML })
-    public Response getResourceAsHtml(
-        @PathParam("serviceProviderId") final String serviceProviderId, @PathParam("resourceId") final String resourceId
+    public void getResourceAsHtml(
+        @PathParam("resourceId") final String resourceId
         ) throws ServletException, IOException, URISyntaxException
     {
         // Start of user code getResourceAsHtml_init
         // End of user code
 
-        final Resource aResource = AMManager.getResource(httpServletRequest, serviceProviderId, resourceId);
+        final Resource aResource = AMManager.getResource(httpServletRequest, resourceId);
 
         if (aResource != null) {
             httpServletRequest.setAttribute("aResource", aResource);
@@ -315,6 +312,7 @@ public class ResourcesService
 
             RequestDispatcher rd = httpServletRequest.getRequestDispatcher("/co/oslc/refimpl/am/gen/resource.jsp");
             rd.forward(httpServletRequest,httpServletResponse);
+            return;
         }
 
         throw new WebApplicationException(Status.NOT_FOUND);
@@ -324,7 +322,7 @@ public class ResourcesService
     @Path("{resourceId}")
     @Produces({OslcMediaType.APPLICATION_X_OSLC_COMPACT_XML})
     public Compact getResourceCompact(
-        @PathParam("serviceProviderId") final String serviceProviderId, @PathParam("resourceId") final String resourceId
+        @PathParam("resourceId") final String resourceId
         ) throws ServletException, IOException, URISyntaxException
     {
         String iconUri = OSLC4JUtils.getPublicURI() + "/images/ui_preview_icon.gif";
@@ -337,7 +335,7 @@ public class ResourcesService
         //TODO: adjust the preview height & width values from the default values provided above.
         // End of user code
 
-        final Resource aResource = AMManager.getResource(httpServletRequest, serviceProviderId, resourceId);
+        final Resource aResource = AMManager.getResource(httpServletRequest, resourceId);
 
         if (aResource != null) {
             final Compact compact = new Compact();
@@ -371,13 +369,13 @@ public class ResourcesService
     @Path("{resourceId}/smallPreview")
     @Produces({ MediaType.TEXT_HTML })
     public void getResourceAsHtmlSmallPreview(
-        @PathParam("serviceProviderId") final String serviceProviderId, @PathParam("resourceId") final String resourceId
+        @PathParam("resourceId") final String resourceId
         ) throws ServletException, IOException, URISyntaxException
     {
         // Start of user code getResourceAsHtmlSmallPreview_init
         // End of user code
 
-        final Resource aResource = AMManager.getResource(httpServletRequest, serviceProviderId, resourceId);
+        final Resource aResource = AMManager.getResource(httpServletRequest, resourceId);
 
         if (aResource != null) {
             httpServletRequest.setAttribute("aResource", aResource);
@@ -388,6 +386,7 @@ public class ResourcesService
             httpServletResponse.addHeader(AMConstants.HDR_OSLC_VERSION, AMConstants.OSLC_VERSION_V2);
             addCORSHeaders(httpServletResponse);
             rd.forward(httpServletRequest, httpServletResponse);
+            return;
         }
 
         throw new WebApplicationException(Status.NOT_FOUND);
@@ -397,13 +396,13 @@ public class ResourcesService
     @Path("{resourceId}/largePreview")
     @Produces({ MediaType.TEXT_HTML })
     public void getResourceAsHtmlLargePreview(
-        @PathParam("serviceProviderId") final String serviceProviderId, @PathParam("resourceId") final String resourceId
+        @PathParam("resourceId") final String resourceId
         ) throws ServletException, IOException, URISyntaxException
     {
         // Start of user code getResourceAsHtmlLargePreview_init
         // End of user code
 
-        final Resource aResource = AMManager.getResource(httpServletRequest, serviceProviderId, resourceId);
+        final Resource aResource = AMManager.getResource(httpServletRequest, resourceId);
 
         if (aResource != null) {
             httpServletRequest.setAttribute("aResource", aResource);
@@ -414,6 +413,7 @@ public class ResourcesService
             httpServletResponse.addHeader(AMConstants.HDR_OSLC_VERSION, AMConstants.OSLC_VERSION_V2);
             addCORSHeaders(httpServletResponse);
             rd.forward(httpServletRequest, httpServletResponse);
+            return;
         }
 
         throw new WebApplicationException(Status.NOT_FOUND);

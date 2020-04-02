@@ -90,7 +90,7 @@ public class QMManager {
         return serviceProviderInfos;
     }
 
-    public static List<TestCase> queryTestCases(HttpServletRequest httpServletRequest, final String serviceProviderId, String where, int page, int limit)
+    public static List<TestCase> queryTestCases(HttpServletRequest httpServletRequest, String where, int page, int limit)
     {
         List<TestCase> resources = null;
         
@@ -99,7 +99,7 @@ public class QMManager {
         // End of user code
         return resources;
     }
-    public static List<TestCase> TestCaseSelector(HttpServletRequest httpServletRequest, final String serviceProviderId, String terms)   
+    public static List<TestCase> TestCaseSelector(HttpServletRequest httpServletRequest, String terms)   
     {
         List<TestCase> resources = null;
         
@@ -108,7 +108,7 @@ public class QMManager {
         // End of user code
         return resources;
     }
-    public static TestCase createTestCase(HttpServletRequest httpServletRequest, final TestCase aResource, final String serviceProviderId)
+    public static TestCase createTestCase(HttpServletRequest httpServletRequest, final TestCase aResource)
     {
         TestCase newResource = null;
         
@@ -119,7 +119,7 @@ public class QMManager {
     }
 
 
-    public static TestCase getTestCase(HttpServletRequest httpServletRequest, final String serviceProviderId, final String testCaseId)
+    public static TestCase getTestCase(HttpServletRequest httpServletRequest, final String testCaseId)
     {
         TestCase aResource = null;
         
@@ -131,7 +131,7 @@ public class QMManager {
 
 
 
-    public static List<TestPlan> queryTestPlans(HttpServletRequest httpServletRequest, final String serviceProviderId, String where, int page, int limit)
+    public static List<TestPlan> queryTestPlans(HttpServletRequest httpServletRequest, String where, int page, int limit)
     {
         List<TestPlan> resources = null;
         
@@ -140,7 +140,7 @@ public class QMManager {
         // End of user code
         return resources;
     }
-    public static List<TestPlan> TestPlanSelector(HttpServletRequest httpServletRequest, final String serviceProviderId, String terms)   
+    public static List<TestPlan> TestPlanSelector(HttpServletRequest httpServletRequest, String terms)   
     {
         List<TestPlan> resources = null;
         
@@ -149,7 +149,7 @@ public class QMManager {
         // End of user code
         return resources;
     }
-    public static TestPlan createTestPlan(HttpServletRequest httpServletRequest, final TestPlan aResource, final String serviceProviderId)
+    public static TestPlan createTestPlan(HttpServletRequest httpServletRequest, final TestPlan aResource)
     {
         TestPlan newResource = null;
         
@@ -160,7 +160,7 @@ public class QMManager {
     }
 
 
-    public static TestPlan getTestPlan(HttpServletRequest httpServletRequest, final String serviceProviderId, final String testPlanId)
+    public static TestPlan getTestPlan(HttpServletRequest httpServletRequest, final String testPlanId)
     {
         TestPlan aResource = null;
         
@@ -172,7 +172,7 @@ public class QMManager {
 
 
 
-    public static List<TestScript> queryTestScripts(HttpServletRequest httpServletRequest, final String serviceProviderId, String where, int page, int limit)
+    public static List<TestScript> queryTestScripts(HttpServletRequest httpServletRequest, String where, int page, int limit)
     {
         List<TestScript> resources = null;
         
@@ -181,7 +181,7 @@ public class QMManager {
         // End of user code
         return resources;
     }
-    public static List<TestScript> TestScriptSelector(HttpServletRequest httpServletRequest, final String serviceProviderId, String terms)   
+    public static List<TestScript> TestScriptSelector(HttpServletRequest httpServletRequest, String terms)   
     {
         List<TestScript> resources = null;
         
@@ -190,7 +190,7 @@ public class QMManager {
         // End of user code
         return resources;
     }
-    public static TestScript createTestScript(HttpServletRequest httpServletRequest, final TestScript aResource, final String serviceProviderId)
+    public static TestScript createTestScript(HttpServletRequest httpServletRequest, final TestScript aResource)
     {
         TestScript newResource = null;
         
@@ -201,7 +201,7 @@ public class QMManager {
     }
 
 
-    public static TestScript getTestScript(HttpServletRequest httpServletRequest, final String serviceProviderId, final String testScriptId)
+    public static TestScript getTestScript(HttpServletRequest httpServletRequest, final String testScriptId)
     {
         TestScript aResource = null;
         
@@ -213,7 +213,7 @@ public class QMManager {
 
 
 
-    public static List<TestResult> queryTestResults(HttpServletRequest httpServletRequest, final String serviceProviderId, String where, int page, int limit)
+    public static List<TestResult> queryTestResults(HttpServletRequest httpServletRequest, String where, int page, int limit)
     {
         List<TestResult> resources = null;
         
@@ -222,7 +222,7 @@ public class QMManager {
         // End of user code
         return resources;
     }
-    public static List<TestResult> TestResultSelector(HttpServletRequest httpServletRequest, final String serviceProviderId, String terms)   
+    public static List<TestResult> TestResultSelector(HttpServletRequest httpServletRequest, String terms)   
     {
         List<TestResult> resources = null;
         
@@ -231,7 +231,7 @@ public class QMManager {
         // End of user code
         return resources;
     }
-    public static TestResult createTestResult(HttpServletRequest httpServletRequest, final TestResult aResource, final String serviceProviderId)
+    public static TestResult createTestResult(HttpServletRequest httpServletRequest, final TestResult aResource)
     {
         TestResult newResource = null;
         
@@ -242,7 +242,7 @@ public class QMManager {
     }
 
 
-    public static TestResult getTestResult(HttpServletRequest httpServletRequest, final String serviceProviderId, final String testResultId)
+    public static TestResult getTestResult(HttpServletRequest httpServletRequest, final String testResultId)
     {
         TestResult aResource = null;
         
@@ -254,7 +254,7 @@ public class QMManager {
 
 
 
-    public static List<TestExecutionRecord> queryTestExecutionRecords(HttpServletRequest httpServletRequest, final String serviceProviderId, String where, int page, int limit)
+    public static List<TestExecutionRecord> queryTestExecutionRecords(HttpServletRequest httpServletRequest, String where, int page, int limit)
     {
         List<TestExecutionRecord> resources = null;
         
@@ -263,7 +263,7 @@ public class QMManager {
         // End of user code
         return resources;
     }
-    public static List<TestExecutionRecord> TestExecutionRecordSelector(HttpServletRequest httpServletRequest, final String serviceProviderId, String terms)   
+    public static List<TestExecutionRecord> TestExecutionRecordSelector(HttpServletRequest httpServletRequest, String terms)   
     {
         List<TestExecutionRecord> resources = null;
         
@@ -272,7 +272,7 @@ public class QMManager {
         // End of user code
         return resources;
     }
-    public static TestExecutionRecord createTestExecutionRecord(HttpServletRequest httpServletRequest, final TestExecutionRecord aResource, final String serviceProviderId)
+    public static TestExecutionRecord createTestExecutionRecord(HttpServletRequest httpServletRequest, final TestExecutionRecord aResource)
     {
         TestExecutionRecord newResource = null;
         
@@ -283,7 +283,7 @@ public class QMManager {
     }
 
 
-    public static TestExecutionRecord getTestExecutionRecord(HttpServletRequest httpServletRequest, final String serviceProviderId, final String testExecutionRecordId)
+    public static TestExecutionRecord getTestExecutionRecord(HttpServletRequest httpServletRequest, final String testExecutionRecordId)
     {
         TestExecutionRecord aResource = null;
         
@@ -292,6 +292,7 @@ public class QMManager {
         // End of user code
         return aResource;
     }
+
 
 
 

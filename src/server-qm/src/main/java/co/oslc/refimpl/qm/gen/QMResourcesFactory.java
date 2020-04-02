@@ -58,153 +58,148 @@ public class QMResourcesFactory {
     // End of user code
 
     //methods for TestCase resource
-    public static TestCase createTestCase(final String serviceProviderId, final String testCaseId)
-           throws URISyntaxException
+    public static TestCase createTestCase(final String testCaseId)
     {
-        return new TestCase(constructURIForTestCase(serviceProviderId, testCaseId));
+        return new TestCase(constructURIForTestCase(testCaseId));
     }
     
-    public static URI constructURIForTestCase(final String serviceProviderId, final String testCaseId)
+    public static URI constructURIForTestCase(final String testCaseId)
     {
         String basePath = OSLC4JUtils.getServletURI();
         Map<String, Object> pathParameters = new HashMap<String, Object>();
-        pathParameters.put("serviceProviderId", serviceProviderId);
         pathParameters.put("testCaseId", testCaseId);
-        String instanceURI = "serviceProviders/{serviceProviderId}/service1/testCases/{testCaseId}";
+        String instanceURI = "service1/testCases/{testCaseId}";
     
         final UriBuilder builder = UriBuilder.fromUri(basePath);
         return builder.path(instanceURI).buildFromMap(pathParameters);
     }
     
-    public static Link constructLinkForTestCase(final String serviceProviderId, final String testCaseId , final String label)
+    public static Link constructLinkForTestCase(final String testCaseId , final String label)
     {
-        return new Link(constructURIForTestCase(serviceProviderId, testCaseId), label);
+        return new Link(constructURIForTestCase(testCaseId), label);
     }
     
-    public static Link constructLinkForTestCase(final String serviceProviderId, final String testCaseId)
+    public static Link constructLinkForTestCase(final String testCaseId)
     {
-        return new Link(constructURIForTestCase(serviceProviderId, testCaseId));
+        return new Link(constructURIForTestCase(testCaseId));
     }
+    
     
 
     //methods for TestExecutionRecord resource
-    public static TestExecutionRecord createTestExecutionRecord(final String serviceProviderId, final String testExecutionRecordId)
-           throws URISyntaxException
+    public static TestExecutionRecord createTestExecutionRecord(final String testExecutionRecordId)
     {
-        return new TestExecutionRecord(constructURIForTestExecutionRecord(serviceProviderId, testExecutionRecordId));
+        return new TestExecutionRecord(constructURIForTestExecutionRecord(testExecutionRecordId));
     }
     
-    public static URI constructURIForTestExecutionRecord(final String serviceProviderId, final String testExecutionRecordId)
+    public static URI constructURIForTestExecutionRecord(final String testExecutionRecordId)
     {
         String basePath = OSLC4JUtils.getServletURI();
         Map<String, Object> pathParameters = new HashMap<String, Object>();
-        pathParameters.put("serviceProviderId", serviceProviderId);
         pathParameters.put("testExecutionRecordId", testExecutionRecordId);
-        String instanceURI = "serviceProviders/{serviceProviderId}/service5/testExecutionRecords/{testExecutionRecordId}";
+        String instanceURI = "service5/testExecutionRecords/{testExecutionRecordId}";
     
         final UriBuilder builder = UriBuilder.fromUri(basePath);
         return builder.path(instanceURI).buildFromMap(pathParameters);
     }
     
-    public static Link constructLinkForTestExecutionRecord(final String serviceProviderId, final String testExecutionRecordId , final String label)
+    public static Link constructLinkForTestExecutionRecord(final String testExecutionRecordId , final String label)
     {
-        return new Link(constructURIForTestExecutionRecord(serviceProviderId, testExecutionRecordId), label);
+        return new Link(constructURIForTestExecutionRecord(testExecutionRecordId), label);
     }
     
-    public static Link constructLinkForTestExecutionRecord(final String serviceProviderId, final String testExecutionRecordId)
+    public static Link constructLinkForTestExecutionRecord(final String testExecutionRecordId)
     {
-        return new Link(constructURIForTestExecutionRecord(serviceProviderId, testExecutionRecordId));
+        return new Link(constructURIForTestExecutionRecord(testExecutionRecordId));
     }
+    
     
 
     //methods for TestPlan resource
-    public static TestPlan createTestPlan(final String serviceProviderId, final String testPlanId)
-           throws URISyntaxException
+    public static TestPlan createTestPlan(final String testPlanId)
     {
-        return new TestPlan(constructURIForTestPlan(serviceProviderId, testPlanId));
+        return new TestPlan(constructURIForTestPlan(testPlanId));
     }
     
-    public static URI constructURIForTestPlan(final String serviceProviderId, final String testPlanId)
+    public static URI constructURIForTestPlan(final String testPlanId)
     {
         String basePath = OSLC4JUtils.getServletURI();
         Map<String, Object> pathParameters = new HashMap<String, Object>();
-        pathParameters.put("serviceProviderId", serviceProviderId);
         pathParameters.put("testPlanId", testPlanId);
-        String instanceURI = "serviceProviders/{serviceProviderId}/service2/testPlans/{testPlanId}";
+        String instanceURI = "service2/testPlans/{testPlanId}";
     
         final UriBuilder builder = UriBuilder.fromUri(basePath);
         return builder.path(instanceURI).buildFromMap(pathParameters);
     }
     
-    public static Link constructLinkForTestPlan(final String serviceProviderId, final String testPlanId , final String label)
+    public static Link constructLinkForTestPlan(final String testPlanId , final String label)
     {
-        return new Link(constructURIForTestPlan(serviceProviderId, testPlanId), label);
+        return new Link(constructURIForTestPlan(testPlanId), label);
     }
     
-    public static Link constructLinkForTestPlan(final String serviceProviderId, final String testPlanId)
+    public static Link constructLinkForTestPlan(final String testPlanId)
     {
-        return new Link(constructURIForTestPlan(serviceProviderId, testPlanId));
+        return new Link(constructURIForTestPlan(testPlanId));
     }
+    
     
 
     //methods for TestResult resource
-    public static TestResult createTestResult(final String serviceProviderId, final String testResultId)
-           throws URISyntaxException
+    public static TestResult createTestResult(final String testResultId)
     {
-        return new TestResult(constructURIForTestResult(serviceProviderId, testResultId));
+        return new TestResult(constructURIForTestResult(testResultId));
     }
     
-    public static URI constructURIForTestResult(final String serviceProviderId, final String testResultId)
+    public static URI constructURIForTestResult(final String testResultId)
     {
         String basePath = OSLC4JUtils.getServletURI();
         Map<String, Object> pathParameters = new HashMap<String, Object>();
-        pathParameters.put("serviceProviderId", serviceProviderId);
         pathParameters.put("testResultId", testResultId);
-        String instanceURI = "serviceProviders/{serviceProviderId}/service4/testResults/{testResultId}";
+        String instanceURI = "service4/testResults/{testResultId}";
     
         final UriBuilder builder = UriBuilder.fromUri(basePath);
         return builder.path(instanceURI).buildFromMap(pathParameters);
     }
     
-    public static Link constructLinkForTestResult(final String serviceProviderId, final String testResultId , final String label)
+    public static Link constructLinkForTestResult(final String testResultId , final String label)
     {
-        return new Link(constructURIForTestResult(serviceProviderId, testResultId), label);
+        return new Link(constructURIForTestResult(testResultId), label);
     }
     
-    public static Link constructLinkForTestResult(final String serviceProviderId, final String testResultId)
+    public static Link constructLinkForTestResult(final String testResultId)
     {
-        return new Link(constructURIForTestResult(serviceProviderId, testResultId));
+        return new Link(constructURIForTestResult(testResultId));
     }
+    
     
 
     //methods for TestScript resource
-    public static TestScript createTestScript(final String serviceProviderId, final String testScriptId)
-           throws URISyntaxException
+    public static TestScript createTestScript(final String testScriptId)
     {
-        return new TestScript(constructURIForTestScript(serviceProviderId, testScriptId));
+        return new TestScript(constructURIForTestScript(testScriptId));
     }
     
-    public static URI constructURIForTestScript(final String serviceProviderId, final String testScriptId)
+    public static URI constructURIForTestScript(final String testScriptId)
     {
         String basePath = OSLC4JUtils.getServletURI();
         Map<String, Object> pathParameters = new HashMap<String, Object>();
-        pathParameters.put("serviceProviderId", serviceProviderId);
         pathParameters.put("testScriptId", testScriptId);
-        String instanceURI = "serviceProviders/{serviceProviderId}/service3/testScripts/{testScriptId}";
+        String instanceURI = "service3/testScripts/{testScriptId}";
     
         final UriBuilder builder = UriBuilder.fromUri(basePath);
         return builder.path(instanceURI).buildFromMap(pathParameters);
     }
     
-    public static Link constructLinkForTestScript(final String serviceProviderId, final String testScriptId , final String label)
+    public static Link constructLinkForTestScript(final String testScriptId , final String label)
     {
-        return new Link(constructURIForTestScript(serviceProviderId, testScriptId), label);
+        return new Link(constructURIForTestScript(testScriptId), label);
     }
     
-    public static Link constructLinkForTestScript(final String serviceProviderId, final String testScriptId)
+    public static Link constructLinkForTestScript(final String testScriptId)
     {
-        return new Link(constructURIForTestScript(serviceProviderId, testScriptId));
+        return new Link(constructURIForTestScript(testScriptId));
     }
+    
     
 
 }

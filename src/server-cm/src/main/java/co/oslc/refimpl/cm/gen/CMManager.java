@@ -88,7 +88,7 @@ public class CMManager {
         return serviceProviderInfos;
     }
 
-    public static List<AbstractResource> queryChangeRequestsAndDefectsAndTasksAndReviewTasksAndChangeNoticesAndEnhancements(HttpServletRequest httpServletRequest, final String serviceProviderId, String where, int page, int limit)
+    public static List<AbstractResource> queryChangeRequestsAndDefectsAndTasksAndReviewTasksAndChangeNoticesAndEnhancements(HttpServletRequest httpServletRequest, String where, int page, int limit)
     {
         List<AbstractResource> resources = null;
         
@@ -97,7 +97,7 @@ public class CMManager {
         // End of user code
         return resources;
     }
-    public static List<ChangeRequest> ChangeRequestSelector(HttpServletRequest httpServletRequest, final String serviceProviderId, String terms)   
+    public static List<ChangeRequest> ChangeRequestSelector(HttpServletRequest httpServletRequest, String terms)   
     {
         List<ChangeRequest> resources = null;
         
@@ -106,7 +106,7 @@ public class CMManager {
         // End of user code
         return resources;
     }
-    public static List<Defect> DefectSelector(HttpServletRequest httpServletRequest, final String serviceProviderId, String terms)   
+    public static List<Defect> DefectSelector(HttpServletRequest httpServletRequest, String terms)   
     {
         List<Defect> resources = null;
         
@@ -115,7 +115,7 @@ public class CMManager {
         // End of user code
         return resources;
     }
-    public static List<Task> TaskSelector(HttpServletRequest httpServletRequest, final String serviceProviderId, String terms)   
+    public static List<Task> TaskSelector(HttpServletRequest httpServletRequest, String terms)   
     {
         List<Task> resources = null;
         
@@ -124,7 +124,7 @@ public class CMManager {
         // End of user code
         return resources;
     }
-    public static List<ReviewTask> ReviewTaskSelector(HttpServletRequest httpServletRequest, final String serviceProviderId, String terms)   
+    public static List<ReviewTask> ReviewTaskSelector(HttpServletRequest httpServletRequest, String terms)   
     {
         List<ReviewTask> resources = null;
         
@@ -133,7 +133,7 @@ public class CMManager {
         // End of user code
         return resources;
     }
-    public static List<ChangeNotice> ChangeNoticeSelector(HttpServletRequest httpServletRequest, final String serviceProviderId, String terms)   
+    public static List<ChangeNotice> ChangeNoticeSelector(HttpServletRequest httpServletRequest, String terms)   
     {
         List<ChangeNotice> resources = null;
         
@@ -142,7 +142,7 @@ public class CMManager {
         // End of user code
         return resources;
     }
-    public static List<Enhancement> EnhancementSelector(HttpServletRequest httpServletRequest, final String serviceProviderId, String terms)   
+    public static List<Enhancement> EnhancementSelector(HttpServletRequest httpServletRequest, String terms)   
     {
         List<Enhancement> resources = null;
         
@@ -151,7 +151,7 @@ public class CMManager {
         // End of user code
         return resources;
     }
-    public static ChangeRequest createChangeRequest(HttpServletRequest httpServletRequest, final ChangeRequest aResource, final String serviceProviderId)
+    public static ChangeRequest createChangeRequest(HttpServletRequest httpServletRequest, final ChangeRequest aResource)
     {
         ChangeRequest newResource = null;
         
@@ -161,7 +161,7 @@ public class CMManager {
         return newResource;
     }
 
-    public static Defect createDefectFromDialog(HttpServletRequest httpServletRequest, final Defect aResource, final String serviceProviderId)
+    public static Defect createDefectFromDialog(HttpServletRequest httpServletRequest, final Defect aResource)
     {
         Defect newResource = null;
         
@@ -170,7 +170,7 @@ public class CMManager {
         // End of user code
         return newResource;
     }
-    public static Task createTaskFromDialog(HttpServletRequest httpServletRequest, final Task aResource, final String serviceProviderId)
+    public static Task createTaskFromDialog(HttpServletRequest httpServletRequest, final Task aResource)
     {
         Task newResource = null;
         
@@ -179,7 +179,7 @@ public class CMManager {
         // End of user code
         return newResource;
     }
-    public static ReviewTask createReviewTaskFromDialog(HttpServletRequest httpServletRequest, final ReviewTask aResource, final String serviceProviderId)
+    public static ReviewTask createReviewTaskFromDialog(HttpServletRequest httpServletRequest, final ReviewTask aResource)
     {
         ReviewTask newResource = null;
         
@@ -188,7 +188,7 @@ public class CMManager {
         // End of user code
         return newResource;
     }
-    public static ChangeNotice createChangeNoticeFromDialog(HttpServletRequest httpServletRequest, final ChangeNotice aResource, final String serviceProviderId)
+    public static ChangeNotice createChangeNoticeFromDialog(HttpServletRequest httpServletRequest, final ChangeNotice aResource)
     {
         ChangeNotice newResource = null;
         
@@ -197,7 +197,7 @@ public class CMManager {
         // End of user code
         return newResource;
     }
-    public static Enhancement createEnhancementFromDialog(HttpServletRequest httpServletRequest, final Enhancement aResource, final String serviceProviderId)
+    public static Enhancement createEnhancementFromDialog(HttpServletRequest httpServletRequest, final Enhancement aResource)
     {
         Enhancement newResource = null;
         
@@ -207,7 +207,7 @@ public class CMManager {
         return newResource;
     }
 
-    public static ChangeRequest getChangeRequest(HttpServletRequest httpServletRequest, final String serviceProviderId, final String changeRequestId)
+    public static ChangeRequest getChangeRequest(HttpServletRequest httpServletRequest, final String changeRequestId)
     {
         ChangeRequest aResource = null;
         
@@ -216,7 +216,7 @@ public class CMManager {
         // End of user code
         return aResource;
     }
-    public static Defect getDefect(HttpServletRequest httpServletRequest, final String serviceProviderId, final String defectId)
+    public static Defect getDefect(HttpServletRequest httpServletRequest, final String defectId)
     {
         Defect aResource = null;
         
@@ -225,7 +225,7 @@ public class CMManager {
         // End of user code
         return aResource;
     }
-    public static Task getTask(HttpServletRequest httpServletRequest, final String serviceProviderId, final String taskId)
+    public static Task getTask(HttpServletRequest httpServletRequest, final String taskId)
     {
         Task aResource = null;
         
@@ -234,7 +234,7 @@ public class CMManager {
         // End of user code
         return aResource;
     }
-    public static ReviewTask getReviewTask(HttpServletRequest httpServletRequest, final String serviceProviderId, final String reviewTaskId)
+    public static ReviewTask getReviewTask(HttpServletRequest httpServletRequest, final String reviewTaskId)
     {
         ReviewTask aResource = null;
         
@@ -243,7 +243,7 @@ public class CMManager {
         // End of user code
         return aResource;
     }
-    public static ChangeNotice getChangeNotice(HttpServletRequest httpServletRequest, final String serviceProviderId, final String changeNoticeId)
+    public static ChangeNotice getChangeNotice(HttpServletRequest httpServletRequest, final String changeNoticeId)
     {
         ChangeNotice aResource = null;
         
@@ -252,7 +252,7 @@ public class CMManager {
         // End of user code
         return aResource;
     }
-    public static Enhancement getEnhancement(HttpServletRequest httpServletRequest, final String serviceProviderId, final String enhancementId)
+    public static Enhancement getEnhancement(HttpServletRequest httpServletRequest, final String enhancementId)
     {
         Enhancement aResource = null;
         
@@ -263,48 +263,49 @@ public class CMManager {
     }
 
 
-    public static ChangeRequest updateChangeRequest(HttpServletRequest httpServletRequest, final ChangeRequest aResource, final String serviceProviderId, final String changeRequestId) {
+    public static ChangeRequest updateChangeRequest(HttpServletRequest httpServletRequest, final ChangeRequest aResource, final String changeRequestId) {
         ChangeRequest updatedResource = null;
         // Start of user code updateChangeRequest
         // TODO Implement code to update and return a resource
         // End of user code
         return updatedResource;
     }
-    public static Defect updateDefect(HttpServletRequest httpServletRequest, final Defect aResource, final String serviceProviderId, final String defectId) {
+    public static Defect updateDefect(HttpServletRequest httpServletRequest, final Defect aResource, final String defectId) {
         Defect updatedResource = null;
         // Start of user code updateDefect
         // TODO Implement code to update and return a resource
         // End of user code
         return updatedResource;
     }
-    public static Task updateTask(HttpServletRequest httpServletRequest, final Task aResource, final String serviceProviderId, final String taskId) {
+    public static Task updateTask(HttpServletRequest httpServletRequest, final Task aResource, final String taskId) {
         Task updatedResource = null;
         // Start of user code updateTask
         // TODO Implement code to update and return a resource
         // End of user code
         return updatedResource;
     }
-    public static ReviewTask updateReviewTask(HttpServletRequest httpServletRequest, final ReviewTask aResource, final String serviceProviderId, final String reviewTaskId) {
+    public static ReviewTask updateReviewTask(HttpServletRequest httpServletRequest, final ReviewTask aResource, final String reviewTaskId) {
         ReviewTask updatedResource = null;
         // Start of user code updateReviewTask
         // TODO Implement code to update and return a resource
         // End of user code
         return updatedResource;
     }
-    public static ChangeNotice updateChangeNotice(HttpServletRequest httpServletRequest, final ChangeNotice aResource, final String serviceProviderId, final String changeNoticeId) {
+    public static ChangeNotice updateChangeNotice(HttpServletRequest httpServletRequest, final ChangeNotice aResource, final String changeNoticeId) {
         ChangeNotice updatedResource = null;
         // Start of user code updateChangeNotice
         // TODO Implement code to update and return a resource
         // End of user code
         return updatedResource;
     }
-    public static Enhancement updateEnhancement(HttpServletRequest httpServletRequest, final Enhancement aResource, final String serviceProviderId, final String enhancementId) {
+    public static Enhancement updateEnhancement(HttpServletRequest httpServletRequest, final Enhancement aResource, final String enhancementId) {
         Enhancement updatedResource = null;
         // Start of user code updateEnhancement
         // TODO Implement code to update and return a resource
         // End of user code
         return updatedResource;
     }
+
 
 
     public static String getETagFromChangeNotice(final ChangeNotice aResource)

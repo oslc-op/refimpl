@@ -30,6 +30,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.text.SimpleDateFormat;
+import java.text.ParseException;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -53,13 +54,17 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.core.UriBuilder;
 
+import org.apache.wink.json4j.JSONException;
 import org.apache.wink.json4j.JSONObject;
 import org.eclipse.lyo.oslc4j.provider.json4j.JsonHelper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.eclipse.lyo.oslc4j.core.OSLC4JUtils;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcCreationFactory;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcDialog;
@@ -104,12 +109,14 @@ import org.eclipse.lyo.oslc.domains.cm.Task;
 // Start of user code pre_class_code
 // End of user code
 @OslcService(Oslc_cmDomainConstants.CHANGE_MANAGEMENT_SHAPES_DOMAIN)
-@Path("serviceProviders/{serviceProviderId}/resources")
+@Path("resources")
 public class Change_requestsService
 {
     @Context private HttpServletRequest httpServletRequest;
     @Context private HttpServletResponse httpServletResponse;
     @Context private UriInfo uriInfo;
+
+    private static final Logger log = LoggerFactory.getLogger(Change_requestsService.class);
 
     // Start of user code class_attributes
     // End of user code
@@ -143,7 +150,7 @@ public class Change_requestsService
     @Path("query")
     @Produces({OslcMediaType.APPLICATION_RDF_XML, OslcMediaType.APPLICATION_JSON_LD, OslcMediaType.TEXT_TURTLE, OslcMediaType.APPLICATION_XML, OslcMediaType.APPLICATION_JSON})
     public AbstractResource[] queryChangeRequestsAndDefectsAndTasksAndReviewTasksAndChangeNoticesAndEnhancements(
-                                                    @PathParam("serviceProviderId") final String serviceProviderId ,
+                                                    
                                                      @QueryParam("oslc.where") final String where,
                                                      @QueryParam("page") final String pageString,
                                                     @QueryParam("limit") final String limitString) throws IOException, ServletException
@@ -161,15 +168,15 @@ public class Change_requestsService
         // Here additional logic can be implemented that complements main action taken in CMManager
         // End of user code
 
-        final List<AbstractResource> resources = CMManager.queryChangeRequestsAndDefectsAndTasksAndReviewTasksAndChangeNoticesAndEnhancements(httpServletRequest, serviceProviderId, where, page, limit);
+        final List<AbstractResource> resources = CMManager.queryChangeRequestsAndDefectsAndTasksAndReviewTasksAndChangeNoticesAndEnhancements(httpServletRequest, where, page, limit);
         return resources.toArray(new AbstractResource [resources.size()]);
     }
 
     @GET
     @Path("query")
     @Produces({ MediaType.TEXT_HTML })
-    public Response queryChangeRequestsAndDefectsAndTasksAndReviewTasksAndChangeNoticesAndEnhancementsAsHtml(
-                                    @PathParam("serviceProviderId") final String serviceProviderId ,
+    public void queryChangeRequestsAndDefectsAndTasksAndReviewTasksAndChangeNoticesAndEnhancementsAsHtml(
+                                    
                                        @QueryParam("oslc.where") final String where,
                                        @QueryParam("page") final String pageString,
                                     @QueryParam("limit") final String limitString) throws ServletException, IOException
@@ -186,7 +193,7 @@ public class Change_requestsService
         // Start of user code queryChangeRequestsAndDefectsAndTasksAndReviewTasksAndChangeNoticesAndEnhancementsAsHtml
         // End of user code
 
-        final List<AbstractResource> resources = CMManager.queryChangeRequestsAndDefectsAndTasksAndReviewTasksAndChangeNoticesAndEnhancements(httpServletRequest, serviceProviderId, where, page, limit);
+        final List<AbstractResource> resources = CMManager.queryChangeRequestsAndDefectsAndTasksAndReviewTasksAndChangeNoticesAndEnhancements(httpServletRequest, where, page, limit);
 
         if (resources!= null) {
             httpServletRequest.setAttribute("resources", resources);
@@ -202,6 +209,7 @@ public class Change_requestsService
             }
             RequestDispatcher rd = httpServletRequest.getRequestDispatcher("/co/oslc/refimpl/cm/gen/changerequestsanddefectsandtasksandreviewtasksandchangenoticesandenhancementscollection.jsp");
             rd.forward(httpServletRequest,httpServletResponse);
+            return;
         }
 
         throw new WebApplicationException(Status.NOT_FOUND);
@@ -211,7 +219,7 @@ public class Change_requestsService
     (
          title = "ChangeRequestDlgSel",
          label = "Change Request Selection Dialog",
-         uri = "serviceProviders/{serviceProviderId}/resources/select_change_request",
+         uri = "resources/select_change_request",
          hintWidth = "0px",
          hintHeight = "0px",
          resourceTypes = {Oslc_cmDomainConstants.CHANGEREQUEST_TYPE},
@@ -222,38 +230,32 @@ public class Change_requestsService
     @Consumes({ MediaType.TEXT_HTML, MediaType.WILDCARD })
     public void ChangeRequestSelector(
         @QueryParam("terms") final String terms
-        , @PathParam("serviceProviderId") final String serviceProviderId
+        
         ) throws ServletException, IOException
     {
-        try {
-            // Start of user code ChangeRequestSelector_init
+        // Start of user code ChangeRequestSelector_init
             // End of user code
 
-            httpServletRequest.setAttribute("selectionUri",UriBuilder.fromUri(OSLC4JUtils.getServletURI()).path(uriInfo.getPath()).build().toString());
-            // Start of user code ChangeRequestSelector_setAttributes
+        httpServletRequest.setAttribute("selectionUri",UriBuilder.fromUri(OSLC4JUtils.getServletURI()).path(uriInfo.getPath()).build().toString());
+        // Start of user code ChangeRequestSelector_setAttributes
             // End of user code
 
-            if (terms != null ) {
-                httpServletRequest.setAttribute("terms", terms);
-                final List<ChangeRequest> resources = CMManager.ChangeRequestSelector(httpServletRequest, serviceProviderId, terms);
-                if (resources!= null) {
-                            httpServletRequest.setAttribute("resources", resources);
-                            RequestDispatcher rd = httpServletRequest.getRequestDispatcher("/co/oslc/refimpl/cm/gen/changerequestselectorresults.jsp");
-                            rd.forward(httpServletRequest, httpServletResponse);
-                }
-                //a empty search should return an empty list and not NULL!
-                throw new WebApplicationException(Status.NOT_FOUND);
-
-            } else {
-                try {
-                    RequestDispatcher rd = httpServletRequest.getRequestDispatcher("/co/oslc/refimpl/cm/gen/changerequestselector.jsp");
-                    rd.forward(httpServletRequest, httpServletResponse);
-                } catch (Exception e) {
-                    throw new ServletException(e);
-                }
+        if (terms != null ) {
+            httpServletRequest.setAttribute("terms", terms);
+            final List<ChangeRequest> resources = CMManager.ChangeRequestSelector(httpServletRequest, terms);
+            if (resources!= null) {
+                        httpServletRequest.setAttribute("resources", resources);
+                        RequestDispatcher rd = httpServletRequest.getRequestDispatcher("/co/oslc/refimpl/cm/gen/changerequestselectorresults.jsp");
+                        rd.forward(httpServletRequest, httpServletResponse);
+                        return;
             }
-        } catch (Exception e) {
-            throw new WebApplicationException(e);
+            log.error("A empty search should return an empty list and not NULL!");
+            throw new WebApplicationException(Status.INTERNAL_SERVER_ERROR);
+
+        } else {
+            RequestDispatcher rd = httpServletRequest.getRequestDispatcher("/co/oslc/refimpl/cm/gen/changerequestselector.jsp");
+            rd.forward(httpServletRequest, httpServletResponse);
+            return;
         }
     }
 
@@ -261,7 +263,7 @@ public class Change_requestsService
     (
          title = "DefectDlgSel",
          label = "Defect Selection Dialog",
-         uri = "serviceProviders/{serviceProviderId}/resources/select_defect",
+         uri = "resources/select_defect",
          hintWidth = "0px",
          hintHeight = "0px",
          resourceTypes = {Oslc_cmDomainConstants.DEFECT_TYPE},
@@ -272,38 +274,32 @@ public class Change_requestsService
     @Consumes({ MediaType.TEXT_HTML, MediaType.WILDCARD })
     public void DefectSelector(
         @QueryParam("terms") final String terms
-        , @PathParam("serviceProviderId") final String serviceProviderId
+        
         ) throws ServletException, IOException
     {
-        try {
-            // Start of user code DefectSelector_init
+        // Start of user code DefectSelector_init
             // End of user code
 
-            httpServletRequest.setAttribute("selectionUri",UriBuilder.fromUri(OSLC4JUtils.getServletURI()).path(uriInfo.getPath()).build().toString());
-            // Start of user code DefectSelector_setAttributes
+        httpServletRequest.setAttribute("selectionUri",UriBuilder.fromUri(OSLC4JUtils.getServletURI()).path(uriInfo.getPath()).build().toString());
+        // Start of user code DefectSelector_setAttributes
             // End of user code
 
-            if (terms != null ) {
-                httpServletRequest.setAttribute("terms", terms);
-                final List<Defect> resources = CMManager.DefectSelector(httpServletRequest, serviceProviderId, terms);
-                if (resources!= null) {
-                            httpServletRequest.setAttribute("resources", resources);
-                            RequestDispatcher rd = httpServletRequest.getRequestDispatcher("/co/oslc/refimpl/cm/gen/defectselectorresults.jsp");
-                            rd.forward(httpServletRequest, httpServletResponse);
-                }
-                //a empty search should return an empty list and not NULL!
-                throw new WebApplicationException(Status.NOT_FOUND);
-
-            } else {
-                try {
-                    RequestDispatcher rd = httpServletRequest.getRequestDispatcher("/co/oslc/refimpl/cm/gen/defectselector.jsp");
-                    rd.forward(httpServletRequest, httpServletResponse);
-                } catch (Exception e) {
-                    throw new ServletException(e);
-                }
+        if (terms != null ) {
+            httpServletRequest.setAttribute("terms", terms);
+            final List<Defect> resources = CMManager.DefectSelector(httpServletRequest, terms);
+            if (resources!= null) {
+                        httpServletRequest.setAttribute("resources", resources);
+                        RequestDispatcher rd = httpServletRequest.getRequestDispatcher("/co/oslc/refimpl/cm/gen/defectselectorresults.jsp");
+                        rd.forward(httpServletRequest, httpServletResponse);
+                        return;
             }
-        } catch (Exception e) {
-            throw new WebApplicationException(e);
+            log.error("A empty search should return an empty list and not NULL!");
+            throw new WebApplicationException(Status.INTERNAL_SERVER_ERROR);
+
+        } else {
+            RequestDispatcher rd = httpServletRequest.getRequestDispatcher("/co/oslc/refimpl/cm/gen/defectselector.jsp");
+            rd.forward(httpServletRequest, httpServletResponse);
+            return;
         }
     }
 
@@ -311,7 +307,7 @@ public class Change_requestsService
     (
          title = "TaskDlgSel",
          label = "Task Selection Dialog",
-         uri = "serviceProviders/{serviceProviderId}/resources/select_task",
+         uri = "resources/select_task",
          hintWidth = "0px",
          hintHeight = "0px",
          resourceTypes = {Oslc_cmDomainConstants.TASK_TYPE},
@@ -322,38 +318,32 @@ public class Change_requestsService
     @Consumes({ MediaType.TEXT_HTML, MediaType.WILDCARD })
     public void TaskSelector(
         @QueryParam("terms") final String terms
-        , @PathParam("serviceProviderId") final String serviceProviderId
+        
         ) throws ServletException, IOException
     {
-        try {
-            // Start of user code TaskSelector_init
+        // Start of user code TaskSelector_init
             // End of user code
 
-            httpServletRequest.setAttribute("selectionUri",UriBuilder.fromUri(OSLC4JUtils.getServletURI()).path(uriInfo.getPath()).build().toString());
-            // Start of user code TaskSelector_setAttributes
+        httpServletRequest.setAttribute("selectionUri",UriBuilder.fromUri(OSLC4JUtils.getServletURI()).path(uriInfo.getPath()).build().toString());
+        // Start of user code TaskSelector_setAttributes
             // End of user code
 
-            if (terms != null ) {
-                httpServletRequest.setAttribute("terms", terms);
-                final List<Task> resources = CMManager.TaskSelector(httpServletRequest, serviceProviderId, terms);
-                if (resources!= null) {
-                            httpServletRequest.setAttribute("resources", resources);
-                            RequestDispatcher rd = httpServletRequest.getRequestDispatcher("/co/oslc/refimpl/cm/gen/taskselectorresults.jsp");
-                            rd.forward(httpServletRequest, httpServletResponse);
-                }
-                //a empty search should return an empty list and not NULL!
-                throw new WebApplicationException(Status.NOT_FOUND);
-
-            } else {
-                try {
-                    RequestDispatcher rd = httpServletRequest.getRequestDispatcher("/co/oslc/refimpl/cm/gen/taskselector.jsp");
-                    rd.forward(httpServletRequest, httpServletResponse);
-                } catch (Exception e) {
-                    throw new ServletException(e);
-                }
+        if (terms != null ) {
+            httpServletRequest.setAttribute("terms", terms);
+            final List<Task> resources = CMManager.TaskSelector(httpServletRequest, terms);
+            if (resources!= null) {
+                        httpServletRequest.setAttribute("resources", resources);
+                        RequestDispatcher rd = httpServletRequest.getRequestDispatcher("/co/oslc/refimpl/cm/gen/taskselectorresults.jsp");
+                        rd.forward(httpServletRequest, httpServletResponse);
+                        return;
             }
-        } catch (Exception e) {
-            throw new WebApplicationException(e);
+            log.error("A empty search should return an empty list and not NULL!");
+            throw new WebApplicationException(Status.INTERNAL_SERVER_ERROR);
+
+        } else {
+            RequestDispatcher rd = httpServletRequest.getRequestDispatcher("/co/oslc/refimpl/cm/gen/taskselector.jsp");
+            rd.forward(httpServletRequest, httpServletResponse);
+            return;
         }
     }
 
@@ -361,7 +351,7 @@ public class Change_requestsService
     (
          title = "ReviewTaskDlgSel",
          label = "Review Task Selection Dialog",
-         uri = "serviceProviders/{serviceProviderId}/resources/select_review_task",
+         uri = "resources/select_review_task",
          hintWidth = "0px",
          hintHeight = "0px",
          resourceTypes = {Oslc_cmDomainConstants.REVIEWTASK_TYPE},
@@ -372,38 +362,32 @@ public class Change_requestsService
     @Consumes({ MediaType.TEXT_HTML, MediaType.WILDCARD })
     public void ReviewTaskSelector(
         @QueryParam("terms") final String terms
-        , @PathParam("serviceProviderId") final String serviceProviderId
+        
         ) throws ServletException, IOException
     {
-        try {
-            // Start of user code ReviewTaskSelector_init
+        // Start of user code ReviewTaskSelector_init
             // End of user code
 
-            httpServletRequest.setAttribute("selectionUri",UriBuilder.fromUri(OSLC4JUtils.getServletURI()).path(uriInfo.getPath()).build().toString());
-            // Start of user code ReviewTaskSelector_setAttributes
+        httpServletRequest.setAttribute("selectionUri",UriBuilder.fromUri(OSLC4JUtils.getServletURI()).path(uriInfo.getPath()).build().toString());
+        // Start of user code ReviewTaskSelector_setAttributes
             // End of user code
 
-            if (terms != null ) {
-                httpServletRequest.setAttribute("terms", terms);
-                final List<ReviewTask> resources = CMManager.ReviewTaskSelector(httpServletRequest, serviceProviderId, terms);
-                if (resources!= null) {
-                            httpServletRequest.setAttribute("resources", resources);
-                            RequestDispatcher rd = httpServletRequest.getRequestDispatcher("/co/oslc/refimpl/cm/gen/reviewtaskselectorresults.jsp");
-                            rd.forward(httpServletRequest, httpServletResponse);
-                }
-                //a empty search should return an empty list and not NULL!
-                throw new WebApplicationException(Status.NOT_FOUND);
-
-            } else {
-                try {
-                    RequestDispatcher rd = httpServletRequest.getRequestDispatcher("/co/oslc/refimpl/cm/gen/reviewtaskselector.jsp");
-                    rd.forward(httpServletRequest, httpServletResponse);
-                } catch (Exception e) {
-                    throw new ServletException(e);
-                }
+        if (terms != null ) {
+            httpServletRequest.setAttribute("terms", terms);
+            final List<ReviewTask> resources = CMManager.ReviewTaskSelector(httpServletRequest, terms);
+            if (resources!= null) {
+                        httpServletRequest.setAttribute("resources", resources);
+                        RequestDispatcher rd = httpServletRequest.getRequestDispatcher("/co/oslc/refimpl/cm/gen/reviewtaskselectorresults.jsp");
+                        rd.forward(httpServletRequest, httpServletResponse);
+                        return;
             }
-        } catch (Exception e) {
-            throw new WebApplicationException(e);
+            log.error("A empty search should return an empty list and not NULL!");
+            throw new WebApplicationException(Status.INTERNAL_SERVER_ERROR);
+
+        } else {
+            RequestDispatcher rd = httpServletRequest.getRequestDispatcher("/co/oslc/refimpl/cm/gen/reviewtaskselector.jsp");
+            rd.forward(httpServletRequest, httpServletResponse);
+            return;
         }
     }
 
@@ -411,7 +395,7 @@ public class Change_requestsService
     (
          title = "ChangeNoticeDlgSel",
          label = "Change Notice Selection Dialog",
-         uri = "serviceProviders/{serviceProviderId}/resources/select_change_notice",
+         uri = "resources/select_change_notice",
          hintWidth = "0px",
          hintHeight = "0px",
          resourceTypes = {Oslc_cmDomainConstants.CHANGENOTICE_TYPE},
@@ -422,38 +406,32 @@ public class Change_requestsService
     @Consumes({ MediaType.TEXT_HTML, MediaType.WILDCARD })
     public void ChangeNoticeSelector(
         @QueryParam("terms") final String terms
-        , @PathParam("serviceProviderId") final String serviceProviderId
+        
         ) throws ServletException, IOException
     {
-        try {
-            // Start of user code ChangeNoticeSelector_init
+        // Start of user code ChangeNoticeSelector_init
             // End of user code
 
-            httpServletRequest.setAttribute("selectionUri",UriBuilder.fromUri(OSLC4JUtils.getServletURI()).path(uriInfo.getPath()).build().toString());
-            // Start of user code ChangeNoticeSelector_setAttributes
+        httpServletRequest.setAttribute("selectionUri",UriBuilder.fromUri(OSLC4JUtils.getServletURI()).path(uriInfo.getPath()).build().toString());
+        // Start of user code ChangeNoticeSelector_setAttributes
             // End of user code
 
-            if (terms != null ) {
-                httpServletRequest.setAttribute("terms", terms);
-                final List<ChangeNotice> resources = CMManager.ChangeNoticeSelector(httpServletRequest, serviceProviderId, terms);
-                if (resources!= null) {
-                            httpServletRequest.setAttribute("resources", resources);
-                            RequestDispatcher rd = httpServletRequest.getRequestDispatcher("/co/oslc/refimpl/cm/gen/changenoticeselectorresults.jsp");
-                            rd.forward(httpServletRequest, httpServletResponse);
-                }
-                //a empty search should return an empty list and not NULL!
-                throw new WebApplicationException(Status.NOT_FOUND);
-
-            } else {
-                try {
-                    RequestDispatcher rd = httpServletRequest.getRequestDispatcher("/co/oslc/refimpl/cm/gen/changenoticeselector.jsp");
-                    rd.forward(httpServletRequest, httpServletResponse);
-                } catch (Exception e) {
-                    throw new ServletException(e);
-                }
+        if (terms != null ) {
+            httpServletRequest.setAttribute("terms", terms);
+            final List<ChangeNotice> resources = CMManager.ChangeNoticeSelector(httpServletRequest, terms);
+            if (resources!= null) {
+                        httpServletRequest.setAttribute("resources", resources);
+                        RequestDispatcher rd = httpServletRequest.getRequestDispatcher("/co/oslc/refimpl/cm/gen/changenoticeselectorresults.jsp");
+                        rd.forward(httpServletRequest, httpServletResponse);
+                        return;
             }
-        } catch (Exception e) {
-            throw new WebApplicationException(e);
+            log.error("A empty search should return an empty list and not NULL!");
+            throw new WebApplicationException(Status.INTERNAL_SERVER_ERROR);
+
+        } else {
+            RequestDispatcher rd = httpServletRequest.getRequestDispatcher("/co/oslc/refimpl/cm/gen/changenoticeselector.jsp");
+            rd.forward(httpServletRequest, httpServletResponse);
+            return;
         }
     }
 
@@ -461,7 +439,7 @@ public class Change_requestsService
     (
          title = "EnhancementDlgSel",
          label = "Enhancement Selection Dialog",
-         uri = "serviceProviders/{serviceProviderId}/resources/select_enhancement",
+         uri = "resources/select_enhancement",
          hintWidth = "0px",
          hintHeight = "0px",
          resourceTypes = {Oslc_cmDomainConstants.ENHANCEMENT_TYPE},
@@ -472,38 +450,32 @@ public class Change_requestsService
     @Consumes({ MediaType.TEXT_HTML, MediaType.WILDCARD })
     public void EnhancementSelector(
         @QueryParam("terms") final String terms
-        , @PathParam("serviceProviderId") final String serviceProviderId
+        
         ) throws ServletException, IOException
     {
-        try {
-            // Start of user code EnhancementSelector_init
+        // Start of user code EnhancementSelector_init
             // End of user code
 
-            httpServletRequest.setAttribute("selectionUri",UriBuilder.fromUri(OSLC4JUtils.getServletURI()).path(uriInfo.getPath()).build().toString());
-            // Start of user code EnhancementSelector_setAttributes
+        httpServletRequest.setAttribute("selectionUri",UriBuilder.fromUri(OSLC4JUtils.getServletURI()).path(uriInfo.getPath()).build().toString());
+        // Start of user code EnhancementSelector_setAttributes
             // End of user code
 
-            if (terms != null ) {
-                httpServletRequest.setAttribute("terms", terms);
-                final List<Enhancement> resources = CMManager.EnhancementSelector(httpServletRequest, serviceProviderId, terms);
-                if (resources!= null) {
-                            httpServletRequest.setAttribute("resources", resources);
-                            RequestDispatcher rd = httpServletRequest.getRequestDispatcher("/co/oslc/refimpl/cm/gen/enhancementselectorresults.jsp");
-                            rd.forward(httpServletRequest, httpServletResponse);
-                }
-                //a empty search should return an empty list and not NULL!
-                throw new WebApplicationException(Status.NOT_FOUND);
-
-            } else {
-                try {
-                    RequestDispatcher rd = httpServletRequest.getRequestDispatcher("/co/oslc/refimpl/cm/gen/enhancementselector.jsp");
-                    rd.forward(httpServletRequest, httpServletResponse);
-                } catch (Exception e) {
-                    throw new ServletException(e);
-                }
+        if (terms != null ) {
+            httpServletRequest.setAttribute("terms", terms);
+            final List<Enhancement> resources = CMManager.EnhancementSelector(httpServletRequest, terms);
+            if (resources!= null) {
+                        httpServletRequest.setAttribute("resources", resources);
+                        RequestDispatcher rd = httpServletRequest.getRequestDispatcher("/co/oslc/refimpl/cm/gen/enhancementselectorresults.jsp");
+                        rd.forward(httpServletRequest, httpServletResponse);
+                        return;
             }
-        } catch (Exception e) {
-            throw new WebApplicationException(e);
+            log.error("A empty search should return an empty list and not NULL!");
+            throw new WebApplicationException(Status.INTERNAL_SERVER_ERROR);
+
+        } else {
+            RequestDispatcher rd = httpServletRequest.getRequestDispatcher("/co/oslc/refimpl/cm/gen/enhancementselector.jsp");
+            rd.forward(httpServletRequest, httpServletResponse);
+            return;
         }
     }
 
@@ -526,18 +498,13 @@ public class Change_requestsService
     @Consumes({OslcMediaType.APPLICATION_RDF_XML, OslcMediaType.APPLICATION_JSON_LD, OslcMediaType.TEXT_TURTLE, OslcMediaType.APPLICATION_XML, OslcMediaType.APPLICATION_JSON })
     @Produces({OslcMediaType.APPLICATION_RDF_XML, OslcMediaType.APPLICATION_JSON_LD, OslcMediaType.TEXT_TURTLE, OslcMediaType.APPLICATION_XML, OslcMediaType.APPLICATION_JSON})
     public Response createChangeRequest(
-            @PathParam("serviceProviderId") final String serviceProviderId ,
+            
             final ChangeRequest aResource
         ) throws IOException, ServletException
     {
-        try {
-            ChangeRequest newResource = CMManager.createChangeRequest(httpServletRequest, aResource, serviceProviderId);
-            httpServletResponse.setHeader("ETag", CMManager.getETagFromChangeRequest(newResource));
-            return Response.created(newResource.getAbout()).entity(newResource).header(CMConstants.HDR_OSLC_VERSION, CMConstants.OSLC_VERSION_V2).build();
-        } catch (Exception e) {
-            e.printStackTrace();
-            throw new WebApplicationException(e);
-        }
+        ChangeRequest newResource = CMManager.createChangeRequest(httpServletRequest, aResource);
+        httpServletResponse.setHeader("ETag", CMManager.getETagFromChangeRequest(newResource));
+        return Response.created(newResource.getAbout()).entity(newResource).header(CMConstants.HDR_OSLC_VERSION, CMConstants.OSLC_VERSION_V2).build();
     }
 
     /**
@@ -550,14 +517,13 @@ public class Change_requestsService
     @Path("create_defect")
     @Consumes({MediaType.WILDCARD})
     public void DefectCreator(
-                @PathParam("serviceProviderId") final String serviceProviderId
+                
         ) throws IOException, ServletException
     {
         // Start of user code DefectCreator
         // End of user code
 
         httpServletRequest.setAttribute("creatorUri", UriBuilder.fromUri(OSLC4JUtils.getServletURI()).path(uriInfo.getPath()).build().toString());
-        httpServletRequest.setAttribute("serviceProviderId", serviceProviderId);
 
         RequestDispatcher rd = httpServletRequest.getRequestDispatcher("/co/oslc/refimpl/cm/gen/defectcreator.jsp");
         rd.forward(httpServletRequest, httpServletResponse);
@@ -572,7 +538,7 @@ public class Change_requestsService
     (
          title = "DefectDlgCr",
          label = "Defect Creation Dialog",
-         uri = "serviceProviders/{serviceProviderId}/resources/create_defect",
+         uri = "resources/create_defect",
          hintWidth = "0px",
          hintHeight = "0px",
          resourceTypes = {Oslc_cmDomainConstants.DEFECT_TYPE},
@@ -581,263 +547,263 @@ public class Change_requestsService
     @POST
     @Path("create_defect")
     @Consumes({ MediaType.APPLICATION_FORM_URLENCODED})
-    public void createDefectFromDialog(
-            @PathParam("serviceProviderId") final String serviceProviderId
-        ) {
-        try {
-            Defect newResource = null;
+    public void createDefectFromDialog(MultivaluedMap<String, String> formParams
+            
+        ) throws URISyntaxException, ParseException {
+        Defect newResource = null;
 
-            Defect aResource = new Defect();
+        Defect aResource = new Defect();
 
-            String[] paramValues;
+        List<String> paramValues;
 
-            paramValues = httpServletRequest.getParameterValues("shortTitle");
-            if (paramValues != null) {
-                    if (paramValues.length == 1) {
-                        if (paramValues[0].length() != 0)
-                            aResource.setShortTitle(paramValues[0]);
-                        // else, there is an empty value for that parameter, and hence ignore since the parameter is not actually set.
-                    }
+        paramValues = formParams.get("shortTitle");
+        if (paramValues != null) {
+                if (paramValues.size() == 1) {
+                    if (paramValues.get(0).length() != 0)
+                        aResource.setShortTitle(paramValues.get(0));
+                    // else, there is an empty value for that parameter, and hence ignore since the parameter is not actually set.
+                }
 
-            }
-            paramValues = httpServletRequest.getParameterValues("description");
-            if (paramValues != null) {
-                    if (paramValues.length == 1) {
-                        if (paramValues[0].length() != 0)
-                            aResource.setDescription(paramValues[0]);
-                        // else, there is an empty value for that parameter, and hence ignore since the parameter is not actually set.
-                    }
+        }
+        paramValues = formParams.get("description");
+        if (paramValues != null) {
+                if (paramValues.size() == 1) {
+                    if (paramValues.get(0).length() != 0)
+                        aResource.setDescription(paramValues.get(0));
+                    // else, there is an empty value for that parameter, and hence ignore since the parameter is not actually set.
+                }
 
-            }
-            paramValues = httpServletRequest.getParameterValues("title");
-            if (paramValues != null) {
-                    if (paramValues.length == 1) {
-                        if (paramValues[0].length() != 0)
-                            aResource.setTitle(paramValues[0]);
-                        // else, there is an empty value for that parameter, and hence ignore since the parameter is not actually set.
-                    }
+        }
+        paramValues = formParams.get("title");
+        if (paramValues != null) {
+                if (paramValues.size() == 1) {
+                    if (paramValues.get(0).length() != 0)
+                        aResource.setTitle(paramValues.get(0));
+                    // else, there is an empty value for that parameter, and hence ignore since the parameter is not actually set.
+                }
 
-            }
-            paramValues = httpServletRequest.getParameterValues("identifier");
-            if (paramValues != null) {
-                    if (paramValues.length == 1) {
-                        if (paramValues[0].length() != 0)
-                            aResource.setIdentifier(paramValues[0]);
-                        // else, there is an empty value for that parameter, and hence ignore since the parameter is not actually set.
-                    }
+        }
+        paramValues = formParams.get("identifier");
+        if (paramValues != null) {
+                if (paramValues.size() == 1) {
+                    if (paramValues.get(0).length() != 0)
+                        aResource.setIdentifier(paramValues.get(0));
+                    // else, there is an empty value for that parameter, and hence ignore since the parameter is not actually set.
+                }
 
-            }
-            paramValues = httpServletRequest.getParameterValues("subject");
-            if (paramValues != null) {
-                    for(int i=0; i<paramValues.length; i++) {
-                        aResource.addSubject(paramValues[i]);
-                    }
-            }
-            paramValues = httpServletRequest.getParameterValues("creator");
-            if (paramValues != null) {
-                    for(int i=0; i<paramValues.length; i++) {
-                        aResource.addCreator(new Link(new URI(paramValues[i])));
-                    }
-            }
-            paramValues = httpServletRequest.getParameterValues("contributor");
-            if (paramValues != null) {
-                    for(int i=0; i<paramValues.length; i++) {
-                        aResource.addContributor(new Link(new URI(paramValues[i])));
-                    }
-            }
-            paramValues = httpServletRequest.getParameterValues("created");
-            if (paramValues != null) {
-                    if (paramValues.length == 1) {
-                        if (paramValues[0].length() != 0)
-                            aResource.setCreated(new SimpleDateFormat("M/D/y").parse(paramValues[0]));
-                        // else, there is an empty value for that parameter, and hence ignore since the parameter is not actually set.
-                    }
+        }
+        paramValues = formParams.get("subject");
+        if (paramValues != null) {
+                for(int i=0; i<paramValues.size(); i++) {
+                    aResource.addSubject(paramValues.get(i));
+                }
+        }
+        paramValues = formParams.get("creator");
+        if (paramValues != null) {
+                for(int i=0; i<paramValues.size(); i++) {
+                    aResource.addCreator(new Link(new URI(paramValues.get(i))));
+                }
+        }
+        paramValues = formParams.get("contributor");
+        if (paramValues != null) {
+                for(int i=0; i<paramValues.size(); i++) {
+                    aResource.addContributor(new Link(new URI(paramValues.get(i))));
+                }
+        }
+        paramValues = formParams.get("created");
+        if (paramValues != null) {
+                if (paramValues.size() == 1) {
+                    if (paramValues.get(0).length() != 0)
+                        aResource.setCreated(new SimpleDateFormat("M/D/y").parse(paramValues.get(0)));
+                    // else, there is an empty value for that parameter, and hence ignore since the parameter is not actually set.
+                }
 
-            }
-            paramValues = httpServletRequest.getParameterValues("modified");
-            if (paramValues != null) {
-                    if (paramValues.length == 1) {
-                        if (paramValues[0].length() != 0)
-                            aResource.setModified(new SimpleDateFormat("M/D/y").parse(paramValues[0]));
-                        // else, there is an empty value for that parameter, and hence ignore since the parameter is not actually set.
-                    }
+        }
+        paramValues = formParams.get("modified");
+        if (paramValues != null) {
+                if (paramValues.size() == 1) {
+                    if (paramValues.get(0).length() != 0)
+                        aResource.setModified(new SimpleDateFormat("M/D/y").parse(paramValues.get(0)));
+                    // else, there is an empty value for that parameter, and hence ignore since the parameter is not actually set.
+                }
 
-            }
-            paramValues = httpServletRequest.getParameterValues("serviceProvider");
-            if (paramValues != null) {
-                    for(int i=0; i<paramValues.length; i++) {
-                        aResource.addServiceProvider(new Link(new URI(paramValues[i])));
-                    }
-            }
-            paramValues = httpServletRequest.getParameterValues("instanceShape");
-            if (paramValues != null) {
-                    for(int i=0; i<paramValues.length; i++) {
-                        aResource.addInstanceShape(new Link(new URI(paramValues[i])));
-                    }
-            }
-            paramValues = httpServletRequest.getParameterValues("discussedBy");
-            if (paramValues != null) {
-                    if (paramValues.length == 1) {
-                        if (paramValues[0].length() != 0)
-                            aResource.setDiscussedBy(new Link(new URI(paramValues[0])));
-                        // else, there is an empty value for that parameter, and hence ignore since the parameter is not actually set.
-                    }
+        }
+        paramValues = formParams.get("serviceProvider");
+        if (paramValues != null) {
+                for(int i=0; i<paramValues.size(); i++) {
+                    aResource.addServiceProvider(new Link(new URI(paramValues.get(i))));
+                }
+        }
+        paramValues = formParams.get("instanceShape");
+        if (paramValues != null) {
+                for(int i=0; i<paramValues.size(); i++) {
+                    aResource.addInstanceShape(new Link(new URI(paramValues.get(i))));
+                }
+        }
+        paramValues = formParams.get("discussedBy");
+        if (paramValues != null) {
+                if (paramValues.size() == 1) {
+                    if (paramValues.get(0).length() != 0)
+                        aResource.setDiscussedBy(new Link(new URI(paramValues.get(0))));
+                    // else, there is an empty value for that parameter, and hence ignore since the parameter is not actually set.
+                }
 
-            }
-            paramValues = httpServletRequest.getParameterValues("closeDate");
-            if (paramValues != null) {
-                    if (paramValues.length == 1) {
-                        if (paramValues[0].length() != 0)
-                            aResource.setCloseDate(new SimpleDateFormat("M/D/y").parse(paramValues[0]));
-                        // else, there is an empty value for that parameter, and hence ignore since the parameter is not actually set.
-                    }
+        }
+        paramValues = formParams.get("closeDate");
+        if (paramValues != null) {
+                if (paramValues.size() == 1) {
+                    if (paramValues.get(0).length() != 0)
+                        aResource.setCloseDate(new SimpleDateFormat("M/D/y").parse(paramValues.get(0)));
+                    // else, there is an empty value for that parameter, and hence ignore since the parameter is not actually set.
+                }
 
-            }
-            paramValues = httpServletRequest.getParameterValues("status");
-            if (paramValues != null) {
-                    if (paramValues.length == 1) {
-                        if (paramValues[0].length() != 0)
-                            aResource.setStatus(paramValues[0]);
-                        // else, there is an empty value for that parameter, and hence ignore since the parameter is not actually set.
-                    }
+        }
+        paramValues = formParams.get("status");
+        if (paramValues != null) {
+                if (paramValues.size() == 1) {
+                    if (paramValues.get(0).length() != 0)
+                        aResource.setStatus(paramValues.get(0));
+                    // else, there is an empty value for that parameter, and hence ignore since the parameter is not actually set.
+                }
 
-            }
-            paramValues = httpServletRequest.getParameterValues("closed");
-            if (paramValues != null) {
-                    if (paramValues.length == 1) {
-                        if (paramValues[0].length() != 0)
-                            aResource.setClosed(new Boolean(paramValues[0]));
-                        // else, there is an empty value for that parameter, and hence ignore since the parameter is not actually set.
-                    }
+        }
+        paramValues = formParams.get("closed");
+        if (paramValues != null) {
+                if (paramValues.size() == 1) {
+                    if (paramValues.get(0).length() != 0)
+                        aResource.setClosed(new Boolean(paramValues.get(0)));
+                    // else, there is an empty value for that parameter, and hence ignore since the parameter is not actually set.
+                }
 
-            }
-            paramValues = httpServletRequest.getParameterValues("inProgress");
-            if (paramValues != null) {
-                    if (paramValues.length == 1) {
-                        if (paramValues[0].length() != 0)
-                            aResource.setInProgress(new Boolean(paramValues[0]));
-                        // else, there is an empty value for that parameter, and hence ignore since the parameter is not actually set.
-                    }
+        }
+        paramValues = formParams.get("inProgress");
+        if (paramValues != null) {
+                if (paramValues.size() == 1) {
+                    if (paramValues.get(0).length() != 0)
+                        aResource.setInProgress(new Boolean(paramValues.get(0)));
+                    // else, there is an empty value for that parameter, and hence ignore since the parameter is not actually set.
+                }
 
-            }
-            paramValues = httpServletRequest.getParameterValues("fixed");
-            if (paramValues != null) {
-                    if (paramValues.length == 1) {
-                        if (paramValues[0].length() != 0)
-                            aResource.setFixed(new Boolean(paramValues[0]));
-                        // else, there is an empty value for that parameter, and hence ignore since the parameter is not actually set.
-                    }
+        }
+        paramValues = formParams.get("fixed");
+        if (paramValues != null) {
+                if (paramValues.size() == 1) {
+                    if (paramValues.get(0).length() != 0)
+                        aResource.setFixed(new Boolean(paramValues.get(0)));
+                    // else, there is an empty value for that parameter, and hence ignore since the parameter is not actually set.
+                }
 
-            }
-            paramValues = httpServletRequest.getParameterValues("approved");
-            if (paramValues != null) {
-                    if (paramValues.length == 1) {
-                        if (paramValues[0].length() != 0)
-                            aResource.setApproved(new Boolean(paramValues[0]));
-                        // else, there is an empty value for that parameter, and hence ignore since the parameter is not actually set.
-                    }
+        }
+        paramValues = formParams.get("approved");
+        if (paramValues != null) {
+                if (paramValues.size() == 1) {
+                    if (paramValues.get(0).length() != 0)
+                        aResource.setApproved(new Boolean(paramValues.get(0)));
+                    // else, there is an empty value for that parameter, and hence ignore since the parameter is not actually set.
+                }
 
-            }
-            paramValues = httpServletRequest.getParameterValues("reviewed");
-            if (paramValues != null) {
-                    if (paramValues.length == 1) {
-                        if (paramValues[0].length() != 0)
-                            aResource.setReviewed(new Boolean(paramValues[0]));
-                        // else, there is an empty value for that parameter, and hence ignore since the parameter is not actually set.
-                    }
+        }
+        paramValues = formParams.get("reviewed");
+        if (paramValues != null) {
+                if (paramValues.size() == 1) {
+                    if (paramValues.get(0).length() != 0)
+                        aResource.setReviewed(new Boolean(paramValues.get(0)));
+                    // else, there is an empty value for that parameter, and hence ignore since the parameter is not actually set.
+                }
 
-            }
-            paramValues = httpServletRequest.getParameterValues("verified");
-            if (paramValues != null) {
-                    if (paramValues.length == 1) {
-                        if (paramValues[0].length() != 0)
-                            aResource.setVerified(new Boolean(paramValues[0]));
-                        // else, there is an empty value for that parameter, and hence ignore since the parameter is not actually set.
-                    }
+        }
+        paramValues = formParams.get("verified");
+        if (paramValues != null) {
+                if (paramValues.size() == 1) {
+                    if (paramValues.get(0).length() != 0)
+                        aResource.setVerified(new Boolean(paramValues.get(0)));
+                    // else, there is an empty value for that parameter, and hence ignore since the parameter is not actually set.
+                }
 
-            }
-            paramValues = httpServletRequest.getParameterValues("relatedChangeRequest");
-            if (paramValues != null) {
-                    for(int i=0; i<paramValues.length; i++) {
-                        aResource.addRelatedChangeRequest(new Link(new URI(paramValues[i])));
-                    }
-            }
-            paramValues = httpServletRequest.getParameterValues("affectsPlanItem");
-            if (paramValues != null) {
-                    for(int i=0; i<paramValues.length; i++) {
-                        aResource.addAffectsPlanItem(new Link(new URI(paramValues[i])));
-                    }
-            }
-            paramValues = httpServletRequest.getParameterValues("affectedByDefect");
-            if (paramValues != null) {
-                    for(int i=0; i<paramValues.length; i++) {
-                        aResource.addAffectedByDefect(new Link(new URI(paramValues[i])));
-                    }
-            }
-            paramValues = httpServletRequest.getParameterValues("tracksRequirement");
-            if (paramValues != null) {
-                    for(int i=0; i<paramValues.length; i++) {
-                        aResource.addTracksRequirement(new Link(new URI(paramValues[i])));
-                    }
-            }
-            paramValues = httpServletRequest.getParameterValues("implementsRequirement");
-            if (paramValues != null) {
-                    for(int i=0; i<paramValues.length; i++) {
-                        aResource.addImplementsRequirement(new Link(new URI(paramValues[i])));
-                    }
-            }
-            paramValues = httpServletRequest.getParameterValues("affectsRequirement");
-            if (paramValues != null) {
-                    for(int i=0; i<paramValues.length; i++) {
-                        aResource.addAffectsRequirement(new Link(new URI(paramValues[i])));
-                    }
-            }
-            paramValues = httpServletRequest.getParameterValues("tracksChangeSet");
-            if (paramValues != null) {
-                    for(int i=0; i<paramValues.length; i++) {
-                        aResource.addTracksChangeSet(new Link(new URI(paramValues[i])));
-                    }
-            }
-            paramValues = httpServletRequest.getParameterValues("parent");
-            if (paramValues != null) {
-                    for(int i=0; i<paramValues.length; i++) {
-                        aResource.addParent(new Link(new URI(paramValues[i])));
-                    }
-            }
-            paramValues = httpServletRequest.getParameterValues("priority");
-            if (paramValues != null) {
-                    for(int i=0; i<paramValues.length; i++) {
-                        aResource.addPriority(new Link(new URI(paramValues[i])));
-                    }
-            }
-            paramValues = httpServletRequest.getParameterValues("state");
-            if (paramValues != null) {
-                    if (paramValues.length == 1) {
-                        if (paramValues[0].length() != 0)
-                            aResource.setState(new Link(new URI(paramValues[0])));
-                        // else, there is an empty value for that parameter, and hence ignore since the parameter is not actually set.
-                    }
+        }
+        paramValues = formParams.get("relatedChangeRequest");
+        if (paramValues != null) {
+                for(int i=0; i<paramValues.size(); i++) {
+                    aResource.addRelatedChangeRequest(new Link(new URI(paramValues.get(i))));
+                }
+        }
+        paramValues = formParams.get("affectsPlanItem");
+        if (paramValues != null) {
+                for(int i=0; i<paramValues.size(); i++) {
+                    aResource.addAffectsPlanItem(new Link(new URI(paramValues.get(i))));
+                }
+        }
+        paramValues = formParams.get("affectedByDefect");
+        if (paramValues != null) {
+                for(int i=0; i<paramValues.size(); i++) {
+                    aResource.addAffectedByDefect(new Link(new URI(paramValues.get(i))));
+                }
+        }
+        paramValues = formParams.get("tracksRequirement");
+        if (paramValues != null) {
+                for(int i=0; i<paramValues.size(); i++) {
+                    aResource.addTracksRequirement(new Link(new URI(paramValues.get(i))));
+                }
+        }
+        paramValues = formParams.get("implementsRequirement");
+        if (paramValues != null) {
+                for(int i=0; i<paramValues.size(); i++) {
+                    aResource.addImplementsRequirement(new Link(new URI(paramValues.get(i))));
+                }
+        }
+        paramValues = formParams.get("affectsRequirement");
+        if (paramValues != null) {
+                for(int i=0; i<paramValues.size(); i++) {
+                    aResource.addAffectsRequirement(new Link(new URI(paramValues.get(i))));
+                }
+        }
+        paramValues = formParams.get("tracksChangeSet");
+        if (paramValues != null) {
+                for(int i=0; i<paramValues.size(); i++) {
+                    aResource.addTracksChangeSet(new Link(new URI(paramValues.get(i))));
+                }
+        }
+        paramValues = formParams.get("parent");
+        if (paramValues != null) {
+                for(int i=0; i<paramValues.size(); i++) {
+                    aResource.addParent(new Link(new URI(paramValues.get(i))));
+                }
+        }
+        paramValues = formParams.get("priority");
+        if (paramValues != null) {
+                for(int i=0; i<paramValues.size(); i++) {
+                    aResource.addPriority(new Link(new URI(paramValues.get(i))));
+                }
+        }
+        paramValues = formParams.get("state");
+        if (paramValues != null) {
+                if (paramValues.size() == 1) {
+                    if (paramValues.get(0).length() != 0)
+                        aResource.setState(new Link(new URI(paramValues.get(0))));
+                    // else, there is an empty value for that parameter, and hence ignore since the parameter is not actually set.
+                }
 
-            }
-            paramValues = httpServletRequest.getParameterValues("authorizer");
-            if (paramValues != null) {
-                    for(int i=0; i<paramValues.length; i++) {
-                        aResource.addAuthorizer(new Link(new URI(paramValues[i])));
-                    }
-            }
+        }
+        paramValues = formParams.get("authorizer");
+        if (paramValues != null) {
+                for(int i=0; i<paramValues.size(); i++) {
+                    aResource.addAuthorizer(new Link(new URI(paramValues.get(i))));
+                }
+        }
 
-            newResource = CMManager.createDefectFromDialog(httpServletRequest, aResource, serviceProviderId);
+        newResource = CMManager.createDefectFromDialog(httpServletRequest, aResource);
 
-            if (newResource != null) {
-                httpServletRequest.setAttribute("newResource", newResource);
-                httpServletRequest.setAttribute("newResourceUri", newResource.getAbout().toString());
+        if (newResource != null) {
+            httpServletRequest.setAttribute("newResource", newResource);
+            httpServletRequest.setAttribute("newResourceUri", newResource.getAbout().toString());
 
-                // Send back to the form a small JSON response
-                httpServletResponse.setContentType("application/json");
-                httpServletResponse.setStatus(Status.CREATED.getStatusCode());
-                httpServletResponse.addHeader("Location", newResource.getAbout().toString());
+            // Send back to the form a small JSON response
+            httpServletResponse.setContentType("application/json");
+            httpServletResponse.setStatus(Status.CREATED.getStatusCode());
+            httpServletResponse.addHeader("Location", newResource.getAbout().toString());
+            try {
                 PrintWriter out = httpServletResponse.getWriter();
-
+    
                 JSONObject oslcResponse = new JSONObject();
                 JSONObject newResourceJson = new JSONObject();
                 newResourceJson.put("rdf:resource", newResource.getAbout().toString());
@@ -845,13 +811,12 @@ public class Change_requestsService
                 newResourceJson.put("oslc:label", newResource.toString());
                 // End of user code
                 oslcResponse.put("oslc:results", new Object[]{newResourceJson});
-
+    
                 out.print(oslcResponse.toString());
                 out.close();
+            } catch (IOException | JSONException e) {
+                throw new WebApplicationException(e);
             }
-        } catch (Exception e) {
-            e.printStackTrace();
-            throw new WebApplicationException(e);
         }
     }
     /**
@@ -864,14 +829,13 @@ public class Change_requestsService
     @Path("create_task")
     @Consumes({MediaType.WILDCARD})
     public void TaskCreator(
-                @PathParam("serviceProviderId") final String serviceProviderId
+                
         ) throws IOException, ServletException
     {
         // Start of user code TaskCreator
         // End of user code
 
         httpServletRequest.setAttribute("creatorUri", UriBuilder.fromUri(OSLC4JUtils.getServletURI()).path(uriInfo.getPath()).build().toString());
-        httpServletRequest.setAttribute("serviceProviderId", serviceProviderId);
 
         RequestDispatcher rd = httpServletRequest.getRequestDispatcher("/co/oslc/refimpl/cm/gen/taskcreator.jsp");
         rd.forward(httpServletRequest, httpServletResponse);
@@ -886,7 +850,7 @@ public class Change_requestsService
     (
          title = "TaskDlgCr",
          label = "Task Creation Dialog",
-         uri = "serviceProviders/{serviceProviderId}/resources/create_task",
+         uri = "resources/create_task",
          hintWidth = "0px",
          hintHeight = "0px",
          resourceTypes = {Oslc_cmDomainConstants.TASK_TYPE},
@@ -895,263 +859,263 @@ public class Change_requestsService
     @POST
     @Path("create_task")
     @Consumes({ MediaType.APPLICATION_FORM_URLENCODED})
-    public void createTaskFromDialog(
-            @PathParam("serviceProviderId") final String serviceProviderId
-        ) {
-        try {
-            Task newResource = null;
+    public void createTaskFromDialog(MultivaluedMap<String, String> formParams
+            
+        ) throws URISyntaxException, ParseException {
+        Task newResource = null;
 
-            Task aResource = new Task();
+        Task aResource = new Task();
 
-            String[] paramValues;
+        List<String> paramValues;
 
-            paramValues = httpServletRequest.getParameterValues("shortTitle");
-            if (paramValues != null) {
-                    if (paramValues.length == 1) {
-                        if (paramValues[0].length() != 0)
-                            aResource.setShortTitle(paramValues[0]);
-                        // else, there is an empty value for that parameter, and hence ignore since the parameter is not actually set.
-                    }
+        paramValues = formParams.get("shortTitle");
+        if (paramValues != null) {
+                if (paramValues.size() == 1) {
+                    if (paramValues.get(0).length() != 0)
+                        aResource.setShortTitle(paramValues.get(0));
+                    // else, there is an empty value for that parameter, and hence ignore since the parameter is not actually set.
+                }
 
-            }
-            paramValues = httpServletRequest.getParameterValues("description");
-            if (paramValues != null) {
-                    if (paramValues.length == 1) {
-                        if (paramValues[0].length() != 0)
-                            aResource.setDescription(paramValues[0]);
-                        // else, there is an empty value for that parameter, and hence ignore since the parameter is not actually set.
-                    }
+        }
+        paramValues = formParams.get("description");
+        if (paramValues != null) {
+                if (paramValues.size() == 1) {
+                    if (paramValues.get(0).length() != 0)
+                        aResource.setDescription(paramValues.get(0));
+                    // else, there is an empty value for that parameter, and hence ignore since the parameter is not actually set.
+                }
 
-            }
-            paramValues = httpServletRequest.getParameterValues("title");
-            if (paramValues != null) {
-                    if (paramValues.length == 1) {
-                        if (paramValues[0].length() != 0)
-                            aResource.setTitle(paramValues[0]);
-                        // else, there is an empty value for that parameter, and hence ignore since the parameter is not actually set.
-                    }
+        }
+        paramValues = formParams.get("title");
+        if (paramValues != null) {
+                if (paramValues.size() == 1) {
+                    if (paramValues.get(0).length() != 0)
+                        aResource.setTitle(paramValues.get(0));
+                    // else, there is an empty value for that parameter, and hence ignore since the parameter is not actually set.
+                }
 
-            }
-            paramValues = httpServletRequest.getParameterValues("identifier");
-            if (paramValues != null) {
-                    if (paramValues.length == 1) {
-                        if (paramValues[0].length() != 0)
-                            aResource.setIdentifier(paramValues[0]);
-                        // else, there is an empty value for that parameter, and hence ignore since the parameter is not actually set.
-                    }
+        }
+        paramValues = formParams.get("identifier");
+        if (paramValues != null) {
+                if (paramValues.size() == 1) {
+                    if (paramValues.get(0).length() != 0)
+                        aResource.setIdentifier(paramValues.get(0));
+                    // else, there is an empty value for that parameter, and hence ignore since the parameter is not actually set.
+                }
 
-            }
-            paramValues = httpServletRequest.getParameterValues("subject");
-            if (paramValues != null) {
-                    for(int i=0; i<paramValues.length; i++) {
-                        aResource.addSubject(paramValues[i]);
-                    }
-            }
-            paramValues = httpServletRequest.getParameterValues("creator");
-            if (paramValues != null) {
-                    for(int i=0; i<paramValues.length; i++) {
-                        aResource.addCreator(new Link(new URI(paramValues[i])));
-                    }
-            }
-            paramValues = httpServletRequest.getParameterValues("contributor");
-            if (paramValues != null) {
-                    for(int i=0; i<paramValues.length; i++) {
-                        aResource.addContributor(new Link(new URI(paramValues[i])));
-                    }
-            }
-            paramValues = httpServletRequest.getParameterValues("created");
-            if (paramValues != null) {
-                    if (paramValues.length == 1) {
-                        if (paramValues[0].length() != 0)
-                            aResource.setCreated(new SimpleDateFormat("M/D/y").parse(paramValues[0]));
-                        // else, there is an empty value for that parameter, and hence ignore since the parameter is not actually set.
-                    }
+        }
+        paramValues = formParams.get("subject");
+        if (paramValues != null) {
+                for(int i=0; i<paramValues.size(); i++) {
+                    aResource.addSubject(paramValues.get(i));
+                }
+        }
+        paramValues = formParams.get("creator");
+        if (paramValues != null) {
+                for(int i=0; i<paramValues.size(); i++) {
+                    aResource.addCreator(new Link(new URI(paramValues.get(i))));
+                }
+        }
+        paramValues = formParams.get("contributor");
+        if (paramValues != null) {
+                for(int i=0; i<paramValues.size(); i++) {
+                    aResource.addContributor(new Link(new URI(paramValues.get(i))));
+                }
+        }
+        paramValues = formParams.get("created");
+        if (paramValues != null) {
+                if (paramValues.size() == 1) {
+                    if (paramValues.get(0).length() != 0)
+                        aResource.setCreated(new SimpleDateFormat("M/D/y").parse(paramValues.get(0)));
+                    // else, there is an empty value for that parameter, and hence ignore since the parameter is not actually set.
+                }
 
-            }
-            paramValues = httpServletRequest.getParameterValues("modified");
-            if (paramValues != null) {
-                    if (paramValues.length == 1) {
-                        if (paramValues[0].length() != 0)
-                            aResource.setModified(new SimpleDateFormat("M/D/y").parse(paramValues[0]));
-                        // else, there is an empty value for that parameter, and hence ignore since the parameter is not actually set.
-                    }
+        }
+        paramValues = formParams.get("modified");
+        if (paramValues != null) {
+                if (paramValues.size() == 1) {
+                    if (paramValues.get(0).length() != 0)
+                        aResource.setModified(new SimpleDateFormat("M/D/y").parse(paramValues.get(0)));
+                    // else, there is an empty value for that parameter, and hence ignore since the parameter is not actually set.
+                }
 
-            }
-            paramValues = httpServletRequest.getParameterValues("serviceProvider");
-            if (paramValues != null) {
-                    for(int i=0; i<paramValues.length; i++) {
-                        aResource.addServiceProvider(new Link(new URI(paramValues[i])));
-                    }
-            }
-            paramValues = httpServletRequest.getParameterValues("instanceShape");
-            if (paramValues != null) {
-                    for(int i=0; i<paramValues.length; i++) {
-                        aResource.addInstanceShape(new Link(new URI(paramValues[i])));
-                    }
-            }
-            paramValues = httpServletRequest.getParameterValues("discussedBy");
-            if (paramValues != null) {
-                    if (paramValues.length == 1) {
-                        if (paramValues[0].length() != 0)
-                            aResource.setDiscussedBy(new Link(new URI(paramValues[0])));
-                        // else, there is an empty value for that parameter, and hence ignore since the parameter is not actually set.
-                    }
+        }
+        paramValues = formParams.get("serviceProvider");
+        if (paramValues != null) {
+                for(int i=0; i<paramValues.size(); i++) {
+                    aResource.addServiceProvider(new Link(new URI(paramValues.get(i))));
+                }
+        }
+        paramValues = formParams.get("instanceShape");
+        if (paramValues != null) {
+                for(int i=0; i<paramValues.size(); i++) {
+                    aResource.addInstanceShape(new Link(new URI(paramValues.get(i))));
+                }
+        }
+        paramValues = formParams.get("discussedBy");
+        if (paramValues != null) {
+                if (paramValues.size() == 1) {
+                    if (paramValues.get(0).length() != 0)
+                        aResource.setDiscussedBy(new Link(new URI(paramValues.get(0))));
+                    // else, there is an empty value for that parameter, and hence ignore since the parameter is not actually set.
+                }
 
-            }
-            paramValues = httpServletRequest.getParameterValues("closeDate");
-            if (paramValues != null) {
-                    if (paramValues.length == 1) {
-                        if (paramValues[0].length() != 0)
-                            aResource.setCloseDate(new SimpleDateFormat("M/D/y").parse(paramValues[0]));
-                        // else, there is an empty value for that parameter, and hence ignore since the parameter is not actually set.
-                    }
+        }
+        paramValues = formParams.get("closeDate");
+        if (paramValues != null) {
+                if (paramValues.size() == 1) {
+                    if (paramValues.get(0).length() != 0)
+                        aResource.setCloseDate(new SimpleDateFormat("M/D/y").parse(paramValues.get(0)));
+                    // else, there is an empty value for that parameter, and hence ignore since the parameter is not actually set.
+                }
 
-            }
-            paramValues = httpServletRequest.getParameterValues("status");
-            if (paramValues != null) {
-                    if (paramValues.length == 1) {
-                        if (paramValues[0].length() != 0)
-                            aResource.setStatus(paramValues[0]);
-                        // else, there is an empty value for that parameter, and hence ignore since the parameter is not actually set.
-                    }
+        }
+        paramValues = formParams.get("status");
+        if (paramValues != null) {
+                if (paramValues.size() == 1) {
+                    if (paramValues.get(0).length() != 0)
+                        aResource.setStatus(paramValues.get(0));
+                    // else, there is an empty value for that parameter, and hence ignore since the parameter is not actually set.
+                }
 
-            }
-            paramValues = httpServletRequest.getParameterValues("closed");
-            if (paramValues != null) {
-                    if (paramValues.length == 1) {
-                        if (paramValues[0].length() != 0)
-                            aResource.setClosed(new Boolean(paramValues[0]));
-                        // else, there is an empty value for that parameter, and hence ignore since the parameter is not actually set.
-                    }
+        }
+        paramValues = formParams.get("closed");
+        if (paramValues != null) {
+                if (paramValues.size() == 1) {
+                    if (paramValues.get(0).length() != 0)
+                        aResource.setClosed(new Boolean(paramValues.get(0)));
+                    // else, there is an empty value for that parameter, and hence ignore since the parameter is not actually set.
+                }
 
-            }
-            paramValues = httpServletRequest.getParameterValues("inProgress");
-            if (paramValues != null) {
-                    if (paramValues.length == 1) {
-                        if (paramValues[0].length() != 0)
-                            aResource.setInProgress(new Boolean(paramValues[0]));
-                        // else, there is an empty value for that parameter, and hence ignore since the parameter is not actually set.
-                    }
+        }
+        paramValues = formParams.get("inProgress");
+        if (paramValues != null) {
+                if (paramValues.size() == 1) {
+                    if (paramValues.get(0).length() != 0)
+                        aResource.setInProgress(new Boolean(paramValues.get(0)));
+                    // else, there is an empty value for that parameter, and hence ignore since the parameter is not actually set.
+                }
 
-            }
-            paramValues = httpServletRequest.getParameterValues("fixed");
-            if (paramValues != null) {
-                    if (paramValues.length == 1) {
-                        if (paramValues[0].length() != 0)
-                            aResource.setFixed(new Boolean(paramValues[0]));
-                        // else, there is an empty value for that parameter, and hence ignore since the parameter is not actually set.
-                    }
+        }
+        paramValues = formParams.get("fixed");
+        if (paramValues != null) {
+                if (paramValues.size() == 1) {
+                    if (paramValues.get(0).length() != 0)
+                        aResource.setFixed(new Boolean(paramValues.get(0)));
+                    // else, there is an empty value for that parameter, and hence ignore since the parameter is not actually set.
+                }
 
-            }
-            paramValues = httpServletRequest.getParameterValues("approved");
-            if (paramValues != null) {
-                    if (paramValues.length == 1) {
-                        if (paramValues[0].length() != 0)
-                            aResource.setApproved(new Boolean(paramValues[0]));
-                        // else, there is an empty value for that parameter, and hence ignore since the parameter is not actually set.
-                    }
+        }
+        paramValues = formParams.get("approved");
+        if (paramValues != null) {
+                if (paramValues.size() == 1) {
+                    if (paramValues.get(0).length() != 0)
+                        aResource.setApproved(new Boolean(paramValues.get(0)));
+                    // else, there is an empty value for that parameter, and hence ignore since the parameter is not actually set.
+                }
 
-            }
-            paramValues = httpServletRequest.getParameterValues("reviewed");
-            if (paramValues != null) {
-                    if (paramValues.length == 1) {
-                        if (paramValues[0].length() != 0)
-                            aResource.setReviewed(new Boolean(paramValues[0]));
-                        // else, there is an empty value for that parameter, and hence ignore since the parameter is not actually set.
-                    }
+        }
+        paramValues = formParams.get("reviewed");
+        if (paramValues != null) {
+                if (paramValues.size() == 1) {
+                    if (paramValues.get(0).length() != 0)
+                        aResource.setReviewed(new Boolean(paramValues.get(0)));
+                    // else, there is an empty value for that parameter, and hence ignore since the parameter is not actually set.
+                }
 
-            }
-            paramValues = httpServletRequest.getParameterValues("verified");
-            if (paramValues != null) {
-                    if (paramValues.length == 1) {
-                        if (paramValues[0].length() != 0)
-                            aResource.setVerified(new Boolean(paramValues[0]));
-                        // else, there is an empty value for that parameter, and hence ignore since the parameter is not actually set.
-                    }
+        }
+        paramValues = formParams.get("verified");
+        if (paramValues != null) {
+                if (paramValues.size() == 1) {
+                    if (paramValues.get(0).length() != 0)
+                        aResource.setVerified(new Boolean(paramValues.get(0)));
+                    // else, there is an empty value for that parameter, and hence ignore since the parameter is not actually set.
+                }
 
-            }
-            paramValues = httpServletRequest.getParameterValues("relatedChangeRequest");
-            if (paramValues != null) {
-                    for(int i=0; i<paramValues.length; i++) {
-                        aResource.addRelatedChangeRequest(new Link(new URI(paramValues[i])));
-                    }
-            }
-            paramValues = httpServletRequest.getParameterValues("affectsPlanItem");
-            if (paramValues != null) {
-                    for(int i=0; i<paramValues.length; i++) {
-                        aResource.addAffectsPlanItem(new Link(new URI(paramValues[i])));
-                    }
-            }
-            paramValues = httpServletRequest.getParameterValues("affectedByDefect");
-            if (paramValues != null) {
-                    for(int i=0; i<paramValues.length; i++) {
-                        aResource.addAffectedByDefect(new Link(new URI(paramValues[i])));
-                    }
-            }
-            paramValues = httpServletRequest.getParameterValues("tracksRequirement");
-            if (paramValues != null) {
-                    for(int i=0; i<paramValues.length; i++) {
-                        aResource.addTracksRequirement(new Link(new URI(paramValues[i])));
-                    }
-            }
-            paramValues = httpServletRequest.getParameterValues("implementsRequirement");
-            if (paramValues != null) {
-                    for(int i=0; i<paramValues.length; i++) {
-                        aResource.addImplementsRequirement(new Link(new URI(paramValues[i])));
-                    }
-            }
-            paramValues = httpServletRequest.getParameterValues("affectsRequirement");
-            if (paramValues != null) {
-                    for(int i=0; i<paramValues.length; i++) {
-                        aResource.addAffectsRequirement(new Link(new URI(paramValues[i])));
-                    }
-            }
-            paramValues = httpServletRequest.getParameterValues("tracksChangeSet");
-            if (paramValues != null) {
-                    for(int i=0; i<paramValues.length; i++) {
-                        aResource.addTracksChangeSet(new Link(new URI(paramValues[i])));
-                    }
-            }
-            paramValues = httpServletRequest.getParameterValues("parent");
-            if (paramValues != null) {
-                    for(int i=0; i<paramValues.length; i++) {
-                        aResource.addParent(new Link(new URI(paramValues[i])));
-                    }
-            }
-            paramValues = httpServletRequest.getParameterValues("priority");
-            if (paramValues != null) {
-                    for(int i=0; i<paramValues.length; i++) {
-                        aResource.addPriority(new Link(new URI(paramValues[i])));
-                    }
-            }
-            paramValues = httpServletRequest.getParameterValues("state");
-            if (paramValues != null) {
-                    if (paramValues.length == 1) {
-                        if (paramValues[0].length() != 0)
-                            aResource.setState(new Link(new URI(paramValues[0])));
-                        // else, there is an empty value for that parameter, and hence ignore since the parameter is not actually set.
-                    }
+        }
+        paramValues = formParams.get("relatedChangeRequest");
+        if (paramValues != null) {
+                for(int i=0; i<paramValues.size(); i++) {
+                    aResource.addRelatedChangeRequest(new Link(new URI(paramValues.get(i))));
+                }
+        }
+        paramValues = formParams.get("affectsPlanItem");
+        if (paramValues != null) {
+                for(int i=0; i<paramValues.size(); i++) {
+                    aResource.addAffectsPlanItem(new Link(new URI(paramValues.get(i))));
+                }
+        }
+        paramValues = formParams.get("affectedByDefect");
+        if (paramValues != null) {
+                for(int i=0; i<paramValues.size(); i++) {
+                    aResource.addAffectedByDefect(new Link(new URI(paramValues.get(i))));
+                }
+        }
+        paramValues = formParams.get("tracksRequirement");
+        if (paramValues != null) {
+                for(int i=0; i<paramValues.size(); i++) {
+                    aResource.addTracksRequirement(new Link(new URI(paramValues.get(i))));
+                }
+        }
+        paramValues = formParams.get("implementsRequirement");
+        if (paramValues != null) {
+                for(int i=0; i<paramValues.size(); i++) {
+                    aResource.addImplementsRequirement(new Link(new URI(paramValues.get(i))));
+                }
+        }
+        paramValues = formParams.get("affectsRequirement");
+        if (paramValues != null) {
+                for(int i=0; i<paramValues.size(); i++) {
+                    aResource.addAffectsRequirement(new Link(new URI(paramValues.get(i))));
+                }
+        }
+        paramValues = formParams.get("tracksChangeSet");
+        if (paramValues != null) {
+                for(int i=0; i<paramValues.size(); i++) {
+                    aResource.addTracksChangeSet(new Link(new URI(paramValues.get(i))));
+                }
+        }
+        paramValues = formParams.get("parent");
+        if (paramValues != null) {
+                for(int i=0; i<paramValues.size(); i++) {
+                    aResource.addParent(new Link(new URI(paramValues.get(i))));
+                }
+        }
+        paramValues = formParams.get("priority");
+        if (paramValues != null) {
+                for(int i=0; i<paramValues.size(); i++) {
+                    aResource.addPriority(new Link(new URI(paramValues.get(i))));
+                }
+        }
+        paramValues = formParams.get("state");
+        if (paramValues != null) {
+                if (paramValues.size() == 1) {
+                    if (paramValues.get(0).length() != 0)
+                        aResource.setState(new Link(new URI(paramValues.get(0))));
+                    // else, there is an empty value for that parameter, and hence ignore since the parameter is not actually set.
+                }
 
-            }
-            paramValues = httpServletRequest.getParameterValues("authorizer");
-            if (paramValues != null) {
-                    for(int i=0; i<paramValues.length; i++) {
-                        aResource.addAuthorizer(new Link(new URI(paramValues[i])));
-                    }
-            }
+        }
+        paramValues = formParams.get("authorizer");
+        if (paramValues != null) {
+                for(int i=0; i<paramValues.size(); i++) {
+                    aResource.addAuthorizer(new Link(new URI(paramValues.get(i))));
+                }
+        }
 
-            newResource = CMManager.createTaskFromDialog(httpServletRequest, aResource, serviceProviderId);
+        newResource = CMManager.createTaskFromDialog(httpServletRequest, aResource);
 
-            if (newResource != null) {
-                httpServletRequest.setAttribute("newResource", newResource);
-                httpServletRequest.setAttribute("newResourceUri", newResource.getAbout().toString());
+        if (newResource != null) {
+            httpServletRequest.setAttribute("newResource", newResource);
+            httpServletRequest.setAttribute("newResourceUri", newResource.getAbout().toString());
 
-                // Send back to the form a small JSON response
-                httpServletResponse.setContentType("application/json");
-                httpServletResponse.setStatus(Status.CREATED.getStatusCode());
-                httpServletResponse.addHeader("Location", newResource.getAbout().toString());
+            // Send back to the form a small JSON response
+            httpServletResponse.setContentType("application/json");
+            httpServletResponse.setStatus(Status.CREATED.getStatusCode());
+            httpServletResponse.addHeader("Location", newResource.getAbout().toString());
+            try {
                 PrintWriter out = httpServletResponse.getWriter();
-
+    
                 JSONObject oslcResponse = new JSONObject();
                 JSONObject newResourceJson = new JSONObject();
                 newResourceJson.put("rdf:resource", newResource.getAbout().toString());
@@ -1159,13 +1123,12 @@ public class Change_requestsService
                 newResourceJson.put("oslc:label", newResource.toString());
                 // End of user code
                 oslcResponse.put("oslc:results", new Object[]{newResourceJson});
-
+    
                 out.print(oslcResponse.toString());
                 out.close();
+            } catch (IOException | JSONException e) {
+                throw new WebApplicationException(e);
             }
-        } catch (Exception e) {
-            e.printStackTrace();
-            throw new WebApplicationException(e);
         }
     }
     /**
@@ -1178,14 +1141,13 @@ public class Change_requestsService
     @Path("create_review_task")
     @Consumes({MediaType.WILDCARD})
     public void ReviewTaskCreator(
-                @PathParam("serviceProviderId") final String serviceProviderId
+                
         ) throws IOException, ServletException
     {
         // Start of user code ReviewTaskCreator
         // End of user code
 
         httpServletRequest.setAttribute("creatorUri", UriBuilder.fromUri(OSLC4JUtils.getServletURI()).path(uriInfo.getPath()).build().toString());
-        httpServletRequest.setAttribute("serviceProviderId", serviceProviderId);
 
         RequestDispatcher rd = httpServletRequest.getRequestDispatcher("/co/oslc/refimpl/cm/gen/reviewtaskcreator.jsp");
         rd.forward(httpServletRequest, httpServletResponse);
@@ -1200,7 +1162,7 @@ public class Change_requestsService
     (
          title = "ReviewTaskDlgCr",
          label = "Review Task Creation Dialog",
-         uri = "serviceProviders/{serviceProviderId}/resources/create_review_task",
+         uri = "resources/create_review_task",
          hintWidth = "0px",
          hintHeight = "0px",
          resourceTypes = {Oslc_cmDomainConstants.REVIEWTASK_TYPE},
@@ -1209,263 +1171,263 @@ public class Change_requestsService
     @POST
     @Path("create_review_task")
     @Consumes({ MediaType.APPLICATION_FORM_URLENCODED})
-    public void createReviewTaskFromDialog(
-            @PathParam("serviceProviderId") final String serviceProviderId
-        ) {
-        try {
-            ReviewTask newResource = null;
+    public void createReviewTaskFromDialog(MultivaluedMap<String, String> formParams
+            
+        ) throws URISyntaxException, ParseException {
+        ReviewTask newResource = null;
 
-            ReviewTask aResource = new ReviewTask();
+        ReviewTask aResource = new ReviewTask();
 
-            String[] paramValues;
+        List<String> paramValues;
 
-            paramValues = httpServletRequest.getParameterValues("shortTitle");
-            if (paramValues != null) {
-                    if (paramValues.length == 1) {
-                        if (paramValues[0].length() != 0)
-                            aResource.setShortTitle(paramValues[0]);
-                        // else, there is an empty value for that parameter, and hence ignore since the parameter is not actually set.
-                    }
+        paramValues = formParams.get("shortTitle");
+        if (paramValues != null) {
+                if (paramValues.size() == 1) {
+                    if (paramValues.get(0).length() != 0)
+                        aResource.setShortTitle(paramValues.get(0));
+                    // else, there is an empty value for that parameter, and hence ignore since the parameter is not actually set.
+                }
 
-            }
-            paramValues = httpServletRequest.getParameterValues("description");
-            if (paramValues != null) {
-                    if (paramValues.length == 1) {
-                        if (paramValues[0].length() != 0)
-                            aResource.setDescription(paramValues[0]);
-                        // else, there is an empty value for that parameter, and hence ignore since the parameter is not actually set.
-                    }
+        }
+        paramValues = formParams.get("description");
+        if (paramValues != null) {
+                if (paramValues.size() == 1) {
+                    if (paramValues.get(0).length() != 0)
+                        aResource.setDescription(paramValues.get(0));
+                    // else, there is an empty value for that parameter, and hence ignore since the parameter is not actually set.
+                }
 
-            }
-            paramValues = httpServletRequest.getParameterValues("title");
-            if (paramValues != null) {
-                    if (paramValues.length == 1) {
-                        if (paramValues[0].length() != 0)
-                            aResource.setTitle(paramValues[0]);
-                        // else, there is an empty value for that parameter, and hence ignore since the parameter is not actually set.
-                    }
+        }
+        paramValues = formParams.get("title");
+        if (paramValues != null) {
+                if (paramValues.size() == 1) {
+                    if (paramValues.get(0).length() != 0)
+                        aResource.setTitle(paramValues.get(0));
+                    // else, there is an empty value for that parameter, and hence ignore since the parameter is not actually set.
+                }
 
-            }
-            paramValues = httpServletRequest.getParameterValues("identifier");
-            if (paramValues != null) {
-                    if (paramValues.length == 1) {
-                        if (paramValues[0].length() != 0)
-                            aResource.setIdentifier(paramValues[0]);
-                        // else, there is an empty value for that parameter, and hence ignore since the parameter is not actually set.
-                    }
+        }
+        paramValues = formParams.get("identifier");
+        if (paramValues != null) {
+                if (paramValues.size() == 1) {
+                    if (paramValues.get(0).length() != 0)
+                        aResource.setIdentifier(paramValues.get(0));
+                    // else, there is an empty value for that parameter, and hence ignore since the parameter is not actually set.
+                }
 
-            }
-            paramValues = httpServletRequest.getParameterValues("subject");
-            if (paramValues != null) {
-                    for(int i=0; i<paramValues.length; i++) {
-                        aResource.addSubject(paramValues[i]);
-                    }
-            }
-            paramValues = httpServletRequest.getParameterValues("creator");
-            if (paramValues != null) {
-                    for(int i=0; i<paramValues.length; i++) {
-                        aResource.addCreator(new Link(new URI(paramValues[i])));
-                    }
-            }
-            paramValues = httpServletRequest.getParameterValues("contributor");
-            if (paramValues != null) {
-                    for(int i=0; i<paramValues.length; i++) {
-                        aResource.addContributor(new Link(new URI(paramValues[i])));
-                    }
-            }
-            paramValues = httpServletRequest.getParameterValues("created");
-            if (paramValues != null) {
-                    if (paramValues.length == 1) {
-                        if (paramValues[0].length() != 0)
-                            aResource.setCreated(new SimpleDateFormat("M/D/y").parse(paramValues[0]));
-                        // else, there is an empty value for that parameter, and hence ignore since the parameter is not actually set.
-                    }
+        }
+        paramValues = formParams.get("subject");
+        if (paramValues != null) {
+                for(int i=0; i<paramValues.size(); i++) {
+                    aResource.addSubject(paramValues.get(i));
+                }
+        }
+        paramValues = formParams.get("creator");
+        if (paramValues != null) {
+                for(int i=0; i<paramValues.size(); i++) {
+                    aResource.addCreator(new Link(new URI(paramValues.get(i))));
+                }
+        }
+        paramValues = formParams.get("contributor");
+        if (paramValues != null) {
+                for(int i=0; i<paramValues.size(); i++) {
+                    aResource.addContributor(new Link(new URI(paramValues.get(i))));
+                }
+        }
+        paramValues = formParams.get("created");
+        if (paramValues != null) {
+                if (paramValues.size() == 1) {
+                    if (paramValues.get(0).length() != 0)
+                        aResource.setCreated(new SimpleDateFormat("M/D/y").parse(paramValues.get(0)));
+                    // else, there is an empty value for that parameter, and hence ignore since the parameter is not actually set.
+                }
 
-            }
-            paramValues = httpServletRequest.getParameterValues("modified");
-            if (paramValues != null) {
-                    if (paramValues.length == 1) {
-                        if (paramValues[0].length() != 0)
-                            aResource.setModified(new SimpleDateFormat("M/D/y").parse(paramValues[0]));
-                        // else, there is an empty value for that parameter, and hence ignore since the parameter is not actually set.
-                    }
+        }
+        paramValues = formParams.get("modified");
+        if (paramValues != null) {
+                if (paramValues.size() == 1) {
+                    if (paramValues.get(0).length() != 0)
+                        aResource.setModified(new SimpleDateFormat("M/D/y").parse(paramValues.get(0)));
+                    // else, there is an empty value for that parameter, and hence ignore since the parameter is not actually set.
+                }
 
-            }
-            paramValues = httpServletRequest.getParameterValues("serviceProvider");
-            if (paramValues != null) {
-                    for(int i=0; i<paramValues.length; i++) {
-                        aResource.addServiceProvider(new Link(new URI(paramValues[i])));
-                    }
-            }
-            paramValues = httpServletRequest.getParameterValues("instanceShape");
-            if (paramValues != null) {
-                    for(int i=0; i<paramValues.length; i++) {
-                        aResource.addInstanceShape(new Link(new URI(paramValues[i])));
-                    }
-            }
-            paramValues = httpServletRequest.getParameterValues("discussedBy");
-            if (paramValues != null) {
-                    if (paramValues.length == 1) {
-                        if (paramValues[0].length() != 0)
-                            aResource.setDiscussedBy(new Link(new URI(paramValues[0])));
-                        // else, there is an empty value for that parameter, and hence ignore since the parameter is not actually set.
-                    }
+        }
+        paramValues = formParams.get("serviceProvider");
+        if (paramValues != null) {
+                for(int i=0; i<paramValues.size(); i++) {
+                    aResource.addServiceProvider(new Link(new URI(paramValues.get(i))));
+                }
+        }
+        paramValues = formParams.get("instanceShape");
+        if (paramValues != null) {
+                for(int i=0; i<paramValues.size(); i++) {
+                    aResource.addInstanceShape(new Link(new URI(paramValues.get(i))));
+                }
+        }
+        paramValues = formParams.get("discussedBy");
+        if (paramValues != null) {
+                if (paramValues.size() == 1) {
+                    if (paramValues.get(0).length() != 0)
+                        aResource.setDiscussedBy(new Link(new URI(paramValues.get(0))));
+                    // else, there is an empty value for that parameter, and hence ignore since the parameter is not actually set.
+                }
 
-            }
-            paramValues = httpServletRequest.getParameterValues("closeDate");
-            if (paramValues != null) {
-                    if (paramValues.length == 1) {
-                        if (paramValues[0].length() != 0)
-                            aResource.setCloseDate(new SimpleDateFormat("M/D/y").parse(paramValues[0]));
-                        // else, there is an empty value for that parameter, and hence ignore since the parameter is not actually set.
-                    }
+        }
+        paramValues = formParams.get("closeDate");
+        if (paramValues != null) {
+                if (paramValues.size() == 1) {
+                    if (paramValues.get(0).length() != 0)
+                        aResource.setCloseDate(new SimpleDateFormat("M/D/y").parse(paramValues.get(0)));
+                    // else, there is an empty value for that parameter, and hence ignore since the parameter is not actually set.
+                }
 
-            }
-            paramValues = httpServletRequest.getParameterValues("status");
-            if (paramValues != null) {
-                    if (paramValues.length == 1) {
-                        if (paramValues[0].length() != 0)
-                            aResource.setStatus(paramValues[0]);
-                        // else, there is an empty value for that parameter, and hence ignore since the parameter is not actually set.
-                    }
+        }
+        paramValues = formParams.get("status");
+        if (paramValues != null) {
+                if (paramValues.size() == 1) {
+                    if (paramValues.get(0).length() != 0)
+                        aResource.setStatus(paramValues.get(0));
+                    // else, there is an empty value for that parameter, and hence ignore since the parameter is not actually set.
+                }
 
-            }
-            paramValues = httpServletRequest.getParameterValues("closed");
-            if (paramValues != null) {
-                    if (paramValues.length == 1) {
-                        if (paramValues[0].length() != 0)
-                            aResource.setClosed(new Boolean(paramValues[0]));
-                        // else, there is an empty value for that parameter, and hence ignore since the parameter is not actually set.
-                    }
+        }
+        paramValues = formParams.get("closed");
+        if (paramValues != null) {
+                if (paramValues.size() == 1) {
+                    if (paramValues.get(0).length() != 0)
+                        aResource.setClosed(new Boolean(paramValues.get(0)));
+                    // else, there is an empty value for that parameter, and hence ignore since the parameter is not actually set.
+                }
 
-            }
-            paramValues = httpServletRequest.getParameterValues("inProgress");
-            if (paramValues != null) {
-                    if (paramValues.length == 1) {
-                        if (paramValues[0].length() != 0)
-                            aResource.setInProgress(new Boolean(paramValues[0]));
-                        // else, there is an empty value for that parameter, and hence ignore since the parameter is not actually set.
-                    }
+        }
+        paramValues = formParams.get("inProgress");
+        if (paramValues != null) {
+                if (paramValues.size() == 1) {
+                    if (paramValues.get(0).length() != 0)
+                        aResource.setInProgress(new Boolean(paramValues.get(0)));
+                    // else, there is an empty value for that parameter, and hence ignore since the parameter is not actually set.
+                }
 
-            }
-            paramValues = httpServletRequest.getParameterValues("fixed");
-            if (paramValues != null) {
-                    if (paramValues.length == 1) {
-                        if (paramValues[0].length() != 0)
-                            aResource.setFixed(new Boolean(paramValues[0]));
-                        // else, there is an empty value for that parameter, and hence ignore since the parameter is not actually set.
-                    }
+        }
+        paramValues = formParams.get("fixed");
+        if (paramValues != null) {
+                if (paramValues.size() == 1) {
+                    if (paramValues.get(0).length() != 0)
+                        aResource.setFixed(new Boolean(paramValues.get(0)));
+                    // else, there is an empty value for that parameter, and hence ignore since the parameter is not actually set.
+                }
 
-            }
-            paramValues = httpServletRequest.getParameterValues("approved");
-            if (paramValues != null) {
-                    if (paramValues.length == 1) {
-                        if (paramValues[0].length() != 0)
-                            aResource.setApproved(new Boolean(paramValues[0]));
-                        // else, there is an empty value for that parameter, and hence ignore since the parameter is not actually set.
-                    }
+        }
+        paramValues = formParams.get("approved");
+        if (paramValues != null) {
+                if (paramValues.size() == 1) {
+                    if (paramValues.get(0).length() != 0)
+                        aResource.setApproved(new Boolean(paramValues.get(0)));
+                    // else, there is an empty value for that parameter, and hence ignore since the parameter is not actually set.
+                }
 
-            }
-            paramValues = httpServletRequest.getParameterValues("reviewed");
-            if (paramValues != null) {
-                    if (paramValues.length == 1) {
-                        if (paramValues[0].length() != 0)
-                            aResource.setReviewed(new Boolean(paramValues[0]));
-                        // else, there is an empty value for that parameter, and hence ignore since the parameter is not actually set.
-                    }
+        }
+        paramValues = formParams.get("reviewed");
+        if (paramValues != null) {
+                if (paramValues.size() == 1) {
+                    if (paramValues.get(0).length() != 0)
+                        aResource.setReviewed(new Boolean(paramValues.get(0)));
+                    // else, there is an empty value for that parameter, and hence ignore since the parameter is not actually set.
+                }
 
-            }
-            paramValues = httpServletRequest.getParameterValues("verified");
-            if (paramValues != null) {
-                    if (paramValues.length == 1) {
-                        if (paramValues[0].length() != 0)
-                            aResource.setVerified(new Boolean(paramValues[0]));
-                        // else, there is an empty value for that parameter, and hence ignore since the parameter is not actually set.
-                    }
+        }
+        paramValues = formParams.get("verified");
+        if (paramValues != null) {
+                if (paramValues.size() == 1) {
+                    if (paramValues.get(0).length() != 0)
+                        aResource.setVerified(new Boolean(paramValues.get(0)));
+                    // else, there is an empty value for that parameter, and hence ignore since the parameter is not actually set.
+                }
 
-            }
-            paramValues = httpServletRequest.getParameterValues("relatedChangeRequest");
-            if (paramValues != null) {
-                    for(int i=0; i<paramValues.length; i++) {
-                        aResource.addRelatedChangeRequest(new Link(new URI(paramValues[i])));
-                    }
-            }
-            paramValues = httpServletRequest.getParameterValues("affectsPlanItem");
-            if (paramValues != null) {
-                    for(int i=0; i<paramValues.length; i++) {
-                        aResource.addAffectsPlanItem(new Link(new URI(paramValues[i])));
-                    }
-            }
-            paramValues = httpServletRequest.getParameterValues("affectedByDefect");
-            if (paramValues != null) {
-                    for(int i=0; i<paramValues.length; i++) {
-                        aResource.addAffectedByDefect(new Link(new URI(paramValues[i])));
-                    }
-            }
-            paramValues = httpServletRequest.getParameterValues("tracksRequirement");
-            if (paramValues != null) {
-                    for(int i=0; i<paramValues.length; i++) {
-                        aResource.addTracksRequirement(new Link(new URI(paramValues[i])));
-                    }
-            }
-            paramValues = httpServletRequest.getParameterValues("implementsRequirement");
-            if (paramValues != null) {
-                    for(int i=0; i<paramValues.length; i++) {
-                        aResource.addImplementsRequirement(new Link(new URI(paramValues[i])));
-                    }
-            }
-            paramValues = httpServletRequest.getParameterValues("affectsRequirement");
-            if (paramValues != null) {
-                    for(int i=0; i<paramValues.length; i++) {
-                        aResource.addAffectsRequirement(new Link(new URI(paramValues[i])));
-                    }
-            }
-            paramValues = httpServletRequest.getParameterValues("tracksChangeSet");
-            if (paramValues != null) {
-                    for(int i=0; i<paramValues.length; i++) {
-                        aResource.addTracksChangeSet(new Link(new URI(paramValues[i])));
-                    }
-            }
-            paramValues = httpServletRequest.getParameterValues("parent");
-            if (paramValues != null) {
-                    for(int i=0; i<paramValues.length; i++) {
-                        aResource.addParent(new Link(new URI(paramValues[i])));
-                    }
-            }
-            paramValues = httpServletRequest.getParameterValues("priority");
-            if (paramValues != null) {
-                    for(int i=0; i<paramValues.length; i++) {
-                        aResource.addPriority(new Link(new URI(paramValues[i])));
-                    }
-            }
-            paramValues = httpServletRequest.getParameterValues("state");
-            if (paramValues != null) {
-                    if (paramValues.length == 1) {
-                        if (paramValues[0].length() != 0)
-                            aResource.setState(new Link(new URI(paramValues[0])));
-                        // else, there is an empty value for that parameter, and hence ignore since the parameter is not actually set.
-                    }
+        }
+        paramValues = formParams.get("relatedChangeRequest");
+        if (paramValues != null) {
+                for(int i=0; i<paramValues.size(); i++) {
+                    aResource.addRelatedChangeRequest(new Link(new URI(paramValues.get(i))));
+                }
+        }
+        paramValues = formParams.get("affectsPlanItem");
+        if (paramValues != null) {
+                for(int i=0; i<paramValues.size(); i++) {
+                    aResource.addAffectsPlanItem(new Link(new URI(paramValues.get(i))));
+                }
+        }
+        paramValues = formParams.get("affectedByDefect");
+        if (paramValues != null) {
+                for(int i=0; i<paramValues.size(); i++) {
+                    aResource.addAffectedByDefect(new Link(new URI(paramValues.get(i))));
+                }
+        }
+        paramValues = formParams.get("tracksRequirement");
+        if (paramValues != null) {
+                for(int i=0; i<paramValues.size(); i++) {
+                    aResource.addTracksRequirement(new Link(new URI(paramValues.get(i))));
+                }
+        }
+        paramValues = formParams.get("implementsRequirement");
+        if (paramValues != null) {
+                for(int i=0; i<paramValues.size(); i++) {
+                    aResource.addImplementsRequirement(new Link(new URI(paramValues.get(i))));
+                }
+        }
+        paramValues = formParams.get("affectsRequirement");
+        if (paramValues != null) {
+                for(int i=0; i<paramValues.size(); i++) {
+                    aResource.addAffectsRequirement(new Link(new URI(paramValues.get(i))));
+                }
+        }
+        paramValues = formParams.get("tracksChangeSet");
+        if (paramValues != null) {
+                for(int i=0; i<paramValues.size(); i++) {
+                    aResource.addTracksChangeSet(new Link(new URI(paramValues.get(i))));
+                }
+        }
+        paramValues = formParams.get("parent");
+        if (paramValues != null) {
+                for(int i=0; i<paramValues.size(); i++) {
+                    aResource.addParent(new Link(new URI(paramValues.get(i))));
+                }
+        }
+        paramValues = formParams.get("priority");
+        if (paramValues != null) {
+                for(int i=0; i<paramValues.size(); i++) {
+                    aResource.addPriority(new Link(new URI(paramValues.get(i))));
+                }
+        }
+        paramValues = formParams.get("state");
+        if (paramValues != null) {
+                if (paramValues.size() == 1) {
+                    if (paramValues.get(0).length() != 0)
+                        aResource.setState(new Link(new URI(paramValues.get(0))));
+                    // else, there is an empty value for that parameter, and hence ignore since the parameter is not actually set.
+                }
 
-            }
-            paramValues = httpServletRequest.getParameterValues("authorizer");
-            if (paramValues != null) {
-                    for(int i=0; i<paramValues.length; i++) {
-                        aResource.addAuthorizer(new Link(new URI(paramValues[i])));
-                    }
-            }
+        }
+        paramValues = formParams.get("authorizer");
+        if (paramValues != null) {
+                for(int i=0; i<paramValues.size(); i++) {
+                    aResource.addAuthorizer(new Link(new URI(paramValues.get(i))));
+                }
+        }
 
-            newResource = CMManager.createReviewTaskFromDialog(httpServletRequest, aResource, serviceProviderId);
+        newResource = CMManager.createReviewTaskFromDialog(httpServletRequest, aResource);
 
-            if (newResource != null) {
-                httpServletRequest.setAttribute("newResource", newResource);
-                httpServletRequest.setAttribute("newResourceUri", newResource.getAbout().toString());
+        if (newResource != null) {
+            httpServletRequest.setAttribute("newResource", newResource);
+            httpServletRequest.setAttribute("newResourceUri", newResource.getAbout().toString());
 
-                // Send back to the form a small JSON response
-                httpServletResponse.setContentType("application/json");
-                httpServletResponse.setStatus(Status.CREATED.getStatusCode());
-                httpServletResponse.addHeader("Location", newResource.getAbout().toString());
+            // Send back to the form a small JSON response
+            httpServletResponse.setContentType("application/json");
+            httpServletResponse.setStatus(Status.CREATED.getStatusCode());
+            httpServletResponse.addHeader("Location", newResource.getAbout().toString());
+            try {
                 PrintWriter out = httpServletResponse.getWriter();
-
+    
                 JSONObject oslcResponse = new JSONObject();
                 JSONObject newResourceJson = new JSONObject();
                 newResourceJson.put("rdf:resource", newResource.getAbout().toString());
@@ -1473,13 +1435,12 @@ public class Change_requestsService
                 newResourceJson.put("oslc:label", newResource.toString());
                 // End of user code
                 oslcResponse.put("oslc:results", new Object[]{newResourceJson});
-
+    
                 out.print(oslcResponse.toString());
                 out.close();
+            } catch (IOException | JSONException e) {
+                throw new WebApplicationException(e);
             }
-        } catch (Exception e) {
-            e.printStackTrace();
-            throw new WebApplicationException(e);
         }
     }
     /**
@@ -1492,14 +1453,13 @@ public class Change_requestsService
     @Path("create_change_notice")
     @Consumes({MediaType.WILDCARD})
     public void ChangeNoticeCreator(
-                @PathParam("serviceProviderId") final String serviceProviderId
+                
         ) throws IOException, ServletException
     {
         // Start of user code ChangeNoticeCreator
         // End of user code
 
         httpServletRequest.setAttribute("creatorUri", UriBuilder.fromUri(OSLC4JUtils.getServletURI()).path(uriInfo.getPath()).build().toString());
-        httpServletRequest.setAttribute("serviceProviderId", serviceProviderId);
 
         RequestDispatcher rd = httpServletRequest.getRequestDispatcher("/co/oslc/refimpl/cm/gen/changenoticecreator.jsp");
         rd.forward(httpServletRequest, httpServletResponse);
@@ -1514,7 +1474,7 @@ public class Change_requestsService
     (
          title = "ChangeNoticeDlgCr",
          label = "Change Notice Creation Dialog",
-         uri = "serviceProviders/{serviceProviderId}/resources/create_change_notice",
+         uri = "resources/create_change_notice",
          hintWidth = "0px",
          hintHeight = "0px",
          resourceTypes = {Oslc_cmDomainConstants.CHANGENOTICE_TYPE},
@@ -1523,263 +1483,263 @@ public class Change_requestsService
     @POST
     @Path("create_change_notice")
     @Consumes({ MediaType.APPLICATION_FORM_URLENCODED})
-    public void createChangeNoticeFromDialog(
-            @PathParam("serviceProviderId") final String serviceProviderId
-        ) {
-        try {
-            ChangeNotice newResource = null;
+    public void createChangeNoticeFromDialog(MultivaluedMap<String, String> formParams
+            
+        ) throws URISyntaxException, ParseException {
+        ChangeNotice newResource = null;
 
-            ChangeNotice aResource = new ChangeNotice();
+        ChangeNotice aResource = new ChangeNotice();
 
-            String[] paramValues;
+        List<String> paramValues;
 
-            paramValues = httpServletRequest.getParameterValues("shortTitle");
-            if (paramValues != null) {
-                    if (paramValues.length == 1) {
-                        if (paramValues[0].length() != 0)
-                            aResource.setShortTitle(paramValues[0]);
-                        // else, there is an empty value for that parameter, and hence ignore since the parameter is not actually set.
-                    }
+        paramValues = formParams.get("shortTitle");
+        if (paramValues != null) {
+                if (paramValues.size() == 1) {
+                    if (paramValues.get(0).length() != 0)
+                        aResource.setShortTitle(paramValues.get(0));
+                    // else, there is an empty value for that parameter, and hence ignore since the parameter is not actually set.
+                }
 
-            }
-            paramValues = httpServletRequest.getParameterValues("description");
-            if (paramValues != null) {
-                    if (paramValues.length == 1) {
-                        if (paramValues[0].length() != 0)
-                            aResource.setDescription(paramValues[0]);
-                        // else, there is an empty value for that parameter, and hence ignore since the parameter is not actually set.
-                    }
+        }
+        paramValues = formParams.get("description");
+        if (paramValues != null) {
+                if (paramValues.size() == 1) {
+                    if (paramValues.get(0).length() != 0)
+                        aResource.setDescription(paramValues.get(0));
+                    // else, there is an empty value for that parameter, and hence ignore since the parameter is not actually set.
+                }
 
-            }
-            paramValues = httpServletRequest.getParameterValues("title");
-            if (paramValues != null) {
-                    if (paramValues.length == 1) {
-                        if (paramValues[0].length() != 0)
-                            aResource.setTitle(paramValues[0]);
-                        // else, there is an empty value for that parameter, and hence ignore since the parameter is not actually set.
-                    }
+        }
+        paramValues = formParams.get("title");
+        if (paramValues != null) {
+                if (paramValues.size() == 1) {
+                    if (paramValues.get(0).length() != 0)
+                        aResource.setTitle(paramValues.get(0));
+                    // else, there is an empty value for that parameter, and hence ignore since the parameter is not actually set.
+                }
 
-            }
-            paramValues = httpServletRequest.getParameterValues("identifier");
-            if (paramValues != null) {
-                    if (paramValues.length == 1) {
-                        if (paramValues[0].length() != 0)
-                            aResource.setIdentifier(paramValues[0]);
-                        // else, there is an empty value for that parameter, and hence ignore since the parameter is not actually set.
-                    }
+        }
+        paramValues = formParams.get("identifier");
+        if (paramValues != null) {
+                if (paramValues.size() == 1) {
+                    if (paramValues.get(0).length() != 0)
+                        aResource.setIdentifier(paramValues.get(0));
+                    // else, there is an empty value for that parameter, and hence ignore since the parameter is not actually set.
+                }
 
-            }
-            paramValues = httpServletRequest.getParameterValues("subject");
-            if (paramValues != null) {
-                    for(int i=0; i<paramValues.length; i++) {
-                        aResource.addSubject(paramValues[i]);
-                    }
-            }
-            paramValues = httpServletRequest.getParameterValues("creator");
-            if (paramValues != null) {
-                    for(int i=0; i<paramValues.length; i++) {
-                        aResource.addCreator(new Link(new URI(paramValues[i])));
-                    }
-            }
-            paramValues = httpServletRequest.getParameterValues("contributor");
-            if (paramValues != null) {
-                    for(int i=0; i<paramValues.length; i++) {
-                        aResource.addContributor(new Link(new URI(paramValues[i])));
-                    }
-            }
-            paramValues = httpServletRequest.getParameterValues("created");
-            if (paramValues != null) {
-                    if (paramValues.length == 1) {
-                        if (paramValues[0].length() != 0)
-                            aResource.setCreated(new SimpleDateFormat("M/D/y").parse(paramValues[0]));
-                        // else, there is an empty value for that parameter, and hence ignore since the parameter is not actually set.
-                    }
+        }
+        paramValues = formParams.get("subject");
+        if (paramValues != null) {
+                for(int i=0; i<paramValues.size(); i++) {
+                    aResource.addSubject(paramValues.get(i));
+                }
+        }
+        paramValues = formParams.get("creator");
+        if (paramValues != null) {
+                for(int i=0; i<paramValues.size(); i++) {
+                    aResource.addCreator(new Link(new URI(paramValues.get(i))));
+                }
+        }
+        paramValues = formParams.get("contributor");
+        if (paramValues != null) {
+                for(int i=0; i<paramValues.size(); i++) {
+                    aResource.addContributor(new Link(new URI(paramValues.get(i))));
+                }
+        }
+        paramValues = formParams.get("created");
+        if (paramValues != null) {
+                if (paramValues.size() == 1) {
+                    if (paramValues.get(0).length() != 0)
+                        aResource.setCreated(new SimpleDateFormat("M/D/y").parse(paramValues.get(0)));
+                    // else, there is an empty value for that parameter, and hence ignore since the parameter is not actually set.
+                }
 
-            }
-            paramValues = httpServletRequest.getParameterValues("modified");
-            if (paramValues != null) {
-                    if (paramValues.length == 1) {
-                        if (paramValues[0].length() != 0)
-                            aResource.setModified(new SimpleDateFormat("M/D/y").parse(paramValues[0]));
-                        // else, there is an empty value for that parameter, and hence ignore since the parameter is not actually set.
-                    }
+        }
+        paramValues = formParams.get("modified");
+        if (paramValues != null) {
+                if (paramValues.size() == 1) {
+                    if (paramValues.get(0).length() != 0)
+                        aResource.setModified(new SimpleDateFormat("M/D/y").parse(paramValues.get(0)));
+                    // else, there is an empty value for that parameter, and hence ignore since the parameter is not actually set.
+                }
 
-            }
-            paramValues = httpServletRequest.getParameterValues("serviceProvider");
-            if (paramValues != null) {
-                    for(int i=0; i<paramValues.length; i++) {
-                        aResource.addServiceProvider(new Link(new URI(paramValues[i])));
-                    }
-            }
-            paramValues = httpServletRequest.getParameterValues("instanceShape");
-            if (paramValues != null) {
-                    for(int i=0; i<paramValues.length; i++) {
-                        aResource.addInstanceShape(new Link(new URI(paramValues[i])));
-                    }
-            }
-            paramValues = httpServletRequest.getParameterValues("discussedBy");
-            if (paramValues != null) {
-                    if (paramValues.length == 1) {
-                        if (paramValues[0].length() != 0)
-                            aResource.setDiscussedBy(new Link(new URI(paramValues[0])));
-                        // else, there is an empty value for that parameter, and hence ignore since the parameter is not actually set.
-                    }
+        }
+        paramValues = formParams.get("serviceProvider");
+        if (paramValues != null) {
+                for(int i=0; i<paramValues.size(); i++) {
+                    aResource.addServiceProvider(new Link(new URI(paramValues.get(i))));
+                }
+        }
+        paramValues = formParams.get("instanceShape");
+        if (paramValues != null) {
+                for(int i=0; i<paramValues.size(); i++) {
+                    aResource.addInstanceShape(new Link(new URI(paramValues.get(i))));
+                }
+        }
+        paramValues = formParams.get("discussedBy");
+        if (paramValues != null) {
+                if (paramValues.size() == 1) {
+                    if (paramValues.get(0).length() != 0)
+                        aResource.setDiscussedBy(new Link(new URI(paramValues.get(0))));
+                    // else, there is an empty value for that parameter, and hence ignore since the parameter is not actually set.
+                }
 
-            }
-            paramValues = httpServletRequest.getParameterValues("closeDate");
-            if (paramValues != null) {
-                    if (paramValues.length == 1) {
-                        if (paramValues[0].length() != 0)
-                            aResource.setCloseDate(new SimpleDateFormat("M/D/y").parse(paramValues[0]));
-                        // else, there is an empty value for that parameter, and hence ignore since the parameter is not actually set.
-                    }
+        }
+        paramValues = formParams.get("closeDate");
+        if (paramValues != null) {
+                if (paramValues.size() == 1) {
+                    if (paramValues.get(0).length() != 0)
+                        aResource.setCloseDate(new SimpleDateFormat("M/D/y").parse(paramValues.get(0)));
+                    // else, there is an empty value for that parameter, and hence ignore since the parameter is not actually set.
+                }
 
-            }
-            paramValues = httpServletRequest.getParameterValues("status");
-            if (paramValues != null) {
-                    if (paramValues.length == 1) {
-                        if (paramValues[0].length() != 0)
-                            aResource.setStatus(paramValues[0]);
-                        // else, there is an empty value for that parameter, and hence ignore since the parameter is not actually set.
-                    }
+        }
+        paramValues = formParams.get("status");
+        if (paramValues != null) {
+                if (paramValues.size() == 1) {
+                    if (paramValues.get(0).length() != 0)
+                        aResource.setStatus(paramValues.get(0));
+                    // else, there is an empty value for that parameter, and hence ignore since the parameter is not actually set.
+                }
 
-            }
-            paramValues = httpServletRequest.getParameterValues("closed");
-            if (paramValues != null) {
-                    if (paramValues.length == 1) {
-                        if (paramValues[0].length() != 0)
-                            aResource.setClosed(new Boolean(paramValues[0]));
-                        // else, there is an empty value for that parameter, and hence ignore since the parameter is not actually set.
-                    }
+        }
+        paramValues = formParams.get("closed");
+        if (paramValues != null) {
+                if (paramValues.size() == 1) {
+                    if (paramValues.get(0).length() != 0)
+                        aResource.setClosed(new Boolean(paramValues.get(0)));
+                    // else, there is an empty value for that parameter, and hence ignore since the parameter is not actually set.
+                }
 
-            }
-            paramValues = httpServletRequest.getParameterValues("inProgress");
-            if (paramValues != null) {
-                    if (paramValues.length == 1) {
-                        if (paramValues[0].length() != 0)
-                            aResource.setInProgress(new Boolean(paramValues[0]));
-                        // else, there is an empty value for that parameter, and hence ignore since the parameter is not actually set.
-                    }
+        }
+        paramValues = formParams.get("inProgress");
+        if (paramValues != null) {
+                if (paramValues.size() == 1) {
+                    if (paramValues.get(0).length() != 0)
+                        aResource.setInProgress(new Boolean(paramValues.get(0)));
+                    // else, there is an empty value for that parameter, and hence ignore since the parameter is not actually set.
+                }
 
-            }
-            paramValues = httpServletRequest.getParameterValues("fixed");
-            if (paramValues != null) {
-                    if (paramValues.length == 1) {
-                        if (paramValues[0].length() != 0)
-                            aResource.setFixed(new Boolean(paramValues[0]));
-                        // else, there is an empty value for that parameter, and hence ignore since the parameter is not actually set.
-                    }
+        }
+        paramValues = formParams.get("fixed");
+        if (paramValues != null) {
+                if (paramValues.size() == 1) {
+                    if (paramValues.get(0).length() != 0)
+                        aResource.setFixed(new Boolean(paramValues.get(0)));
+                    // else, there is an empty value for that parameter, and hence ignore since the parameter is not actually set.
+                }
 
-            }
-            paramValues = httpServletRequest.getParameterValues("approved");
-            if (paramValues != null) {
-                    if (paramValues.length == 1) {
-                        if (paramValues[0].length() != 0)
-                            aResource.setApproved(new Boolean(paramValues[0]));
-                        // else, there is an empty value for that parameter, and hence ignore since the parameter is not actually set.
-                    }
+        }
+        paramValues = formParams.get("approved");
+        if (paramValues != null) {
+                if (paramValues.size() == 1) {
+                    if (paramValues.get(0).length() != 0)
+                        aResource.setApproved(new Boolean(paramValues.get(0)));
+                    // else, there is an empty value for that parameter, and hence ignore since the parameter is not actually set.
+                }
 
-            }
-            paramValues = httpServletRequest.getParameterValues("reviewed");
-            if (paramValues != null) {
-                    if (paramValues.length == 1) {
-                        if (paramValues[0].length() != 0)
-                            aResource.setReviewed(new Boolean(paramValues[0]));
-                        // else, there is an empty value for that parameter, and hence ignore since the parameter is not actually set.
-                    }
+        }
+        paramValues = formParams.get("reviewed");
+        if (paramValues != null) {
+                if (paramValues.size() == 1) {
+                    if (paramValues.get(0).length() != 0)
+                        aResource.setReviewed(new Boolean(paramValues.get(0)));
+                    // else, there is an empty value for that parameter, and hence ignore since the parameter is not actually set.
+                }
 
-            }
-            paramValues = httpServletRequest.getParameterValues("verified");
-            if (paramValues != null) {
-                    if (paramValues.length == 1) {
-                        if (paramValues[0].length() != 0)
-                            aResource.setVerified(new Boolean(paramValues[0]));
-                        // else, there is an empty value for that parameter, and hence ignore since the parameter is not actually set.
-                    }
+        }
+        paramValues = formParams.get("verified");
+        if (paramValues != null) {
+                if (paramValues.size() == 1) {
+                    if (paramValues.get(0).length() != 0)
+                        aResource.setVerified(new Boolean(paramValues.get(0)));
+                    // else, there is an empty value for that parameter, and hence ignore since the parameter is not actually set.
+                }
 
-            }
-            paramValues = httpServletRequest.getParameterValues("relatedChangeRequest");
-            if (paramValues != null) {
-                    for(int i=0; i<paramValues.length; i++) {
-                        aResource.addRelatedChangeRequest(new Link(new URI(paramValues[i])));
-                    }
-            }
-            paramValues = httpServletRequest.getParameterValues("affectsPlanItem");
-            if (paramValues != null) {
-                    for(int i=0; i<paramValues.length; i++) {
-                        aResource.addAffectsPlanItem(new Link(new URI(paramValues[i])));
-                    }
-            }
-            paramValues = httpServletRequest.getParameterValues("affectedByDefect");
-            if (paramValues != null) {
-                    for(int i=0; i<paramValues.length; i++) {
-                        aResource.addAffectedByDefect(new Link(new URI(paramValues[i])));
-                    }
-            }
-            paramValues = httpServletRequest.getParameterValues("tracksRequirement");
-            if (paramValues != null) {
-                    for(int i=0; i<paramValues.length; i++) {
-                        aResource.addTracksRequirement(new Link(new URI(paramValues[i])));
-                    }
-            }
-            paramValues = httpServletRequest.getParameterValues("implementsRequirement");
-            if (paramValues != null) {
-                    for(int i=0; i<paramValues.length; i++) {
-                        aResource.addImplementsRequirement(new Link(new URI(paramValues[i])));
-                    }
-            }
-            paramValues = httpServletRequest.getParameterValues("affectsRequirement");
-            if (paramValues != null) {
-                    for(int i=0; i<paramValues.length; i++) {
-                        aResource.addAffectsRequirement(new Link(new URI(paramValues[i])));
-                    }
-            }
-            paramValues = httpServletRequest.getParameterValues("tracksChangeSet");
-            if (paramValues != null) {
-                    for(int i=0; i<paramValues.length; i++) {
-                        aResource.addTracksChangeSet(new Link(new URI(paramValues[i])));
-                    }
-            }
-            paramValues = httpServletRequest.getParameterValues("parent");
-            if (paramValues != null) {
-                    for(int i=0; i<paramValues.length; i++) {
-                        aResource.addParent(new Link(new URI(paramValues[i])));
-                    }
-            }
-            paramValues = httpServletRequest.getParameterValues("priority");
-            if (paramValues != null) {
-                    for(int i=0; i<paramValues.length; i++) {
-                        aResource.addPriority(new Link(new URI(paramValues[i])));
-                    }
-            }
-            paramValues = httpServletRequest.getParameterValues("state");
-            if (paramValues != null) {
-                    if (paramValues.length == 1) {
-                        if (paramValues[0].length() != 0)
-                            aResource.setState(new Link(new URI(paramValues[0])));
-                        // else, there is an empty value for that parameter, and hence ignore since the parameter is not actually set.
-                    }
+        }
+        paramValues = formParams.get("relatedChangeRequest");
+        if (paramValues != null) {
+                for(int i=0; i<paramValues.size(); i++) {
+                    aResource.addRelatedChangeRequest(new Link(new URI(paramValues.get(i))));
+                }
+        }
+        paramValues = formParams.get("affectsPlanItem");
+        if (paramValues != null) {
+                for(int i=0; i<paramValues.size(); i++) {
+                    aResource.addAffectsPlanItem(new Link(new URI(paramValues.get(i))));
+                }
+        }
+        paramValues = formParams.get("affectedByDefect");
+        if (paramValues != null) {
+                for(int i=0; i<paramValues.size(); i++) {
+                    aResource.addAffectedByDefect(new Link(new URI(paramValues.get(i))));
+                }
+        }
+        paramValues = formParams.get("tracksRequirement");
+        if (paramValues != null) {
+                for(int i=0; i<paramValues.size(); i++) {
+                    aResource.addTracksRequirement(new Link(new URI(paramValues.get(i))));
+                }
+        }
+        paramValues = formParams.get("implementsRequirement");
+        if (paramValues != null) {
+                for(int i=0; i<paramValues.size(); i++) {
+                    aResource.addImplementsRequirement(new Link(new URI(paramValues.get(i))));
+                }
+        }
+        paramValues = formParams.get("affectsRequirement");
+        if (paramValues != null) {
+                for(int i=0; i<paramValues.size(); i++) {
+                    aResource.addAffectsRequirement(new Link(new URI(paramValues.get(i))));
+                }
+        }
+        paramValues = formParams.get("tracksChangeSet");
+        if (paramValues != null) {
+                for(int i=0; i<paramValues.size(); i++) {
+                    aResource.addTracksChangeSet(new Link(new URI(paramValues.get(i))));
+                }
+        }
+        paramValues = formParams.get("parent");
+        if (paramValues != null) {
+                for(int i=0; i<paramValues.size(); i++) {
+                    aResource.addParent(new Link(new URI(paramValues.get(i))));
+                }
+        }
+        paramValues = formParams.get("priority");
+        if (paramValues != null) {
+                for(int i=0; i<paramValues.size(); i++) {
+                    aResource.addPriority(new Link(new URI(paramValues.get(i))));
+                }
+        }
+        paramValues = formParams.get("state");
+        if (paramValues != null) {
+                if (paramValues.size() == 1) {
+                    if (paramValues.get(0).length() != 0)
+                        aResource.setState(new Link(new URI(paramValues.get(0))));
+                    // else, there is an empty value for that parameter, and hence ignore since the parameter is not actually set.
+                }
 
-            }
-            paramValues = httpServletRequest.getParameterValues("authorizer");
-            if (paramValues != null) {
-                    for(int i=0; i<paramValues.length; i++) {
-                        aResource.addAuthorizer(new Link(new URI(paramValues[i])));
-                    }
-            }
+        }
+        paramValues = formParams.get("authorizer");
+        if (paramValues != null) {
+                for(int i=0; i<paramValues.size(); i++) {
+                    aResource.addAuthorizer(new Link(new URI(paramValues.get(i))));
+                }
+        }
 
-            newResource = CMManager.createChangeNoticeFromDialog(httpServletRequest, aResource, serviceProviderId);
+        newResource = CMManager.createChangeNoticeFromDialog(httpServletRequest, aResource);
 
-            if (newResource != null) {
-                httpServletRequest.setAttribute("newResource", newResource);
-                httpServletRequest.setAttribute("newResourceUri", newResource.getAbout().toString());
+        if (newResource != null) {
+            httpServletRequest.setAttribute("newResource", newResource);
+            httpServletRequest.setAttribute("newResourceUri", newResource.getAbout().toString());
 
-                // Send back to the form a small JSON response
-                httpServletResponse.setContentType("application/json");
-                httpServletResponse.setStatus(Status.CREATED.getStatusCode());
-                httpServletResponse.addHeader("Location", newResource.getAbout().toString());
+            // Send back to the form a small JSON response
+            httpServletResponse.setContentType("application/json");
+            httpServletResponse.setStatus(Status.CREATED.getStatusCode());
+            httpServletResponse.addHeader("Location", newResource.getAbout().toString());
+            try {
                 PrintWriter out = httpServletResponse.getWriter();
-
+    
                 JSONObject oslcResponse = new JSONObject();
                 JSONObject newResourceJson = new JSONObject();
                 newResourceJson.put("rdf:resource", newResource.getAbout().toString());
@@ -1787,13 +1747,12 @@ public class Change_requestsService
                 newResourceJson.put("oslc:label", newResource.toString());
                 // End of user code
                 oslcResponse.put("oslc:results", new Object[]{newResourceJson});
-
+    
                 out.print(oslcResponse.toString());
                 out.close();
+            } catch (IOException | JSONException e) {
+                throw new WebApplicationException(e);
             }
-        } catch (Exception e) {
-            e.printStackTrace();
-            throw new WebApplicationException(e);
         }
     }
     /**
@@ -1806,14 +1765,13 @@ public class Change_requestsService
     @Path("create_enhancement")
     @Consumes({MediaType.WILDCARD})
     public void EnhancementCreator(
-                @PathParam("serviceProviderId") final String serviceProviderId
+                
         ) throws IOException, ServletException
     {
         // Start of user code EnhancementCreator
         // End of user code
 
         httpServletRequest.setAttribute("creatorUri", UriBuilder.fromUri(OSLC4JUtils.getServletURI()).path(uriInfo.getPath()).build().toString());
-        httpServletRequest.setAttribute("serviceProviderId", serviceProviderId);
 
         RequestDispatcher rd = httpServletRequest.getRequestDispatcher("/co/oslc/refimpl/cm/gen/enhancementcreator.jsp");
         rd.forward(httpServletRequest, httpServletResponse);
@@ -1828,7 +1786,7 @@ public class Change_requestsService
     (
          title = "EnhancementDlgCr",
          label = "Enhancement Creation Dialog",
-         uri = "serviceProviders/{serviceProviderId}/resources/create_enhancement",
+         uri = "resources/create_enhancement",
          hintWidth = "0px",
          hintHeight = "0px",
          resourceTypes = {Oslc_cmDomainConstants.ENHANCEMENT_TYPE},
@@ -1837,263 +1795,263 @@ public class Change_requestsService
     @POST
     @Path("create_enhancement")
     @Consumes({ MediaType.APPLICATION_FORM_URLENCODED})
-    public void createEnhancementFromDialog(
-            @PathParam("serviceProviderId") final String serviceProviderId
-        ) {
-        try {
-            Enhancement newResource = null;
+    public void createEnhancementFromDialog(MultivaluedMap<String, String> formParams
+            
+        ) throws URISyntaxException, ParseException {
+        Enhancement newResource = null;
 
-            Enhancement aResource = new Enhancement();
+        Enhancement aResource = new Enhancement();
 
-            String[] paramValues;
+        List<String> paramValues;
 
-            paramValues = httpServletRequest.getParameterValues("shortTitle");
-            if (paramValues != null) {
-                    if (paramValues.length == 1) {
-                        if (paramValues[0].length() != 0)
-                            aResource.setShortTitle(paramValues[0]);
-                        // else, there is an empty value for that parameter, and hence ignore since the parameter is not actually set.
-                    }
+        paramValues = formParams.get("shortTitle");
+        if (paramValues != null) {
+                if (paramValues.size() == 1) {
+                    if (paramValues.get(0).length() != 0)
+                        aResource.setShortTitle(paramValues.get(0));
+                    // else, there is an empty value for that parameter, and hence ignore since the parameter is not actually set.
+                }
 
-            }
-            paramValues = httpServletRequest.getParameterValues("description");
-            if (paramValues != null) {
-                    if (paramValues.length == 1) {
-                        if (paramValues[0].length() != 0)
-                            aResource.setDescription(paramValues[0]);
-                        // else, there is an empty value for that parameter, and hence ignore since the parameter is not actually set.
-                    }
+        }
+        paramValues = formParams.get("description");
+        if (paramValues != null) {
+                if (paramValues.size() == 1) {
+                    if (paramValues.get(0).length() != 0)
+                        aResource.setDescription(paramValues.get(0));
+                    // else, there is an empty value for that parameter, and hence ignore since the parameter is not actually set.
+                }
 
-            }
-            paramValues = httpServletRequest.getParameterValues("title");
-            if (paramValues != null) {
-                    if (paramValues.length == 1) {
-                        if (paramValues[0].length() != 0)
-                            aResource.setTitle(paramValues[0]);
-                        // else, there is an empty value for that parameter, and hence ignore since the parameter is not actually set.
-                    }
+        }
+        paramValues = formParams.get("title");
+        if (paramValues != null) {
+                if (paramValues.size() == 1) {
+                    if (paramValues.get(0).length() != 0)
+                        aResource.setTitle(paramValues.get(0));
+                    // else, there is an empty value for that parameter, and hence ignore since the parameter is not actually set.
+                }
 
-            }
-            paramValues = httpServletRequest.getParameterValues("identifier");
-            if (paramValues != null) {
-                    if (paramValues.length == 1) {
-                        if (paramValues[0].length() != 0)
-                            aResource.setIdentifier(paramValues[0]);
-                        // else, there is an empty value for that parameter, and hence ignore since the parameter is not actually set.
-                    }
+        }
+        paramValues = formParams.get("identifier");
+        if (paramValues != null) {
+                if (paramValues.size() == 1) {
+                    if (paramValues.get(0).length() != 0)
+                        aResource.setIdentifier(paramValues.get(0));
+                    // else, there is an empty value for that parameter, and hence ignore since the parameter is not actually set.
+                }
 
-            }
-            paramValues = httpServletRequest.getParameterValues("subject");
-            if (paramValues != null) {
-                    for(int i=0; i<paramValues.length; i++) {
-                        aResource.addSubject(paramValues[i]);
-                    }
-            }
-            paramValues = httpServletRequest.getParameterValues("creator");
-            if (paramValues != null) {
-                    for(int i=0; i<paramValues.length; i++) {
-                        aResource.addCreator(new Link(new URI(paramValues[i])));
-                    }
-            }
-            paramValues = httpServletRequest.getParameterValues("contributor");
-            if (paramValues != null) {
-                    for(int i=0; i<paramValues.length; i++) {
-                        aResource.addContributor(new Link(new URI(paramValues[i])));
-                    }
-            }
-            paramValues = httpServletRequest.getParameterValues("created");
-            if (paramValues != null) {
-                    if (paramValues.length == 1) {
-                        if (paramValues[0].length() != 0)
-                            aResource.setCreated(new SimpleDateFormat("M/D/y").parse(paramValues[0]));
-                        // else, there is an empty value for that parameter, and hence ignore since the parameter is not actually set.
-                    }
+        }
+        paramValues = formParams.get("subject");
+        if (paramValues != null) {
+                for(int i=0; i<paramValues.size(); i++) {
+                    aResource.addSubject(paramValues.get(i));
+                }
+        }
+        paramValues = formParams.get("creator");
+        if (paramValues != null) {
+                for(int i=0; i<paramValues.size(); i++) {
+                    aResource.addCreator(new Link(new URI(paramValues.get(i))));
+                }
+        }
+        paramValues = formParams.get("contributor");
+        if (paramValues != null) {
+                for(int i=0; i<paramValues.size(); i++) {
+                    aResource.addContributor(new Link(new URI(paramValues.get(i))));
+                }
+        }
+        paramValues = formParams.get("created");
+        if (paramValues != null) {
+                if (paramValues.size() == 1) {
+                    if (paramValues.get(0).length() != 0)
+                        aResource.setCreated(new SimpleDateFormat("M/D/y").parse(paramValues.get(0)));
+                    // else, there is an empty value for that parameter, and hence ignore since the parameter is not actually set.
+                }
 
-            }
-            paramValues = httpServletRequest.getParameterValues("modified");
-            if (paramValues != null) {
-                    if (paramValues.length == 1) {
-                        if (paramValues[0].length() != 0)
-                            aResource.setModified(new SimpleDateFormat("M/D/y").parse(paramValues[0]));
-                        // else, there is an empty value for that parameter, and hence ignore since the parameter is not actually set.
-                    }
+        }
+        paramValues = formParams.get("modified");
+        if (paramValues != null) {
+                if (paramValues.size() == 1) {
+                    if (paramValues.get(0).length() != 0)
+                        aResource.setModified(new SimpleDateFormat("M/D/y").parse(paramValues.get(0)));
+                    // else, there is an empty value for that parameter, and hence ignore since the parameter is not actually set.
+                }
 
-            }
-            paramValues = httpServletRequest.getParameterValues("serviceProvider");
-            if (paramValues != null) {
-                    for(int i=0; i<paramValues.length; i++) {
-                        aResource.addServiceProvider(new Link(new URI(paramValues[i])));
-                    }
-            }
-            paramValues = httpServletRequest.getParameterValues("instanceShape");
-            if (paramValues != null) {
-                    for(int i=0; i<paramValues.length; i++) {
-                        aResource.addInstanceShape(new Link(new URI(paramValues[i])));
-                    }
-            }
-            paramValues = httpServletRequest.getParameterValues("discussedBy");
-            if (paramValues != null) {
-                    if (paramValues.length == 1) {
-                        if (paramValues[0].length() != 0)
-                            aResource.setDiscussedBy(new Link(new URI(paramValues[0])));
-                        // else, there is an empty value for that parameter, and hence ignore since the parameter is not actually set.
-                    }
+        }
+        paramValues = formParams.get("serviceProvider");
+        if (paramValues != null) {
+                for(int i=0; i<paramValues.size(); i++) {
+                    aResource.addServiceProvider(new Link(new URI(paramValues.get(i))));
+                }
+        }
+        paramValues = formParams.get("instanceShape");
+        if (paramValues != null) {
+                for(int i=0; i<paramValues.size(); i++) {
+                    aResource.addInstanceShape(new Link(new URI(paramValues.get(i))));
+                }
+        }
+        paramValues = formParams.get("discussedBy");
+        if (paramValues != null) {
+                if (paramValues.size() == 1) {
+                    if (paramValues.get(0).length() != 0)
+                        aResource.setDiscussedBy(new Link(new URI(paramValues.get(0))));
+                    // else, there is an empty value for that parameter, and hence ignore since the parameter is not actually set.
+                }
 
-            }
-            paramValues = httpServletRequest.getParameterValues("closeDate");
-            if (paramValues != null) {
-                    if (paramValues.length == 1) {
-                        if (paramValues[0].length() != 0)
-                            aResource.setCloseDate(new SimpleDateFormat("M/D/y").parse(paramValues[0]));
-                        // else, there is an empty value for that parameter, and hence ignore since the parameter is not actually set.
-                    }
+        }
+        paramValues = formParams.get("closeDate");
+        if (paramValues != null) {
+                if (paramValues.size() == 1) {
+                    if (paramValues.get(0).length() != 0)
+                        aResource.setCloseDate(new SimpleDateFormat("M/D/y").parse(paramValues.get(0)));
+                    // else, there is an empty value for that parameter, and hence ignore since the parameter is not actually set.
+                }
 
-            }
-            paramValues = httpServletRequest.getParameterValues("status");
-            if (paramValues != null) {
-                    if (paramValues.length == 1) {
-                        if (paramValues[0].length() != 0)
-                            aResource.setStatus(paramValues[0]);
-                        // else, there is an empty value for that parameter, and hence ignore since the parameter is not actually set.
-                    }
+        }
+        paramValues = formParams.get("status");
+        if (paramValues != null) {
+                if (paramValues.size() == 1) {
+                    if (paramValues.get(0).length() != 0)
+                        aResource.setStatus(paramValues.get(0));
+                    // else, there is an empty value for that parameter, and hence ignore since the parameter is not actually set.
+                }
 
-            }
-            paramValues = httpServletRequest.getParameterValues("closed");
-            if (paramValues != null) {
-                    if (paramValues.length == 1) {
-                        if (paramValues[0].length() != 0)
-                            aResource.setClosed(new Boolean(paramValues[0]));
-                        // else, there is an empty value for that parameter, and hence ignore since the parameter is not actually set.
-                    }
+        }
+        paramValues = formParams.get("closed");
+        if (paramValues != null) {
+                if (paramValues.size() == 1) {
+                    if (paramValues.get(0).length() != 0)
+                        aResource.setClosed(new Boolean(paramValues.get(0)));
+                    // else, there is an empty value for that parameter, and hence ignore since the parameter is not actually set.
+                }
 
-            }
-            paramValues = httpServletRequest.getParameterValues("inProgress");
-            if (paramValues != null) {
-                    if (paramValues.length == 1) {
-                        if (paramValues[0].length() != 0)
-                            aResource.setInProgress(new Boolean(paramValues[0]));
-                        // else, there is an empty value for that parameter, and hence ignore since the parameter is not actually set.
-                    }
+        }
+        paramValues = formParams.get("inProgress");
+        if (paramValues != null) {
+                if (paramValues.size() == 1) {
+                    if (paramValues.get(0).length() != 0)
+                        aResource.setInProgress(new Boolean(paramValues.get(0)));
+                    // else, there is an empty value for that parameter, and hence ignore since the parameter is not actually set.
+                }
 
-            }
-            paramValues = httpServletRequest.getParameterValues("fixed");
-            if (paramValues != null) {
-                    if (paramValues.length == 1) {
-                        if (paramValues[0].length() != 0)
-                            aResource.setFixed(new Boolean(paramValues[0]));
-                        // else, there is an empty value for that parameter, and hence ignore since the parameter is not actually set.
-                    }
+        }
+        paramValues = formParams.get("fixed");
+        if (paramValues != null) {
+                if (paramValues.size() == 1) {
+                    if (paramValues.get(0).length() != 0)
+                        aResource.setFixed(new Boolean(paramValues.get(0)));
+                    // else, there is an empty value for that parameter, and hence ignore since the parameter is not actually set.
+                }
 
-            }
-            paramValues = httpServletRequest.getParameterValues("approved");
-            if (paramValues != null) {
-                    if (paramValues.length == 1) {
-                        if (paramValues[0].length() != 0)
-                            aResource.setApproved(new Boolean(paramValues[0]));
-                        // else, there is an empty value for that parameter, and hence ignore since the parameter is not actually set.
-                    }
+        }
+        paramValues = formParams.get("approved");
+        if (paramValues != null) {
+                if (paramValues.size() == 1) {
+                    if (paramValues.get(0).length() != 0)
+                        aResource.setApproved(new Boolean(paramValues.get(0)));
+                    // else, there is an empty value for that parameter, and hence ignore since the parameter is not actually set.
+                }
 
-            }
-            paramValues = httpServletRequest.getParameterValues("reviewed");
-            if (paramValues != null) {
-                    if (paramValues.length == 1) {
-                        if (paramValues[0].length() != 0)
-                            aResource.setReviewed(new Boolean(paramValues[0]));
-                        // else, there is an empty value for that parameter, and hence ignore since the parameter is not actually set.
-                    }
+        }
+        paramValues = formParams.get("reviewed");
+        if (paramValues != null) {
+                if (paramValues.size() == 1) {
+                    if (paramValues.get(0).length() != 0)
+                        aResource.setReviewed(new Boolean(paramValues.get(0)));
+                    // else, there is an empty value for that parameter, and hence ignore since the parameter is not actually set.
+                }
 
-            }
-            paramValues = httpServletRequest.getParameterValues("verified");
-            if (paramValues != null) {
-                    if (paramValues.length == 1) {
-                        if (paramValues[0].length() != 0)
-                            aResource.setVerified(new Boolean(paramValues[0]));
-                        // else, there is an empty value for that parameter, and hence ignore since the parameter is not actually set.
-                    }
+        }
+        paramValues = formParams.get("verified");
+        if (paramValues != null) {
+                if (paramValues.size() == 1) {
+                    if (paramValues.get(0).length() != 0)
+                        aResource.setVerified(new Boolean(paramValues.get(0)));
+                    // else, there is an empty value for that parameter, and hence ignore since the parameter is not actually set.
+                }
 
-            }
-            paramValues = httpServletRequest.getParameterValues("relatedChangeRequest");
-            if (paramValues != null) {
-                    for(int i=0; i<paramValues.length; i++) {
-                        aResource.addRelatedChangeRequest(new Link(new URI(paramValues[i])));
-                    }
-            }
-            paramValues = httpServletRequest.getParameterValues("affectsPlanItem");
-            if (paramValues != null) {
-                    for(int i=0; i<paramValues.length; i++) {
-                        aResource.addAffectsPlanItem(new Link(new URI(paramValues[i])));
-                    }
-            }
-            paramValues = httpServletRequest.getParameterValues("affectedByDefect");
-            if (paramValues != null) {
-                    for(int i=0; i<paramValues.length; i++) {
-                        aResource.addAffectedByDefect(new Link(new URI(paramValues[i])));
-                    }
-            }
-            paramValues = httpServletRequest.getParameterValues("tracksRequirement");
-            if (paramValues != null) {
-                    for(int i=0; i<paramValues.length; i++) {
-                        aResource.addTracksRequirement(new Link(new URI(paramValues[i])));
-                    }
-            }
-            paramValues = httpServletRequest.getParameterValues("implementsRequirement");
-            if (paramValues != null) {
-                    for(int i=0; i<paramValues.length; i++) {
-                        aResource.addImplementsRequirement(new Link(new URI(paramValues[i])));
-                    }
-            }
-            paramValues = httpServletRequest.getParameterValues("affectsRequirement");
-            if (paramValues != null) {
-                    for(int i=0; i<paramValues.length; i++) {
-                        aResource.addAffectsRequirement(new Link(new URI(paramValues[i])));
-                    }
-            }
-            paramValues = httpServletRequest.getParameterValues("tracksChangeSet");
-            if (paramValues != null) {
-                    for(int i=0; i<paramValues.length; i++) {
-                        aResource.addTracksChangeSet(new Link(new URI(paramValues[i])));
-                    }
-            }
-            paramValues = httpServletRequest.getParameterValues("parent");
-            if (paramValues != null) {
-                    for(int i=0; i<paramValues.length; i++) {
-                        aResource.addParent(new Link(new URI(paramValues[i])));
-                    }
-            }
-            paramValues = httpServletRequest.getParameterValues("priority");
-            if (paramValues != null) {
-                    for(int i=0; i<paramValues.length; i++) {
-                        aResource.addPriority(new Link(new URI(paramValues[i])));
-                    }
-            }
-            paramValues = httpServletRequest.getParameterValues("state");
-            if (paramValues != null) {
-                    if (paramValues.length == 1) {
-                        if (paramValues[0].length() != 0)
-                            aResource.setState(new Link(new URI(paramValues[0])));
-                        // else, there is an empty value for that parameter, and hence ignore since the parameter is not actually set.
-                    }
+        }
+        paramValues = formParams.get("relatedChangeRequest");
+        if (paramValues != null) {
+                for(int i=0; i<paramValues.size(); i++) {
+                    aResource.addRelatedChangeRequest(new Link(new URI(paramValues.get(i))));
+                }
+        }
+        paramValues = formParams.get("affectsPlanItem");
+        if (paramValues != null) {
+                for(int i=0; i<paramValues.size(); i++) {
+                    aResource.addAffectsPlanItem(new Link(new URI(paramValues.get(i))));
+                }
+        }
+        paramValues = formParams.get("affectedByDefect");
+        if (paramValues != null) {
+                for(int i=0; i<paramValues.size(); i++) {
+                    aResource.addAffectedByDefect(new Link(new URI(paramValues.get(i))));
+                }
+        }
+        paramValues = formParams.get("tracksRequirement");
+        if (paramValues != null) {
+                for(int i=0; i<paramValues.size(); i++) {
+                    aResource.addTracksRequirement(new Link(new URI(paramValues.get(i))));
+                }
+        }
+        paramValues = formParams.get("implementsRequirement");
+        if (paramValues != null) {
+                for(int i=0; i<paramValues.size(); i++) {
+                    aResource.addImplementsRequirement(new Link(new URI(paramValues.get(i))));
+                }
+        }
+        paramValues = formParams.get("affectsRequirement");
+        if (paramValues != null) {
+                for(int i=0; i<paramValues.size(); i++) {
+                    aResource.addAffectsRequirement(new Link(new URI(paramValues.get(i))));
+                }
+        }
+        paramValues = formParams.get("tracksChangeSet");
+        if (paramValues != null) {
+                for(int i=0; i<paramValues.size(); i++) {
+                    aResource.addTracksChangeSet(new Link(new URI(paramValues.get(i))));
+                }
+        }
+        paramValues = formParams.get("parent");
+        if (paramValues != null) {
+                for(int i=0; i<paramValues.size(); i++) {
+                    aResource.addParent(new Link(new URI(paramValues.get(i))));
+                }
+        }
+        paramValues = formParams.get("priority");
+        if (paramValues != null) {
+                for(int i=0; i<paramValues.size(); i++) {
+                    aResource.addPriority(new Link(new URI(paramValues.get(i))));
+                }
+        }
+        paramValues = formParams.get("state");
+        if (paramValues != null) {
+                if (paramValues.size() == 1) {
+                    if (paramValues.get(0).length() != 0)
+                        aResource.setState(new Link(new URI(paramValues.get(0))));
+                    // else, there is an empty value for that parameter, and hence ignore since the parameter is not actually set.
+                }
 
-            }
-            paramValues = httpServletRequest.getParameterValues("authorizer");
-            if (paramValues != null) {
-                    for(int i=0; i<paramValues.length; i++) {
-                        aResource.addAuthorizer(new Link(new URI(paramValues[i])));
-                    }
-            }
+        }
+        paramValues = formParams.get("authorizer");
+        if (paramValues != null) {
+                for(int i=0; i<paramValues.size(); i++) {
+                    aResource.addAuthorizer(new Link(new URI(paramValues.get(i))));
+                }
+        }
 
-            newResource = CMManager.createEnhancementFromDialog(httpServletRequest, aResource, serviceProviderId);
+        newResource = CMManager.createEnhancementFromDialog(httpServletRequest, aResource);
 
-            if (newResource != null) {
-                httpServletRequest.setAttribute("newResource", newResource);
-                httpServletRequest.setAttribute("newResourceUri", newResource.getAbout().toString());
+        if (newResource != null) {
+            httpServletRequest.setAttribute("newResource", newResource);
+            httpServletRequest.setAttribute("newResourceUri", newResource.getAbout().toString());
 
-                // Send back to the form a small JSON response
-                httpServletResponse.setContentType("application/json");
-                httpServletResponse.setStatus(Status.CREATED.getStatusCode());
-                httpServletResponse.addHeader("Location", newResource.getAbout().toString());
+            // Send back to the form a small JSON response
+            httpServletResponse.setContentType("application/json");
+            httpServletResponse.setStatus(Status.CREATED.getStatusCode());
+            httpServletResponse.addHeader("Location", newResource.getAbout().toString());
+            try {
                 PrintWriter out = httpServletResponse.getWriter();
-
+    
                 JSONObject oslcResponse = new JSONObject();
                 JSONObject newResourceJson = new JSONObject();
                 newResourceJson.put("rdf:resource", newResource.getAbout().toString());
@@ -2101,26 +2059,25 @@ public class Change_requestsService
                 newResourceJson.put("oslc:label", newResource.toString());
                 // End of user code
                 oslcResponse.put("oslc:results", new Object[]{newResourceJson});
-
+    
                 out.print(oslcResponse.toString());
                 out.close();
+            } catch (IOException | JSONException e) {
+                throw new WebApplicationException(e);
             }
-        } catch (Exception e) {
-            e.printStackTrace();
-            throw new WebApplicationException(e);
         }
     }
     @GET
     @Path("changeRequests/{changeRequestId}")
     @Produces({OslcMediaType.APPLICATION_RDF_XML, OslcMediaType.APPLICATION_JSON_LD, OslcMediaType.TEXT_TURTLE, OslcMediaType.APPLICATION_XML, OslcMediaType.APPLICATION_JSON})
     public ChangeRequest getChangeRequest(
-                @PathParam("serviceProviderId") final String serviceProviderId, @PathParam("changeRequestId") final String changeRequestId
+                @PathParam("changeRequestId") final String changeRequestId
         ) throws IOException, ServletException, URISyntaxException
     {
         // Start of user code getResource_init
         // End of user code
 
-        final ChangeRequest aChangeRequest = CMManager.getChangeRequest(httpServletRequest, serviceProviderId, changeRequestId);
+        final ChangeRequest aChangeRequest = CMManager.getChangeRequest(httpServletRequest, changeRequestId);
 
         if (aChangeRequest != null) {
             // Start of user code getChangeRequest
@@ -2135,14 +2092,14 @@ public class Change_requestsService
     @GET
     @Path("changeRequests/{changeRequestId}")
     @Produces({ MediaType.TEXT_HTML })
-    public Response getChangeRequestAsHtml(
-        @PathParam("serviceProviderId") final String serviceProviderId, @PathParam("changeRequestId") final String changeRequestId
+    public void getChangeRequestAsHtml(
+        @PathParam("changeRequestId") final String changeRequestId
         ) throws ServletException, IOException, URISyntaxException
     {
         // Start of user code getChangeRequestAsHtml_init
         // End of user code
 
-        final ChangeRequest aChangeRequest = CMManager.getChangeRequest(httpServletRequest, serviceProviderId, changeRequestId);
+        final ChangeRequest aChangeRequest = CMManager.getChangeRequest(httpServletRequest, changeRequestId);
 
         if (aChangeRequest != null) {
             httpServletRequest.setAttribute("aChangeRequest", aChangeRequest);
@@ -2151,6 +2108,7 @@ public class Change_requestsService
 
             RequestDispatcher rd = httpServletRequest.getRequestDispatcher("/co/oslc/refimpl/cm/gen/changerequest.jsp");
             rd.forward(httpServletRequest,httpServletResponse);
+            return;
         }
 
         throw new WebApplicationException(Status.NOT_FOUND);
@@ -2160,7 +2118,7 @@ public class Change_requestsService
     @Path("changeRequests/{changeRequestId}")
     @Produces({OslcMediaType.APPLICATION_X_OSLC_COMPACT_XML})
     public Compact getChangeRequestCompact(
-        @PathParam("serviceProviderId") final String serviceProviderId, @PathParam("changeRequestId") final String changeRequestId
+        @PathParam("changeRequestId") final String changeRequestId
         ) throws ServletException, IOException, URISyntaxException
     {
         String iconUri = OSLC4JUtils.getPublicURI() + "/images/ui_preview_icon.gif";
@@ -2173,7 +2131,7 @@ public class Change_requestsService
         //TODO: adjust the preview height & width values from the default values provided above.
         // End of user code
 
-        final ChangeRequest aChangeRequest = CMManager.getChangeRequest(httpServletRequest, serviceProviderId, changeRequestId);
+        final ChangeRequest aChangeRequest = CMManager.getChangeRequest(httpServletRequest, changeRequestId);
 
         if (aChangeRequest != null) {
             final Compact compact = new Compact();
@@ -2207,13 +2165,13 @@ public class Change_requestsService
     @Path("changeRequests/{changeRequestId}/smallPreview")
     @Produces({ MediaType.TEXT_HTML })
     public void getChangeRequestAsHtmlSmallPreview(
-        @PathParam("serviceProviderId") final String serviceProviderId, @PathParam("changeRequestId") final String changeRequestId
+        @PathParam("changeRequestId") final String changeRequestId
         ) throws ServletException, IOException, URISyntaxException
     {
         // Start of user code getChangeRequestAsHtmlSmallPreview_init
         // End of user code
 
-        final ChangeRequest aChangeRequest = CMManager.getChangeRequest(httpServletRequest, serviceProviderId, changeRequestId);
+        final ChangeRequest aChangeRequest = CMManager.getChangeRequest(httpServletRequest, changeRequestId);
 
         if (aChangeRequest != null) {
             httpServletRequest.setAttribute("aChangeRequest", aChangeRequest);
@@ -2224,6 +2182,7 @@ public class Change_requestsService
             httpServletResponse.addHeader(CMConstants.HDR_OSLC_VERSION, CMConstants.OSLC_VERSION_V2);
             addCORSHeaders(httpServletResponse);
             rd.forward(httpServletRequest, httpServletResponse);
+            return;
         }
 
         throw new WebApplicationException(Status.NOT_FOUND);
@@ -2233,13 +2192,13 @@ public class Change_requestsService
     @Path("changeRequests/{changeRequestId}/largePreview")
     @Produces({ MediaType.TEXT_HTML })
     public void getChangeRequestAsHtmlLargePreview(
-        @PathParam("serviceProviderId") final String serviceProviderId, @PathParam("changeRequestId") final String changeRequestId
+        @PathParam("changeRequestId") final String changeRequestId
         ) throws ServletException, IOException, URISyntaxException
     {
         // Start of user code getChangeRequestAsHtmlLargePreview_init
         // End of user code
 
-        final ChangeRequest aChangeRequest = CMManager.getChangeRequest(httpServletRequest, serviceProviderId, changeRequestId);
+        final ChangeRequest aChangeRequest = CMManager.getChangeRequest(httpServletRequest, changeRequestId);
 
         if (aChangeRequest != null) {
             httpServletRequest.setAttribute("aChangeRequest", aChangeRequest);
@@ -2250,6 +2209,7 @@ public class Change_requestsService
             httpServletResponse.addHeader(CMConstants.HDR_OSLC_VERSION, CMConstants.OSLC_VERSION_V2);
             addCORSHeaders(httpServletResponse);
             rd.forward(httpServletRequest, httpServletResponse);
+            return;
         }
 
         throw new WebApplicationException(Status.NOT_FOUND);
@@ -2258,13 +2218,13 @@ public class Change_requestsService
     @Path("defects/{defectId}")
     @Produces({OslcMediaType.APPLICATION_RDF_XML, OslcMediaType.APPLICATION_JSON_LD, OslcMediaType.TEXT_TURTLE, OslcMediaType.APPLICATION_XML, OslcMediaType.APPLICATION_JSON})
     public Defect getDefect(
-                @PathParam("serviceProviderId") final String serviceProviderId, @PathParam("defectId") final String defectId
+                @PathParam("defectId") final String defectId
         ) throws IOException, ServletException, URISyntaxException
     {
         // Start of user code getResource_init
         // End of user code
 
-        final Defect aDefect = CMManager.getDefect(httpServletRequest, serviceProviderId, defectId);
+        final Defect aDefect = CMManager.getDefect(httpServletRequest, defectId);
 
         if (aDefect != null) {
             // Start of user code getDefect
@@ -2279,14 +2239,14 @@ public class Change_requestsService
     @GET
     @Path("defects/{defectId}")
     @Produces({ MediaType.TEXT_HTML })
-    public Response getDefectAsHtml(
-        @PathParam("serviceProviderId") final String serviceProviderId, @PathParam("defectId") final String defectId
+    public void getDefectAsHtml(
+        @PathParam("defectId") final String defectId
         ) throws ServletException, IOException, URISyntaxException
     {
         // Start of user code getDefectAsHtml_init
         // End of user code
 
-        final Defect aDefect = CMManager.getDefect(httpServletRequest, serviceProviderId, defectId);
+        final Defect aDefect = CMManager.getDefect(httpServletRequest, defectId);
 
         if (aDefect != null) {
             httpServletRequest.setAttribute("aDefect", aDefect);
@@ -2295,6 +2255,7 @@ public class Change_requestsService
 
             RequestDispatcher rd = httpServletRequest.getRequestDispatcher("/co/oslc/refimpl/cm/gen/defect.jsp");
             rd.forward(httpServletRequest,httpServletResponse);
+            return;
         }
 
         throw new WebApplicationException(Status.NOT_FOUND);
@@ -2304,7 +2265,7 @@ public class Change_requestsService
     @Path("defects/{defectId}")
     @Produces({OslcMediaType.APPLICATION_X_OSLC_COMPACT_XML})
     public Compact getDefectCompact(
-        @PathParam("serviceProviderId") final String serviceProviderId, @PathParam("defectId") final String defectId
+        @PathParam("defectId") final String defectId
         ) throws ServletException, IOException, URISyntaxException
     {
         String iconUri = OSLC4JUtils.getPublicURI() + "/images/ui_preview_icon.gif";
@@ -2317,7 +2278,7 @@ public class Change_requestsService
         //TODO: adjust the preview height & width values from the default values provided above.
         // End of user code
 
-        final Defect aDefect = CMManager.getDefect(httpServletRequest, serviceProviderId, defectId);
+        final Defect aDefect = CMManager.getDefect(httpServletRequest, defectId);
 
         if (aDefect != null) {
             final Compact compact = new Compact();
@@ -2351,13 +2312,13 @@ public class Change_requestsService
     @Path("defects/{defectId}/smallPreview")
     @Produces({ MediaType.TEXT_HTML })
     public void getDefectAsHtmlSmallPreview(
-        @PathParam("serviceProviderId") final String serviceProviderId, @PathParam("defectId") final String defectId
+        @PathParam("defectId") final String defectId
         ) throws ServletException, IOException, URISyntaxException
     {
         // Start of user code getDefectAsHtmlSmallPreview_init
         // End of user code
 
-        final Defect aDefect = CMManager.getDefect(httpServletRequest, serviceProviderId, defectId);
+        final Defect aDefect = CMManager.getDefect(httpServletRequest, defectId);
 
         if (aDefect != null) {
             httpServletRequest.setAttribute("aDefect", aDefect);
@@ -2368,6 +2329,7 @@ public class Change_requestsService
             httpServletResponse.addHeader(CMConstants.HDR_OSLC_VERSION, CMConstants.OSLC_VERSION_V2);
             addCORSHeaders(httpServletResponse);
             rd.forward(httpServletRequest, httpServletResponse);
+            return;
         }
 
         throw new WebApplicationException(Status.NOT_FOUND);
@@ -2377,13 +2339,13 @@ public class Change_requestsService
     @Path("defects/{defectId}/largePreview")
     @Produces({ MediaType.TEXT_HTML })
     public void getDefectAsHtmlLargePreview(
-        @PathParam("serviceProviderId") final String serviceProviderId, @PathParam("defectId") final String defectId
+        @PathParam("defectId") final String defectId
         ) throws ServletException, IOException, URISyntaxException
     {
         // Start of user code getDefectAsHtmlLargePreview_init
         // End of user code
 
-        final Defect aDefect = CMManager.getDefect(httpServletRequest, serviceProviderId, defectId);
+        final Defect aDefect = CMManager.getDefect(httpServletRequest, defectId);
 
         if (aDefect != null) {
             httpServletRequest.setAttribute("aDefect", aDefect);
@@ -2394,6 +2356,7 @@ public class Change_requestsService
             httpServletResponse.addHeader(CMConstants.HDR_OSLC_VERSION, CMConstants.OSLC_VERSION_V2);
             addCORSHeaders(httpServletResponse);
             rd.forward(httpServletRequest, httpServletResponse);
+            return;
         }
 
         throw new WebApplicationException(Status.NOT_FOUND);
@@ -2402,13 +2365,13 @@ public class Change_requestsService
     @Path("tasks/{taskId}")
     @Produces({OslcMediaType.APPLICATION_RDF_XML, OslcMediaType.APPLICATION_JSON_LD, OslcMediaType.TEXT_TURTLE, OslcMediaType.APPLICATION_XML, OslcMediaType.APPLICATION_JSON})
     public Task getTask(
-                @PathParam("serviceProviderId") final String serviceProviderId, @PathParam("taskId") final String taskId
+                @PathParam("taskId") final String taskId
         ) throws IOException, ServletException, URISyntaxException
     {
         // Start of user code getResource_init
         // End of user code
 
-        final Task aTask = CMManager.getTask(httpServletRequest, serviceProviderId, taskId);
+        final Task aTask = CMManager.getTask(httpServletRequest, taskId);
 
         if (aTask != null) {
             // Start of user code getTask
@@ -2423,14 +2386,14 @@ public class Change_requestsService
     @GET
     @Path("tasks/{taskId}")
     @Produces({ MediaType.TEXT_HTML })
-    public Response getTaskAsHtml(
-        @PathParam("serviceProviderId") final String serviceProviderId, @PathParam("taskId") final String taskId
+    public void getTaskAsHtml(
+        @PathParam("taskId") final String taskId
         ) throws ServletException, IOException, URISyntaxException
     {
         // Start of user code getTaskAsHtml_init
         // End of user code
 
-        final Task aTask = CMManager.getTask(httpServletRequest, serviceProviderId, taskId);
+        final Task aTask = CMManager.getTask(httpServletRequest, taskId);
 
         if (aTask != null) {
             httpServletRequest.setAttribute("aTask", aTask);
@@ -2439,6 +2402,7 @@ public class Change_requestsService
 
             RequestDispatcher rd = httpServletRequest.getRequestDispatcher("/co/oslc/refimpl/cm/gen/task.jsp");
             rd.forward(httpServletRequest,httpServletResponse);
+            return;
         }
 
         throw new WebApplicationException(Status.NOT_FOUND);
@@ -2448,7 +2412,7 @@ public class Change_requestsService
     @Path("tasks/{taskId}")
     @Produces({OslcMediaType.APPLICATION_X_OSLC_COMPACT_XML})
     public Compact getTaskCompact(
-        @PathParam("serviceProviderId") final String serviceProviderId, @PathParam("taskId") final String taskId
+        @PathParam("taskId") final String taskId
         ) throws ServletException, IOException, URISyntaxException
     {
         String iconUri = OSLC4JUtils.getPublicURI() + "/images/ui_preview_icon.gif";
@@ -2461,7 +2425,7 @@ public class Change_requestsService
         //TODO: adjust the preview height & width values from the default values provided above.
         // End of user code
 
-        final Task aTask = CMManager.getTask(httpServletRequest, serviceProviderId, taskId);
+        final Task aTask = CMManager.getTask(httpServletRequest, taskId);
 
         if (aTask != null) {
             final Compact compact = new Compact();
@@ -2495,13 +2459,13 @@ public class Change_requestsService
     @Path("tasks/{taskId}/smallPreview")
     @Produces({ MediaType.TEXT_HTML })
     public void getTaskAsHtmlSmallPreview(
-        @PathParam("serviceProviderId") final String serviceProviderId, @PathParam("taskId") final String taskId
+        @PathParam("taskId") final String taskId
         ) throws ServletException, IOException, URISyntaxException
     {
         // Start of user code getTaskAsHtmlSmallPreview_init
         // End of user code
 
-        final Task aTask = CMManager.getTask(httpServletRequest, serviceProviderId, taskId);
+        final Task aTask = CMManager.getTask(httpServletRequest, taskId);
 
         if (aTask != null) {
             httpServletRequest.setAttribute("aTask", aTask);
@@ -2512,6 +2476,7 @@ public class Change_requestsService
             httpServletResponse.addHeader(CMConstants.HDR_OSLC_VERSION, CMConstants.OSLC_VERSION_V2);
             addCORSHeaders(httpServletResponse);
             rd.forward(httpServletRequest, httpServletResponse);
+            return;
         }
 
         throw new WebApplicationException(Status.NOT_FOUND);
@@ -2521,13 +2486,13 @@ public class Change_requestsService
     @Path("tasks/{taskId}/largePreview")
     @Produces({ MediaType.TEXT_HTML })
     public void getTaskAsHtmlLargePreview(
-        @PathParam("serviceProviderId") final String serviceProviderId, @PathParam("taskId") final String taskId
+        @PathParam("taskId") final String taskId
         ) throws ServletException, IOException, URISyntaxException
     {
         // Start of user code getTaskAsHtmlLargePreview_init
         // End of user code
 
-        final Task aTask = CMManager.getTask(httpServletRequest, serviceProviderId, taskId);
+        final Task aTask = CMManager.getTask(httpServletRequest, taskId);
 
         if (aTask != null) {
             httpServletRequest.setAttribute("aTask", aTask);
@@ -2538,6 +2503,7 @@ public class Change_requestsService
             httpServletResponse.addHeader(CMConstants.HDR_OSLC_VERSION, CMConstants.OSLC_VERSION_V2);
             addCORSHeaders(httpServletResponse);
             rd.forward(httpServletRequest, httpServletResponse);
+            return;
         }
 
         throw new WebApplicationException(Status.NOT_FOUND);
@@ -2546,13 +2512,13 @@ public class Change_requestsService
     @Path("reviewTasks/{reviewTaskId}")
     @Produces({OslcMediaType.APPLICATION_RDF_XML, OslcMediaType.APPLICATION_JSON_LD, OslcMediaType.TEXT_TURTLE, OslcMediaType.APPLICATION_XML, OslcMediaType.APPLICATION_JSON})
     public ReviewTask getReviewTask(
-                @PathParam("serviceProviderId") final String serviceProviderId, @PathParam("reviewTaskId") final String reviewTaskId
+                @PathParam("reviewTaskId") final String reviewTaskId
         ) throws IOException, ServletException, URISyntaxException
     {
         // Start of user code getResource_init
         // End of user code
 
-        final ReviewTask aReviewTask = CMManager.getReviewTask(httpServletRequest, serviceProviderId, reviewTaskId);
+        final ReviewTask aReviewTask = CMManager.getReviewTask(httpServletRequest, reviewTaskId);
 
         if (aReviewTask != null) {
             // Start of user code getReviewTask
@@ -2567,14 +2533,14 @@ public class Change_requestsService
     @GET
     @Path("reviewTasks/{reviewTaskId}")
     @Produces({ MediaType.TEXT_HTML })
-    public Response getReviewTaskAsHtml(
-        @PathParam("serviceProviderId") final String serviceProviderId, @PathParam("reviewTaskId") final String reviewTaskId
+    public void getReviewTaskAsHtml(
+        @PathParam("reviewTaskId") final String reviewTaskId
         ) throws ServletException, IOException, URISyntaxException
     {
         // Start of user code getReviewTaskAsHtml_init
         // End of user code
 
-        final ReviewTask aReviewTask = CMManager.getReviewTask(httpServletRequest, serviceProviderId, reviewTaskId);
+        final ReviewTask aReviewTask = CMManager.getReviewTask(httpServletRequest, reviewTaskId);
 
         if (aReviewTask != null) {
             httpServletRequest.setAttribute("aReviewTask", aReviewTask);
@@ -2583,6 +2549,7 @@ public class Change_requestsService
 
             RequestDispatcher rd = httpServletRequest.getRequestDispatcher("/co/oslc/refimpl/cm/gen/reviewtask.jsp");
             rd.forward(httpServletRequest,httpServletResponse);
+            return;
         }
 
         throw new WebApplicationException(Status.NOT_FOUND);
@@ -2592,7 +2559,7 @@ public class Change_requestsService
     @Path("reviewTasks/{reviewTaskId}")
     @Produces({OslcMediaType.APPLICATION_X_OSLC_COMPACT_XML})
     public Compact getReviewTaskCompact(
-        @PathParam("serviceProviderId") final String serviceProviderId, @PathParam("reviewTaskId") final String reviewTaskId
+        @PathParam("reviewTaskId") final String reviewTaskId
         ) throws ServletException, IOException, URISyntaxException
     {
         String iconUri = OSLC4JUtils.getPublicURI() + "/images/ui_preview_icon.gif";
@@ -2605,7 +2572,7 @@ public class Change_requestsService
         //TODO: adjust the preview height & width values from the default values provided above.
         // End of user code
 
-        final ReviewTask aReviewTask = CMManager.getReviewTask(httpServletRequest, serviceProviderId, reviewTaskId);
+        final ReviewTask aReviewTask = CMManager.getReviewTask(httpServletRequest, reviewTaskId);
 
         if (aReviewTask != null) {
             final Compact compact = new Compact();
@@ -2639,13 +2606,13 @@ public class Change_requestsService
     @Path("reviewTasks/{reviewTaskId}/smallPreview")
     @Produces({ MediaType.TEXT_HTML })
     public void getReviewTaskAsHtmlSmallPreview(
-        @PathParam("serviceProviderId") final String serviceProviderId, @PathParam("reviewTaskId") final String reviewTaskId
+        @PathParam("reviewTaskId") final String reviewTaskId
         ) throws ServletException, IOException, URISyntaxException
     {
         // Start of user code getReviewTaskAsHtmlSmallPreview_init
         // End of user code
 
-        final ReviewTask aReviewTask = CMManager.getReviewTask(httpServletRequest, serviceProviderId, reviewTaskId);
+        final ReviewTask aReviewTask = CMManager.getReviewTask(httpServletRequest, reviewTaskId);
 
         if (aReviewTask != null) {
             httpServletRequest.setAttribute("aReviewTask", aReviewTask);
@@ -2656,6 +2623,7 @@ public class Change_requestsService
             httpServletResponse.addHeader(CMConstants.HDR_OSLC_VERSION, CMConstants.OSLC_VERSION_V2);
             addCORSHeaders(httpServletResponse);
             rd.forward(httpServletRequest, httpServletResponse);
+            return;
         }
 
         throw new WebApplicationException(Status.NOT_FOUND);
@@ -2665,13 +2633,13 @@ public class Change_requestsService
     @Path("reviewTasks/{reviewTaskId}/largePreview")
     @Produces({ MediaType.TEXT_HTML })
     public void getReviewTaskAsHtmlLargePreview(
-        @PathParam("serviceProviderId") final String serviceProviderId, @PathParam("reviewTaskId") final String reviewTaskId
+        @PathParam("reviewTaskId") final String reviewTaskId
         ) throws ServletException, IOException, URISyntaxException
     {
         // Start of user code getReviewTaskAsHtmlLargePreview_init
         // End of user code
 
-        final ReviewTask aReviewTask = CMManager.getReviewTask(httpServletRequest, serviceProviderId, reviewTaskId);
+        final ReviewTask aReviewTask = CMManager.getReviewTask(httpServletRequest, reviewTaskId);
 
         if (aReviewTask != null) {
             httpServletRequest.setAttribute("aReviewTask", aReviewTask);
@@ -2682,6 +2650,7 @@ public class Change_requestsService
             httpServletResponse.addHeader(CMConstants.HDR_OSLC_VERSION, CMConstants.OSLC_VERSION_V2);
             addCORSHeaders(httpServletResponse);
             rd.forward(httpServletRequest, httpServletResponse);
+            return;
         }
 
         throw new WebApplicationException(Status.NOT_FOUND);
@@ -2690,13 +2659,13 @@ public class Change_requestsService
     @Path("changeNotices/{changeNoticeId}")
     @Produces({OslcMediaType.APPLICATION_RDF_XML, OslcMediaType.APPLICATION_JSON_LD, OslcMediaType.TEXT_TURTLE, OslcMediaType.APPLICATION_XML, OslcMediaType.APPLICATION_JSON})
     public ChangeNotice getChangeNotice(
-                @PathParam("serviceProviderId") final String serviceProviderId, @PathParam("changeNoticeId") final String changeNoticeId
+                @PathParam("changeNoticeId") final String changeNoticeId
         ) throws IOException, ServletException, URISyntaxException
     {
         // Start of user code getResource_init
         // End of user code
 
-        final ChangeNotice aChangeNotice = CMManager.getChangeNotice(httpServletRequest, serviceProviderId, changeNoticeId);
+        final ChangeNotice aChangeNotice = CMManager.getChangeNotice(httpServletRequest, changeNoticeId);
 
         if (aChangeNotice != null) {
             // Start of user code getChangeNotice
@@ -2711,14 +2680,14 @@ public class Change_requestsService
     @GET
     @Path("changeNotices/{changeNoticeId}")
     @Produces({ MediaType.TEXT_HTML })
-    public Response getChangeNoticeAsHtml(
-        @PathParam("serviceProviderId") final String serviceProviderId, @PathParam("changeNoticeId") final String changeNoticeId
+    public void getChangeNoticeAsHtml(
+        @PathParam("changeNoticeId") final String changeNoticeId
         ) throws ServletException, IOException, URISyntaxException
     {
         // Start of user code getChangeNoticeAsHtml_init
         // End of user code
 
-        final ChangeNotice aChangeNotice = CMManager.getChangeNotice(httpServletRequest, serviceProviderId, changeNoticeId);
+        final ChangeNotice aChangeNotice = CMManager.getChangeNotice(httpServletRequest, changeNoticeId);
 
         if (aChangeNotice != null) {
             httpServletRequest.setAttribute("aChangeNotice", aChangeNotice);
@@ -2727,6 +2696,7 @@ public class Change_requestsService
 
             RequestDispatcher rd = httpServletRequest.getRequestDispatcher("/co/oslc/refimpl/cm/gen/changenotice.jsp");
             rd.forward(httpServletRequest,httpServletResponse);
+            return;
         }
 
         throw new WebApplicationException(Status.NOT_FOUND);
@@ -2736,7 +2706,7 @@ public class Change_requestsService
     @Path("changeNotices/{changeNoticeId}")
     @Produces({OslcMediaType.APPLICATION_X_OSLC_COMPACT_XML})
     public Compact getChangeNoticeCompact(
-        @PathParam("serviceProviderId") final String serviceProviderId, @PathParam("changeNoticeId") final String changeNoticeId
+        @PathParam("changeNoticeId") final String changeNoticeId
         ) throws ServletException, IOException, URISyntaxException
     {
         String iconUri = OSLC4JUtils.getPublicURI() + "/images/ui_preview_icon.gif";
@@ -2749,7 +2719,7 @@ public class Change_requestsService
         //TODO: adjust the preview height & width values from the default values provided above.
         // End of user code
 
-        final ChangeNotice aChangeNotice = CMManager.getChangeNotice(httpServletRequest, serviceProviderId, changeNoticeId);
+        final ChangeNotice aChangeNotice = CMManager.getChangeNotice(httpServletRequest, changeNoticeId);
 
         if (aChangeNotice != null) {
             final Compact compact = new Compact();
@@ -2783,13 +2753,13 @@ public class Change_requestsService
     @Path("changeNotices/{changeNoticeId}/smallPreview")
     @Produces({ MediaType.TEXT_HTML })
     public void getChangeNoticeAsHtmlSmallPreview(
-        @PathParam("serviceProviderId") final String serviceProviderId, @PathParam("changeNoticeId") final String changeNoticeId
+        @PathParam("changeNoticeId") final String changeNoticeId
         ) throws ServletException, IOException, URISyntaxException
     {
         // Start of user code getChangeNoticeAsHtmlSmallPreview_init
         // End of user code
 
-        final ChangeNotice aChangeNotice = CMManager.getChangeNotice(httpServletRequest, serviceProviderId, changeNoticeId);
+        final ChangeNotice aChangeNotice = CMManager.getChangeNotice(httpServletRequest, changeNoticeId);
 
         if (aChangeNotice != null) {
             httpServletRequest.setAttribute("aChangeNotice", aChangeNotice);
@@ -2800,6 +2770,7 @@ public class Change_requestsService
             httpServletResponse.addHeader(CMConstants.HDR_OSLC_VERSION, CMConstants.OSLC_VERSION_V2);
             addCORSHeaders(httpServletResponse);
             rd.forward(httpServletRequest, httpServletResponse);
+            return;
         }
 
         throw new WebApplicationException(Status.NOT_FOUND);
@@ -2809,13 +2780,13 @@ public class Change_requestsService
     @Path("changeNotices/{changeNoticeId}/largePreview")
     @Produces({ MediaType.TEXT_HTML })
     public void getChangeNoticeAsHtmlLargePreview(
-        @PathParam("serviceProviderId") final String serviceProviderId, @PathParam("changeNoticeId") final String changeNoticeId
+        @PathParam("changeNoticeId") final String changeNoticeId
         ) throws ServletException, IOException, URISyntaxException
     {
         // Start of user code getChangeNoticeAsHtmlLargePreview_init
         // End of user code
 
-        final ChangeNotice aChangeNotice = CMManager.getChangeNotice(httpServletRequest, serviceProviderId, changeNoticeId);
+        final ChangeNotice aChangeNotice = CMManager.getChangeNotice(httpServletRequest, changeNoticeId);
 
         if (aChangeNotice != null) {
             httpServletRequest.setAttribute("aChangeNotice", aChangeNotice);
@@ -2826,6 +2797,7 @@ public class Change_requestsService
             httpServletResponse.addHeader(CMConstants.HDR_OSLC_VERSION, CMConstants.OSLC_VERSION_V2);
             addCORSHeaders(httpServletResponse);
             rd.forward(httpServletRequest, httpServletResponse);
+            return;
         }
 
         throw new WebApplicationException(Status.NOT_FOUND);
@@ -2834,13 +2806,13 @@ public class Change_requestsService
     @Path("enhancements/{enhancementId}")
     @Produces({OslcMediaType.APPLICATION_RDF_XML, OslcMediaType.APPLICATION_JSON_LD, OslcMediaType.TEXT_TURTLE, OslcMediaType.APPLICATION_XML, OslcMediaType.APPLICATION_JSON})
     public Enhancement getEnhancement(
-                @PathParam("serviceProviderId") final String serviceProviderId, @PathParam("enhancementId") final String enhancementId
+                @PathParam("enhancementId") final String enhancementId
         ) throws IOException, ServletException, URISyntaxException
     {
         // Start of user code getResource_init
         // End of user code
 
-        final Enhancement aEnhancement = CMManager.getEnhancement(httpServletRequest, serviceProviderId, enhancementId);
+        final Enhancement aEnhancement = CMManager.getEnhancement(httpServletRequest, enhancementId);
 
         if (aEnhancement != null) {
             // Start of user code getEnhancement
@@ -2855,14 +2827,14 @@ public class Change_requestsService
     @GET
     @Path("enhancements/{enhancementId}")
     @Produces({ MediaType.TEXT_HTML })
-    public Response getEnhancementAsHtml(
-        @PathParam("serviceProviderId") final String serviceProviderId, @PathParam("enhancementId") final String enhancementId
+    public void getEnhancementAsHtml(
+        @PathParam("enhancementId") final String enhancementId
         ) throws ServletException, IOException, URISyntaxException
     {
         // Start of user code getEnhancementAsHtml_init
         // End of user code
 
-        final Enhancement aEnhancement = CMManager.getEnhancement(httpServletRequest, serviceProviderId, enhancementId);
+        final Enhancement aEnhancement = CMManager.getEnhancement(httpServletRequest, enhancementId);
 
         if (aEnhancement != null) {
             httpServletRequest.setAttribute("aEnhancement", aEnhancement);
@@ -2871,6 +2843,7 @@ public class Change_requestsService
 
             RequestDispatcher rd = httpServletRequest.getRequestDispatcher("/co/oslc/refimpl/cm/gen/enhancement.jsp");
             rd.forward(httpServletRequest,httpServletResponse);
+            return;
         }
 
         throw new WebApplicationException(Status.NOT_FOUND);
@@ -2880,7 +2853,7 @@ public class Change_requestsService
     @Path("enhancements/{enhancementId}")
     @Produces({OslcMediaType.APPLICATION_X_OSLC_COMPACT_XML})
     public Compact getEnhancementCompact(
-        @PathParam("serviceProviderId") final String serviceProviderId, @PathParam("enhancementId") final String enhancementId
+        @PathParam("enhancementId") final String enhancementId
         ) throws ServletException, IOException, URISyntaxException
     {
         String iconUri = OSLC4JUtils.getPublicURI() + "/images/ui_preview_icon.gif";
@@ -2893,7 +2866,7 @@ public class Change_requestsService
         //TODO: adjust the preview height & width values from the default values provided above.
         // End of user code
 
-        final Enhancement aEnhancement = CMManager.getEnhancement(httpServletRequest, serviceProviderId, enhancementId);
+        final Enhancement aEnhancement = CMManager.getEnhancement(httpServletRequest, enhancementId);
 
         if (aEnhancement != null) {
             final Compact compact = new Compact();
@@ -2927,13 +2900,13 @@ public class Change_requestsService
     @Path("enhancements/{enhancementId}/smallPreview")
     @Produces({ MediaType.TEXT_HTML })
     public void getEnhancementAsHtmlSmallPreview(
-        @PathParam("serviceProviderId") final String serviceProviderId, @PathParam("enhancementId") final String enhancementId
+        @PathParam("enhancementId") final String enhancementId
         ) throws ServletException, IOException, URISyntaxException
     {
         // Start of user code getEnhancementAsHtmlSmallPreview_init
         // End of user code
 
-        final Enhancement aEnhancement = CMManager.getEnhancement(httpServletRequest, serviceProviderId, enhancementId);
+        final Enhancement aEnhancement = CMManager.getEnhancement(httpServletRequest, enhancementId);
 
         if (aEnhancement != null) {
             httpServletRequest.setAttribute("aEnhancement", aEnhancement);
@@ -2944,6 +2917,7 @@ public class Change_requestsService
             httpServletResponse.addHeader(CMConstants.HDR_OSLC_VERSION, CMConstants.OSLC_VERSION_V2);
             addCORSHeaders(httpServletResponse);
             rd.forward(httpServletRequest, httpServletResponse);
+            return;
         }
 
         throw new WebApplicationException(Status.NOT_FOUND);
@@ -2953,13 +2927,13 @@ public class Change_requestsService
     @Path("enhancements/{enhancementId}/largePreview")
     @Produces({ MediaType.TEXT_HTML })
     public void getEnhancementAsHtmlLargePreview(
-        @PathParam("serviceProviderId") final String serviceProviderId, @PathParam("enhancementId") final String enhancementId
+        @PathParam("enhancementId") final String enhancementId
         ) throws ServletException, IOException, URISyntaxException
     {
         // Start of user code getEnhancementAsHtmlLargePreview_init
         // End of user code
 
-        final Enhancement aEnhancement = CMManager.getEnhancement(httpServletRequest, serviceProviderId, enhancementId);
+        final Enhancement aEnhancement = CMManager.getEnhancement(httpServletRequest, enhancementId);
 
         if (aEnhancement != null) {
             httpServletRequest.setAttribute("aEnhancement", aEnhancement);
@@ -2970,6 +2944,7 @@ public class Change_requestsService
             httpServletResponse.addHeader(CMConstants.HDR_OSLC_VERSION, CMConstants.OSLC_VERSION_V2);
             addCORSHeaders(httpServletResponse);
             rd.forward(httpServletRequest, httpServletResponse);
+            return;
         }
 
         throw new WebApplicationException(Status.NOT_FOUND);
@@ -2979,34 +2954,27 @@ public class Change_requestsService
     @Consumes({OslcMediaType.APPLICATION_RDF_XML, OslcMediaType.APPLICATION_JSON_LD, OslcMediaType.TEXT_TURTLE, OslcMediaType.APPLICATION_XML, OslcMediaType.APPLICATION_JSON })
     public Response updateChangeRequest(
             @HeaderParam("If-Match") final String eTagHeader,
-            @PathParam("serviceProviderId") final String serviceProviderId, @PathParam("changeRequestId") final String changeRequestId ,
+            @PathParam("changeRequestId") final String changeRequestId ,
             final ChangeRequest aResource
         ) throws IOException, ServletException
     {
         // Start of user code updateChangeRequest_init
         // End of user code
-        final ChangeRequest originalResource = CMManager.getChangeRequest(httpServletRequest, serviceProviderId, changeRequestId);
+        final ChangeRequest originalResource = CMManager.getChangeRequest(httpServletRequest, changeRequestId);
 
         if (originalResource != null) {
-            try {
-                final String originalETag = CMManager.getETagFromChangeRequest(originalResource);
+            final String originalETag = CMManager.getETagFromChangeRequest(originalResource);
 
-                if ((eTagHeader == null) || (originalETag.equals(eTagHeader))) {
-                    // Start of user code updateChangeRequest
+            if ((eTagHeader == null) || (originalETag.equals(eTagHeader))) {
+                // Start of user code updateChangeRequest
                     // End of user code
-                    final ChangeRequest updatedResource = CMManager.updateChangeRequest(httpServletRequest, aResource, serviceProviderId, changeRequestId);
-                    httpServletResponse.setHeader("ETag", CMManager.getETagFromChangeRequest(updatedResource));
-                    return Response.ok().header(CMConstants.HDR_OSLC_VERSION, CMConstants.OSLC_VERSION_V2).build();
-                }
-                else {
-                    throw new WebApplicationException(Status.PRECONDITION_FAILED);
-                }
-
-            } catch (Exception e) {
-                e.printStackTrace();
-                throw new WebApplicationException(e);
+                final ChangeRequest updatedResource = CMManager.updateChangeRequest(httpServletRequest, aResource, changeRequestId);
+                httpServletResponse.setHeader("ETag", CMManager.getETagFromChangeRequest(updatedResource));
+                return Response.ok().header(CMConstants.HDR_OSLC_VERSION, CMConstants.OSLC_VERSION_V2).build();
             }
-
+            else {
+                throw new WebApplicationException(Status.PRECONDITION_FAILED);
+            }
         }
         else {
             throw new WebApplicationException(Status.NOT_FOUND);
@@ -3018,34 +2986,27 @@ public class Change_requestsService
     @Consumes({OslcMediaType.APPLICATION_RDF_XML, OslcMediaType.APPLICATION_JSON_LD, OslcMediaType.TEXT_TURTLE, OslcMediaType.APPLICATION_XML, OslcMediaType.APPLICATION_JSON })
     public Response updateDefect(
             @HeaderParam("If-Match") final String eTagHeader,
-            @PathParam("serviceProviderId") final String serviceProviderId, @PathParam("defectId") final String defectId ,
+            @PathParam("defectId") final String defectId ,
             final Defect aResource
         ) throws IOException, ServletException
     {
         // Start of user code updateDefect_init
         // End of user code
-        final Defect originalResource = CMManager.getDefect(httpServletRequest, serviceProviderId, defectId);
+        final Defect originalResource = CMManager.getDefect(httpServletRequest, defectId);
 
         if (originalResource != null) {
-            try {
-                final String originalETag = CMManager.getETagFromDefect(originalResource);
+            final String originalETag = CMManager.getETagFromDefect(originalResource);
 
-                if ((eTagHeader == null) || (originalETag.equals(eTagHeader))) {
-                    // Start of user code updateDefect
+            if ((eTagHeader == null) || (originalETag.equals(eTagHeader))) {
+                // Start of user code updateDefect
                     // End of user code
-                    final Defect updatedResource = CMManager.updateDefect(httpServletRequest, aResource, serviceProviderId, defectId);
-                    httpServletResponse.setHeader("ETag", CMManager.getETagFromDefect(updatedResource));
-                    return Response.ok().header(CMConstants.HDR_OSLC_VERSION, CMConstants.OSLC_VERSION_V2).build();
-                }
-                else {
-                    throw new WebApplicationException(Status.PRECONDITION_FAILED);
-                }
-
-            } catch (Exception e) {
-                e.printStackTrace();
-                throw new WebApplicationException(e);
+                final Defect updatedResource = CMManager.updateDefect(httpServletRequest, aResource, defectId);
+                httpServletResponse.setHeader("ETag", CMManager.getETagFromDefect(updatedResource));
+                return Response.ok().header(CMConstants.HDR_OSLC_VERSION, CMConstants.OSLC_VERSION_V2).build();
             }
-
+            else {
+                throw new WebApplicationException(Status.PRECONDITION_FAILED);
+            }
         }
         else {
             throw new WebApplicationException(Status.NOT_FOUND);
@@ -3057,34 +3018,27 @@ public class Change_requestsService
     @Consumes({OslcMediaType.APPLICATION_RDF_XML, OslcMediaType.APPLICATION_JSON_LD, OslcMediaType.TEXT_TURTLE, OslcMediaType.APPLICATION_XML, OslcMediaType.APPLICATION_JSON })
     public Response updateTask(
             @HeaderParam("If-Match") final String eTagHeader,
-            @PathParam("serviceProviderId") final String serviceProviderId, @PathParam("taskId") final String taskId ,
+            @PathParam("taskId") final String taskId ,
             final Task aResource
         ) throws IOException, ServletException
     {
         // Start of user code updateTask_init
         // End of user code
-        final Task originalResource = CMManager.getTask(httpServletRequest, serviceProviderId, taskId);
+        final Task originalResource = CMManager.getTask(httpServletRequest, taskId);
 
         if (originalResource != null) {
-            try {
-                final String originalETag = CMManager.getETagFromTask(originalResource);
+            final String originalETag = CMManager.getETagFromTask(originalResource);
 
-                if ((eTagHeader == null) || (originalETag.equals(eTagHeader))) {
-                    // Start of user code updateTask
+            if ((eTagHeader == null) || (originalETag.equals(eTagHeader))) {
+                // Start of user code updateTask
                     // End of user code
-                    final Task updatedResource = CMManager.updateTask(httpServletRequest, aResource, serviceProviderId, taskId);
-                    httpServletResponse.setHeader("ETag", CMManager.getETagFromTask(updatedResource));
-                    return Response.ok().header(CMConstants.HDR_OSLC_VERSION, CMConstants.OSLC_VERSION_V2).build();
-                }
-                else {
-                    throw new WebApplicationException(Status.PRECONDITION_FAILED);
-                }
-
-            } catch (Exception e) {
-                e.printStackTrace();
-                throw new WebApplicationException(e);
+                final Task updatedResource = CMManager.updateTask(httpServletRequest, aResource, taskId);
+                httpServletResponse.setHeader("ETag", CMManager.getETagFromTask(updatedResource));
+                return Response.ok().header(CMConstants.HDR_OSLC_VERSION, CMConstants.OSLC_VERSION_V2).build();
             }
-
+            else {
+                throw new WebApplicationException(Status.PRECONDITION_FAILED);
+            }
         }
         else {
             throw new WebApplicationException(Status.NOT_FOUND);
@@ -3096,34 +3050,27 @@ public class Change_requestsService
     @Consumes({OslcMediaType.APPLICATION_RDF_XML, OslcMediaType.APPLICATION_JSON_LD, OslcMediaType.TEXT_TURTLE, OslcMediaType.APPLICATION_XML, OslcMediaType.APPLICATION_JSON })
     public Response updateReviewTask(
             @HeaderParam("If-Match") final String eTagHeader,
-            @PathParam("serviceProviderId") final String serviceProviderId, @PathParam("reviewTaskId") final String reviewTaskId ,
+            @PathParam("reviewTaskId") final String reviewTaskId ,
             final ReviewTask aResource
         ) throws IOException, ServletException
     {
         // Start of user code updateReviewTask_init
         // End of user code
-        final ReviewTask originalResource = CMManager.getReviewTask(httpServletRequest, serviceProviderId, reviewTaskId);
+        final ReviewTask originalResource = CMManager.getReviewTask(httpServletRequest, reviewTaskId);
 
         if (originalResource != null) {
-            try {
-                final String originalETag = CMManager.getETagFromReviewTask(originalResource);
+            final String originalETag = CMManager.getETagFromReviewTask(originalResource);
 
-                if ((eTagHeader == null) || (originalETag.equals(eTagHeader))) {
-                    // Start of user code updateReviewTask
+            if ((eTagHeader == null) || (originalETag.equals(eTagHeader))) {
+                // Start of user code updateReviewTask
                     // End of user code
-                    final ReviewTask updatedResource = CMManager.updateReviewTask(httpServletRequest, aResource, serviceProviderId, reviewTaskId);
-                    httpServletResponse.setHeader("ETag", CMManager.getETagFromReviewTask(updatedResource));
-                    return Response.ok().header(CMConstants.HDR_OSLC_VERSION, CMConstants.OSLC_VERSION_V2).build();
-                }
-                else {
-                    throw new WebApplicationException(Status.PRECONDITION_FAILED);
-                }
-
-            } catch (Exception e) {
-                e.printStackTrace();
-                throw new WebApplicationException(e);
+                final ReviewTask updatedResource = CMManager.updateReviewTask(httpServletRequest, aResource, reviewTaskId);
+                httpServletResponse.setHeader("ETag", CMManager.getETagFromReviewTask(updatedResource));
+                return Response.ok().header(CMConstants.HDR_OSLC_VERSION, CMConstants.OSLC_VERSION_V2).build();
             }
-
+            else {
+                throw new WebApplicationException(Status.PRECONDITION_FAILED);
+            }
         }
         else {
             throw new WebApplicationException(Status.NOT_FOUND);
@@ -3135,34 +3082,27 @@ public class Change_requestsService
     @Consumes({OslcMediaType.APPLICATION_RDF_XML, OslcMediaType.APPLICATION_JSON_LD, OslcMediaType.TEXT_TURTLE, OslcMediaType.APPLICATION_XML, OslcMediaType.APPLICATION_JSON })
     public Response updateChangeNotice(
             @HeaderParam("If-Match") final String eTagHeader,
-            @PathParam("serviceProviderId") final String serviceProviderId, @PathParam("changeNoticeId") final String changeNoticeId ,
+            @PathParam("changeNoticeId") final String changeNoticeId ,
             final ChangeNotice aResource
         ) throws IOException, ServletException
     {
         // Start of user code updateChangeNotice_init
         // End of user code
-        final ChangeNotice originalResource = CMManager.getChangeNotice(httpServletRequest, serviceProviderId, changeNoticeId);
+        final ChangeNotice originalResource = CMManager.getChangeNotice(httpServletRequest, changeNoticeId);
 
         if (originalResource != null) {
-            try {
-                final String originalETag = CMManager.getETagFromChangeNotice(originalResource);
+            final String originalETag = CMManager.getETagFromChangeNotice(originalResource);
 
-                if ((eTagHeader == null) || (originalETag.equals(eTagHeader))) {
-                    // Start of user code updateChangeNotice
+            if ((eTagHeader == null) || (originalETag.equals(eTagHeader))) {
+                // Start of user code updateChangeNotice
                     // End of user code
-                    final ChangeNotice updatedResource = CMManager.updateChangeNotice(httpServletRequest, aResource, serviceProviderId, changeNoticeId);
-                    httpServletResponse.setHeader("ETag", CMManager.getETagFromChangeNotice(updatedResource));
-                    return Response.ok().header(CMConstants.HDR_OSLC_VERSION, CMConstants.OSLC_VERSION_V2).build();
-                }
-                else {
-                    throw new WebApplicationException(Status.PRECONDITION_FAILED);
-                }
-
-            } catch (Exception e) {
-                e.printStackTrace();
-                throw new WebApplicationException(e);
+                final ChangeNotice updatedResource = CMManager.updateChangeNotice(httpServletRequest, aResource, changeNoticeId);
+                httpServletResponse.setHeader("ETag", CMManager.getETagFromChangeNotice(updatedResource));
+                return Response.ok().header(CMConstants.HDR_OSLC_VERSION, CMConstants.OSLC_VERSION_V2).build();
             }
-
+            else {
+                throw new WebApplicationException(Status.PRECONDITION_FAILED);
+            }
         }
         else {
             throw new WebApplicationException(Status.NOT_FOUND);
@@ -3174,34 +3114,27 @@ public class Change_requestsService
     @Consumes({OslcMediaType.APPLICATION_RDF_XML, OslcMediaType.APPLICATION_JSON_LD, OslcMediaType.TEXT_TURTLE, OslcMediaType.APPLICATION_XML, OslcMediaType.APPLICATION_JSON })
     public Response updateEnhancement(
             @HeaderParam("If-Match") final String eTagHeader,
-            @PathParam("serviceProviderId") final String serviceProviderId, @PathParam("enhancementId") final String enhancementId ,
+            @PathParam("enhancementId") final String enhancementId ,
             final Enhancement aResource
         ) throws IOException, ServletException
     {
         // Start of user code updateEnhancement_init
         // End of user code
-        final Enhancement originalResource = CMManager.getEnhancement(httpServletRequest, serviceProviderId, enhancementId);
+        final Enhancement originalResource = CMManager.getEnhancement(httpServletRequest, enhancementId);
 
         if (originalResource != null) {
-            try {
-                final String originalETag = CMManager.getETagFromEnhancement(originalResource);
+            final String originalETag = CMManager.getETagFromEnhancement(originalResource);
 
-                if ((eTagHeader == null) || (originalETag.equals(eTagHeader))) {
-                    // Start of user code updateEnhancement
+            if ((eTagHeader == null) || (originalETag.equals(eTagHeader))) {
+                // Start of user code updateEnhancement
                     // End of user code
-                    final Enhancement updatedResource = CMManager.updateEnhancement(httpServletRequest, aResource, serviceProviderId, enhancementId);
-                    httpServletResponse.setHeader("ETag", CMManager.getETagFromEnhancement(updatedResource));
-                    return Response.ok().header(CMConstants.HDR_OSLC_VERSION, CMConstants.OSLC_VERSION_V2).build();
-                }
-                else {
-                    throw new WebApplicationException(Status.PRECONDITION_FAILED);
-                }
-
-            } catch (Exception e) {
-                e.printStackTrace();
-                throw new WebApplicationException(e);
+                final Enhancement updatedResource = CMManager.updateEnhancement(httpServletRequest, aResource, enhancementId);
+                httpServletResponse.setHeader("ETag", CMManager.getETagFromEnhancement(updatedResource));
+                return Response.ok().header(CMConstants.HDR_OSLC_VERSION, CMConstants.OSLC_VERSION_V2).build();
             }
-
+            else {
+                throw new WebApplicationException(Status.PRECONDITION_FAILED);
+            }
         }
         else {
             throw new WebApplicationException(Status.NOT_FOUND);

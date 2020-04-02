@@ -48,6 +48,7 @@ import co.oslc.refimpl.am.gen.ServiceProviderInfo;
 import org.eclipse.lyo.oslc.domains.am.Oslc_amDomainConstants;
 import org.eclipse.lyo.oslc.domains.DctermsDomainConstants;
 import org.eclipse.lyo.oslc.domains.FoafDomainConstants;
+import org.eclipse.lyo.oslc.domains.jazz_am.Jazz_amDomainConstants;
 import org.eclipse.lyo.oslc4j.core.model.OslcDomainConstants;
 import org.eclipse.lyo.oslc.domains.RdfsDomainConstants;
 import co.oslc.refimpl.am.gen.services.ResourcesService;
@@ -130,6 +131,8 @@ public class ServiceProvidersFactory
             new PrefixDefinition(DctermsDomainConstants.DUBLIN_CORE_NAMSPACE_PREFIX, new URI(DctermsDomainConstants.DUBLIN_CORE_NAMSPACE))
 ,
             new PrefixDefinition(FoafDomainConstants.FOAF_NAMSPACE_PREFIX, new URI(FoafDomainConstants.FOAF_NAMSPACE))
+,
+            new PrefixDefinition(Jazz_amDomainConstants.JAZZ_ARCHITECTURE_MANAGEMENT_NAMSPACE_PREFIX, new URI(Jazz_amDomainConstants.JAZZ_ARCHITECTURE_MANAGEMENT_NAMSPACE))
 ,
             new PrefixDefinition(OslcDomainConstants.OSLC_NAMSPACE_PREFIX, new URI(OslcDomainConstants.OSLC_NAMSPACE))
 ,

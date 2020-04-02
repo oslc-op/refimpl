@@ -78,7 +78,7 @@ public class AMManager {
         return serviceProviderInfos;
     }
 
-    public static List<Resource> queryResources(HttpServletRequest httpServletRequest, final String serviceProviderId, String where, int page, int limit)
+    public static List<Resource> queryResources(HttpServletRequest httpServletRequest, String where, int page, int limit)
     {
         List<Resource> resources = null;
         
@@ -87,7 +87,7 @@ public class AMManager {
         // End of user code
         return resources;
     }
-    public static List<Resource> ResourceSelector(HttpServletRequest httpServletRequest, final String serviceProviderId, String terms)   
+    public static List<Resource> ResourceSelector(HttpServletRequest httpServletRequest, String terms)   
     {
         List<Resource> resources = null;
         
@@ -96,7 +96,7 @@ public class AMManager {
         // End of user code
         return resources;
     }
-    public static Resource createResource(HttpServletRequest httpServletRequest, final Resource aResource, final String serviceProviderId)
+    public static Resource createResource(HttpServletRequest httpServletRequest, final Resource aResource)
     {
         Resource newResource = null;
         
@@ -107,7 +107,7 @@ public class AMManager {
     }
 
 
-    public static Resource getResource(HttpServletRequest httpServletRequest, final String serviceProviderId, final String resourceId)
+    public static Resource getResource(HttpServletRequest httpServletRequest, final String resourceId)
     {
         Resource aResource = null;
         
@@ -119,7 +119,7 @@ public class AMManager {
 
 
 
-    public static List<LinkType> queryLinkTypes(HttpServletRequest httpServletRequest, final String serviceProviderId, String where, int page, int limit)
+    public static List<LinkType> queryLinkTypes(HttpServletRequest httpServletRequest, String where, int page, int limit)
     {
         List<LinkType> resources = null;
         
@@ -128,7 +128,7 @@ public class AMManager {
         // End of user code
         return resources;
     }
-    public static List<LinkType> LinkTypeSelector(HttpServletRequest httpServletRequest, final String serviceProviderId, String terms)   
+    public static List<LinkType> LinkTypeSelector(HttpServletRequest httpServletRequest, String terms)   
     {
         List<LinkType> resources = null;
         
@@ -137,7 +137,7 @@ public class AMManager {
         // End of user code
         return resources;
     }
-    public static LinkType createLinkType(HttpServletRequest httpServletRequest, final LinkType aResource, final String serviceProviderId)
+    public static LinkType createLinkType(HttpServletRequest httpServletRequest, final LinkType aResource)
     {
         LinkType newResource = null;
         
@@ -148,7 +148,7 @@ public class AMManager {
     }
 
 
-    public static LinkType getLinkType(HttpServletRequest httpServletRequest, final String serviceProviderId, final String linkTypeId)
+    public static LinkType getLinkType(HttpServletRequest httpServletRequest, final String linkTypeId)
     {
         LinkType aResource = null;
         
@@ -157,6 +157,7 @@ public class AMManager {
         // End of user code
         return aResource;
     }
+
 
 
 

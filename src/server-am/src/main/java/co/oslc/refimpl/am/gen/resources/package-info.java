@@ -31,6 +31,7 @@
     @OslcNamespaceDefinition(prefix = Oslc_amDomainConstants.ARCHITECTURE_MANAGEMENT_NAMSPACE_PREFIX, namespaceURI = Oslc_amDomainConstants.ARCHITECTURE_MANAGEMENT_NAMSPACE),
     @OslcNamespaceDefinition(prefix = DctermsDomainConstants.DUBLIN_CORE_NAMSPACE_PREFIX, namespaceURI = DctermsDomainConstants.DUBLIN_CORE_NAMSPACE),
     @OslcNamespaceDefinition(prefix = FoafDomainConstants.FOAF_NAMSPACE_PREFIX, namespaceURI = FoafDomainConstants.FOAF_NAMSPACE),
+    @OslcNamespaceDefinition(prefix = Jazz_amDomainConstants.JAZZ_ARCHITECTURE_MANAGEMENT_NAMSPACE_PREFIX, namespaceURI = Jazz_amDomainConstants.JAZZ_ARCHITECTURE_MANAGEMENT_NAMSPACE),
     @OslcNamespaceDefinition(prefix = OslcDomainConstants.OSLC_NAMSPACE_PREFIX, namespaceURI = OslcDomainConstants.OSLC_NAMSPACE),
     @OslcNamespaceDefinition(prefix = RdfsDomainConstants.RDFS_NAMSPACE_PREFIX, namespaceURI = RdfsDomainConstants.RDFS_NAMSPACE)
 })
@@ -43,6 +44,7 @@ import org.eclipse.lyo.oslc4j.core.model.OslcConstants;
 import org.eclipse.lyo.oslc.domains.am.Oslc_amDomainConstants;
 import org.eclipse.lyo.oslc.domains.DctermsDomainConstants;
 import org.eclipse.lyo.oslc.domains.FoafDomainConstants;
+import org.eclipse.lyo.oslc.domains.jazz_am.Jazz_amDomainConstants;
 import org.eclipse.lyo.oslc4j.core.model.OslcDomainConstants;
 import org.eclipse.lyo.oslc.domains.RdfsDomainConstants;
 
