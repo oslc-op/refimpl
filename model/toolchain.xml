@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <oslc4j_tc:Toolchain xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:oslc4j_ai="http://org.eclipse.lyo/oslc4j/adaptorInterface" xmlns:oslc4j_tc="http://org.eclipse.lyo/oslc4j/toolChain">
-  <adaptorInterfaces name="RM" javaClassBaseNamespace="co.oslc.refimpl.rm.gen" javaFilesBasePath="../src/server-rm/src/main/java/" jspFilesBasePath="../src/server-rm/src/main/webapp/" javascriptFilesBasePath="../src/server-rm/src/main/webapp/">
+  <adaptorInterfaces name="RM">
     <serviceProviderCatalog title="Service Provider Catalog" description="Service Provider Catalog">
       <serviceProviders title="RM Service Provider" description="Service Provider for the RM domain resources" serviceNamespace="">
         <services serviceNamespace="relativeToServiceProvider">
@@ -42,8 +42,12 @@
     </serviceProviderCatalog>
     <specification/>
     <requiredAdaptors xsi:type="oslc4j_ai:GenericRequiredAdaptor" serviceProviderCatalogURI="http://your.host.com/adaptor/services/catalog/singleton" name="GenericRequiredAdaptor"/>
+    <configuration xsi:type="oslc4j_ai:MavenServerConfiguration" rootServerBaseUrl="http://localhost:8800/" applicationContextPath="/" servletUrlPattern="/services/*" jettyPort="8800">
+      <generalConfiguration filesBasePath="../src/server-rm/" javaBasePackageName="co.oslc.refimpl.rm.gen"/>
+      <projectConfiguration xsi:type="oslc4j_ai:MavenProjectConfiguration" doNotGenerateProjectConfigurationFiles="true" lyoVersion="4.0.0-SNAPSHOT" groupId="co.oslc.refimpl.rm.gen" artifactId="rm" version="0.0.1-SNAPSHOT"/>
+    </configuration>
   </adaptorInterfaces>
-  <adaptorInterfaces name="CM" javaClassBaseNamespace="co.oslc.refimpl.cm.gen" javaFilesBasePath="../src/server-cm/src/main/java/" jspFilesBasePath="../src/server-cm/src/main/webapp/" javascriptFilesBasePath="../src/server-cm/src/main/webapp/">
+  <adaptorInterfaces name="CM">
     <serviceProviderCatalog title="Service Provider Catalog" description="Service Provider Catalog">
       <serviceProviders title="Service Provider" description="Service Provider">
         <services>
@@ -106,8 +110,12 @@
     </serviceProviderCatalog>
     <specification/>
     <requiredAdaptors xsi:type="oslc4j_ai:GenericRequiredAdaptor" serviceProviderCatalogURI="http://your.host.com/adaptor/services/catalog/singleton" name="GenericRequiredAdaptor"/>
+    <configuration xsi:type="oslc4j_ai:MavenServerConfiguration" rootServerBaseUrl="http://localhost:8801/" applicationContextPath="/" servletUrlPattern="/services/*" jettyPort="8801">
+      <generalConfiguration filesBasePath="../src/server-cm/" javaBasePackageName="co.oslc.refimpl.cm.gen"/>
+      <projectConfiguration xsi:type="oslc4j_ai:MavenProjectConfiguration" doNotGenerateProjectConfigurationFiles="true" lyoVersion="4.0.0-SNAPSHOT" groupId="co.oslc.refimpl.cm.gen" artifactId="cm" version="0.0.1-SNAPSHOT"/>
+    </configuration>
   </adaptorInterfaces>
-  <adaptorInterfaces name="QM" javaClassBaseNamespace="co.oslc.refimpl.qm.gen" javaFilesBasePath="../src/server-qm/src/main/java/" jspFilesBasePath="../src/server-qm/src/main/webapp/" javascriptFilesBasePath="../src/server-qm/src/main/webapp/">
+  <adaptorInterfaces name="QM">
     <serviceProviderCatalog title="Service Provider Catalog" description="Service Provider Catalog">
       <serviceProviders title="QM Service Provider" description="Quality Management Spec Service Provider">
         <services>
@@ -194,8 +202,12 @@
     </serviceProviderCatalog>
     <specification/>
     <requiredAdaptors xsi:type="oslc4j_ai:GenericRequiredAdaptor" serviceProviderCatalogURI="http://your.host.com/adaptor/services/catalog/singleton" name="GenericRequiredAdaptor"/>
+    <configuration xsi:type="oslc4j_ai:MavenServerConfiguration" rootServerBaseUrl="http://localhost:8802/" applicationContextPath="/" servletUrlPattern="/services/*" jettyPort="8802">
+      <generalConfiguration filesBasePath="../src/server-qm/" javaBasePackageName="co.oslc.refimpl.qm.gen"/>
+      <projectConfiguration xsi:type="oslc4j_ai:MavenProjectConfiguration" doNotGenerateProjectConfigurationFiles="true" lyoVersion="4.0.0-SNAPSHOT" groupId="co.oslc.refimpl.qm.gen" artifactId="qm" version="0.0.1-SNAPSHOT"/>
+    </configuration>
   </adaptorInterfaces>
-  <adaptorInterfaces name="AM" javaClassBaseNamespace="co.oslc.refimpl.am.gen" javaFilesBasePath="../src/server-am/src/main/java/" jspFilesBasePath="../src/server-am/src/main/webapp/" javascriptFilesBasePath="../src/server-am/src/main/webapp/">
+  <adaptorInterfaces name="AM">
     <serviceProviderCatalog title="Service Provider Catalog" description="Service Provider Catalog">
       <serviceProviders title="Service Provider" description="Service Provider">
         <services>
@@ -234,6 +246,10 @@
     </serviceProviderCatalog>
     <specification/>
     <requiredAdaptors xsi:type="oslc4j_ai:GenericRequiredAdaptor" serviceProviderCatalogURI="http://your.host.com/adaptor/services/catalog/singleton" name="GenericRequiredAdaptor"/>
+    <configuration xsi:type="oslc4j_ai:MavenServerConfiguration" rootServerBaseUrl="http://localhost:8803/" applicationContextPath="/" servletUrlPattern="/services/*" jettyPort="8803">
+      <generalConfiguration filesBasePath="../src/server-am/" javaBasePackageName="co.oslc.refimpl.am.gen"/>
+      <projectConfiguration xsi:type="oslc4j_ai:MavenProjectConfiguration" doNotGenerateProjectConfigurationFiles="true" lyoVersion="4.0.0-SNAPSHOT" groupId="co.oslc.refimpl.am.gen" artifactId="am" version="0.0.1-SNAPSHOT"/>
+    </configuration>
   </adaptorInterfaces>
   <specification>
     <domainSpecifications name="DummyDomain" namespaceURI="http://your.organisation.domain/nsp1#" namespacePrefix="//@specification/@domainPrefixes[name='nsp1']"/>
