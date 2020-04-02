@@ -5,6 +5,17 @@ model/src/
 
 # Eclipse
 .settings/
+src/.project
+src/client-toolchain/.classpath
+src/client-toolchain/.project
+src/server-am/.classpath
+src/server-am/.project
+src/server-cm/.classpath
+src/server-cm/.project
+src/server-qm/.classpath
+src/server-qm/.project
+src/server-rm/.classpath
+src/server-rm/.project
 
 # Maven
 target/
