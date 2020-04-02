@@ -85,7 +85,10 @@ public class QMManager {
         ServiceProviderInfo[] serviceProviderInfos = {};
         
         // Start of user code "ServiceProviderInfo[] getServiceProviderInfos(...)"
-        // TODO Implement code to return the set of ServiceProviders
+        ServiceProviderInfo providerInfo = new ServiceProviderInfo();
+        providerInfo.name = "Dummy";
+        providerInfo.serviceProviderId = "dummy";
+        serviceProviderInfos = new ServiceProviderInfo[] {providerInfo};
         // End of user code
         return serviceProviderInfos;
     }
@@ -119,17 +122,6 @@ public class QMManager {
     }
 
 
-    public static TestCase getTestCase(HttpServletRequest httpServletRequest, final String testCaseId)
-    {
-        TestCase aResource = null;
-        
-        // Start of user code getTestCase
-        // TODO Implement code to return a resource
-        // End of user code
-        return aResource;
-    }
-
-
 
     public static List<TestPlan> queryTestPlans(HttpServletRequest httpServletRequest, String where, int page, int limit)
     {
@@ -154,20 +146,9 @@ public class QMManager {
         TestPlan newResource = null;
         
         // Start of user code createTestPlan
-        // TODO Implement code to create a resource
+        newResource = aResource;
         // End of user code
         return newResource;
-    }
-
-
-    public static TestPlan getTestPlan(HttpServletRequest httpServletRequest, final String testPlanId)
-    {
-        TestPlan aResource = null;
-        
-        // Start of user code getTestPlan
-        // TODO Implement code to return a resource
-        // End of user code
-        return aResource;
     }
 
 
@@ -201,17 +182,6 @@ public class QMManager {
     }
 
 
-    public static TestScript getTestScript(HttpServletRequest httpServletRequest, final String testScriptId)
-    {
-        TestScript aResource = null;
-        
-        // Start of user code getTestScript
-        // TODO Implement code to return a resource
-        // End of user code
-        return aResource;
-    }
-
-
 
     public static List<TestResult> queryTestResults(HttpServletRequest httpServletRequest, String where, int page, int limit)
     {
@@ -239,17 +209,6 @@ public class QMManager {
         // TODO Implement code to create a resource
         // End of user code
         return newResource;
-    }
-
-
-    public static TestResult getTestResult(HttpServletRequest httpServletRequest, final String testResultId)
-    {
-        TestResult aResource = null;
-        
-        // Start of user code getTestResult
-        // TODO Implement code to return a resource
-        // End of user code
-        return aResource;
     }
 
 
@@ -283,7 +242,53 @@ public class QMManager {
     }
 
 
-    public static TestExecutionRecord getTestExecutionRecord(HttpServletRequest httpServletRequest, final String testExecutionRecordId)
+
+
+    public static TestCase getTestCase(HttpServletRequest httpServletRequest, final String spSlug, final String id)
+    {
+        TestCase aResource = null;
+        
+        // Start of user code getTestCase
+        // TODO Implement code to return a resource
+        // End of user code
+        return aResource;
+    }
+
+
+    public static TestPlan getTestPlan(HttpServletRequest httpServletRequest, final String spSlug, final String id)
+    {
+        TestPlan aResource = null;
+        
+        // Start of user code getTestPlan
+        // TODO Implement code to return a resource
+        // End of user code
+        return aResource;
+    }
+
+
+    public static TestScript getTestScript(HttpServletRequest httpServletRequest, final String spSlug, final String id)
+    {
+        TestScript aResource = null;
+        
+        // Start of user code getTestScript
+        // TODO Implement code to return a resource
+        // End of user code
+        return aResource;
+    }
+
+
+    public static TestResult getTestResult(HttpServletRequest httpServletRequest, final String spSlug, final String id)
+    {
+        TestResult aResource = null;
+        
+        // Start of user code getTestResult
+        // TODO Implement code to return a resource
+        // End of user code
+        return aResource;
+    }
+
+
+    public static TestExecutionRecord getTestExecutionRecord(HttpServletRequest httpServletRequest, final String spSlug, final String id)
     {
         TestExecutionRecord aResource = null;
         
@@ -292,8 +297,6 @@ public class QMManager {
         // End of user code
         return aResource;
     }
-
-
 
 
 

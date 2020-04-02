@@ -83,7 +83,11 @@ import co.oslc.refimpl.qm.gen.services.PlansService;
 import co.oslc.refimpl.qm.gen.services.ScriptsService;
 import co.oslc.refimpl.qm.gen.services.ResultsService;
 import co.oslc.refimpl.qm.gen.services.Execution_recordsService;
-
+import co.oslc.refimpl.qm.gen.services.WsCases;
+import co.oslc.refimpl.qm.gen.services.WsPlans;
+import co.oslc.refimpl.qm.gen.services.WsScripts;
+import co.oslc.refimpl.qm.gen.services.WsResults;
+import co.oslc.refimpl.qm.gen.services.WsExecRecords;
 
 // Start of user code imports
 // End of user code
@@ -114,6 +118,11 @@ public class Application extends javax.ws.rs.core.Application {
         RESOURCE_CLASSES.add(ScriptsService.class);
         RESOURCE_CLASSES.add(ResultsService.class);
         RESOURCE_CLASSES.add(Execution_recordsService.class);
+        RESOURCE_CLASSES.add(WsCases.class);
+        RESOURCE_CLASSES.add(WsPlans.class);
+        RESOURCE_CLASSES.add(WsScripts.class);
+        RESOURCE_CLASSES.add(WsResults.class);
+        RESOURCE_CLASSES.add(WsExecRecords.class);
 
         // Catalog resources
         RESOURCE_CLASSES.add(ServiceProviderCatalogService.class);

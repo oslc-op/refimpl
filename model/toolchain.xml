@@ -17,9 +17,6 @@
           <creationDialogs title="RequirementCD" label="Requirements Creation Dialog" dialogURI="creator">
             <resourceTypes href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#//@domainSpecifications[name='Requirements%20Management%20shapes']/@resources[name='Requirement']"/>
           </creationDialogs>
-          <basicCapabilities delete="true" update="true">
-            <resourceTypes href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#//@domainSpecifications[name='Requirements%20Management%20shapes']/@resources[name='Requirement']"/>
-          </basicCapabilities>
           <usages>requirements</usages>
         </services>
         <services serviceNamespace="relativeToServiceProvider">
@@ -33,13 +30,14 @@
           <selectionDialogs title="RequirementCollectionSD" label="Requirement Collections Selection Dialog" dialogURI="selector">
             <resourceTypes href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#//@domainSpecifications[name='Requirements%20Management%20shapes']/@resources[name='RequirementCollection']"/>
           </selectionDialogs>
-          <basicCapabilities>
-            <resourceTypes href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#//@domainSpecifications[name='Requirements%20Management%20shapes']/@resources[name='RequirementCollection']"/>
-          </basicCapabilities>
           <usages>requirement_collections</usages>
         </services>
       </serviceProviders>
     </serviceProviderCatalog>
+    <webServices name="WebServiceBasic" serviceUrlPattern="" resourceUrlPattern="[ResourceType]/{serviceProviderId}/{resourceId}" delete="true" update="true">
+      <resourceTypes href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#//@domainSpecifications[name='Requirements%20Management%20shapes']/@resources[name='Requirement']"/>
+      <resourceTypes href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#//@domainSpecifications[name='Requirements%20Management%20shapes']/@resources[name='RequirementCollection']"/>
+    </webServices>
     <specification/>
     <requiredAdaptors xsi:type="oslc4j_ai:GenericRequiredAdaptor" serviceProviderCatalogURI="http://your.host.com/adaptor/services/catalog/singleton" name="GenericRequiredAdaptor"/>
     <configuration xsi:type="oslc4j_ai:MavenServerConfiguration" rootServerBaseUrl="http://localhost:8800/" applicationContextPath="/" servletUrlPattern="/services/*" jettyPort="8800">
@@ -129,9 +127,6 @@
           <selectionDialogs title="TestCaseSD" label="Test Case Selection Dialog" dialogURI="selector">
             <resourceTypes href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#//@domainSpecifications[name='Quality%20Management']/@resources[name='TestCase']"/>
           </selectionDialogs>
-          <basicCapabilities>
-            <resourceTypes href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#//@domainSpecifications[name='Quality%20Management']/@resources[name='TestCase']"/>
-          </basicCapabilities>
           <usages>cases</usages>
         </services>
         <services>
@@ -145,9 +140,6 @@
           <selectionDialogs title="TestPlanSD" label="Test Plan Selection Dialog" dialogURI="selector">
             <resourceTypes href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#//@domainSpecifications[name='Quality%20Management']/@resources[name='TestPlan']"/>
           </selectionDialogs>
-          <basicCapabilities>
-            <resourceTypes href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#//@domainSpecifications[name='Quality%20Management']/@resources[name='TestPlan']"/>
-          </basicCapabilities>
           <usages>plans</usages>
         </services>
         <services>
@@ -161,9 +153,6 @@
           <selectionDialogs title="TestScriptSD" label="Test Script Selection Dialog" dialogURI="selector">
             <resourceTypes href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#//@domainSpecifications[name='Quality%20Management']/@resources[name='TestScript']"/>
           </selectionDialogs>
-          <basicCapabilities>
-            <resourceTypes href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#//@domainSpecifications[name='Quality%20Management']/@resources[name='TestScript']"/>
-          </basicCapabilities>
           <usages>scripts</usages>
         </services>
         <services>
@@ -177,9 +166,6 @@
           <selectionDialogs title="TestResultSD" label="Test Result Selection Dialog" dialogURI="selector">
             <resourceTypes href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#//@domainSpecifications[name='Quality%20Management']/@resources[name='TestResult']"/>
           </selectionDialogs>
-          <basicCapabilities>
-            <resourceTypes href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#//@domainSpecifications[name='Quality%20Management']/@resources[name='TestResult']"/>
-          </basicCapabilities>
           <usages>results</usages>
         </services>
         <services>
@@ -193,13 +179,25 @@
           <selectionDialogs title="TestExecutionRecordSD" label="Test Execution Record Selection Dialog" dialogURI="selector">
             <resourceTypes href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#//@domainSpecifications[name='Quality%20Management']/@resources[name='TestExecutionRecord']"/>
           </selectionDialogs>
-          <basicCapabilities>
-            <resourceTypes href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#//@domainSpecifications[name='Quality%20Management']/@resources[name='TestExecutionRecord']"/>
-          </basicCapabilities>
           <usages>execution_records</usages>
         </services>
       </serviceProviders>
     </serviceProviderCatalog>
+    <webServices name="WsCases" serviceUrlPattern="cases" resourceUrlPattern="{spSlug}-{id}">
+      <resourceTypes href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#//@domainSpecifications[name='Quality%20Management']/@resources[name='TestCase']"/>
+    </webServices>
+    <webServices name="WsPlans" serviceUrlPattern="plans" resourceUrlPattern="{spSlug}-{id}">
+      <resourceTypes href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#//@domainSpecifications[name='Quality%20Management']/@resources[name='TestPlan']"/>
+    </webServices>
+    <webServices name="WsScripts" serviceUrlPattern="scripts" resourceUrlPattern="{spSlug}-{id}">
+      <resourceTypes href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#//@domainSpecifications[name='Quality%20Management']/@resources[name='TestScript']"/>
+    </webServices>
+    <webServices name="WsResults" serviceUrlPattern="results" resourceUrlPattern="{spSlug}-{id}">
+      <resourceTypes href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#//@domainSpecifications[name='Quality%20Management']/@resources[name='TestResult']"/>
+    </webServices>
+    <webServices name="WsExecRecords" serviceUrlPattern="exec-records" resourceUrlPattern="{spSlug}-{id}">
+      <resourceTypes href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#//@domainSpecifications[name='Quality%20Management']/@resources[name='TestExecutionRecord']"/>
+    </webServices>
     <specification/>
     <requiredAdaptors xsi:type="oslc4j_ai:GenericRequiredAdaptor" serviceProviderCatalogURI="http://your.host.com/adaptor/services/catalog/singleton" name="GenericRequiredAdaptor"/>
     <configuration xsi:type="oslc4j_ai:MavenServerConfiguration" rootServerBaseUrl="http://localhost:8802/" applicationContextPath="/" servletUrlPattern="/services/*" jettyPort="8802">

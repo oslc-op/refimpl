@@ -58,148 +58,153 @@ public class QMResourcesFactory {
     // End of user code
 
     //methods for TestCase resource
-    public static TestCase createTestCase(final String testCaseId)
+    
+    public static TestCase createTestCase(final String spSlug, final String id)
     {
-        return new TestCase(constructURIForTestCase(testCaseId));
+        return new TestCase(constructURIForTestCase(spSlug, id));
     }
     
-    public static URI constructURIForTestCase(final String testCaseId)
+    public static URI constructURIForTestCase(final String spSlug, final String id)
     {
         String basePath = OSLC4JUtils.getServletURI();
         Map<String, Object> pathParameters = new HashMap<String, Object>();
-        pathParameters.put("testCaseId", testCaseId);
-        String instanceURI = "service1/testCases/{testCaseId}";
+        pathParameters.put("spSlug", spSlug);
+        pathParameters.put("id", id);
+        String instanceURI = "cases/{spSlug}-{id}";
     
         final UriBuilder builder = UriBuilder.fromUri(basePath);
         return builder.path(instanceURI).buildFromMap(pathParameters);
     }
     
-    public static Link constructLinkForTestCase(final String testCaseId , final String label)
+    public static Link constructLinkForTestCase(final String spSlug, final String id , final String label)
     {
-        return new Link(constructURIForTestCase(testCaseId), label);
+        return new Link(constructURIForTestCase(spSlug, id), label);
     }
     
-    public static Link constructLinkForTestCase(final String testCaseId)
+    public static Link constructLinkForTestCase(final String spSlug, final String id)
     {
-        return new Link(constructURIForTestCase(testCaseId));
+        return new Link(constructURIForTestCase(spSlug, id));
     }
-    
     
 
     //methods for TestExecutionRecord resource
-    public static TestExecutionRecord createTestExecutionRecord(final String testExecutionRecordId)
+    
+    public static TestExecutionRecord createTestExecutionRecord(final String spSlug, final String id)
     {
-        return new TestExecutionRecord(constructURIForTestExecutionRecord(testExecutionRecordId));
+        return new TestExecutionRecord(constructURIForTestExecutionRecord(spSlug, id));
     }
     
-    public static URI constructURIForTestExecutionRecord(final String testExecutionRecordId)
+    public static URI constructURIForTestExecutionRecord(final String spSlug, final String id)
     {
         String basePath = OSLC4JUtils.getServletURI();
         Map<String, Object> pathParameters = new HashMap<String, Object>();
-        pathParameters.put("testExecutionRecordId", testExecutionRecordId);
-        String instanceURI = "service5/testExecutionRecords/{testExecutionRecordId}";
+        pathParameters.put("spSlug", spSlug);
+        pathParameters.put("id", id);
+        String instanceURI = "exec-records/{spSlug}-{id}";
     
         final UriBuilder builder = UriBuilder.fromUri(basePath);
         return builder.path(instanceURI).buildFromMap(pathParameters);
     }
     
-    public static Link constructLinkForTestExecutionRecord(final String testExecutionRecordId , final String label)
+    public static Link constructLinkForTestExecutionRecord(final String spSlug, final String id , final String label)
     {
-        return new Link(constructURIForTestExecutionRecord(testExecutionRecordId), label);
+        return new Link(constructURIForTestExecutionRecord(spSlug, id), label);
     }
     
-    public static Link constructLinkForTestExecutionRecord(final String testExecutionRecordId)
+    public static Link constructLinkForTestExecutionRecord(final String spSlug, final String id)
     {
-        return new Link(constructURIForTestExecutionRecord(testExecutionRecordId));
+        return new Link(constructURIForTestExecutionRecord(spSlug, id));
     }
-    
     
 
     //methods for TestPlan resource
-    public static TestPlan createTestPlan(final String testPlanId)
+    
+    public static TestPlan createTestPlan(final String spSlug, final String id)
     {
-        return new TestPlan(constructURIForTestPlan(testPlanId));
+        return new TestPlan(constructURIForTestPlan(spSlug, id));
     }
     
-    public static URI constructURIForTestPlan(final String testPlanId)
+    public static URI constructURIForTestPlan(final String spSlug, final String id)
     {
         String basePath = OSLC4JUtils.getServletURI();
         Map<String, Object> pathParameters = new HashMap<String, Object>();
-        pathParameters.put("testPlanId", testPlanId);
-        String instanceURI = "service2/testPlans/{testPlanId}";
+        pathParameters.put("spSlug", spSlug);
+        pathParameters.put("id", id);
+        String instanceURI = "plans/{spSlug}-{id}";
     
         final UriBuilder builder = UriBuilder.fromUri(basePath);
         return builder.path(instanceURI).buildFromMap(pathParameters);
     }
     
-    public static Link constructLinkForTestPlan(final String testPlanId , final String label)
+    public static Link constructLinkForTestPlan(final String spSlug, final String id , final String label)
     {
-        return new Link(constructURIForTestPlan(testPlanId), label);
+        return new Link(constructURIForTestPlan(spSlug, id), label);
     }
     
-    public static Link constructLinkForTestPlan(final String testPlanId)
+    public static Link constructLinkForTestPlan(final String spSlug, final String id)
     {
-        return new Link(constructURIForTestPlan(testPlanId));
+        return new Link(constructURIForTestPlan(spSlug, id));
     }
-    
     
 
     //methods for TestResult resource
-    public static TestResult createTestResult(final String testResultId)
+    
+    public static TestResult createTestResult(final String spSlug, final String id)
     {
-        return new TestResult(constructURIForTestResult(testResultId));
+        return new TestResult(constructURIForTestResult(spSlug, id));
     }
     
-    public static URI constructURIForTestResult(final String testResultId)
+    public static URI constructURIForTestResult(final String spSlug, final String id)
     {
         String basePath = OSLC4JUtils.getServletURI();
         Map<String, Object> pathParameters = new HashMap<String, Object>();
-        pathParameters.put("testResultId", testResultId);
-        String instanceURI = "service4/testResults/{testResultId}";
+        pathParameters.put("spSlug", spSlug);
+        pathParameters.put("id", id);
+        String instanceURI = "results/{spSlug}-{id}";
     
         final UriBuilder builder = UriBuilder.fromUri(basePath);
         return builder.path(instanceURI).buildFromMap(pathParameters);
     }
     
-    public static Link constructLinkForTestResult(final String testResultId , final String label)
+    public static Link constructLinkForTestResult(final String spSlug, final String id , final String label)
     {
-        return new Link(constructURIForTestResult(testResultId), label);
+        return new Link(constructURIForTestResult(spSlug, id), label);
     }
     
-    public static Link constructLinkForTestResult(final String testResultId)
+    public static Link constructLinkForTestResult(final String spSlug, final String id)
     {
-        return new Link(constructURIForTestResult(testResultId));
+        return new Link(constructURIForTestResult(spSlug, id));
     }
-    
     
 
     //methods for TestScript resource
-    public static TestScript createTestScript(final String testScriptId)
+    
+    public static TestScript createTestScript(final String spSlug, final String id)
     {
-        return new TestScript(constructURIForTestScript(testScriptId));
+        return new TestScript(constructURIForTestScript(spSlug, id));
     }
     
-    public static URI constructURIForTestScript(final String testScriptId)
+    public static URI constructURIForTestScript(final String spSlug, final String id)
     {
         String basePath = OSLC4JUtils.getServletURI();
         Map<String, Object> pathParameters = new HashMap<String, Object>();
-        pathParameters.put("testScriptId", testScriptId);
-        String instanceURI = "service3/testScripts/{testScriptId}";
+        pathParameters.put("spSlug", spSlug);
+        pathParameters.put("id", id);
+        String instanceURI = "scripts/{spSlug}-{id}";
     
         final UriBuilder builder = UriBuilder.fromUri(basePath);
         return builder.path(instanceURI).buildFromMap(pathParameters);
     }
     
-    public static Link constructLinkForTestScript(final String testScriptId , final String label)
+    public static Link constructLinkForTestScript(final String spSlug, final String id , final String label)
     {
-        return new Link(constructURIForTestScript(testScriptId), label);
+        return new Link(constructURIForTestScript(spSlug, id), label);
     }
     
-    public static Link constructLinkForTestScript(final String testScriptId)
+    public static Link constructLinkForTestScript(final String spSlug, final String id)
     {
-        return new Link(constructURIForTestScript(testScriptId));
+        return new Link(constructURIForTestScript(spSlug, id));
     }
-    
     
 
 }

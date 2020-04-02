@@ -252,34 +252,6 @@ public class RMManager {
         return newResource;
     }
 
-    public static Requirement getRequirement(HttpServletRequest httpServletRequest, final String serviceProviderId, final String requirementId)
-    {
-        Requirement aResource = null;
-        
-        // Start of user code getRequirement
-        final Map<String, Requirement> requirements = requirementsForSP(serviceProviderId);
-        aResource = requirements.get(requirementId);
-        // End of user code
-        return aResource;
-    }
-
-    public static Boolean deleteRequirement(HttpServletRequest httpServletRequest, final String serviceProviderId, final String requirementId)
-    {
-        Boolean deleted = false;
-        // Start of user code deleteRequirement
-        final Map<String, Requirement> requirements = requirementsForSP(serviceProviderId);
-        deleted = requirements.remove(requirementId) != null;
-        // End of user code
-        return deleted;
-    }
-
-    public static Requirement updateRequirement(HttpServletRequest httpServletRequest, final Requirement aResource, final String serviceProviderId, final String requirementId) {
-        Requirement updatedResource = null;
-        // Start of user code updateRequirement
-        // TODO Implement code to update and return a resource
-        // End of user code
-        return updatedResource;
-    }
 
     public static List<RequirementCollection> queryRequirementCollections(HttpServletRequest httpServletRequest, final String serviceProviderId, String where, int page, int limit)
     {
@@ -320,21 +292,64 @@ public class RMManager {
     }
 
 
-    public static RequirementCollection getRequirementCollection(HttpServletRequest httpServletRequest, final String serviceProviderId, final String requirementCollectionId)
+
+
+    public static Requirement getRequirement(HttpServletRequest httpServletRequest, final String serviceProviderId, final String resourceId)
+    {
+        Requirement aResource = null;
+        
+        // Start of user code getRequirement
+        final Map<String, Requirement> requirements = requirementsForSP(serviceProviderId);
+        aResource = requirements.get(resourceId);
+        // End of user code
+        return aResource;
+    }
+    public static RequirementCollection getRequirementCollection(HttpServletRequest httpServletRequest, final String serviceProviderId, final String resourceId)
     {
         RequirementCollection aResource = null;
         
         // Start of user code getRequirementCollection
         // TODO Andrew@2019-09-24: add delete/update capability
         final Map<String, RequirementCollection> resources = requirementCollectionsForSP(serviceProviderId);
-        aResource = resources.get(requirementCollectionId);
+        aResource = resources.get(resourceId);
         // End of user code
         return aResource;
     }
 
+    public static Boolean deleteRequirement(HttpServletRequest httpServletRequest, final String serviceProviderId, final String resourceId)
+    {
+        Boolean deleted = false;
+        // Start of user code deleteRequirement
+        final Map<String, Requirement> requirements = requirementsForSP(serviceProviderId);
+        deleted = requirements.remove(resourceId) != null;
+        // End of user code
+        return deleted;
+    }
+    public static Boolean deleteRequirementCollection(HttpServletRequest httpServletRequest, final String serviceProviderId, final String resourceId)
+    {
+        Boolean deleted = false;
+        // Start of user code deleteRequirementCollection
+        // TODO Implement code to delete a resource
+        // If you encounter problems, consider throwing the runtime exception WebApplicationException(message, cause, final httpStatus)
+        // End of user code
+        return deleted;
+    }
 
-
-
+    public static Requirement updateRequirement(HttpServletRequest httpServletRequest, final Requirement aResource, final String serviceProviderId, final String resourceId) {
+        Requirement updatedResource = null;
+        // Start of user code updateRequirement
+        // TODO Implement code to update and return a resource
+        // End of user code
+        return updatedResource;
+    }
+    public static RequirementCollection updateRequirementCollection(HttpServletRequest httpServletRequest, final RequirementCollection aResource, final String serviceProviderId, final String resourceId) {
+        RequirementCollection updatedResource = null;
+        // Start of user code updateRequirementCollection
+        // TODO Implement code to update and return a resource
+        // If you encounter problems, consider throwing the runtime exception WebApplicationException(message, cause, final httpStatus)
+        // End of user code
+        return updatedResource;
+    }
 
     public static String getETagFromRequirement(final Requirement aResource)
     {

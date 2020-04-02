@@ -64,7 +64,7 @@ import org.eclipse.lyo.oslc4j.core.model.OslcDomainConstants;
 import org.eclipse.lyo.oslc.domains.rm.Oslc_rmDomainConstants;
 import co.oslc.refimpl.rm.gen.services.RequirementsService;
 import co.oslc.refimpl.rm.gen.services.Requirement_collectionsService;
-
+import co.oslc.refimpl.rm.gen.services.WebServiceBasic;
 
 // Start of user code imports
 // End of user code
@@ -92,6 +92,7 @@ public class Application extends javax.ws.rs.core.Application {
         RESOURCE_CLASSES.addAll(Json4JProvidersRegistry.getProviders());
         RESOURCE_CLASSES.add(RequirementsService.class);
         RESOURCE_CLASSES.add(Requirement_collectionsService.class);
+        RESOURCE_CLASSES.add(WebServiceBasic.class);
 
         // Catalog resources
         RESOURCE_CLASSES.add(ServiceProviderCatalogService.class);
