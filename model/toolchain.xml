@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <oslc4j_tc:Toolchain xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:oslc4j_ai="http://org.eclipse.lyo/oslc4j/adaptorInterface" xmlns:oslc4j_tc="http://org.eclipse.lyo/oslc4j/toolChain">
-  <adaptorInterfaces name="RM">
+  <adaptorInterfaces name="RM" swaggerDocumentation="true">
     <serviceProviderCatalog title="Service Provider Catalog" description="Service Provider Catalog">
       <serviceProviders title="RM Service Provider" description="Service Provider for the RM domain resources" serviceNamespace="">
         <services serviceNamespace="relativeToServiceProvider">

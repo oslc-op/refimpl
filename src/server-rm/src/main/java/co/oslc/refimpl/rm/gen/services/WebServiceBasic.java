@@ -86,6 +86,8 @@ import org.eclipse.lyo.oslc.domains.rm.Oslc_rmDomainConstants;
 import co.oslc.refimpl.rm.gen.servlet.ServiceProviderCatalogSingleton;
 import org.eclipse.lyo.oslc.domains.rm.Requirement;
 import org.eclipse.lyo.oslc.domains.rm.RequirementCollection;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 
 // Start of user code imports
 // End of user code
@@ -93,6 +95,7 @@ import org.eclipse.lyo.oslc.domains.rm.RequirementCollection;
 // Start of user code pre_class_code
 // End of user code
 @Path("")
+@Api(value = "Web Service for {" + Oslc_rmDomainConstants.REQUIREMENT_LOCALNAME + ", " + Oslc_rmDomainConstants.REQUIREMENTCOLLECTION_LOCALNAME + "}")
 public class WebServiceBasic
 {
     @Context private HttpServletRequest httpServletRequest;
@@ -124,6 +127,12 @@ public class WebServiceBasic
     @GET
     @Path("Requirement/{serviceProviderId}/{resourceId}")
     @Produces({OslcMediaType.APPLICATION_RDF_XML, OslcMediaType.APPLICATION_JSON_LD, OslcMediaType.TEXT_TURTLE, OslcMediaType.APPLICATION_XML, OslcMediaType.APPLICATION_JSON})
+    @ApiOperation(
+        value = "GET for resources of type {'" + Oslc_rmDomainConstants.REQUIREMENT_LOCALNAME + "'}",
+        notes = "GET for resources of type {'" + "<a href=\"" + Oslc_rmDomainConstants.REQUIREMENT_TYPE + "\">" + Oslc_rmDomainConstants.REQUIREMENT_LOCALNAME + "</a>" + "'}" +
+            ", with respective resource shapes {'" + "<a href=\"" + "../services/" + OslcConstants.PATH_RESOURCE_SHAPES + "/" + Oslc_rmDomainConstants.REQUIREMENT_PATH + "\">" + Oslc_rmDomainConstants.REQUIREMENT_LOCALNAME + "</a>" + "'}",
+        produces = OslcMediaType.APPLICATION_RDF_XML + ", " + OslcMediaType.APPLICATION_XML + ", " + OslcMediaType.APPLICATION_JSON + ", " + OslcMediaType.TEXT_TURTLE + ", " + MediaType.TEXT_HTML + ", " + OslcMediaType.APPLICATION_X_OSLC_COMPACT_XML
+    )
     public Requirement getRequirement(
                 @PathParam("serviceProviderId") final String serviceProviderId, @PathParam("resourceId") final String resourceId
         ) throws IOException, ServletException, URISyntaxException
@@ -147,6 +156,12 @@ public class WebServiceBasic
     @GET
     @Path("Requirement/{serviceProviderId}/{resourceId}")
     @Produces({ MediaType.TEXT_HTML })
+    @ApiOperation(
+        value = "GET for resources of type {'" + Oslc_rmDomainConstants.REQUIREMENT_LOCALNAME + "'}",
+        notes = "GET for resources of type {'" + "<a href=\"" + Oslc_rmDomainConstants.REQUIREMENT_TYPE + "\">" + Oslc_rmDomainConstants.REQUIREMENT_LOCALNAME + "</a>" + "'}" +
+            ", with respective resource shapes {'" + "<a href=\"" + "../services/" + OslcConstants.PATH_RESOURCE_SHAPES + "/" + Oslc_rmDomainConstants.REQUIREMENT_PATH + "\">" + Oslc_rmDomainConstants.REQUIREMENT_LOCALNAME + "</a>" + "'}",
+        produces = OslcMediaType.APPLICATION_RDF_XML + ", " + OslcMediaType.APPLICATION_XML + ", " + OslcMediaType.APPLICATION_JSON + ", " + OslcMediaType.TEXT_TURTLE + ", " + MediaType.TEXT_HTML + ", " + OslcMediaType.APPLICATION_X_OSLC_COMPACT_XML
+    )
     public void getRequirementAsHtml(
         @PathParam("serviceProviderId") final String serviceProviderId, @PathParam("resourceId") final String resourceId
         ) throws ServletException, IOException, URISyntaxException
@@ -172,6 +187,12 @@ public class WebServiceBasic
     @GET
     @Path("Requirement/{serviceProviderId}/{resourceId}")
     @Produces({OslcMediaType.APPLICATION_X_OSLC_COMPACT_XML})
+    @ApiOperation(
+        value = "GET for resources of type {'" + Oslc_rmDomainConstants.REQUIREMENT_LOCALNAME + "'}",
+        notes = "GET for resources of type {'" + "<a href=\"" + Oslc_rmDomainConstants.REQUIREMENT_TYPE + "\">" + Oslc_rmDomainConstants.REQUIREMENT_LOCALNAME + "</a>" + "'}" +
+            ", with respective resource shapes {'" + "<a href=\"" + "../services/" + OslcConstants.PATH_RESOURCE_SHAPES + "/" + Oslc_rmDomainConstants.REQUIREMENT_PATH + "\">" + Oslc_rmDomainConstants.REQUIREMENT_LOCALNAME + "</a>" + "'}",
+        produces = OslcMediaType.APPLICATION_RDF_XML + ", " + OslcMediaType.APPLICATION_XML + ", " + OslcMediaType.APPLICATION_JSON + ", " + OslcMediaType.TEXT_TURTLE + ", " + MediaType.TEXT_HTML + ", " + OslcMediaType.APPLICATION_X_OSLC_COMPACT_XML
+    )
     public Compact getRequirementCompact(
         @PathParam("serviceProviderId") final String serviceProviderId, @PathParam("resourceId") final String resourceId
         ) throws ServletException, IOException, URISyntaxException
@@ -272,6 +293,12 @@ public class WebServiceBasic
     @GET
     @Path("RequirementCollection/{serviceProviderId}/{resourceId}")
     @Produces({OslcMediaType.APPLICATION_RDF_XML, OslcMediaType.APPLICATION_JSON_LD, OslcMediaType.TEXT_TURTLE, OslcMediaType.APPLICATION_XML, OslcMediaType.APPLICATION_JSON})
+    @ApiOperation(
+        value = "GET for resources of type {'" + Oslc_rmDomainConstants.REQUIREMENTCOLLECTION_LOCALNAME + "'}",
+        notes = "GET for resources of type {'" + "<a href=\"" + Oslc_rmDomainConstants.REQUIREMENTCOLLECTION_TYPE + "\">" + Oslc_rmDomainConstants.REQUIREMENTCOLLECTION_LOCALNAME + "</a>" + "'}" +
+            ", with respective resource shapes {'" + "<a href=\"" + "../services/" + OslcConstants.PATH_RESOURCE_SHAPES + "/" + Oslc_rmDomainConstants.REQUIREMENTCOLLECTION_PATH + "\">" + Oslc_rmDomainConstants.REQUIREMENTCOLLECTION_LOCALNAME + "</a>" + "'}",
+        produces = OslcMediaType.APPLICATION_RDF_XML + ", " + OslcMediaType.APPLICATION_XML + ", " + OslcMediaType.APPLICATION_JSON + ", " + OslcMediaType.TEXT_TURTLE + ", " + MediaType.TEXT_HTML + ", " + OslcMediaType.APPLICATION_X_OSLC_COMPACT_XML
+    )
     public RequirementCollection getRequirementCollection(
                 @PathParam("serviceProviderId") final String serviceProviderId, @PathParam("resourceId") final String resourceId
         ) throws IOException, ServletException, URISyntaxException
@@ -295,6 +322,12 @@ public class WebServiceBasic
     @GET
     @Path("RequirementCollection/{serviceProviderId}/{resourceId}")
     @Produces({ MediaType.TEXT_HTML })
+    @ApiOperation(
+        value = "GET for resources of type {'" + Oslc_rmDomainConstants.REQUIREMENTCOLLECTION_LOCALNAME + "'}",
+        notes = "GET for resources of type {'" + "<a href=\"" + Oslc_rmDomainConstants.REQUIREMENTCOLLECTION_TYPE + "\">" + Oslc_rmDomainConstants.REQUIREMENTCOLLECTION_LOCALNAME + "</a>" + "'}" +
+            ", with respective resource shapes {'" + "<a href=\"" + "../services/" + OslcConstants.PATH_RESOURCE_SHAPES + "/" + Oslc_rmDomainConstants.REQUIREMENTCOLLECTION_PATH + "\">" + Oslc_rmDomainConstants.REQUIREMENTCOLLECTION_LOCALNAME + "</a>" + "'}",
+        produces = OslcMediaType.APPLICATION_RDF_XML + ", " + OslcMediaType.APPLICATION_XML + ", " + OslcMediaType.APPLICATION_JSON + ", " + OslcMediaType.TEXT_TURTLE + ", " + MediaType.TEXT_HTML + ", " + OslcMediaType.APPLICATION_X_OSLC_COMPACT_XML
+    )
     public void getRequirementCollectionAsHtml(
         @PathParam("serviceProviderId") final String serviceProviderId, @PathParam("resourceId") final String resourceId
         ) throws ServletException, IOException, URISyntaxException
@@ -320,6 +353,12 @@ public class WebServiceBasic
     @GET
     @Path("RequirementCollection/{serviceProviderId}/{resourceId}")
     @Produces({OslcMediaType.APPLICATION_X_OSLC_COMPACT_XML})
+    @ApiOperation(
+        value = "GET for resources of type {'" + Oslc_rmDomainConstants.REQUIREMENTCOLLECTION_LOCALNAME + "'}",
+        notes = "GET for resources of type {'" + "<a href=\"" + Oslc_rmDomainConstants.REQUIREMENTCOLLECTION_TYPE + "\">" + Oslc_rmDomainConstants.REQUIREMENTCOLLECTION_LOCALNAME + "</a>" + "'}" +
+            ", with respective resource shapes {'" + "<a href=\"" + "../services/" + OslcConstants.PATH_RESOURCE_SHAPES + "/" + Oslc_rmDomainConstants.REQUIREMENTCOLLECTION_PATH + "\">" + Oslc_rmDomainConstants.REQUIREMENTCOLLECTION_LOCALNAME + "</a>" + "'}",
+        produces = OslcMediaType.APPLICATION_RDF_XML + ", " + OslcMediaType.APPLICATION_XML + ", " + OslcMediaType.APPLICATION_JSON + ", " + OslcMediaType.TEXT_TURTLE + ", " + MediaType.TEXT_HTML + ", " + OslcMediaType.APPLICATION_X_OSLC_COMPACT_XML
+    )
     public Compact getRequirementCollectionCompact(
         @PathParam("serviceProviderId") final String serviceProviderId, @PathParam("resourceId") final String resourceId
         ) throws ServletException, IOException, URISyntaxException
@@ -419,6 +458,12 @@ public class WebServiceBasic
     }
     @DELETE
     @Path("Requirement/{serviceProviderId}/{resourceId}")
+    @ApiOperation(
+        value = "DELETE for resources of type {'" + Oslc_rmDomainConstants.REQUIREMENT_LOCALNAME + "'}",
+        notes = "DELETE for resources of type {'" + "<a href=\"" + Oslc_rmDomainConstants.REQUIREMENT_TYPE + "\">" + Oslc_rmDomainConstants.REQUIREMENT_LOCALNAME + "</a>" + "'}" +
+            ", with respective resource shapes {'" + "<a href=\"" + "../services/" + OslcConstants.PATH_RESOURCE_SHAPES + "/" + Oslc_rmDomainConstants.REQUIREMENT_PATH + "\">" + Oslc_rmDomainConstants.REQUIREMENT_LOCALNAME + "</a>" + "'}",
+        produces = OslcMediaType.APPLICATION_RDF_XML + ", " + OslcMediaType.APPLICATION_XML + ", " + OslcMediaType.APPLICATION_JSON + ", " + OslcMediaType.TEXT_TURTLE + ", " + MediaType.TEXT_HTML + ", " + OslcMediaType.APPLICATION_X_OSLC_COMPACT_XML
+    )
     public Response deleteRequirement(
                 @PathParam("serviceProviderId") final String serviceProviderId, @PathParam("resourceId") final String resourceId
         ) throws IOException, ServletException, URISyntaxException
@@ -441,6 +486,12 @@ public class WebServiceBasic
 
     @DELETE
     @Path("RequirementCollection/{serviceProviderId}/{resourceId}")
+    @ApiOperation(
+        value = "DELETE for resources of type {'" + Oslc_rmDomainConstants.REQUIREMENTCOLLECTION_LOCALNAME + "'}",
+        notes = "DELETE for resources of type {'" + "<a href=\"" + Oslc_rmDomainConstants.REQUIREMENTCOLLECTION_TYPE + "\">" + Oslc_rmDomainConstants.REQUIREMENTCOLLECTION_LOCALNAME + "</a>" + "'}" +
+            ", with respective resource shapes {'" + "<a href=\"" + "../services/" + OslcConstants.PATH_RESOURCE_SHAPES + "/" + Oslc_rmDomainConstants.REQUIREMENTCOLLECTION_PATH + "\">" + Oslc_rmDomainConstants.REQUIREMENTCOLLECTION_LOCALNAME + "</a>" + "'}",
+        produces = OslcMediaType.APPLICATION_RDF_XML + ", " + OslcMediaType.APPLICATION_XML + ", " + OslcMediaType.APPLICATION_JSON + ", " + OslcMediaType.TEXT_TURTLE + ", " + MediaType.TEXT_HTML + ", " + OslcMediaType.APPLICATION_X_OSLC_COMPACT_XML
+    )
     public Response deleteRequirementCollection(
                 @PathParam("serviceProviderId") final String serviceProviderId, @PathParam("resourceId") final String resourceId
         ) throws IOException, ServletException, URISyntaxException
@@ -464,6 +515,12 @@ public class WebServiceBasic
     @PUT
     @Path("Requirement/{serviceProviderId}/{resourceId}")
     @Consumes({OslcMediaType.APPLICATION_RDF_XML, OslcMediaType.APPLICATION_JSON_LD, OslcMediaType.TEXT_TURTLE, OslcMediaType.APPLICATION_XML, OslcMediaType.APPLICATION_JSON })
+    @ApiOperation(
+        value = "PUT for resources of type {'" + Oslc_rmDomainConstants.REQUIREMENT_LOCALNAME + "'}",
+        notes = "PUT for resources of type {'" + "<a href=\"" + Oslc_rmDomainConstants.REQUIREMENT_TYPE + "\">" + Oslc_rmDomainConstants.REQUIREMENT_LOCALNAME + "</a>" + "'}" +
+            ", with respective resource shapes {'" + "<a href=\"" + "../services/" + OslcConstants.PATH_RESOURCE_SHAPES + "/" + Oslc_rmDomainConstants.REQUIREMENT_PATH + "\">" + Oslc_rmDomainConstants.REQUIREMENT_LOCALNAME + "</a>" + "'}",
+        produces = OslcMediaType.APPLICATION_RDF_XML + ", " + OslcMediaType.APPLICATION_XML + ", " + OslcMediaType.APPLICATION_JSON + ", " + OslcMediaType.TEXT_TURTLE + ", " + MediaType.TEXT_HTML + ", " + OslcMediaType.APPLICATION_X_OSLC_COMPACT_XML
+    )
     public Response updateRequirement(
             @HeaderParam("If-Match") final String eTagHeader,
             @PathParam("serviceProviderId") final String serviceProviderId, @PathParam("resourceId") final String resourceId ,
@@ -496,6 +553,12 @@ public class WebServiceBasic
     @PUT
     @Path("RequirementCollection/{serviceProviderId}/{resourceId}")
     @Consumes({OslcMediaType.APPLICATION_RDF_XML, OslcMediaType.APPLICATION_JSON_LD, OslcMediaType.TEXT_TURTLE, OslcMediaType.APPLICATION_XML, OslcMediaType.APPLICATION_JSON })
+    @ApiOperation(
+        value = "PUT for resources of type {'" + Oslc_rmDomainConstants.REQUIREMENTCOLLECTION_LOCALNAME + "'}",
+        notes = "PUT for resources of type {'" + "<a href=\"" + Oslc_rmDomainConstants.REQUIREMENTCOLLECTION_TYPE + "\">" + Oslc_rmDomainConstants.REQUIREMENTCOLLECTION_LOCALNAME + "</a>" + "'}" +
+            ", with respective resource shapes {'" + "<a href=\"" + "../services/" + OslcConstants.PATH_RESOURCE_SHAPES + "/" + Oslc_rmDomainConstants.REQUIREMENTCOLLECTION_PATH + "\">" + Oslc_rmDomainConstants.REQUIREMENTCOLLECTION_LOCALNAME + "</a>" + "'}",
+        produces = OslcMediaType.APPLICATION_RDF_XML + ", " + OslcMediaType.APPLICATION_XML + ", " + OslcMediaType.APPLICATION_JSON + ", " + OslcMediaType.TEXT_TURTLE + ", " + MediaType.TEXT_HTML + ", " + OslcMediaType.APPLICATION_X_OSLC_COMPACT_XML
+    )
     public Response updateRequirementCollection(
             @HeaderParam("If-Match") final String eTagHeader,
             @PathParam("serviceProviderId") final String serviceProviderId, @PathParam("resourceId") final String resourceId ,

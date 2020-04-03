@@ -86,6 +86,8 @@ import org.eclipse.lyo.oslc.domains.rm.Oslc_rmDomainConstants;
 import co.oslc.refimpl.rm.gen.servlet.ServiceProviderCatalogSingleton;
 import org.eclipse.lyo.oslc.domains.Person;
 import org.eclipse.lyo.oslc.domains.rm.RequirementCollection;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 
 // Start of user code imports
 // End of user code
@@ -94,6 +96,7 @@ import org.eclipse.lyo.oslc.domains.rm.RequirementCollection;
 // End of user code
 @OslcService(Oslc_rmDomainConstants.REQUIREMENTS_MANAGEMENT_SHAPES_DOMAIN)
 @Path("serviceProviders/{serviceProviderId}/service2/requirementCollections")
+@Api(value = "OSLC Service for {" + Oslc_rmDomainConstants.REQUIREMENTCOLLECTION_LOCALNAME + "}")
 public class Requirement_collectionsService
 {
     @Context private HttpServletRequest httpServletRequest;
@@ -133,6 +136,12 @@ public class Requirement_collectionsService
     @GET
     @Path("query")
     @Produces({OslcMediaType.APPLICATION_RDF_XML, OslcMediaType.APPLICATION_JSON_LD, OslcMediaType.TEXT_TURTLE, OslcMediaType.APPLICATION_XML, OslcMediaType.APPLICATION_JSON})
+    @ApiOperation(
+        value = "Query capability for resources of type {" + Oslc_rmDomainConstants.REQUIREMENTCOLLECTION_LOCALNAME + "}",
+        notes = "Query capability for resources of type {" + "<a href=\"" + Oslc_rmDomainConstants.REQUIREMENTCOLLECTION_TYPE + "\">" + Oslc_rmDomainConstants.REQUIREMENTCOLLECTION_LOCALNAME + "</a>" + "}" +
+            ", with respective resource shapes {" + "<a href=\"" + "../services/" + OslcConstants.PATH_RESOURCE_SHAPES + "/" + Oslc_rmDomainConstants.REQUIREMENTCOLLECTION_PATH + "\">" + Oslc_rmDomainConstants.REQUIREMENTCOLLECTION_LOCALNAME + "</a>" + "}",
+        produces = OslcMediaType.APPLICATION_RDF_XML + ", " + OslcMediaType.APPLICATION_XML + ", " + OslcMediaType.APPLICATION_JSON + ", " + OslcMediaType.TEXT_TURTLE + ", " + MediaType.TEXT_HTML
+    )
     public RequirementCollection[] queryRequirementCollections(
                                                     @PathParam("serviceProviderId") final String serviceProviderId ,
                                                      @QueryParam("oslc.where") final String where,
@@ -159,6 +168,12 @@ public class Requirement_collectionsService
     @GET
     @Path("query")
     @Produces({ MediaType.TEXT_HTML })
+    @ApiOperation(
+        value = "Query capability for resources of type {" + Oslc_rmDomainConstants.REQUIREMENTCOLLECTION_LOCALNAME + "}",
+        notes = "Query capability for resources of type {" + "<a href=\"" + Oslc_rmDomainConstants.REQUIREMENTCOLLECTION_TYPE + "\">" + Oslc_rmDomainConstants.REQUIREMENTCOLLECTION_LOCALNAME + "</a>" + "}" +
+            ", with respective resource shapes {" + "<a href=\"" + "../services/" + OslcConstants.PATH_RESOURCE_SHAPES + "/" + Oslc_rmDomainConstants.REQUIREMENTCOLLECTION_PATH + "\">" + Oslc_rmDomainConstants.REQUIREMENTCOLLECTION_LOCALNAME + "</a>" + "}",
+        produces = OslcMediaType.APPLICATION_RDF_XML + ", " + OslcMediaType.APPLICATION_XML + ", " + OslcMediaType.APPLICATION_JSON + ", " + OslcMediaType.TEXT_TURTLE + ", " + MediaType.TEXT_HTML
+    )
     public void queryRequirementCollectionsAsHtml(
                                     @PathParam("serviceProviderId") final String serviceProviderId ,
                                        @QueryParam("oslc.where") final String where,
@@ -261,6 +276,12 @@ public class Requirement_collectionsService
     @Path("create")
     @Consumes({OslcMediaType.APPLICATION_RDF_XML, OslcMediaType.APPLICATION_JSON_LD, OslcMediaType.TEXT_TURTLE, OslcMediaType.APPLICATION_XML, OslcMediaType.APPLICATION_JSON })
     @Produces({OslcMediaType.APPLICATION_RDF_XML, OslcMediaType.APPLICATION_JSON_LD, OslcMediaType.TEXT_TURTLE, OslcMediaType.APPLICATION_XML, OslcMediaType.APPLICATION_JSON})
+    @ApiOperation(
+        value = "Creation factory for resources of type {" + Oslc_rmDomainConstants.REQUIREMENTCOLLECTION_LOCALNAME + "}",
+        notes = "Creation factory for resources of type {" + "<a href=\"" + Oslc_rmDomainConstants.REQUIREMENTCOLLECTION_TYPE + "\">" + Oslc_rmDomainConstants.REQUIREMENTCOLLECTION_LOCALNAME + "</a>" + "}" +
+            ", with respective resource shapes {" + "<a href=\"" + "../services/" + OslcConstants.PATH_RESOURCE_SHAPES + "/" + Oslc_rmDomainConstants.REQUIREMENTCOLLECTION_PATH + "\">" + Oslc_rmDomainConstants.REQUIREMENTCOLLECTION_LOCALNAME + "</a>" + "}",
+        produces = OslcMediaType.APPLICATION_RDF_XML + ", " + OslcMediaType.APPLICATION_XML + ", " + OslcMediaType.APPLICATION_JSON + ", " + OslcMediaType.TEXT_TURTLE
+    )
     public Response createRequirementCollection(
             @PathParam("serviceProviderId") final String serviceProviderId ,
             final RequirementCollection aResource

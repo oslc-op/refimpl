@@ -66,6 +66,12 @@
 				<version>${version.lyo}</version>
 			</dependency>
 
+			<dependency>
+				<groupId>io.swagger</groupId>
+				<artifactId>swagger-jersey2-jaxrs</artifactId>
+				<version>1.5.22</version>
+			</dependency>
+
 			<!-- Servlet-related dependencies -->
 			<dependency>
 				<groupId>org.glassfish.jersey.core</groupId>

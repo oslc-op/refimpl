@@ -6,7 +6,7 @@
     <semanticResources>platform:/resource/org.eclipse.lyo.tools.domainmodels/vocabulary.xml</semanticResources>
     <ownedViews xmi:type="viewpoint:DView" uid="_Vrm8oLCrEemIy4JCdJFCBQ">
       <viewpoint xmi:type="description:Viewpoint" href="platform:/plugin/org.eclipse.lyo.tools.toolchain.design/description/ToolChainModel.odesign#//@ownedViewpoints[name='ToolchainViewpoint']"/>
-      <ownedRepresentationDescriptors xmi:type="viewpoint:DRepresentationDescriptor" uid="_VxOccLCrEemIy4JCdJFCBQ" name="ToolchainDiagram" repPath="#_VxHuwLCrEemIy4JCdJFCBQ" changeId="0af579fe-1d34-4606-9809-3df0a6316057">
+      <ownedRepresentationDescriptors xmi:type="viewpoint:DRepresentationDescriptor" uid="_VxOccLCrEemIy4JCdJFCBQ" name="ToolchainDiagram" repPath="#_VxHuwLCrEemIy4JCdJFCBQ" changeId="0644112d-bf5b-48bc-8394-9498475aba4c">
         <description xmi:type="description_1:DiagramDescription" href="platform:/plugin/org.eclipse.lyo.tools.toolchain.design/description/ToolChainModel.odesign#//@ownedViewpoints[name='ToolchainViewpoint']/@ownedRepresentations[name='ToolchainDiagram']"/>
         <target xmi:type="oslc4j_tc:Toolchain" href="toolchain.xml#/"/>
       </ownedRepresentationDescriptors>
@@ -110,7 +110,7 @@
               <layoutConstraint xmi:type="notation:Bounds" xmi:id="_MFiaErL3EemKmZh5Pjubfw"/>
             </children>
             <styles xmi:type="notation:ShapeStyle" xmi:id="_MFhzAbL3EemKmZh5Pjubfw" fontName=".AppleSystemUIFont"/>
-            <layoutConstraint xmi:type="notation:Bounds" xmi:id="_MFhzArL3EemKmZh5Pjubfw" x="44" y="-20" width="29" height="28"/>
+            <layoutConstraint xmi:type="notation:Bounds" xmi:id="_MFhzArL3EemKmZh5Pjubfw" x="145" y="68" width="29" height="28"/>
           </children>
           <children xmi:type="notation:Node" xmi:id="_j1lH0LL3EemKmZh5Pjubfw" type="3012" element="_j0cfYLL3EemKmZh5Pjubfw">
             <children xmi:type="notation:Node" xmi:id="_j1lu4LL3EemKmZh5Pjubfw" type="5010">
@@ -390,10 +390,10 @@
         </edges>
       </data>
     </ownedAnnotationEntries>
-    <ownedDiagramElements xmi:type="diagram:DNodeContainer" uid="_w4Df0LCrEemIy4JCdJFCBQ" name="RM" width="15" height="15">
+    <ownedDiagramElements xmi:type="diagram:DNodeContainer" uid="_w4Df0LCrEemIy4JCdJFCBQ" name="RM" tooltipText="" width="15" height="15">
       <target xmi:type="oslc4j_ai:AdaptorInterface" href="toolchain.xml#//@adaptorInterfaces.0"/>
       <semanticElements xmi:type="oslc4j_ai:AdaptorInterface" href="toolchain.xml#//@adaptorInterfaces.0"/>
-      <ownedBorderedNodes xmi:type="diagram:DNode" uid="_-kGZELCrEemIy4JCdJFCBQ" name="Requirement" incomingEdges="_Q7dcoLL2EemKmZh5Pjubfw _wVN08LewEemdTYx80ub67Q _X67lcLeyEemdTYx80ub67Q" width="0" height="0" resizeKind="NSEW">
+      <ownedBorderedNodes xmi:type="diagram:DNode" uid="_-kGZELCrEemIy4JCdJFCBQ" name="Requirement" tooltipText="" incomingEdges="_Q7dcoLL2EemKmZh5Pjubfw _wVN08LewEemdTYx80ub67Q _X67lcLeyEemdTYx80ub67Q" width="0" height="0" resizeKind="NSEW">
         <target xmi:type="oslc4j_ai:Resource" href="platform:/resource/org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#//@domainSpecifications[name='Requirements%20Management%20shapes']/@resources[name='Requirement']"/>
         <semanticElements xmi:type="oslc4j_ai:Resource" href="platform:/resource/org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#//@domainSpecifications[name='Requirements%20Management%20shapes']/@resources[name='Requirement']"/>
         <arrangeConstraints>KEEP_LOCATION</arrangeConstraints>
@@ -404,7 +404,7 @@
         </ownedStyle>
         <actualMapping xmi:type="description_1:NodeMapping" href="platform:/plugin/org.eclipse.lyo.tools.toolchain.design/description/ToolChainModel.odesign#//@ownedViewpoints[name='ToolchainViewpoint']/@ownedRepresentations[name='ToolchainDiagram']/@defaultLayer/@containerMappings[name='Toolchain.AdaptorInterface']/@borderedNodeMappings[name='Toolchain.AdaptorInterface.ManagedResource']"/>
       </ownedBorderedNodes>
-      <ownedBorderedNodes xmi:type="diagram:DNode" uid="_fJV-MLCyEemIy4JCdJFCBQ" name="RequirementCollection" incomingEdges="_DH7QkLeyEemdTYx80ub67Q" width="0" height="0" resizeKind="NSEW">
+      <ownedBorderedNodes xmi:type="diagram:DNode" uid="_fJV-MLCyEemIy4JCdJFCBQ" name="RequirementCollection" tooltipText="" incomingEdges="_DH7QkLeyEemdTYx80ub67Q" width="0" height="0" resizeKind="NSEW">
         <target xmi:type="oslc4j_ai:Resource" href="platform:/resource/org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#//@domainSpecifications[name='Requirements%20Management%20shapes']/@resources[name='RequirementCollection']"/>
         <semanticElements xmi:type="oslc4j_ai:Resource" href="platform:/resource/org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#//@domainSpecifications[name='Requirements%20Management%20shapes']/@resources[name='RequirementCollection']"/>
         <arrangeConstraints>KEEP_LOCATION</arrangeConstraints>
