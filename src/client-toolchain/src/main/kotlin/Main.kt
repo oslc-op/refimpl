@@ -180,6 +180,13 @@ fun genRequirementColl(sp: ServiceProvider, id: Int): RequirementCollection {
     return r
 }
 
+
+/**
+ * Script
+ * Case
+ * Plan
+ * Result or ExecutionRecord
+ */
 fun genPlan(sp: ServiceProvider, id: Int): TestPlan {
     var r = TestPlan()
     r.apply {
@@ -187,6 +194,7 @@ fun genPlan(sp: ServiceProvider, id: Int): TestPlan {
         created = Date()
         // TODO: 2020-04-02 set more fields
         // TODO: 2020-04-02 find a way to link resources
+
     }
     return r
 }
