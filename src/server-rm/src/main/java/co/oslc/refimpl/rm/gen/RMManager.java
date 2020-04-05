@@ -119,6 +119,7 @@ public class RMManager {
         indexer.execute(() -> {
             try(IndexWriter indexWriter = getIndexWriter()) {
                 indexWriter.addDocument(documentFor(requirement, serviceProviderId));
+                log.debug("Indexed {}", requirement.getAbout().toString());
             } catch (IOException e) {
                 log.warn("Error with Lucene index");
             }
@@ -173,7 +174,7 @@ public class RMManager {
         
         // Start of user code "ServiceProviderInfo[] getServiceProviderInfos(...)"
         ServiceProviderInfo spInfo = new ServiceProviderInfo();
-        spInfo.serviceProviderId = "default_sp";
+        spInfo.serviceProviderId = "def";
         spInfo.name = "Default ServiceProvider";
         serviceProviderInfos = new ServiceProviderInfo[] {spInfo};
         // End of user code
