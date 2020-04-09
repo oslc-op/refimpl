@@ -207,7 +207,9 @@ public class CMManager {
         return newResource;
     }
 
-    public static ChangeRequest getChangeRequest(HttpServletRequest httpServletRequest, final String changeRequestId)
+
+
+    public static ChangeRequest getChangeRequest(HttpServletRequest httpServletRequest, final String id)
     {
         ChangeRequest aResource = null;
         
@@ -216,7 +218,7 @@ public class CMManager {
         // End of user code
         return aResource;
     }
-    public static Defect getDefect(HttpServletRequest httpServletRequest, final String defectId)
+    public static Defect getDefect(HttpServletRequest httpServletRequest, final String id)
     {
         Defect aResource = null;
         
@@ -225,7 +227,7 @@ public class CMManager {
         // End of user code
         return aResource;
     }
-    public static Task getTask(HttpServletRequest httpServletRequest, final String taskId)
+    public static Task getTask(HttpServletRequest httpServletRequest, final String id)
     {
         Task aResource = null;
         
@@ -234,25 +236,7 @@ public class CMManager {
         // End of user code
         return aResource;
     }
-    public static ReviewTask getReviewTask(HttpServletRequest httpServletRequest, final String reviewTaskId)
-    {
-        ReviewTask aResource = null;
-        
-        // Start of user code getReviewTask
-        // TODO Implement code to return a resource
-        // End of user code
-        return aResource;
-    }
-    public static ChangeNotice getChangeNotice(HttpServletRequest httpServletRequest, final String changeNoticeId)
-    {
-        ChangeNotice aResource = null;
-        
-        // Start of user code getChangeNotice
-        // TODO Implement code to return a resource
-        // End of user code
-        return aResource;
-    }
-    public static Enhancement getEnhancement(HttpServletRequest httpServletRequest, final String enhancementId)
+    public static Enhancement getEnhancement(HttpServletRequest httpServletRequest, final String id)
     {
         Enhancement aResource = null;
         
@@ -261,52 +245,122 @@ public class CMManager {
         // End of user code
         return aResource;
     }
+    public static ReviewTask getReviewTask(HttpServletRequest httpServletRequest, final String id)
+    {
+        ReviewTask aResource = null;
+        
+        // Start of user code getReviewTask
+        // TODO Implement code to return a resource
+        // End of user code
+        return aResource;
+    }
+    public static ChangeNotice getChangeNotice(HttpServletRequest httpServletRequest, final String id)
+    {
+        ChangeNotice aResource = null;
+        
+        // Start of user code getChangeNotice
+        // TODO Implement code to return a resource
+        // End of user code
+        return aResource;
+    }
 
+    public static Boolean deleteChangeRequest(HttpServletRequest httpServletRequest, final String id)
+    {
+        Boolean deleted = false;
+        // Start of user code deleteChangeRequest
+        // TODO Implement code to delete a resource
+        // If you encounter problems, consider throwing the runtime exception WebApplicationException(message, cause, final httpStatus)
+        // End of user code
+        return deleted;
+    }
+    public static Boolean deleteDefect(HttpServletRequest httpServletRequest, final String id)
+    {
+        Boolean deleted = false;
+        // Start of user code deleteDefect
+        // TODO Implement code to delete a resource
+        // If you encounter problems, consider throwing the runtime exception WebApplicationException(message, cause, final httpStatus)
+        // End of user code
+        return deleted;
+    }
+    public static Boolean deleteTask(HttpServletRequest httpServletRequest, final String id)
+    {
+        Boolean deleted = false;
+        // Start of user code deleteTask
+        // TODO Implement code to delete a resource
+        // If you encounter problems, consider throwing the runtime exception WebApplicationException(message, cause, final httpStatus)
+        // End of user code
+        return deleted;
+    }
+    public static Boolean deleteEnhancement(HttpServletRequest httpServletRequest, final String id)
+    {
+        Boolean deleted = false;
+        // Start of user code deleteEnhancement
+        // TODO Implement code to delete a resource
+        // If you encounter problems, consider throwing the runtime exception WebApplicationException(message, cause, final httpStatus)
+        // End of user code
+        return deleted;
+    }
+    public static Boolean deleteReviewTask(HttpServletRequest httpServletRequest, final String id)
+    {
+        Boolean deleted = false;
+        // Start of user code deleteReviewTask
+        // TODO Implement code to delete a resource
+        // If you encounter problems, consider throwing the runtime exception WebApplicationException(message, cause, final httpStatus)
+        // End of user code
+        return deleted;
+    }
+    public static Boolean deleteChangeNotice(HttpServletRequest httpServletRequest, final String id)
+    {
+        Boolean deleted = false;
+        // Start of user code deleteChangeNotice
+        // TODO Implement code to delete a resource
+        // If you encounter problems, consider throwing the runtime exception WebApplicationException(message, cause, final httpStatus)
+        // End of user code
+        return deleted;
+    }
 
-    public static ChangeRequest updateChangeRequest(HttpServletRequest httpServletRequest, final ChangeRequest aResource, final String changeRequestId) {
+    public static ChangeRequest updateChangeRequest(HttpServletRequest httpServletRequest, final ChangeRequest aResource, final String id) {
         ChangeRequest updatedResource = null;
         // Start of user code updateChangeRequest
         // TODO Implement code to update and return a resource
         // End of user code
         return updatedResource;
     }
-    public static Defect updateDefect(HttpServletRequest httpServletRequest, final Defect aResource, final String defectId) {
+    public static Defect updateDefect(HttpServletRequest httpServletRequest, final Defect aResource, final String id) {
         Defect updatedResource = null;
         // Start of user code updateDefect
         // TODO Implement code to update and return a resource
         // End of user code
         return updatedResource;
     }
-    public static Task updateTask(HttpServletRequest httpServletRequest, final Task aResource, final String taskId) {
+    public static Task updateTask(HttpServletRequest httpServletRequest, final Task aResource, final String id) {
         Task updatedResource = null;
         // Start of user code updateTask
         // TODO Implement code to update and return a resource
         // End of user code
         return updatedResource;
     }
-    public static ReviewTask updateReviewTask(HttpServletRequest httpServletRequest, final ReviewTask aResource, final String reviewTaskId) {
-        ReviewTask updatedResource = null;
-        // Start of user code updateReviewTask
-        // TODO Implement code to update and return a resource
-        // End of user code
-        return updatedResource;
-    }
-    public static ChangeNotice updateChangeNotice(HttpServletRequest httpServletRequest, final ChangeNotice aResource, final String changeNoticeId) {
-        ChangeNotice updatedResource = null;
-        // Start of user code updateChangeNotice
-        // TODO Implement code to update and return a resource
-        // End of user code
-        return updatedResource;
-    }
-    public static Enhancement updateEnhancement(HttpServletRequest httpServletRequest, final Enhancement aResource, final String enhancementId) {
+    public static Enhancement updateEnhancement(HttpServletRequest httpServletRequest, final Enhancement aResource, final String id) {
         Enhancement updatedResource = null;
         // Start of user code updateEnhancement
         // TODO Implement code to update and return a resource
         // End of user code
         return updatedResource;
     }
-
-
+    public static ReviewTask updateReviewTask(HttpServletRequest httpServletRequest, final ReviewTask aResource, final String id) {
+        ReviewTask updatedResource = null;
+        // Start of user code updateReviewTask
+        // TODO Implement code to update and return a resource
+        // End of user code
+        return updatedResource;
+    }
+    public static ChangeNotice updateChangeNotice(HttpServletRequest httpServletRequest, final ChangeNotice aResource, final String id) {
+        ChangeNotice updatedResource = null;
+        // Start of user code updateChangeNotice
+        // TODO Implement code to update and return a resource
+        // End of user code
+        return updatedResource;
+    }
 
     public static String getETagFromChangeNotice(final ChangeNotice aResource)
     {

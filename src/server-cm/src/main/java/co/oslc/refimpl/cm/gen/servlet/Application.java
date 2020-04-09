@@ -75,7 +75,7 @@ import org.eclipse.lyo.oslc.domains.FoafDomainConstants;
 import org.eclipse.lyo.oslc4j.core.model.OslcDomainConstants;
 import org.eclipse.lyo.oslc.domains.rm.Oslc_rmDomainConstants;
 import co.oslc.refimpl.cm.gen.services.Change_requestsService;
-
+import co.oslc.refimpl.cm.gen.services.WsChangeRequest;
 
 // Start of user code imports
 // End of user code
@@ -102,6 +102,7 @@ public class Application extends javax.ws.rs.core.Application {
         RESOURCE_CLASSES.addAll(JenaProvidersRegistry.getProviders());
         RESOURCE_CLASSES.addAll(Json4JProvidersRegistry.getProviders());
         RESOURCE_CLASSES.add(Change_requestsService.class);
+        RESOURCE_CLASSES.add(WsChangeRequest.class);
 
         // Catalog resources
         RESOURCE_CLASSES.add(ServiceProviderCatalogService.class);

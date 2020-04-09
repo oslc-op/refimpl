@@ -94,18 +94,18 @@
           <creationDialogs title="EnhancementDlgCr" label="Enhancement Creation Dialog" dialogURI="create_enhancement">
             <resourceTypes href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#//@domainSpecifications[name='Change%20Management%20shapes']/@resources[name='Enhancement']"/>
           </creationDialogs>
-          <basicCapabilities update="true">
-            <resourceTypes href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#//@domainSpecifications[name='Change%20Management%20shapes']/@resources[name='ChangeRequest']"/>
-            <resourceTypes href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#//@domainSpecifications[name='Change%20Management%20shapes']/@resources[name='Defect']"/>
-            <resourceTypes href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#//@domainSpecifications[name='Change%20Management%20shapes']/@resources[name='Task']"/>
-            <resourceTypes href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#//@domainSpecifications[name='Change%20Management%20shapes']/@resources[name='ReviewTask']"/>
-            <resourceTypes href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#//@domainSpecifications[name='Change%20Management%20shapes']/@resources[name='ChangeNotice']"/>
-            <resourceTypes href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#//@domainSpecifications[name='Change%20Management%20shapes']/@resources[name='Enhancement']"/>
-          </basicCapabilities>
           <usages>change_requests</usages>
         </services>
       </serviceProviders>
     </serviceProviderCatalog>
+    <webServices name="WsChangeRequest" serviceUrlPattern="change_request" resourceUrlPattern="{id}" delete="true" update="true">
+      <resourceTypes href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#//@domainSpecifications[name='Change%20Management%20shapes']/@resources[name='ChangeRequest']"/>
+      <resourceTypes href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#//@domainSpecifications[name='Change%20Management%20shapes']/@resources[name='Defect']"/>
+      <resourceTypes href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#//@domainSpecifications[name='Change%20Management%20shapes']/@resources[name='Task']"/>
+      <resourceTypes href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#//@domainSpecifications[name='Change%20Management%20shapes']/@resources[name='Enhancement']"/>
+      <resourceTypes href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#//@domainSpecifications[name='Change%20Management%20shapes']/@resources[name='ReviewTask']"/>
+      <resourceTypes href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#//@domainSpecifications[name='Change%20Management%20shapes']/@resources[name='ChangeNotice']"/>
+    </webServices>
     <specification/>
     <requiredAdaptors xsi:type="oslc4j_ai:GenericRequiredAdaptor" serviceProviderCatalogURI="http://your.host.com/adaptor/services/catalog/singleton" name="GenericRequiredAdaptor"/>
     <configuration xsi:type="oslc4j_ai:MavenServerConfiguration" rootServerBaseUrl="http://localhost:8801/" applicationContextPath="/" servletUrlPattern="/services/*" jettyPort="8801">
