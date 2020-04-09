@@ -214,9 +214,6 @@
           <selectionDialogs title="ResourceSD" label="OSLC Resource Selection Dialog" dialogURI="selector">
             <resourceTypes href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#//@domainSpecifications[name='Architecture%20Management']/@resources[name='Resource']"/>
           </selectionDialogs>
-          <basicCapabilities>
-            <resourceTypes href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#//@domainSpecifications[name='Architecture%20Management']/@resources[name='Resource']"/>
-          </basicCapabilities>
           <usages>resources</usages>
         </services>
         <services>
@@ -230,13 +227,16 @@
           <selectionDialogs title="LinkTypeSD" label="LinkType Selection Dialog" dialogURI="selector">
             <resourceTypes href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#//@domainSpecifications[name='Architecture%20Management']/@resources[name='LinkType']"/>
           </selectionDialogs>
-          <basicCapabilities>
-            <resourceTypes href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#//@domainSpecifications[name='Architecture%20Management']/@resources[name='LinkType']"/>
-          </basicCapabilities>
           <usages>links</usages>
         </services>
       </serviceProviders>
     </serviceProviderCatalog>
+    <webServices name="WsResource" serviceUrlPattern="resource" resourceUrlPattern="{id}">
+      <resourceTypes href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#//@domainSpecifications[name='Architecture%20Management']/@resources[name='Resource']"/>
+    </webServices>
+    <webServices name="WsLinkType" serviceUrlPattern="lt" resourceUrlPattern="{id}">
+      <resourceTypes href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#//@domainSpecifications[name='Architecture%20Management']/@resources[name='LinkType']"/>
+    </webServices>
     <specification/>
     <requiredAdaptors xsi:type="oslc4j_ai:GenericRequiredAdaptor" serviceProviderCatalogURI="http://your.host.com/adaptor/services/catalog/singleton" name="GenericRequiredAdaptor"/>
     <configuration xsi:type="oslc4j_ai:MavenServerConfiguration" rootServerBaseUrl="http://localhost:8803/" applicationContextPath="/" servletUrlPattern="/services/*" jettyPort="8803">

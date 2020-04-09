@@ -73,7 +73,10 @@ public class AMManager {
         ServiceProviderInfo[] serviceProviderInfos = {};
         
         // Start of user code "ServiceProviderInfo[] getServiceProviderInfos(...)"
-        // TODO Implement code to return the set of ServiceProviders
+        ServiceProviderInfo spInfo = new ServiceProviderInfo();
+        spInfo.serviceProviderId = "SP";
+        spInfo.name = "Default ServiceProvider";
+        serviceProviderInfos = new ServiceProviderInfo[] {spInfo};
         // End of user code
         return serviceProviderInfos;
     }
@@ -107,17 +110,6 @@ public class AMManager {
     }
 
 
-    public static Resource getResource(HttpServletRequest httpServletRequest, final String resourceId)
-    {
-        Resource aResource = null;
-        
-        // Start of user code getResource
-        // TODO Implement code to return a resource
-        // End of user code
-        return aResource;
-    }
-
-
 
     public static List<LinkType> queryLinkTypes(HttpServletRequest httpServletRequest, String where, int page, int limit)
     {
@@ -148,7 +140,20 @@ public class AMManager {
     }
 
 
-    public static LinkType getLinkType(HttpServletRequest httpServletRequest, final String linkTypeId)
+
+
+    public static Resource getResource(HttpServletRequest httpServletRequest, final String id)
+    {
+        Resource aResource = null;
+        
+        // Start of user code getResource
+        // TODO Implement code to return a resource
+        // End of user code
+        return aResource;
+    }
+
+
+    public static LinkType getLinkType(HttpServletRequest httpServletRequest, final String id)
     {
         LinkType aResource = null;
         
@@ -157,8 +162,6 @@ public class AMManager {
         // End of user code
         return aResource;
     }
-
-
 
 
 

@@ -46,61 +46,61 @@ public class AMResourcesFactory {
     // End of user code
 
     //methods for LinkType resource
-    public static LinkType createLinkType(final String linkTypeId)
+    
+    public static LinkType createLinkType(final String id)
     {
-        return new LinkType(constructURIForLinkType(linkTypeId));
+        return new LinkType(constructURIForLinkType(id));
     }
     
-    public static URI constructURIForLinkType(final String linkTypeId)
+    public static URI constructURIForLinkType(final String id)
     {
         String basePath = OSLC4JUtils.getServletURI();
         Map<String, Object> pathParameters = new HashMap<String, Object>();
-        pathParameters.put("linkTypeId", linkTypeId);
-        String instanceURI = "service2/linkTypes/{linkTypeId}";
+        pathParameters.put("id", id);
+        String instanceURI = "lt/{id}";
     
         final UriBuilder builder = UriBuilder.fromUri(basePath);
         return builder.path(instanceURI).buildFromMap(pathParameters);
     }
     
-    public static Link constructLinkForLinkType(final String linkTypeId , final String label)
+    public static Link constructLinkForLinkType(final String id , final String label)
     {
-        return new Link(constructURIForLinkType(linkTypeId), label);
+        return new Link(constructURIForLinkType(id), label);
     }
     
-    public static Link constructLinkForLinkType(final String linkTypeId)
+    public static Link constructLinkForLinkType(final String id)
     {
-        return new Link(constructURIForLinkType(linkTypeId));
+        return new Link(constructURIForLinkType(id));
     }
-    
     
 
     //methods for Resource resource
-    public static Resource createResource(final String resourceId)
+    
+    public static Resource createResource(final String id)
     {
-        return new Resource(constructURIForResource(resourceId));
+        return new Resource(constructURIForResource(id));
     }
     
-    public static URI constructURIForResource(final String resourceId)
+    public static URI constructURIForResource(final String id)
     {
         String basePath = OSLC4JUtils.getServletURI();
         Map<String, Object> pathParameters = new HashMap<String, Object>();
-        pathParameters.put("resourceId", resourceId);
-        String instanceURI = "service1/resources/{resourceId}";
+        pathParameters.put("id", id);
+        String instanceURI = "resource/{id}";
     
         final UriBuilder builder = UriBuilder.fromUri(basePath);
         return builder.path(instanceURI).buildFromMap(pathParameters);
     }
     
-    public static Link constructLinkForResource(final String resourceId , final String label)
+    public static Link constructLinkForResource(final String id , final String label)
     {
-        return new Link(constructURIForResource(resourceId), label);
+        return new Link(constructURIForResource(id), label);
     }
     
-    public static Link constructLinkForResource(final String resourceId)
+    public static Link constructLinkForResource(final String id)
     {
-        return new Link(constructURIForResource(resourceId));
+        return new Link(constructURIForResource(id));
     }
-    
     
 
 }

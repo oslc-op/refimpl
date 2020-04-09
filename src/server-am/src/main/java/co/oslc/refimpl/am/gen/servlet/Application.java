@@ -66,7 +66,8 @@ import org.eclipse.lyo.oslc4j.core.model.OslcDomainConstants;
 import org.eclipse.lyo.oslc.domains.RdfsDomainConstants;
 import co.oslc.refimpl.am.gen.services.ResourcesService;
 import co.oslc.refimpl.am.gen.services.LinksService;
-
+import co.oslc.refimpl.am.gen.services.WsResource;
+import co.oslc.refimpl.am.gen.services.WsLinkType;
 
 // Start of user code imports
 // End of user code
@@ -94,6 +95,8 @@ public class Application extends javax.ws.rs.core.Application {
         RESOURCE_CLASSES.addAll(Json4JProvidersRegistry.getProviders());
         RESOURCE_CLASSES.add(ResourcesService.class);
         RESOURCE_CLASSES.add(LinksService.class);
+        RESOURCE_CLASSES.add(WsResource.class);
+        RESOURCE_CLASSES.add(WsLinkType.class);
 
         // Catalog resources
         RESOURCE_CLASSES.add(ServiceProviderCatalogService.class);
