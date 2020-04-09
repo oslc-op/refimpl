@@ -57,31 +57,6 @@ public class CMResourcesFactory {
 
     //methods for ChangeNotice resource
     
-    public static ChangeNotice createChangeNotice(final String id)
-    {
-        return new ChangeNotice(constructURIForChangeNotice(id));
-    }
-    
-    public static URI constructURIForChangeNotice(final String id)
-    {
-        String basePath = OSLC4JUtils.getServletURI();
-        Map<String, Object> pathParameters = new HashMap<String, Object>();
-        pathParameters.put("id", id);
-        String instanceURI = "change_request/{id}";
-    
-        final UriBuilder builder = UriBuilder.fromUri(basePath);
-        return builder.path(instanceURI).buildFromMap(pathParameters);
-    }
-    
-    public static Link constructLinkForChangeNotice(final String id , final String label)
-    {
-        return new Link(constructURIForChangeNotice(id), label);
-    }
-    
-    public static Link constructLinkForChangeNotice(final String id)
-    {
-        return new Link(constructURIForChangeNotice(id));
-    }
     
 
     //methods for ChangeRequest resource
@@ -115,118 +90,18 @@ public class CMResourcesFactory {
 
     //methods for Defect resource
     
-    public static Defect createDefect(final String id)
-    {
-        return new Defect(constructURIForDefect(id));
-    }
-    
-    public static URI constructURIForDefect(final String id)
-    {
-        String basePath = OSLC4JUtils.getServletURI();
-        Map<String, Object> pathParameters = new HashMap<String, Object>();
-        pathParameters.put("id", id);
-        String instanceURI = "change_request/{id}";
-    
-        final UriBuilder builder = UriBuilder.fromUri(basePath);
-        return builder.path(instanceURI).buildFromMap(pathParameters);
-    }
-    
-    public static Link constructLinkForDefect(final String id , final String label)
-    {
-        return new Link(constructURIForDefect(id), label);
-    }
-    
-    public static Link constructLinkForDefect(final String id)
-    {
-        return new Link(constructURIForDefect(id));
-    }
     
 
     //methods for Enhancement resource
     
-    public static Enhancement createEnhancement(final String id)
-    {
-        return new Enhancement(constructURIForEnhancement(id));
-    }
-    
-    public static URI constructURIForEnhancement(final String id)
-    {
-        String basePath = OSLC4JUtils.getServletURI();
-        Map<String, Object> pathParameters = new HashMap<String, Object>();
-        pathParameters.put("id", id);
-        String instanceURI = "change_request/{id}";
-    
-        final UriBuilder builder = UriBuilder.fromUri(basePath);
-        return builder.path(instanceURI).buildFromMap(pathParameters);
-    }
-    
-    public static Link constructLinkForEnhancement(final String id , final String label)
-    {
-        return new Link(constructURIForEnhancement(id), label);
-    }
-    
-    public static Link constructLinkForEnhancement(final String id)
-    {
-        return new Link(constructURIForEnhancement(id));
-    }
     
 
     //methods for ReviewTask resource
     
-    public static ReviewTask createReviewTask(final String id)
-    {
-        return new ReviewTask(constructURIForReviewTask(id));
-    }
-    
-    public static URI constructURIForReviewTask(final String id)
-    {
-        String basePath = OSLC4JUtils.getServletURI();
-        Map<String, Object> pathParameters = new HashMap<String, Object>();
-        pathParameters.put("id", id);
-        String instanceURI = "change_request/{id}";
-    
-        final UriBuilder builder = UriBuilder.fromUri(basePath);
-        return builder.path(instanceURI).buildFromMap(pathParameters);
-    }
-    
-    public static Link constructLinkForReviewTask(final String id , final String label)
-    {
-        return new Link(constructURIForReviewTask(id), label);
-    }
-    
-    public static Link constructLinkForReviewTask(final String id)
-    {
-        return new Link(constructURIForReviewTask(id));
-    }
     
 
     //methods for Task resource
     
-    public static Task createTask(final String id)
-    {
-        return new Task(constructURIForTask(id));
-    }
-    
-    public static URI constructURIForTask(final String id)
-    {
-        String basePath = OSLC4JUtils.getServletURI();
-        Map<String, Object> pathParameters = new HashMap<String, Object>();
-        pathParameters.put("id", id);
-        String instanceURI = "change_request/{id}";
-    
-        final UriBuilder builder = UriBuilder.fromUri(basePath);
-        return builder.path(instanceURI).buildFromMap(pathParameters);
-    }
-    
-    public static Link constructLinkForTask(final String id , final String label)
-    {
-        return new Link(constructURIForTask(id), label);
-    }
-    
-    public static Link constructLinkForTask(final String id)
-    {
-        return new Link(constructURIForTask(id));
-    }
     
 
 }

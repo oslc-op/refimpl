@@ -234,11 +234,11 @@ public class Change_requestsService
         ) throws ServletException, IOException
     {
         // Start of user code ChangeRequestSelector_init
-            // End of user code
+        // End of user code
 
         httpServletRequest.setAttribute("selectionUri",UriBuilder.fromUri(OSLC4JUtils.getServletURI()).path(uriInfo.getPath()).build().toString());
         // Start of user code ChangeRequestSelector_setAttributes
-            // End of user code
+        // End of user code
 
         if (terms != null ) {
             httpServletRequest.setAttribute("terms", terms);
@@ -278,11 +278,11 @@ public class Change_requestsService
         ) throws ServletException, IOException
     {
         // Start of user code DefectSelector_init
-            // End of user code
+        // End of user code
 
         httpServletRequest.setAttribute("selectionUri",UriBuilder.fromUri(OSLC4JUtils.getServletURI()).path(uriInfo.getPath()).build().toString());
         // Start of user code DefectSelector_setAttributes
-            // End of user code
+        // End of user code
 
         if (terms != null ) {
             httpServletRequest.setAttribute("terms", terms);
@@ -322,11 +322,11 @@ public class Change_requestsService
         ) throws ServletException, IOException
     {
         // Start of user code TaskSelector_init
-            // End of user code
+        // End of user code
 
         httpServletRequest.setAttribute("selectionUri",UriBuilder.fromUri(OSLC4JUtils.getServletURI()).path(uriInfo.getPath()).build().toString());
         // Start of user code TaskSelector_setAttributes
-            // End of user code
+        // End of user code
 
         if (terms != null ) {
             httpServletRequest.setAttribute("terms", terms);
@@ -366,11 +366,11 @@ public class Change_requestsService
         ) throws ServletException, IOException
     {
         // Start of user code ReviewTaskSelector_init
-            // End of user code
+        // End of user code
 
         httpServletRequest.setAttribute("selectionUri",UriBuilder.fromUri(OSLC4JUtils.getServletURI()).path(uriInfo.getPath()).build().toString());
         // Start of user code ReviewTaskSelector_setAttributes
-            // End of user code
+        // End of user code
 
         if (terms != null ) {
             httpServletRequest.setAttribute("terms", terms);
@@ -410,11 +410,11 @@ public class Change_requestsService
         ) throws ServletException, IOException
     {
         // Start of user code ChangeNoticeSelector_init
-            // End of user code
+        // End of user code
 
         httpServletRequest.setAttribute("selectionUri",UriBuilder.fromUri(OSLC4JUtils.getServletURI()).path(uriInfo.getPath()).build().toString());
         // Start of user code ChangeNoticeSelector_setAttributes
-            // End of user code
+        // End of user code
 
         if (terms != null ) {
             httpServletRequest.setAttribute("terms", terms);
@@ -454,11 +454,11 @@ public class Change_requestsService
         ) throws ServletException, IOException
     {
         // Start of user code EnhancementSelector_init
-            // End of user code
+        // End of user code
 
         httpServletRequest.setAttribute("selectionUri",UriBuilder.fromUri(OSLC4JUtils.getServletURI()).path(uriInfo.getPath()).build().toString());
         // Start of user code EnhancementSelector_setAttributes
-            // End of user code
+        // End of user code
 
         if (terms != null ) {
             httpServletRequest.setAttribute("terms", terms);
