@@ -1,8 +1,7 @@
 package co.oslc.refimpl.client
 
-import kotlinx.coroutines.yield
 import org.eclipse.lyo.oslc.domains.cm.ChangeRequest
-import org.eclipse.lyo.oslc.domains.qm.TestPlan
+import org.eclipse.lyo.oslc.domains.qm.TestCase
 import org.eclipse.lyo.oslc.domains.qm.TestScript
 import org.eclipse.lyo.oslc.domains.rm.Requirement
 import org.eclipse.lyo.oslc.domains.rm.RequirementCollection
@@ -10,7 +9,6 @@ import org.eclipse.lyo.oslc4j.core.model.AbstractResource
 import org.eclipse.lyo.oslc4j.core.model.Link
 import org.eclipse.lyo.oslc4j.core.model.ServiceProvider
 import java.util.*
-import javax.swing.SizeRequirements
 
 interface RandomResourceGen<T : AbstractResource> {
     fun generate(sp: ServiceProvider, n: Int): List<T>
@@ -108,15 +106,53 @@ class TestScriptGen(private val requirements: List<Link>,
     }
 }
 
-fun genPlan(sp: ServiceProvider, id: Int, max:Int): TestPlan {
-    val r = TestPlan()
-    r.apply {
-        title = "Test Plan no. $id"
-        created = Date()
-        // TODO: 2020-04-02 set more fields
-        // TODO: 2020-04-02 find a way to link resources
+//fun genPlan(sp: ServiceProvider, id: Int, max:Int): TestPlan {
+//    val r = TestPlan()
+//    r.apply {
+//        title = "Test Plan no. $id"
+//        created = Date()
+//        // TODO: 2020-04-02 set more fields
+//        // TODO: 2020-04-02 find a way to link resources
+//
+//    }
+//    return r
+//}
+//
 
+
+class TestCaseGen(private val requirements: List<Link>,
+                    private val changeRequests: List<Link>,
+                    private val testScripts: List<Link>
+) : RandomResourceGen<TestCase> {
+    override fun generate(sp: ServiceProvider, n: Int): List<TestCase> {
+        fun gen(sp: ServiceProvider, id: Int, max:Int): TestCase {
+            val r = TestCase()
+            r.apply {
+                identifier = "TC-$id"
+                title = "Test Case no. $id"
+                description = """Lorem ipsum (TC-$id) dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. """
+                created = Date()
+                modified = Date()
+
+                contributor = singleLinkTo("https://github.com/jadelkhoury/")
+                creator = singleLinkTo("https://github.com/berezovskyi/")
+                serviceProvider = singleLinkTo(sp.about)
+
+                relatedChangeRequest = randomLink(changeRequests)
+                testsChangeRequest = randomLink(changeRequests)
+                usesTestScript = randomLink(testScripts)
+                validatesRequirement = randomLink(requirements)
+
+
+                // see https://github.com/eclipse/lyo.domains/issues/22
+//                subject =
+
+//                instanceShape
+
+            }
+            return r
+        }
+
+        return (1..n).map { i -> gen(sp, i, n) }
     }
-    return r
 }
-
