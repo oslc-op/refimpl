@@ -138,10 +138,10 @@ class TestCaseGen(private val requirements: List<Link>,
                 creator = singleLinkTo("https://github.com/berezovskyi/")
                 serviceProvider = singleLinkTo(sp.about)
 
-                relatedChangeRequest = randomLink(changeRequests)
-                testsChangeRequest = randomLink(changeRequests)
-                usesTestScript = randomLink(testScripts)
-                validatesRequirement = randomLink(requirements)
+//                relatedChangeRequest = randomLink(changeRequests)
+//                testsChangeRequest = randomLink(changeRequests)
+//                usesTestScript = randomLink(testScripts)
+//                validatesRequirement = randomLink(requirements)
 
 
                 // see https://github.com/eclipse/lyo.domains/issues/22
