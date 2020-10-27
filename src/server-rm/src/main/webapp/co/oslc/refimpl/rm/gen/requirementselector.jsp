@@ -40,8 +40,22 @@
     <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
     <title>RequirementSD</title>
     <script src="<c:url value="/static/js/delegated-ui.js"/>"></script>
+
+
+    <link rel="stylesheet" href="<c:url value="/static/dist/oslc-ui/styles.css"/>">
+    <script src="<c:url value="/static/dist/oslc-ui/runtime-es2015.js"/>" type="module"></script>
+    <script src="<c:url value="/static/dist/oslc-ui/runtime-es5.js"/>" nomodule defer></script>
+    <script src="<c:url value="/static/dist/oslc-ui/polyfills-es5.js"/>" nomodule defer></script>
+    <script src="<c:url value="/static/dist/oslc-ui/polyfills-es2015.js"/>" type="module"></script>
+    <script src="<c:url value="/static/dist/oslc-ui/main-es2015.js"/>" type="module"></script>
+    <script src="<c:url value="/static/dist/oslc-ui/main-es5.js"/>" nomodule defer></script>
+
   </head>
   <body style="padding: 10px;">
+  <div>
+    <oslc-selector selection-uri="<%= selectionUri %>" fields='["oslc:label"]'></oslc-selector>
+  </div>
+  <hr>
     <div id="selector-body">
       <p id="searchMessage">Find a specific resource through a free-text search.</p>
 

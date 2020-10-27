@@ -36,6 +36,14 @@
   <script src="<c:url value="/static/js/bootstrap-4.0.0-beta.min.js"/>"></script>
   <script src="<c:url value="/static/js/delegated-ui-helper.js"/>"></script>
   <script src="<c:url value="/static/js/ui-preview-helper.js"/>"></script>
+
+  <link rel="stylesheet" href="<c:url value="/static/dist/oslc-ui/styles.css"/>">
+  <script src="<c:url value="/static/dist/oslc-ui/runtime-es2015.js"/>" type="module"></script>
+  <script src="<c:url value="/static/dist/oslc-ui/runtime-es5.js"/>" nomodule defer></script>
+  <script src="<c:url value="/static/dist/oslc-ui/polyfills-es5.js"/>" nomodule defer></script>
+  <script src="<c:url value="/static/dist/oslc-ui/polyfills-es2015.js"/>" type="module"></script>
+  <script src="<c:url value="/static/dist/oslc-ui/main-es2015.js"/>" type="module"></script>
+  <script src="<c:url value="/static/dist/oslc-ui/main-es5.js"/>" nomodule defer></script>
 </head>
 <body>
 
@@ -66,6 +74,11 @@
         <div class="panel-body">
           <iframe src="<%= selectionDialogUri %>" id="delegatedUI"></iframe>
         </div>
+<%--
+        <div>
+          <oslc-selector selection-uri="<%= selectionUri %>" fields='["oslc:label"]'></oslc-selector>
+        </div>
+--%>
       </div>
     </div>
   </div>
