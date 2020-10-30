@@ -26,8 +26,13 @@ package co.oslc.refimpl.cm.gen;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.ServletContextEvent;
+import java.net.URI;
+import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
+import co.oslc.refimpl.cm.xtra.MemResourceRepository;
+import co.oslc.refimpl.cm.xtra.ResourceRepository;
 import org.eclipse.lyo.oslc4j.core.model.ServiceProvider;
 import org.eclipse.lyo.oslc4j.core.model.AbstractResource;
 import co.oslc.refimpl.cm.gen.servlet.ServiceProviderCatalogSingleton;
@@ -56,6 +61,9 @@ import org.eclipse.lyo.oslc.domains.cm.Task;
 public class CMManager {
 
     // Start of user code class_attributes
+    public static final String SP_DEFAULT = "SP";
+
+    private static final ResourceRepository<ChangeRequest> changeRequestRepository = new MemResourceRepository<>();
     // End of user code
     
     
@@ -84,7 +92,7 @@ public class CMManager {
         
         // Start of user code "ServiceProviderInfo[] getServiceProviderInfos(...)"
         ServiceProviderInfo spInfo = new ServiceProviderInfo();
-        spInfo.serviceProviderId = "SP";
+        spInfo.serviceProviderId = SP_DEFAULT;
         spInfo.name = "Default ServiceProvider";
         serviceProviderInfos = new ServiceProviderInfo[] {spInfo};
         // End of user code
@@ -154,12 +162,21 @@ public class CMManager {
         // End of user code
         return resources;
     }
+
     public static ChangeRequest createChangeRequest(HttpServletRequest httpServletRequest, final ChangeRequest aResource)
     {
         ChangeRequest newResource = null;
         
         // Start of user code createChangeRequest
-        // TODO Implement code to create a resource
+        String id = aResource.getIdentifier();
+        if(id == null) {
+            id = UUID.randomUUID().toString();
+        }
+        URI uri = CMResourcesFactory.constructURIForChangeRequest(id);
+        aResource.setAbout(uri);
+        aResource.setCreated(new Date());
+        changeRequestRepository.addResource(SP_DEFAULT, id, aResource);
+        newResource = aResource;
         // End of user code
         return newResource;
     }
@@ -217,7 +234,7 @@ public class CMManager {
         ChangeRequest aResource = null;
         
         // Start of user code getChangeRequest
-        // TODO Implement code to return a resource
+        aResource = changeRequestRepository.getResource(SP_DEFAULT, id);
         // End of user code
         return aResource;
     }

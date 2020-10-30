@@ -15,11 +15,14 @@ import javax.ws.rs.core.Response
 import kotlin.collections.HashSet
 import kotlin.system.measureNanoTime
 
+private val SPC_RM = "http://localhost:8800/services/catalog/singleton"
+private val SPC_CM = "http://localhost:8801/services/catalog/singleton"
+
 fun main() {
     println("Populating OSLC RefImpl servers with sample data.\n")
     val client = OslcClient()
 
-    val rmTraverser = ServiceProviderCatalogTraverser("http://localhost:8800/services/catalog/singleton", client)
+    val rmTraverser = ServiceProviderCatalogTraverser(SPC_RM, client)
     val reqPopulator = CreationFactoryPopulator(client, rmTraverser, 50, SimpleResourceGen(::genRequirement),
             Requirement::class.java)
     val requirements = reqPopulator.populate()
@@ -27,11 +30,10 @@ fun main() {
             SimpleResourceGen(::genRequirementColl), RequirementCollection::class.java)
     reqCollPopulator.populate()
 
-    val cmTraverser = ServiceProviderCatalogTraverser("http://localhost:8801/services/catalog/singleton", client)
+    val cmTraverser = ServiceProviderCatalogTraverser(SPC_CM, client)
     val chReqPopulator = CreationFactoryPopulator(client, cmTraverser, 50, ChangeRequestGen(requirements),
             ChangeRequest::class.java)
     chReqPopulator.populate()
-
 
 //    val qmTraverser = ServiceProviderCatalogTraverser("http://localhost:8802/services/catalog/singleton", client)
 //    var planPopulator = CreationFactoryPopulator(client, qmTraverser, 30,
