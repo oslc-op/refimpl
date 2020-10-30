@@ -28,25 +28,21 @@
 
 <%@page import="org.eclipse.lyo.oslc4j.core.model.ServiceProvider"%>
 <%@page import="org.eclipse.lyo.oslc4j.core.model.AbstractResource"%>
+<%@page import="org.eclipse.lyo.oslc4j.core.OSLC4JConstants"%>
 <%@page import="java.util.List" %>
 <%@page import="org.eclipse.lyo.oslc.domains.cm.ChangeRequest"%>
-<%@page import="org.eclipse.lyo.oslc.domains.cm.Defect"%>
-<%@page import="org.eclipse.lyo.oslc.domains.cm.Task"%>
-<%@page import="org.eclipse.lyo.oslc.domains.cm.ReviewTask"%>
-<%@page import="org.eclipse.lyo.oslc.domains.cm.ChangeNotice"%>
-<%@page import="org.eclipse.lyo.oslc.domains.cm.Enhancement"%>
 <%@ page contentType="text/html" language="java" pageEncoding="UTF-8" %>
 <%
-  List<AbstractResource> resources = (List<AbstractResource>) request.getAttribute("resources");
+  List<ChangeRequest> resources = (List<ChangeRequest>) request.getAttribute("resources");
   String queryUri = (String)request.getAttribute("queryUri");
-  String nextPageUri = (String)request.getAttribute("nextPageUri");
+  String nextPageUri = (String)request.getAttribute(OSLC4JConstants.OSLC4J_NEXT_PAGE);
 %>
 <html lang="en">
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Query capability QC</title>
+  <title>Query capability ChangeRequest QC</title>
 
   <link href="<c:url value="/static/css/bootstrap-4.0.0-beta.min.css"/>" rel="stylesheet">
   <link href="<c:url value="/static/css/adaptor.css"/>" rel="stylesheet">
@@ -74,15 +70,15 @@
   <!-- Begin page content -->
   <div class="container">
     <div class="page-header">
-      <h1>Query Capability &quot;QC&quot; results</h1>
+      <h1>Query Capability &quot;ChangeRequest QC&quot; results</h1>
       <div class="alert alert-secondary" role="alert">
           Number of elements:&nbsp;
           <%= resources.size()%>
           <% if (nextPageUri != null) { %><p><a href="<%= nextPageUri %>">Next Page</a></p><% } %>
       </div>
     </div>
-        <% for (AbstractResource aResource : resources) { %>
-        <p><a href="<%= aResource.getAbout() %>" class="oslc-resource-link"><%=aResource.getAbout().toString()%></a><br /></p>
+        <% for (ChangeRequest aResource : resources) { %>
+        <p><a href="<%= aResource.getAbout() %>" class="oslc-resource-link"><%=aResource.toString()%></a><br /></p>
         <% } %>
       </div>
   <footer class="footer">

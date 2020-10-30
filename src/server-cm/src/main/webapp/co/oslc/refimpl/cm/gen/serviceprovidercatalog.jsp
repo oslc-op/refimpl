@@ -64,6 +64,16 @@ ServiceProviderCatalog catalog = (ServiceProviderCatalog)request.getAttribute("c
     </div>
 
   	<h2>Service Providers</h2>
+    <% if (catalog.getServiceProviders().length == 0) {%>
+        <div class="alert alert-primary" role="alert">
+            <h4 class="alert-heading">No Service Providers defined for this server!</h4>
+            <hr>
+            <p>
+                Modify the method <code>getServiceProviderInfos()</code>
+                in the class <code>co.oslc.refimpl.cm.gen.CMManager</code>, to return the expected set of Service Provider resources.
+            </p>
+        </div>
+    <% } %>
     <% for (ServiceProvider s : catalog.getServiceProviders()) { %>
       <div>
       <p class="lead">

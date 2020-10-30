@@ -1,42 +1,42 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <oslc4j_tc:Toolchain xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:oslc4j_ai="http://org.eclipse.lyo/oslc4j/adaptorInterface" xmlns:oslc4j_tc="http://org.eclipse.lyo/oslc4j/toolChain">
-  <adaptorInterfaces name="RM" swaggerDocumentation="true">
+  <adaptorInterfaces name="RM">
     <serviceProviderCatalog title="Service Provider Catalog" description="Service Provider Catalog">
       <serviceProviders title="RM Service Provider" description="Service Provider for the RM domain resources" serviceNamespace="">
         <services serviceNamespace="relativeToServiceProvider">
           <domainSpecification href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#//@domainSpecifications[name='Requirements%20Management%20shapes']"/>
           <creationFactories title="RequirementCF" label="Requirements Creation Factory" creationURI="create">
-            <resourceTypes href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#//@domainSpecifications[name='Requirements%20Management%20shapes']/@resources[name='Requirement']"/>
+            <resourceTypes href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#_pnz6IJUdEeq-KoPaR9_Cfg"/>
           </creationFactories>
           <queryCapabilities title="RequirementQC" label="Requirements Query Capability" queryBaseURI="query">
-            <resourceTypes href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#//@domainSpecifications[name='Requirements%20Management%20shapes']/@resources[name='Requirement']"/>
+            <resourceTypes href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#_pnz6IJUdEeq-KoPaR9_Cfg"/>
           </queryCapabilities>
           <selectionDialogs title="RequirementSD" label="Requirements Selection Dialog" dialogURI="selector">
-            <resourceTypes href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#//@domainSpecifications[name='Requirements%20Management%20shapes']/@resources[name='Requirement']"/>
+            <resourceTypes href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#_pnz6IJUdEeq-KoPaR9_Cfg"/>
           </selectionDialogs>
           <creationDialogs title="RequirementCD" label="Requirements Creation Dialog" dialogURI="creator">
-            <resourceTypes href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#//@domainSpecifications[name='Requirements%20Management%20shapes']/@resources[name='Requirement']"/>
+            <resourceTypes href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#_pnz6IJUdEeq-KoPaR9_Cfg"/>
           </creationDialogs>
           <usages>requirements</usages>
         </services>
         <services serviceNamespace="relativeToServiceProvider">
           <domainSpecification href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#//@domainSpecifications[name='Requirements%20Management%20shapes']"/>
           <creationFactories title="RequirementCollectionCF" label="Requirement Collections Creation Factory" creationURI="create">
-            <resourceTypes href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#//@domainSpecifications[name='Requirements%20Management%20shapes']/@resources[name='RequirementCollection']"/>
+            <resourceTypes href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#_pn2WYZUdEeq-KoPaR9_Cfg"/>
           </creationFactories>
           <queryCapabilities title="RequirementCollectionQC" label="Requirement Collections Query Capability" queryBaseURI="query">
-            <resourceTypes href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#//@domainSpecifications[name='Requirements%20Management%20shapes']/@resources[name='RequirementCollection']"/>
+            <resourceTypes href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#_pn2WYZUdEeq-KoPaR9_Cfg"/>
           </queryCapabilities>
           <selectionDialogs title="RequirementCollectionSD" label="Requirement Collections Selection Dialog" dialogURI="selector">
-            <resourceTypes href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#//@domainSpecifications[name='Requirements%20Management%20shapes']/@resources[name='RequirementCollection']"/>
+            <resourceTypes href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#_pn2WYZUdEeq-KoPaR9_Cfg"/>
           </selectionDialogs>
           <usages>requirement_collections</usages>
         </services>
       </serviceProviders>
     </serviceProviderCatalog>
     <webServices name="WebServiceBasic" serviceUrlPattern="" resourceUrlPattern="[ResourceType]/{serviceProviderId}/{resourceId}" delete="true" update="true">
-      <resourceTypes href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#//@domainSpecifications[name='Requirements%20Management%20shapes']/@resources[name='Requirement']"/>
-      <resourceTypes href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#//@domainSpecifications[name='Requirements%20Management%20shapes']/@resources[name='RequirementCollection']"/>
+      <resourceTypes href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#_pnz6IJUdEeq-KoPaR9_Cfg"/>
+      <resourceTypes href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#_pn2WYZUdEeq-KoPaR9_Cfg"/>
     </webServices>
     <specification/>
     <requiredAdaptors xsi:type="oslc4j_ai:GenericRequiredAdaptor" serviceProviderCatalogURI="http://your.host.com/adaptor/services/catalog/singleton" name="GenericRequiredAdaptor"/>
@@ -45,61 +45,71 @@
       <projectConfiguration xsi:type="oslc4j_ai:MavenProjectConfiguration" doNotGenerateProjectConfigurationFiles="true" lyoVersion="4.0.0-SNAPSHOT" groupId="co.oslc.refimpl.rm.gen" artifactId="rm" version="0.0.1-SNAPSHOT"/>
     </configuration>
   </adaptorInterfaces>
-  <adaptorInterfaces name="CM">
+  <adaptorInterfaces name="CM" swaggerDocumentation="false">
     <serviceProviderCatalog title="Service Provider Catalog" description="Service Provider Catalog">
       <serviceProviders title="Service Provider" description="Service Provider">
         <services>
           <domainSpecification href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#//@domainSpecifications[name='Change%20Management%20shapes']"/>
           <creationFactories title="ChangeRequestCF" label="Change Request Creation Factory" creationURI="create_change_request">
-            <resourceTypes href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#//@domainSpecifications[name='Change%20Management%20shapes']/@resources[name='ChangeRequest']"/>
+            <resourceTypes href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#_poJRUJUdEeq-KoPaR9_Cfg"/>
           </creationFactories>
-          <queryCapabilities title="QC" label="Query Capability" queryBaseURI="query">
-            <resourceTypes href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#//@domainSpecifications[name='Change%20Management%20shapes']/@resources[name='ChangeRequest']"/>
-            <resourceTypes href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#//@domainSpecifications[name='Change%20Management%20shapes']/@resources[name='Defect']"/>
-            <resourceTypes href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#//@domainSpecifications[name='Change%20Management%20shapes']/@resources[name='Task']"/>
-            <resourceTypes href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#//@domainSpecifications[name='Change%20Management%20shapes']/@resources[name='ReviewTask']"/>
-            <resourceTypes href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#//@domainSpecifications[name='Change%20Management%20shapes']/@resources[name='ChangeNotice']"/>
-            <resourceTypes href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#//@domainSpecifications[name='Change%20Management%20shapes']/@resources[name='Enhancement']"/>
+          <queryCapabilities title="ChangeRequest QC" label="ChangeRequest Query Capability" queryBaseURI="query_cr">
+            <resourceTypes href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#_poJRUJUdEeq-KoPaR9_Cfg"/>
+          </queryCapabilities>
+          <queryCapabilities title="Defect QC" label="Defect Query Capability" queryBaseURI="query_defect">
+            <resourceTypes href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#_poLGgpUdEeq-KoPaR9_Cfg"/>
+          </queryCapabilities>
+          <queryCapabilities title="Task QC" label="Task Query Capability" queryBaseURI="query_task">
+            <resourceTypes href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#_poLtk5UdEeq-KoPaR9_Cfg"/>
+          </queryCapabilities>
+          <queryCapabilities title="Enhancement QC" label="Enhancement Query Capability" queryBaseURI="query_enh">
+            <resourceTypes href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#_poMUoZUdEeq-KoPaR9_Cfg"/>
+          </queryCapabilities>
+          <queryCapabilities title="Review QC" label="ReviewTask Query Capability" queryBaseURI="query_review">
+            <resourceTypes href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#_poMUoJUdEeq-KoPaR9_Cfg"/>
+          </queryCapabilities>
+          <queryCapabilities title="ChangeNotice QC" label="ChangeNotice Query Capability" queryBaseURI="query_cn">
+            <resourceTypes href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#_poLtkpUdEeq-KoPaR9_Cfg"/>
           </queryCapabilities>
           <selectionDialogs title="ChangeRequestDlgSel" label="Change Request Selection Dialog" dialogURI="select_change_request">
-            <resourceTypes href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#//@domainSpecifications[name='Change%20Management%20shapes']/@resources[name='ChangeRequest']"/>
+            <resourceTypes href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#_poJRUJUdEeq-KoPaR9_Cfg"/>
           </selectionDialogs>
           <selectionDialogs title="DefectDlgSel" label="Defect Selection Dialog" dialogURI="select_defect">
-            <resourceTypes href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#//@domainSpecifications[name='Change%20Management%20shapes']/@resources[name='Defect']"/>
+            <resourceTypes href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#_poLGgpUdEeq-KoPaR9_Cfg"/>
           </selectionDialogs>
           <selectionDialogs title="TaskDlgSel" label="Task Selection Dialog" dialogURI="select_task">
-            <resourceTypes href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#//@domainSpecifications[name='Change%20Management%20shapes']/@resources[name='Task']"/>
+            <resourceTypes href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#_poLtk5UdEeq-KoPaR9_Cfg"/>
           </selectionDialogs>
           <selectionDialogs title="ReviewTaskDlgSel" label="Review Task Selection Dialog" dialogURI="select_review_task">
-            <resourceTypes href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#//@domainSpecifications[name='Change%20Management%20shapes']/@resources[name='ReviewTask']"/>
+            <resourceTypes href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#_poMUoJUdEeq-KoPaR9_Cfg"/>
           </selectionDialogs>
           <selectionDialogs title="ChangeNoticeDlgSel" label="Change Notice Selection Dialog" dialogURI="select_change_notice">
-            <resourceTypes href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#//@domainSpecifications[name='Change%20Management%20shapes']/@resources[name='ChangeNotice']"/>
+            <resourceTypes href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#_poLtkpUdEeq-KoPaR9_Cfg"/>
           </selectionDialogs>
           <selectionDialogs title="EnhancementDlgSel" label="Enhancement Selection Dialog" dialogURI="select_enhancement">
-            <resourceTypes href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#//@domainSpecifications[name='Change%20Management%20shapes']/@resources[name='Enhancement']"/>
+            <resourceTypes href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#_poMUoZUdEeq-KoPaR9_Cfg"/>
           </selectionDialogs>
           <creationDialogs title="DefectDlgCr" label="Defect Creation Dialog" dialogURI="create_defect">
-            <resourceTypes href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#//@domainSpecifications[name='Change%20Management%20shapes']/@resources[name='Defect']"/>
+            <resourceTypes href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#_poLGgpUdEeq-KoPaR9_Cfg"/>
           </creationDialogs>
           <creationDialogs title="TaskDlgCr" label="Task Creation Dialog" dialogURI="create_task">
-            <resourceTypes href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#//@domainSpecifications[name='Change%20Management%20shapes']/@resources[name='Task']"/>
+            <resourceTypes href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#_poLtk5UdEeq-KoPaR9_Cfg"/>
           </creationDialogs>
           <creationDialogs title="ReviewTaskDlgCr" label="Review Task Creation Dialog" dialogURI="create_review_task">
-            <resourceTypes href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#//@domainSpecifications[name='Change%20Management%20shapes']/@resources[name='ReviewTask']"/>
+            <resourceTypes href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#_poMUoJUdEeq-KoPaR9_Cfg"/>
           </creationDialogs>
           <creationDialogs title="ChangeNoticeDlgCr" label="Change Notice Creation Dialog" dialogURI="create_change_notice">
-            <resourceTypes href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#//@domainSpecifications[name='Change%20Management%20shapes']/@resources[name='ChangeNotice']"/>
+            <resourceTypes href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#_poLtkpUdEeq-KoPaR9_Cfg"/>
           </creationDialogs>
           <creationDialogs title="EnhancementDlgCr" label="Enhancement Creation Dialog" dialogURI="create_enhancement">
-            <resourceTypes href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#//@domainSpecifications[name='Change%20Management%20shapes']/@resources[name='Enhancement']"/>
+            <resourceTypes href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#_poMUoZUdEeq-KoPaR9_Cfg"/>
           </creationDialogs>
           <usages>change_requests</usages>
         </services>
       </serviceProviders>
     </serviceProviderCatalog>
     <webServices name="WsChangeRequest" serviceUrlPattern="change_request" resourceUrlPattern="{id}" delete="true" update="true">
-      <resourceTypes href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#//@domainSpecifications[name='Change%20Management%20shapes']/@resources[name='ChangeRequest']"/>
+      <resourceTypes href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#_poJRUJUdEeq-KoPaR9_Cfg"/>
     </webServices>
     <specification/>
     <requiredAdaptors xsi:type="oslc4j_ai:GenericRequiredAdaptor" serviceProviderCatalogURI="http://your.host.com/adaptor/services/catalog/singleton" name="GenericRequiredAdaptor"/>
@@ -114,84 +124,84 @@
         <services>
           <domainSpecification href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#//@domainSpecifications[name='Quality%20Management']"/>
           <creationFactories title="TestCaseCF" label="Test Case Creation Factory" creationURI="create">
-            <resourceTypes href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#//@domainSpecifications[name='Quality%20Management']/@resources[name='TestCase']"/>
+            <resourceTypes href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#_pogdspUdEeq-KoPaR9_Cfg"/>
           </creationFactories>
           <queryCapabilities title="TestCaseQC" label="Test Case Query Capability" queryBaseURI="query">
-            <resourceTypes href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#//@domainSpecifications[name='Quality%20Management']/@resources[name='TestCase']"/>
+            <resourceTypes href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#_pogdspUdEeq-KoPaR9_Cfg"/>
           </queryCapabilities>
           <selectionDialogs title="TestCaseSD" label="Test Case Selection Dialog" dialogURI="selector">
-            <resourceTypes href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#//@domainSpecifications[name='Quality%20Management']/@resources[name='TestCase']"/>
+            <resourceTypes href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#_pogdspUdEeq-KoPaR9_Cfg"/>
           </selectionDialogs>
           <usages>cases</usages>
         </services>
         <services>
           <domainSpecification href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#//@domainSpecifications[name='Quality%20Management']"/>
           <creationFactories title="TestPlanCF" label="Test Plan Creation Factory" creationURI="create">
-            <resourceTypes href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#//@domainSpecifications[name='Quality%20Management']/@resources[name='TestPlan']"/>
+            <resourceTypes href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#_pofPkJUdEeq-KoPaR9_Cfg"/>
           </creationFactories>
           <queryCapabilities title="TestPlanQC" label="Test Plan Query Capability" queryBaseURI="query">
-            <resourceTypes href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#//@domainSpecifications[name='Quality%20Management']/@resources[name='TestPlan']"/>
+            <resourceTypes href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#_pofPkJUdEeq-KoPaR9_Cfg"/>
           </queryCapabilities>
           <selectionDialogs title="TestPlanSD" label="Test Plan Selection Dialog" dialogURI="selector">
-            <resourceTypes href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#//@domainSpecifications[name='Quality%20Management']/@resources[name='TestPlan']"/>
+            <resourceTypes href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#_pofPkJUdEeq-KoPaR9_Cfg"/>
           </selectionDialogs>
           <usages>plans</usages>
         </services>
         <services>
           <domainSpecification href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#//@domainSpecifications[name='Quality%20Management']"/>
           <creationFactories title="TestScriptCF" label="Test Script Creation Factory" creationURI="create">
-            <resourceTypes href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#//@domainSpecifications[name='Quality%20Management']/@resources[name='TestScript']"/>
+            <resourceTypes href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#_pojhAJUdEeq-KoPaR9_Cfg"/>
           </creationFactories>
           <queryCapabilities title="TestScriptQC" label="Test Script Query Capability" queryBaseURI="query">
-            <resourceTypes href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#//@domainSpecifications[name='Quality%20Management']/@resources[name='TestScript']"/>
+            <resourceTypes href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#_pojhAJUdEeq-KoPaR9_Cfg"/>
           </queryCapabilities>
           <selectionDialogs title="TestScriptSD" label="Test Script Selection Dialog" dialogURI="selector">
-            <resourceTypes href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#//@domainSpecifications[name='Quality%20Management']/@resources[name='TestScript']"/>
+            <resourceTypes href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#_pojhAJUdEeq-KoPaR9_Cfg"/>
           </selectionDialogs>
           <usages>scripts</usages>
         </services>
         <services>
           <domainSpecification href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#//@domainSpecifications[name='Quality%20Management']"/>
           <creationFactories title="TestResultCF" label="Test Result Creation Factory" creationURI="create">
-            <resourceTypes href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#//@domainSpecifications[name='Quality%20Management']/@resources[name='TestResult']"/>
+            <resourceTypes href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#_pokIEZUdEeq-KoPaR9_Cfg"/>
           </creationFactories>
           <queryCapabilities title="TestResultQC" label="Test Result Query Capability" queryBaseURI="query">
-            <resourceTypes href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#//@domainSpecifications[name='Quality%20Management']/@resources[name='TestResult']"/>
+            <resourceTypes href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#_pokIEZUdEeq-KoPaR9_Cfg"/>
           </queryCapabilities>
           <selectionDialogs title="TestResultSD" label="Test Result Selection Dialog" dialogURI="selector">
-            <resourceTypes href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#//@domainSpecifications[name='Quality%20Management']/@resources[name='TestResult']"/>
+            <resourceTypes href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#_pokIEZUdEeq-KoPaR9_Cfg"/>
           </selectionDialogs>
           <usages>results</usages>
         </services>
         <services>
           <domainSpecification href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#//@domainSpecifications[name='Quality%20Management']"/>
           <creationFactories title="TestExecutionRecordCF" label="Test Execution Record Creation Factory" creationURI="create">
-            <resourceTypes href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#//@domainSpecifications[name='Quality%20Management']/@resources[name='TestExecutionRecord']"/>
+            <resourceTypes href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#_poiS4JUdEeq-KoPaR9_Cfg"/>
           </creationFactories>
           <queryCapabilities title="TestExecutionRecordQC" label="Test Execution Record Query Capability" queryBaseURI="query">
-            <resourceTypes href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#//@domainSpecifications[name='Quality%20Management']/@resources[name='TestExecutionRecord']"/>
+            <resourceTypes href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#_poiS4JUdEeq-KoPaR9_Cfg"/>
           </queryCapabilities>
           <selectionDialogs title="TestExecutionRecordSD" label="Test Execution Record Selection Dialog" dialogURI="selector">
-            <resourceTypes href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#//@domainSpecifications[name='Quality%20Management']/@resources[name='TestExecutionRecord']"/>
+            <resourceTypes href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#_poiS4JUdEeq-KoPaR9_Cfg"/>
           </selectionDialogs>
           <usages>execution_records</usages>
         </services>
       </serviceProviders>
     </serviceProviderCatalog>
     <webServices name="WsCases" serviceUrlPattern="cases" resourceUrlPattern="{spSlug}-{id}">
-      <resourceTypes href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#//@domainSpecifications[name='Quality%20Management']/@resources[name='TestCase']"/>
+      <resourceTypes href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#_pogdspUdEeq-KoPaR9_Cfg"/>
     </webServices>
     <webServices name="WsPlans" serviceUrlPattern="plans" resourceUrlPattern="{spSlug}-{id}">
-      <resourceTypes href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#//@domainSpecifications[name='Quality%20Management']/@resources[name='TestPlan']"/>
+      <resourceTypes href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#_pofPkJUdEeq-KoPaR9_Cfg"/>
     </webServices>
     <webServices name="WsScripts" serviceUrlPattern="scripts" resourceUrlPattern="{spSlug}-{id}">
-      <resourceTypes href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#//@domainSpecifications[name='Quality%20Management']/@resources[name='TestScript']"/>
+      <resourceTypes href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#_pojhAJUdEeq-KoPaR9_Cfg"/>
     </webServices>
     <webServices name="WsResults" serviceUrlPattern="results" resourceUrlPattern="{spSlug}-{id}">
-      <resourceTypes href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#//@domainSpecifications[name='Quality%20Management']/@resources[name='TestResult']"/>
+      <resourceTypes href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#_pokIEZUdEeq-KoPaR9_Cfg"/>
     </webServices>
     <webServices name="WsExecRecords" serviceUrlPattern="exec-records" resourceUrlPattern="{spSlug}-{id}">
-      <resourceTypes href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#//@domainSpecifications[name='Quality%20Management']/@resources[name='TestExecutionRecord']"/>
+      <resourceTypes href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#_poiS4JUdEeq-KoPaR9_Cfg"/>
     </webServices>
     <specification/>
     <requiredAdaptors xsi:type="oslc4j_ai:GenericRequiredAdaptor" serviceProviderCatalogURI="http://your.host.com/adaptor/services/catalog/singleton" name="GenericRequiredAdaptor"/>
@@ -206,36 +216,36 @@
         <services>
           <domainSpecification href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#//@domainSpecifications[name='Architecture%20Management']"/>
           <creationFactories title="ResourceCF" label="OSLC Resource Creation Factory" creationURI="create">
-            <resourceTypes href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#//@domainSpecifications[name='Architecture%20Management']/@resources[name='Resource']"/>
+            <resourceTypes href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#_popnoJUdEeq-KoPaR9_Cfg"/>
           </creationFactories>
           <queryCapabilities title="ResourceQC" label="OSLC Resource Query Capability" queryBaseURI="query">
-            <resourceTypes href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#//@domainSpecifications[name='Architecture%20Management']/@resources[name='Resource']"/>
+            <resourceTypes href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#_popnoJUdEeq-KoPaR9_Cfg"/>
           </queryCapabilities>
           <selectionDialogs title="ResourceSD" label="OSLC Resource Selection Dialog" dialogURI="selector">
-            <resourceTypes href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#//@domainSpecifications[name='Architecture%20Management']/@resources[name='Resource']"/>
+            <resourceTypes href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#_popnoJUdEeq-KoPaR9_Cfg"/>
           </selectionDialogs>
           <usages>resources</usages>
         </services>
         <services>
           <domainSpecification href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#//@domainSpecifications[name='Architecture%20Management']"/>
           <creationFactories title="LinkTypeCF" label="LinkType Creation Factory" creationURI="create">
-            <resourceTypes href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#//@domainSpecifications[name='Architecture%20Management']/@resources[name='LinkType']"/>
+            <resourceTypes href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#_porc0ZUdEeq-KoPaR9_Cfg"/>
           </creationFactories>
           <queryCapabilities title="LinkTypeQC" label="LinkType Query Capability" queryBaseURI="query">
-            <resourceTypes href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#//@domainSpecifications[name='Architecture%20Management']/@resources[name='LinkType']"/>
+            <resourceTypes href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#_porc0ZUdEeq-KoPaR9_Cfg"/>
           </queryCapabilities>
           <selectionDialogs title="LinkTypeSD" label="LinkType Selection Dialog" dialogURI="selector">
-            <resourceTypes href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#//@domainSpecifications[name='Architecture%20Management']/@resources[name='LinkType']"/>
+            <resourceTypes href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#_porc0ZUdEeq-KoPaR9_Cfg"/>
           </selectionDialogs>
           <usages>links</usages>
         </services>
       </serviceProviders>
     </serviceProviderCatalog>
     <webServices name="WsResource" serviceUrlPattern="resource" resourceUrlPattern="{id}">
-      <resourceTypes href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#//@domainSpecifications[name='Architecture%20Management']/@resources[name='Resource']"/>
+      <resourceTypes href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#_popnoJUdEeq-KoPaR9_Cfg"/>
     </webServices>
     <webServices name="WsLinkType" serviceUrlPattern="lt" resourceUrlPattern="{id}">
-      <resourceTypes href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#//@domainSpecifications[name='Architecture%20Management']/@resources[name='LinkType']"/>
+      <resourceTypes href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#_porc0ZUdEeq-KoPaR9_Cfg"/>
     </webServices>
     <specification/>
     <requiredAdaptors xsi:type="oslc4j_ai:GenericRequiredAdaptor" serviceProviderCatalogURI="http://your.host.com/adaptor/services/catalog/singleton" name="GenericRequiredAdaptor"/>

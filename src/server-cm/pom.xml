@@ -67,6 +67,12 @@
       <artifactId>javax.servlet.jsp.jstl-api</artifactId>
       <scope>provided</scope>
     </dependency>
+<!--
+    <dependency>
+      <groupId>io.swagger</groupId>
+      <artifactId>swagger-jersey2-jaxrs</artifactId>
+    </dependency>
+-->
 
 
     <!-- Test dependencies -->
