@@ -202,7 +202,8 @@ public class AMManager {
         Boolean deleted = false;
         
         // Start of user code deleteResource
-        // TODO Implement code to delete a resource
+        resourceRepository.deleteResource(SP_DEFAULT, id);
+        deleted = true;
         // If you encounter problems, consider throwing the runtime exception WebApplicationException(message, cause, final httpStatus)
         // End of user code
         return deleted;
@@ -212,7 +213,7 @@ public class AMManager {
         Resource updatedResource = null;
         
         // Start of user code updateResource
-        // TODO Implement code to update and return a resource
+        resourceRepository.updateResource(SP_DEFAULT, id, aResource);
         // If you encounter problems, consider throwing the runtime exception WebApplicationException(message, cause, final httpStatus)
         // End of user code
         return updatedResource;
@@ -234,7 +235,8 @@ public class AMManager {
         Boolean deleted = false;
         
         // Start of user code deleteLinkType
-        // TODO Implement code to delete a resource
+        linkRepository.deleteResource(SP_DEFAULT, id);
+        deleted = true;
         // If you encounter problems, consider throwing the runtime exception WebApplicationException(message, cause, final httpStatus)
         // End of user code
         return deleted;
@@ -244,7 +246,7 @@ public class AMManager {
         LinkType updatedResource = null;
         
         // Start of user code updateLinkType
-        // TODO Implement code to update and return a resource
+        linkRepository.updateResource(SP_DEFAULT, id, aResource);
         // If you encounter problems, consider throwing the runtime exception WebApplicationException(message, cause, final httpStatus)
         // End of user code
         return updatedResource;
@@ -254,7 +256,7 @@ public class AMManager {
     {
         String eTag = null;
         // Start of user code getETagFromLinkType
-        // TODO Implement code to return an ETag for a particular resource
+        eTag = linkRepository.calculateETag(aResource);
         // End of user code
         return eTag;
     }
@@ -262,7 +264,7 @@ public class AMManager {
     {
         String eTag = null;
         // Start of user code getETagFromResource
-        // TODO Implement code to return an ETag for a particular resource
+        eTag = resourceRepository.calculateETag(aResource);
         // End of user code
         return eTag;
     }

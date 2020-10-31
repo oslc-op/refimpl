@@ -14,4 +14,6 @@ public interface ResourceRepository <R extends AbstractResource> {
     String calculateETag(R resource);
 
     List<R> findResources(String serviceProvider, String terms, int limit);
+
+    void updateResource(String spDefault, String id, R resource);
 }

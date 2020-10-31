@@ -6,7 +6,11 @@ import org.apache.jena.riot.RDFFormat;
 import org.eclipse.lyo.oslc4j.core.exception.OslcCoreApplicationException;
 import org.eclipse.lyo.oslc4j.core.model.AbstractResource;
 import org.eclipse.lyo.oslc4j.provider.jena.JenaModelHelper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+import javax.ws.rs.WebApplicationException;
+import javax.ws.rs.core.Response;
 import javax.xml.bind.DatatypeConverter;
 import javax.xml.datatype.DatatypeConfigurationException;
 import java.io.StringWriter;
@@ -23,6 +27,9 @@ import java.util.stream.Collectors;
  *         Generic resource type
  */
 public class MemResourceRepository<R extends AbstractResource> implements ResourceRepository<R> {
+
+    private final Logger log = LoggerFactory.getLogger(MemResourceRepository.class);
+
 
     private final Map<String, Map<String, R>> resources = new HashMap<>();
 
@@ -123,5 +130,16 @@ public class MemResourceRepository<R extends AbstractResource> implements Resour
                 .stream()
                 .filter(r -> r.toString().contains(terms))
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public void updateResource(String provider, String id, R resource) {
+        if(hasResource(provider, id)) {
+            resources.get(provider).put(id, resource);
+        }
+        else {
+            log.error("Resource {}/{} not found and cannot be updated", provider, id);
+            throw new WebApplicationException(Response.Status.BAD_REQUEST);
+        }
     }
 }
