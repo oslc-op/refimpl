@@ -120,7 +120,7 @@ public class WsPlans
     }
 
     @GET
-    @Path("{spSlug}-{id}")
+    @Path("{spSlug}/{id}")
     @Produces({OslcMediaType.APPLICATION_RDF_XML, OslcMediaType.APPLICATION_JSON_LD, OslcMediaType.TEXT_TURTLE, OslcMediaType.APPLICATION_XML, OslcMediaType.APPLICATION_JSON})
     public TestPlan getTestPlan(
                 @PathParam("spSlug") final String spSlug, @PathParam("id") final String id
@@ -143,7 +143,7 @@ public class WsPlans
     }
 
     @GET
-    @Path("{spSlug}-{id}")
+    @Path("{spSlug}/{id}")
     @Produces({ MediaType.TEXT_HTML })
     public void getTestPlanAsHtml(
         @PathParam("spSlug") final String spSlug, @PathParam("id") final String id
@@ -168,7 +168,7 @@ public class WsPlans
     }
 
     @GET
-    @Path("{spSlug}-{id}")
+    @Path("{spSlug}/{id}")
     @Produces({OslcMediaType.APPLICATION_X_OSLC_COMPACT_XML})
     public Compact getTestPlanCompact(
         @PathParam("spSlug") final String spSlug, @PathParam("id") final String id
@@ -215,7 +215,7 @@ public class WsPlans
     }
 
     @GET
-    @Path("{spSlug}-{id}/smallPreview")
+    @Path("{spSlug}/{id}/smallPreview")
     @Produces({ MediaType.TEXT_HTML })
     public void getTestPlanAsHtmlSmallPreview(
         @PathParam("spSlug") final String spSlug, @PathParam("id") final String id
@@ -242,7 +242,7 @@ public class WsPlans
     }
 
     @GET
-    @Path("{spSlug}-{id}/largePreview")
+    @Path("{spSlug}/{id}/largePreview")
     @Produces({ MediaType.TEXT_HTML })
     public void getTestPlanAsHtmlLargePreview(
         @PathParam("spSlug") final String spSlug, @PathParam("id") final String id

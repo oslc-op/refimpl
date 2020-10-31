@@ -81,6 +81,16 @@ Service[] services = (Service[])request.getAttribute("services");
         return String.join(", ", rs);
     }         
     %>
+    <% if (services.length == 0) {%>
+        <div class="alert alert-primary" role="alert">
+            <h4 class="alert-heading">No OSLC Services Defined for this Service Provider!</h4>
+            <hr>
+            <p>
+                Define some OSLC services for your Service Provider in your model. 
+                Then re-generate to obtain access to these services.
+            </p>
+        </div>
+    <% } %>
     <%for (int serviceIndex = 0; serviceIndex < services.length; serviceIndex++) {%>
     <% 
     URI domain = services[serviceIndex].getDomain();

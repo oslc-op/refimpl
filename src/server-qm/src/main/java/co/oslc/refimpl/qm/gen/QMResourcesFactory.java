@@ -70,7 +70,7 @@ public class QMResourcesFactory {
         Map<String, Object> pathParameters = new HashMap<String, Object>();
         pathParameters.put("spSlug", spSlug);
         pathParameters.put("id", id);
-        String instanceURI = "cases/{spSlug}-{id}";
+        String instanceURI = "cases/{spSlug}.{id}";
     
         final UriBuilder builder = UriBuilder.fromUri(basePath);
         return builder.path(instanceURI).buildFromMap(pathParameters);
@@ -130,7 +130,7 @@ public class QMResourcesFactory {
         Map<String, Object> pathParameters = new HashMap<String, Object>();
         pathParameters.put("spSlug", spSlug);
         pathParameters.put("id", id);
-        String instanceURI = "plans/{spSlug}-{id}";
+        String instanceURI = "plans/{spSlug}/{id}";
     
         final UriBuilder builder = UriBuilder.fromUri(basePath);
         return builder.path(instanceURI).buildFromMap(pathParameters);
@@ -190,7 +190,7 @@ public class QMResourcesFactory {
         Map<String, Object> pathParameters = new HashMap<String, Object>();
         pathParameters.put("spSlug", spSlug);
         pathParameters.put("id", id);
-        String instanceURI = "scripts/{spSlug}-{id}";
+        String instanceURI = "scripts/{spSlug}_{id}";
     
         final UriBuilder builder = UriBuilder.fromUri(basePath);
         return builder.path(instanceURI).buildFromMap(pathParameters);

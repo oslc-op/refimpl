@@ -26,11 +26,25 @@ package co.oslc.refimpl.qm.gen;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.ServletContextEvent;
-import java.net.URI;
-import java.util.Date;
 import java.util.List;
-import java.util.UUID;
+import java.util.ArrayList;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+import org.eclipse.lyo.oslc4j.core.model.ServiceProvider;
+import org.eclipse.lyo.oslc4j.core.model.AbstractResource;
+import co.oslc.refimpl.qm.gen.servlet.ServiceProviderCatalogSingleton;
+import co.oslc.refimpl.qm.gen.ServiceProviderInfo;
+import org.eclipse.lyo.oslc.domains.Agent;
+import org.eclipse.lyo.oslc.domains.cm.ChangeRequest;
+import org.eclipse.lyo.oslc.domains.config.ChangeSet;
+import org.eclipse.lyo.oslc.domains.cm.Defect;
+import org.eclipse.lyo.oslc4j.core.model.Discussion;
+import org.eclipse.lyo.oslc.domains.Person;
+import org.eclipse.lyo.oslc.domains.cm.Priority;
+import org.eclipse.lyo.oslc.domains.rm.Requirement;
+import org.eclipse.lyo.oslc.domains.rm.RequirementCollection;
+import org.eclipse.lyo.oslc.domains.cm.State;
 import org.eclipse.lyo.oslc.domains.qm.TestCase;
 import org.eclipse.lyo.oslc.domains.qm.TestExecutionRecord;
 import org.eclipse.lyo.oslc.domains.qm.TestPlan;
@@ -38,7 +52,12 @@ import org.eclipse.lyo.oslc.domains.qm.TestResult;
 import org.eclipse.lyo.oslc.domains.qm.TestScript;
 
 
+
 // Start of user code imports
+import java.net.URI;
+import java.util.Date;
+import java.util.UUID;
+
 import co.oslc.refimpl.lib.MemResourceRepository;
 import co.oslc.refimpl.lib.ResourceRepository;
 // End of user code
@@ -48,6 +67,9 @@ import co.oslc.refimpl.lib.ResourceRepository;
 
 public class QMManager {
 
+    private static final Logger log = LoggerFactory.getLogger(QMManager.class);
+
+    
     // Start of user code class_attributes
     private static final ResourceRepository<TestCase> testCaseRepository = new MemResourceRepository<>();
     private static final ResourceRepository<TestExecutionRecord> testExecutionRecordRepository = new MemResourceRepository<>();
@@ -67,6 +89,7 @@ public class QMManager {
         // Start of user code contextInitializeServletListener
         // TODO Implement code to establish connection to data backbone etc ...
         // End of user code
+        
     }
 
     public static void contextDestroyServletListener(ServletContextEvent servletContextEvent) 
@@ -90,9 +113,10 @@ public class QMManager {
         return serviceProviderInfos;
     }
 
-    public static List<TestCase> queryTestCases(HttpServletRequest httpServletRequest, String where, int page, int limit)
+    public static List<TestCase> queryTestCases(HttpServletRequest httpServletRequest, String where, String prefix, int page, int limit)
     {
         List<TestCase> resources = null;
+        
         
         // Start of user code queryTestCases
         // TODO Implement code to return a set of resources
@@ -103,6 +127,7 @@ public class QMManager {
     {
         List<TestCase> resources = null;
         
+        
         // Start of user code TestCaseSelector
         // TODO Implement code to return a set of resources, based on search criteria 
         // End of user code
@@ -111,6 +136,7 @@ public class QMManager {
     public static TestCase createTestCase(HttpServletRequest httpServletRequest, final TestCase aResource)
     {
         TestCase newResource = null;
+        
         
         // Start of user code createTestCase
         String id = aResource.getIdentifier();
@@ -129,18 +155,20 @@ public class QMManager {
 
 
 
-    public static List<TestPlan> queryTestPlans(HttpServletRequest httpServletRequest, String where, int page, int limit)
+    public static List<TestPlan> queryTestPlans(HttpServletRequest httpServletRequest, String where, String prefix, int page, int limit)
     {
         List<TestPlan> resources = null;
         
+        
         // Start of user code queryTestPlans
-        // TODO Implement code to return a set of resources
+        resources = testPlanRepository.fetchResourcePageForSP(SP_DEFAULT, page, limit);
         // End of user code
         return resources;
     }
     public static List<TestPlan> TestPlanSelector(HttpServletRequest httpServletRequest, String terms)   
     {
         List<TestPlan> resources = null;
+        
         
         // Start of user code TestPlanSelector
         // TODO Implement code to return a set of resources, based on search criteria 
@@ -150,6 +178,7 @@ public class QMManager {
     public static TestPlan createTestPlan(HttpServletRequest httpServletRequest, final TestPlan aResource)
     {
         TestPlan newResource = null;
+        
         
         // Start of user code createTestPlan
         String id = aResource.getIdentifier();
@@ -168,9 +197,10 @@ public class QMManager {
 
 
 
-    public static List<TestScript> queryTestScripts(HttpServletRequest httpServletRequest, String where, int page, int limit)
+    public static List<TestScript> queryTestScripts(HttpServletRequest httpServletRequest, String where, String prefix, int page, int limit)
     {
         List<TestScript> resources = null;
+        
         
         // Start of user code queryTestScripts
         // TODO Implement code to return a set of resources
@@ -181,6 +211,7 @@ public class QMManager {
     {
         List<TestScript> resources = null;
         
+        
         // Start of user code TestScriptSelector
         // TODO Implement code to return a set of resources, based on search criteria 
         // End of user code
@@ -190,6 +221,7 @@ public class QMManager {
     {
         TestScript newResource = null;
         
+        
         // Start of user code createTestScript
         // TODO Implement code to create a resource
         // End of user code
@@ -198,9 +230,10 @@ public class QMManager {
 
 
 
-    public static List<TestResult> queryTestResults(HttpServletRequest httpServletRequest, String where, int page, int limit)
+    public static List<TestResult> queryTestResults(HttpServletRequest httpServletRequest, String where, String prefix, int page, int limit)
     {
         List<TestResult> resources = null;
+        
         
         // Start of user code queryTestResults
         // TODO Implement code to return a set of resources
@@ -211,6 +244,7 @@ public class QMManager {
     {
         List<TestResult> resources = null;
         
+        
         // Start of user code TestResultSelector
         // TODO Implement code to return a set of resources, based on search criteria 
         // End of user code
@@ -220,6 +254,7 @@ public class QMManager {
     {
         TestResult newResource = null;
         
+        
         // Start of user code createTestResult
         // TODO Implement code to create a resource
         // End of user code
@@ -228,9 +263,10 @@ public class QMManager {
 
 
 
-    public static List<TestExecutionRecord> queryTestExecutionRecords(HttpServletRequest httpServletRequest, String where, int page, int limit)
+    public static List<TestExecutionRecord> queryTestExecutionRecords(HttpServletRequest httpServletRequest, String where, String prefix, int page, int limit)
     {
         List<TestExecutionRecord> resources = null;
+        
         
         // Start of user code queryTestExecutionRecords
         // TODO Implement code to return a set of resources
@@ -241,6 +277,7 @@ public class QMManager {
     {
         List<TestExecutionRecord> resources = null;
         
+        
         // Start of user code TestExecutionRecordSelector
         // TODO Implement code to return a set of resources, based on search criteria 
         // End of user code
@@ -249,6 +286,7 @@ public class QMManager {
     public static TestExecutionRecord createTestExecutionRecord(HttpServletRequest httpServletRequest, final TestExecutionRecord aResource)
     {
         TestExecutionRecord newResource = null;
+        
         
         // Start of user code createTestExecutionRecord
         // TODO Implement code to create a resource
@@ -263,6 +301,7 @@ public class QMManager {
     {
         TestCase aResource = null;
         
+        
         // Start of user code getTestCase
         // TODO Implement code to return a resource
         // End of user code
@@ -273,6 +312,7 @@ public class QMManager {
     public static TestPlan getTestPlan(HttpServletRequest httpServletRequest, final String spSlug, final String id)
     {
         TestPlan aResource = null;
+        
         
         // Start of user code getTestPlan
         aResource = testPlanRepository.getResource(spSlug, id);
@@ -285,6 +325,7 @@ public class QMManager {
     {
         TestScript aResource = null;
         
+        
         // Start of user code getTestScript
         // TODO Implement code to return a resource
         // End of user code
@@ -296,6 +337,7 @@ public class QMManager {
     {
         TestResult aResource = null;
         
+        
         // Start of user code getTestResult
         // TODO Implement code to return a resource
         // End of user code
@@ -306,6 +348,7 @@ public class QMManager {
     public static TestExecutionRecord getTestExecutionRecord(HttpServletRequest httpServletRequest, final String spSlug, final String id)
     {
         TestExecutionRecord aResource = null;
+        
         
         // Start of user code getTestExecutionRecord
         // TODO Implement code to return a resource

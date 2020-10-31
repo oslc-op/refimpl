@@ -118,7 +118,7 @@
       <projectConfiguration xsi:type="oslc4j_ai:MavenProjectConfiguration" doNotGenerateProjectConfigurationFiles="true" lyoVersion="4.0.0-SNAPSHOT" groupId="co.oslc.refimpl.cm.gen" artifactId="cm" version="0.0.1-SNAPSHOT"/>
     </configuration>
   </adaptorInterfaces>
-  <adaptorInterfaces name="QM">
+  <adaptorInterfaces name="QM" swaggerDocumentation="false">
     <serviceProviderCatalog title="Service Provider Catalog" description="Service Provider Catalog">
       <serviceProviders title="QM Service Provider" description="Quality Management Spec Service Provider">
         <services>
@@ -188,13 +188,13 @@
         </services>
       </serviceProviders>
     </serviceProviderCatalog>
-    <webServices name="WsCases" serviceUrlPattern="cases" resourceUrlPattern="{spSlug}-{id}">
+    <webServices name="WsCases" serviceUrlPattern="cases" resourceUrlPattern="{spSlug}.{id}">
       <resourceTypes href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#_pogdspUdEeq-KoPaR9_Cfg"/>
     </webServices>
-    <webServices name="WsPlans" serviceUrlPattern="plans" resourceUrlPattern="{spSlug}-{id}">
+    <webServices name="WsPlans" serviceUrlPattern="plans" resourceUrlPattern="{spSlug}/{id}">
       <resourceTypes href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#_pofPkJUdEeq-KoPaR9_Cfg"/>
     </webServices>
-    <webServices name="WsScripts" serviceUrlPattern="scripts" resourceUrlPattern="{spSlug}-{id}">
+    <webServices name="WsScripts" serviceUrlPattern="scripts" resourceUrlPattern="{spSlug}_{id}">
       <resourceTypes href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#_pojhAJUdEeq-KoPaR9_Cfg"/>
     </webServices>
     <webServices name="WsResults" serviceUrlPattern="results" resourceUrlPattern="{spSlug}-{id}">

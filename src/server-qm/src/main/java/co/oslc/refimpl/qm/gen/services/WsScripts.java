@@ -120,7 +120,7 @@ public class WsScripts
     }
 
     @GET
-    @Path("{spSlug}-{id}")
+    @Path("{spSlug}_{id}")
     @Produces({OslcMediaType.APPLICATION_RDF_XML, OslcMediaType.APPLICATION_JSON_LD, OslcMediaType.TEXT_TURTLE, OslcMediaType.APPLICATION_XML, OslcMediaType.APPLICATION_JSON})
     public TestScript getTestScript(
                 @PathParam("spSlug") final String spSlug, @PathParam("id") final String id
@@ -143,7 +143,7 @@ public class WsScripts
     }
 
     @GET
-    @Path("{spSlug}-{id}")
+    @Path("{spSlug}_{id}")
     @Produces({ MediaType.TEXT_HTML })
     public void getTestScriptAsHtml(
         @PathParam("spSlug") final String spSlug, @PathParam("id") final String id
@@ -168,7 +168,7 @@ public class WsScripts
     }
 
     @GET
-    @Path("{spSlug}-{id}")
+    @Path("{spSlug}_{id}")
     @Produces({OslcMediaType.APPLICATION_X_OSLC_COMPACT_XML})
     public Compact getTestScriptCompact(
         @PathParam("spSlug") final String spSlug, @PathParam("id") final String id
@@ -215,7 +215,7 @@ public class WsScripts
     }
 
     @GET
-    @Path("{spSlug}-{id}/smallPreview")
+    @Path("{spSlug}_{id}/smallPreview")
     @Produces({ MediaType.TEXT_HTML })
     public void getTestScriptAsHtmlSmallPreview(
         @PathParam("spSlug") final String spSlug, @PathParam("id") final String id
@@ -242,7 +242,7 @@ public class WsScripts
     }
 
     @GET
-    @Path("{spSlug}-{id}/largePreview")
+    @Path("{spSlug}_{id}/largePreview")
     @Produces({ MediaType.TEXT_HTML })
     public void getTestScriptAsHtmlLargePreview(
         @PathParam("spSlug") final String spSlug, @PathParam("id") final String id

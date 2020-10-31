@@ -28,13 +28,14 @@
 
 <%@page import="org.eclipse.lyo.oslc4j.core.model.ServiceProvider"%>
 <%@page import="org.eclipse.lyo.oslc4j.core.model.AbstractResource"%>
+<%@page import="org.eclipse.lyo.oslc4j.core.OSLC4JConstants"%>
 <%@page import="java.util.List" %>
 <%@page import="org.eclipse.lyo.oslc.domains.qm.TestCase"%>
 <%@ page contentType="text/html" language="java" pageEncoding="UTF-8" %>
 <%
   List<TestCase> resources = (List<TestCase>) request.getAttribute("resources");
   String queryUri = (String)request.getAttribute("queryUri");
-  String nextPageUri = (String)request.getAttribute("nextPageUri");
+  String nextPageUri = (String)request.getAttribute(OSLC4JConstants.OSLC4J_NEXT_PAGE);
 %>
 <html lang="en">
 <head>
@@ -77,7 +78,7 @@
       </div>
     </div>
         <% for (TestCase aResource : resources) { %>
-        <p><a href="<%= aResource.getAbout() %>" class="oslc-resource-link"><%=aResource.getAbout().toString()%></a><br /></p>
+        <p><a href="<%= aResource.getAbout() %>" class="oslc-resource-link"><%=aResource.toString()%></a><br /></p>
         <% } %>
       </div>
   <footer class="footer">
