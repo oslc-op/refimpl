@@ -267,4 +267,58 @@ public class WsResource
 
         throw new WebApplicationException(Status.NOT_FOUND);
     }
+    @DELETE
+    @Path("{id}")
+    public Response deleteResource(
+                @PathParam("id") final String id
+        ) throws IOException, ServletException, URISyntaxException
+    {
+        // Start of user code deleteResource_init
+        // End of user code
+        final Resource aResource = AMManager.getResource(httpServletRequest, id);
+
+        if (aResource != null) {
+            // Start of user code deleteResource
+            // End of user code
+            boolean deleted = AMManager.deleteResource(httpServletRequest, id);
+            if (deleted)
+                return Response.ok().header(AMConstants.HDR_OSLC_VERSION, AMConstants.OSLC_VERSION_V2).build();
+            else
+                throw new WebApplicationException(Status.INTERNAL_SERVER_ERROR);
+        }
+        throw new WebApplicationException(Status.NOT_FOUND);
+    }
+
+    @PUT
+    @Path("{id}")
+    @Consumes({OslcMediaType.APPLICATION_RDF_XML, OslcMediaType.APPLICATION_JSON_LD, OslcMediaType.TEXT_TURTLE, OslcMediaType.APPLICATION_XML, OslcMediaType.APPLICATION_JSON })
+    public Response updateResource(
+            @HeaderParam("If-Match") final String eTagHeader,
+            @PathParam("id") final String id ,
+            final Resource aResource
+        ) throws IOException, ServletException
+    {
+        // Start of user code updateResource_init
+        // End of user code
+        final Resource originalResource = AMManager.getResource(httpServletRequest, id);
+
+        if (originalResource != null) {
+            final String originalETag = AMManager.getETagFromResource(originalResource);
+
+            if ((eTagHeader == null) || (originalETag.equals(eTagHeader))) {
+                // Start of user code updateResource
+                // End of user code
+                final Resource updatedResource = AMManager.updateResource(httpServletRequest, aResource, id);
+                httpServletResponse.setHeader("ETag", AMManager.getETagFromResource(updatedResource));
+                return Response.ok().header(AMConstants.HDR_OSLC_VERSION, AMConstants.OSLC_VERSION_V2).build();
+            }
+            else {
+                throw new WebApplicationException(Status.PRECONDITION_FAILED);
+            }
+        }
+        else {
+            throw new WebApplicationException(Status.NOT_FOUND);
+        }
+    }
+
 }

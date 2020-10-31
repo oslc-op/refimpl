@@ -267,4 +267,58 @@ public class WsPlans
 
         throw new WebApplicationException(Status.NOT_FOUND);
     }
+    @DELETE
+    @Path("{spSlug}/{id}")
+    public Response deleteTestPlan(
+                @PathParam("spSlug") final String spSlug, @PathParam("id") final String id
+        ) throws IOException, ServletException, URISyntaxException
+    {
+        // Start of user code deleteTestPlan_init
+        // End of user code
+        final TestPlan aResource = QMManager.getTestPlan(httpServletRequest, spSlug, id);
+
+        if (aResource != null) {
+            // Start of user code deleteTestPlan
+            // End of user code
+            boolean deleted = QMManager.deleteTestPlan(httpServletRequest, spSlug, id);
+            if (deleted)
+                return Response.ok().header(QMConstants.HDR_OSLC_VERSION, QMConstants.OSLC_VERSION_V2).build();
+            else
+                throw new WebApplicationException(Status.INTERNAL_SERVER_ERROR);
+        }
+        throw new WebApplicationException(Status.NOT_FOUND);
+    }
+
+    @PUT
+    @Path("{spSlug}/{id}")
+    @Consumes({OslcMediaType.APPLICATION_RDF_XML, OslcMediaType.APPLICATION_JSON_LD, OslcMediaType.TEXT_TURTLE, OslcMediaType.APPLICATION_XML, OslcMediaType.APPLICATION_JSON })
+    public Response updateTestPlan(
+            @HeaderParam("If-Match") final String eTagHeader,
+            @PathParam("spSlug") final String spSlug, @PathParam("id") final String id ,
+            final TestPlan aResource
+        ) throws IOException, ServletException
+    {
+        // Start of user code updateTestPlan_init
+        // End of user code
+        final TestPlan originalResource = QMManager.getTestPlan(httpServletRequest, spSlug, id);
+
+        if (originalResource != null) {
+            final String originalETag = QMManager.getETagFromTestPlan(originalResource);
+
+            if ((eTagHeader == null) || (originalETag.equals(eTagHeader))) {
+                // Start of user code updateTestPlan
+                // End of user code
+                final TestPlan updatedResource = QMManager.updateTestPlan(httpServletRequest, aResource, spSlug, id);
+                httpServletResponse.setHeader("ETag", QMManager.getETagFromTestPlan(updatedResource));
+                return Response.ok().header(QMConstants.HDR_OSLC_VERSION, QMConstants.OSLC_VERSION_V2).build();
+            }
+            else {
+                throw new WebApplicationException(Status.PRECONDITION_FAILED);
+            }
+        }
+        else {
+            throw new WebApplicationException(Status.NOT_FOUND);
+        }
+    }
+
 }

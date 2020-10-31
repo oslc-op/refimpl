@@ -188,19 +188,19 @@
         </services>
       </serviceProviders>
     </serviceProviderCatalog>
-    <webServices name="WsCases" serviceUrlPattern="cases" resourceUrlPattern="{spSlug}.{id}">
+    <webServices name="WsCases" serviceUrlPattern="cases" resourceUrlPattern="{spSlug}.{id}" delete="true" update="true">
       <resourceTypes href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#_pogdspUdEeq-KoPaR9_Cfg"/>
     </webServices>
-    <webServices name="WsPlans" serviceUrlPattern="plans" resourceUrlPattern="{spSlug}/{id}">
+    <webServices name="WsPlans" serviceUrlPattern="plans" resourceUrlPattern="{spSlug}/{id}" delete="true" update="true">
       <resourceTypes href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#_pofPkJUdEeq-KoPaR9_Cfg"/>
     </webServices>
-    <webServices name="WsScripts" serviceUrlPattern="scripts" resourceUrlPattern="{spSlug}_{id}">
+    <webServices name="WsScripts" serviceUrlPattern="scripts" resourceUrlPattern="{spSlug}_{id}" delete="true" update="true">
       <resourceTypes href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#_pojhAJUdEeq-KoPaR9_Cfg"/>
     </webServices>
-    <webServices name="WsResults" serviceUrlPattern="results" resourceUrlPattern="{spSlug}-{id}">
+    <webServices name="WsResults" serviceUrlPattern="results" resourceUrlPattern="{spSlug}-{id}" delete="true" update="true">
       <resourceTypes href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#_pokIEZUdEeq-KoPaR9_Cfg"/>
     </webServices>
-    <webServices name="WsExecRecords" serviceUrlPattern="exec-records" resourceUrlPattern="{spSlug}-{id}">
+    <webServices name="WsExecRecords" serviceUrlPattern="exec-records" resourceUrlPattern="{spSlug}-{id}" delete="true" update="true">
       <resourceTypes href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#_poiS4JUdEeq-KoPaR9_Cfg"/>
     </webServices>
     <specification/>
@@ -241,10 +241,10 @@
         </services>
       </serviceProviders>
     </serviceProviderCatalog>
-    <webServices name="WsResource" serviceUrlPattern="resource" resourceUrlPattern="{id}">
+    <webServices name="WsResource" serviceUrlPattern="resource" resourceUrlPattern="{id}" delete="true" update="true">
       <resourceTypes href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#_popnoJUdEeq-KoPaR9_Cfg"/>
     </webServices>
-    <webServices name="WsLinkType" serviceUrlPattern="lt" resourceUrlPattern="{id}">
+    <webServices name="WsLinkType" serviceUrlPattern="lt" resourceUrlPattern="{id}" delete="true" update="true">
       <resourceTypes href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#_porc0ZUdEeq-KoPaR9_Cfg"/>
     </webServices>
     <specification/>

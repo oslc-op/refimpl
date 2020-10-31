@@ -28,7 +28,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.ServletContextEvent;
 import java.util.List;
 import java.util.ArrayList;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -198,7 +197,26 @@ public class AMManager {
         return aResource;
     }
 
+    public static Boolean deleteResource(HttpServletRequest httpServletRequest, final String id)
+    {
+        Boolean deleted = false;
+        
+        // Start of user code deleteResource
+        // TODO Implement code to delete a resource
+        // If you encounter problems, consider throwing the runtime exception WebApplicationException(message, cause, final httpStatus)
+        // End of user code
+        return deleted;
+    }
 
+    public static Resource updateResource(HttpServletRequest httpServletRequest, final Resource aResource, final String id) {
+        Resource updatedResource = null;
+        
+        // Start of user code updateResource
+        // TODO Implement code to update and return a resource
+        // If you encounter problems, consider throwing the runtime exception WebApplicationException(message, cause, final httpStatus)
+        // End of user code
+        return updatedResource;
+    }
     public static LinkType getLinkType(HttpServletRequest httpServletRequest, final String id)
     {
         LinkType aResource = null;
@@ -211,7 +229,26 @@ public class AMManager {
         return aResource;
     }
 
+    public static Boolean deleteLinkType(HttpServletRequest httpServletRequest, final String id)
+    {
+        Boolean deleted = false;
+        
+        // Start of user code deleteLinkType
+        // TODO Implement code to delete a resource
+        // If you encounter problems, consider throwing the runtime exception WebApplicationException(message, cause, final httpStatus)
+        // End of user code
+        return deleted;
+    }
 
+    public static LinkType updateLinkType(HttpServletRequest httpServletRequest, final LinkType aResource, final String id) {
+        LinkType updatedResource = null;
+        
+        // Start of user code updateLinkType
+        // TODO Implement code to update and return a resource
+        // If you encounter problems, consider throwing the runtime exception WebApplicationException(message, cause, final httpStatus)
+        // End of user code
+        return updatedResource;
+    }
 
     public static String getETagFromLinkType(final LinkType aResource)
     {

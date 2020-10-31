@@ -267,4 +267,58 @@ public class WsCases
 
         throw new WebApplicationException(Status.NOT_FOUND);
     }
+    @DELETE
+    @Path("{spSlug}.{id}")
+    public Response deleteTestCase(
+                @PathParam("spSlug") final String spSlug, @PathParam("id") final String id
+        ) throws IOException, ServletException, URISyntaxException
+    {
+        // Start of user code deleteTestCase_init
+        // End of user code
+        final TestCase aResource = QMManager.getTestCase(httpServletRequest, spSlug, id);
+
+        if (aResource != null) {
+            // Start of user code deleteTestCase
+            // End of user code
+            boolean deleted = QMManager.deleteTestCase(httpServletRequest, spSlug, id);
+            if (deleted)
+                return Response.ok().header(QMConstants.HDR_OSLC_VERSION, QMConstants.OSLC_VERSION_V2).build();
+            else
+                throw new WebApplicationException(Status.INTERNAL_SERVER_ERROR);
+        }
+        throw new WebApplicationException(Status.NOT_FOUND);
+    }
+
+    @PUT
+    @Path("{spSlug}.{id}")
+    @Consumes({OslcMediaType.APPLICATION_RDF_XML, OslcMediaType.APPLICATION_JSON_LD, OslcMediaType.TEXT_TURTLE, OslcMediaType.APPLICATION_XML, OslcMediaType.APPLICATION_JSON })
+    public Response updateTestCase(
+            @HeaderParam("If-Match") final String eTagHeader,
+            @PathParam("spSlug") final String spSlug, @PathParam("id") final String id ,
+            final TestCase aResource
+        ) throws IOException, ServletException
+    {
+        // Start of user code updateTestCase_init
+        // End of user code
+        final TestCase originalResource = QMManager.getTestCase(httpServletRequest, spSlug, id);
+
+        if (originalResource != null) {
+            final String originalETag = QMManager.getETagFromTestCase(originalResource);
+
+            if ((eTagHeader == null) || (originalETag.equals(eTagHeader))) {
+                // Start of user code updateTestCase
+                // End of user code
+                final TestCase updatedResource = QMManager.updateTestCase(httpServletRequest, aResource, spSlug, id);
+                httpServletResponse.setHeader("ETag", QMManager.getETagFromTestCase(updatedResource));
+                return Response.ok().header(QMConstants.HDR_OSLC_VERSION, QMConstants.OSLC_VERSION_V2).build();
+            }
+            else {
+                throw new WebApplicationException(Status.PRECONDITION_FAILED);
+            }
+        }
+        else {
+            throw new WebApplicationException(Status.NOT_FOUND);
+        }
+    }
+
 }

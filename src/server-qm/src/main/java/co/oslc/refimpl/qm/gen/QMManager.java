@@ -338,7 +338,26 @@ public class QMManager {
         return aResource;
     }
 
+    public static Boolean deleteTestCase(HttpServletRequest httpServletRequest, final String spSlug, final String id)
+    {
+        Boolean deleted = false;
+        
+        // Start of user code deleteTestCase
+        // TODO Implement code to delete a resource
+        // If you encounter problems, consider throwing the runtime exception WebApplicationException(message, cause, final httpStatus)
+        // End of user code
+        return deleted;
+    }
 
+    public static TestCase updateTestCase(HttpServletRequest httpServletRequest, final TestCase aResource, final String spSlug, final String id) {
+        TestCase updatedResource = null;
+        
+        // Start of user code updateTestCase
+        // TODO Implement code to update and return a resource
+        // If you encounter problems, consider throwing the runtime exception WebApplicationException(message, cause, final httpStatus)
+        // End of user code
+        return updatedResource;
+    }
     public static TestPlan getTestPlan(HttpServletRequest httpServletRequest, final String spSlug, final String id)
     {
         TestPlan aResource = null;
@@ -352,7 +371,26 @@ public class QMManager {
         return aResource;
     }
 
+    public static Boolean deleteTestPlan(HttpServletRequest httpServletRequest, final String spSlug, final String id)
+    {
+        Boolean deleted = false;
+        
+        // Start of user code deleteTestPlan
+        // TODO Implement code to delete a resource
+        // If you encounter problems, consider throwing the runtime exception WebApplicationException(message, cause, final httpStatus)
+        // End of user code
+        return deleted;
+    }
 
+    public static TestPlan updateTestPlan(HttpServletRequest httpServletRequest, final TestPlan aResource, final String spSlug, final String id) {
+        TestPlan updatedResource = null;
+        
+        // Start of user code updateTestPlan
+        // TODO Implement code to update and return a resource
+        // If you encounter problems, consider throwing the runtime exception WebApplicationException(message, cause, final httpStatus)
+        // End of user code
+        return updatedResource;
+    }
     public static TestScript getTestScript(HttpServletRequest httpServletRequest, final String spSlug, final String id)
     {
         TestScript aResource = null;
@@ -366,7 +404,26 @@ public class QMManager {
         return aResource;
     }
 
+    public static Boolean deleteTestScript(HttpServletRequest httpServletRequest, final String spSlug, final String id)
+    {
+        Boolean deleted = false;
+        
+        // Start of user code deleteTestScript
+        // TODO Implement code to delete a resource
+        // If you encounter problems, consider throwing the runtime exception WebApplicationException(message, cause, final httpStatus)
+        // End of user code
+        return deleted;
+    }
 
+    public static TestScript updateTestScript(HttpServletRequest httpServletRequest, final TestScript aResource, final String spSlug, final String id) {
+        TestScript updatedResource = null;
+        
+        // Start of user code updateTestScript
+        // TODO Implement code to update and return a resource
+        // If you encounter problems, consider throwing the runtime exception WebApplicationException(message, cause, final httpStatus)
+        // End of user code
+        return updatedResource;
+    }
     public static TestResult getTestResult(HttpServletRequest httpServletRequest, final String spSlug, final String id)
     {
         TestResult aResource = null;
@@ -380,7 +437,26 @@ public class QMManager {
         return aResource;
     }
 
+    public static Boolean deleteTestResult(HttpServletRequest httpServletRequest, final String spSlug, final String id)
+    {
+        Boolean deleted = false;
+        
+        // Start of user code deleteTestResult
+        // TODO Implement code to delete a resource
+        // If you encounter problems, consider throwing the runtime exception WebApplicationException(message, cause, final httpStatus)
+        // End of user code
+        return deleted;
+    }
 
+    public static TestResult updateTestResult(HttpServletRequest httpServletRequest, final TestResult aResource, final String spSlug, final String id) {
+        TestResult updatedResource = null;
+        
+        // Start of user code updateTestResult
+        // TODO Implement code to update and return a resource
+        // If you encounter problems, consider throwing the runtime exception WebApplicationException(message, cause, final httpStatus)
+        // End of user code
+        return updatedResource;
+    }
     public static TestExecutionRecord getTestExecutionRecord(HttpServletRequest httpServletRequest, final String spSlug, final String id)
     {
         TestExecutionRecord aResource = null;
@@ -392,7 +468,26 @@ public class QMManager {
         return aResource;
     }
 
+    public static Boolean deleteTestExecutionRecord(HttpServletRequest httpServletRequest, final String spSlug, final String id)
+    {
+        Boolean deleted = false;
+        
+        // Start of user code deleteTestExecutionRecord
+        // TODO Implement code to delete a resource
+        // If you encounter problems, consider throwing the runtime exception WebApplicationException(message, cause, final httpStatus)
+        // End of user code
+        return deleted;
+    }
 
+    public static TestExecutionRecord updateTestExecutionRecord(HttpServletRequest httpServletRequest, final TestExecutionRecord aResource, final String spSlug, final String id) {
+        TestExecutionRecord updatedResource = null;
+        
+        // Start of user code updateTestExecutionRecord
+        // TODO Implement code to update and return a resource
+        // If you encounter problems, consider throwing the runtime exception WebApplicationException(message, cause, final httpStatus)
+        // End of user code
+        return updatedResource;
+    }
 
     public static String getETagFromTestCase(final TestCase aResource)
     {
