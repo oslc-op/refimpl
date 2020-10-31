@@ -11,4 +11,7 @@ public interface ResourceRepository <R extends AbstractResource> {
     R getResource(String serviceProvider, String id);
     void deleteResource(String serviceProvider, String id);
     boolean hasResource(String serviceProvider, String id);
+    String calculateETag(R resource);
+
+    List<R> findResources(String serviceProvider, String terms, int limit);
 }

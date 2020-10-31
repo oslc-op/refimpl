@@ -157,6 +157,20 @@ fun genTestExecutionRecord(sp: ServiceProvider, id: Int, max:Int): TestExecution
     return r
 }
 
+fun genTestScript(sp: ServiceProvider, id: Int, max:Int): TestScript {
+    val r = TestScript()
+    val faker = Faker()
+    val idStr = faker.code().asin()
+    val t = "TS-$idStr"
+    r.apply {
+        title = t
+        identifier = idStr
+        created = Date()
+        description = faker.company().bs() + " AND " + faker.company().bs()
+    }
+    return r
+}
+
 fun genAMResource(sp: ServiceProvider, id: Int, max:Int): Resource {
     val r = Resource()
     val faker = Faker()

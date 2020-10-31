@@ -4,10 +4,7 @@ import kotlinx.coroutines.*
 import org.eclipse.lyo.oslc.domains.am.LinkType
 import org.eclipse.lyo.oslc.domains.am.Resource
 import org.eclipse.lyo.oslc.domains.cm.ChangeRequest
-import org.eclipse.lyo.oslc.domains.qm.TestCase
-import org.eclipse.lyo.oslc.domains.qm.TestExecutionRecord
-import org.eclipse.lyo.oslc.domains.qm.TestPlan
-import org.eclipse.lyo.oslc.domains.qm.TestResult
+import org.eclipse.lyo.oslc.domains.qm.*
 import org.eclipse.lyo.oslc.domains.rm.Requirement
 import org.eclipse.lyo.oslc.domains.rm.RequirementCollection
 import org.eclipse.lyo.oslc4j.client.OslcClient
@@ -54,7 +51,10 @@ fun main() {
             CreationFactoryPopulator(client, qmTraverser, N_RESOURCES,
                     SimpleResourceGen(::genTestResult), TestResult::class.java),
             CreationFactoryPopulator(client, qmTraverser, N_RESOURCES,
-                    SimpleResourceGen(::genTestExecutionRecord), TestExecutionRecord::class.java)
+                    SimpleResourceGen(::genTestExecutionRecord), TestExecutionRecord::class.java),
+            CreationFactoryPopulator(client, qmTraverser, N_RESOURCES,
+                    SimpleResourceGen(::genTestScript), TestScript::class.java)
+
     )
     qmGenerators.forEach { it.populate() }
 

@@ -77,6 +77,7 @@ public class QMManager {
     private static final ResourceRepository<TestResult> testResultRepository = new MemResourceRepository<>();
     private static final ResourceRepository<TestScript> testScriptRepository = new MemResourceRepository<>();
     public static final String SP_DEFAULT = "SP";
+    public static final int SELECTOR_LIMIT = 30;
     // End of user code
     
     
@@ -129,7 +130,7 @@ public class QMManager {
         
         
         // Start of user code TestCaseSelector
-        // TODO Implement code to return a set of resources, based on search criteria 
+        resources = testCaseRepository.findResources(SP_DEFAULT, terms, SELECTOR_LIMIT);
         // End of user code
         return resources;
     }
@@ -171,7 +172,7 @@ public class QMManager {
         
         
         // Start of user code TestPlanSelector
-        // TODO Implement code to return a set of resources, based on search criteria 
+        resources = testPlanRepository.findResources(SP_DEFAULT, terms, SELECTOR_LIMIT);
         // End of user code
         return resources;
     }
@@ -203,7 +204,7 @@ public class QMManager {
         
         
         // Start of user code queryTestScripts
-        // TODO Implement code to return a set of resources
+        resources = testScriptRepository.fetchResourcePageForSP(SP_DEFAULT, page, limit);
         // End of user code
         return resources;
     }
@@ -213,7 +214,7 @@ public class QMManager {
         
         
         // Start of user code TestScriptSelector
-        // TODO Implement code to return a set of resources, based on search criteria 
+        resources = testScriptRepository.findResources(SP_DEFAULT, terms, SELECTOR_LIMIT);
         // End of user code
         return resources;
     }
@@ -245,7 +246,7 @@ public class QMManager {
         
         
         // Start of user code queryTestResults
-        // TODO Implement code to return a set of resources
+        resources = testResultRepository.fetchResourcePageForSP(SP_DEFAULT, page, limit);
         // End of user code
         return resources;
     }
@@ -255,7 +256,7 @@ public class QMManager {
         
         
         // Start of user code TestResultSelector
-        // TODO Implement code to return a set of resources, based on search criteria 
+        resources = testResultRepository.findResources(SP_DEFAULT, terms, SELECTOR_LIMIT);
         // End of user code
         return resources;
     }
@@ -287,7 +288,7 @@ public class QMManager {
         
         
         // Start of user code queryTestExecutionRecords
-        // TODO Implement code to return a set of resources
+        resources = testExecutionRecordRepository.fetchResourcePageForSP(SP_DEFAULT, page, limit);
         // End of user code
         return resources;
     }
@@ -297,7 +298,7 @@ public class QMManager {
         
         
         // Start of user code TestExecutionRecordSelector
-        // TODO Implement code to return a set of resources, based on search criteria 
+        resources = testExecutionRecordRepository.findResources(SP_DEFAULT, terms, SELECTOR_LIMIT);
         // End of user code
         return resources;
     }
@@ -397,7 +398,7 @@ public class QMManager {
     {
         String eTag = null;
         // Start of user code getETagFromTestCase
-        // TODO Implement code to return an ETag for a particular resource
+        eTag = testCaseRepository.calculateETag(aResource);
         // End of user code
         return eTag;
     }
@@ -405,7 +406,7 @@ public class QMManager {
     {
         String eTag = null;
         // Start of user code getETagFromTestExecutionRecord
-        // TODO Implement code to return an ETag for a particular resource
+        eTag = testExecutionRecordRepository.calculateETag(aResource);
         // End of user code
         return eTag;
     }
@@ -413,7 +414,7 @@ public class QMManager {
     {
         String eTag = null;
         // Start of user code getETagFromTestPlan
-        // TODO Implement code to return an ETag for a particular resource
+        eTag = testPlanRepository.calculateETag(aResource);
         // End of user code
         return eTag;
     }
@@ -421,7 +422,7 @@ public class QMManager {
     {
         String eTag = null;
         // Start of user code getETagFromTestResult
-        // TODO Implement code to return an ETag for a particular resource
+        eTag = testResultRepository.calculateETag(aResource);
         // End of user code
         return eTag;
     }
@@ -429,7 +430,7 @@ public class QMManager {
     {
         String eTag = null;
         // Start of user code getETagFromTestScript
-        // TODO Implement code to return an ETag for a particular resource
+        eTag = testScriptRepository.calculateETag(aResource);
         // End of user code
         return eTag;
     }

@@ -1,7 +1,18 @@
 package co.oslc.refimpl.lib;
 
+import org.apache.jena.rdf.model.Model;
+import org.apache.jena.riot.RDFDataMgr;
+import org.apache.jena.riot.RDFFormat;
+import org.eclipse.lyo.oslc4j.core.exception.OslcCoreApplicationException;
 import org.eclipse.lyo.oslc4j.core.model.AbstractResource;
+import org.eclipse.lyo.oslc4j.provider.jena.JenaModelHelper;
 
+import javax.xml.bind.DatatypeConverter;
+import javax.xml.datatype.DatatypeConfigurationException;
+import java.io.StringWriter;
+import java.lang.reflect.InvocationTargetException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -20,6 +31,14 @@ public class MemResourceRepository<R extends AbstractResource> implements Resour
         return new ArrayList<>(resources.getOrDefault(serviceProvider, new HashMap<>()).values());
     }
 
+    /**
+     * @param serviceProvider
+     * @param page
+     *         0-indexed
+     * @param pageSize
+     *         pageSize+1 results will be returned if this is not the last page
+     * @return
+     */
     @Override
     public List<R> fetchResourcePageForSP(String serviceProvider, int page, int pageSize) {
         Map<String, R> rs = resources.getOrDefault(serviceProvider, new HashMap<>());
@@ -70,5 +89,39 @@ public class MemResourceRepository<R extends AbstractResource> implements Resour
         }
         R resource = rMap.get(id);
         return resource != null;
+    }
+
+    private String md5(String rdf) {
+        try {
+            MessageDigest md = MessageDigest.getInstance("MD5");
+            md.update(rdf.getBytes());
+            byte[] digest = md.digest();
+            return DatatypeConverter.printHexBinary(digest).toUpperCase();
+        } catch (NoSuchAlgorithmException e) {
+            throw new IllegalStateException(e);
+        }
+    }
+
+    @Override
+    public String calculateETag(R resource) {
+        StringWriter writer = new StringWriter(1000);
+        try {
+            // TODO: 2020-10-31 consider caching this value to reduce computational cost
+            Model resourceModel = JenaModelHelper.createJenaModel(new AbstractResource[]{resource});
+            RDFDataMgr.write(writer, resourceModel, RDFFormat.NTRIPLES);
+            // MD5 is insecure but this use is not security-related
+            return md5(writer.toString());
+        } catch (DatatypeConfigurationException | IllegalAccessException |
+                InvocationTargetException | OslcCoreApplicationException e) {
+            throw new IllegalArgumentException(e);
+        }
+    }
+
+    @Override
+    public List<R> findResources(String serviceProvider, String terms, int limit) {
+        return fetchResourcePageForSP(serviceProvider, 0, limit)
+                .stream()
+                .filter(r -> r.toString().contains(terms))
+                .collect(Collectors.toList());
     }
 }
