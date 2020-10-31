@@ -2,6 +2,7 @@ package co.oslc.refimpl.client
 
 import org.eclipse.lyo.oslc.domains.cm.ChangeRequest
 import org.eclipse.lyo.oslc.domains.qm.TestCase
+import org.eclipse.lyo.oslc.domains.qm.TestPlan
 import org.eclipse.lyo.oslc.domains.qm.TestScript
 import org.eclipse.lyo.oslc.domains.rm.Requirement
 import org.eclipse.lyo.oslc.domains.rm.RequirementCollection
@@ -27,8 +28,6 @@ class RequirementCollGen: RandomResourceGen<RequirementCollection> {
         TODO("Not yet implemented")
     }
 }
-
-class TestPlan
 
 fun genRequirementColl(sp: ServiceProvider, id: Int, max:Int): RequirementCollection {
     val r = RequirementCollection()
@@ -78,14 +77,13 @@ class ChangeRequestGen(private val requirements: List<Link>) : RandomResourceGen
     }
 }
 
-/**
+/*
+ * Order:
  * Script
  * Case
  * Plan
  * Result or ExecutionRecord
  */
-
-
 class TestScriptGen(private val requirements: List<Link>,
                     private val changeRequests: List<Link>) : RandomResourceGen<TestScript> {
     override fun generate(sp: ServiceProvider, n: Int): List<TestScript> {
@@ -106,18 +104,18 @@ class TestScriptGen(private val requirements: List<Link>,
     }
 }
 
-//fun genPlan(sp: ServiceProvider, id: Int, max:Int): TestPlan {
-//    val r = TestPlan()
-//    r.apply {
-//        title = "Test Plan no. $id"
-//        created = Date()
-//        // TODO: 2020-04-02 set more fields
-//        // TODO: 2020-04-02 find a way to link resources
-//
-//    }
-//    return r
-//}
-//
+fun genPlan(sp: ServiceProvider, id: Int, max:Int): TestPlan {
+    val r = TestPlan()
+    r.apply {
+        title = "Test Plan no. $id"
+        created = Date()
+        // TODO: 2020-04-02 set more fields
+        // TODO: 2020-04-02 find a way to link resources
+
+    }
+    return r
+}
+
 
 
 class TestCaseGen(private val requirements: List<Link>,

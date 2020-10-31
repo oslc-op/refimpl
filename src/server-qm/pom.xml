@@ -21,6 +21,10 @@
       <artifactId>slf4j-simple</artifactId>
       <scope>runtime</scope>
     </dependency>
+    <dependency>
+      <groupId>co.oslc.refimpl</groupId>
+      <artifactId>lib-common</artifactId>
+    </dependency>
     <!-- <dependency>
       <groupId>io.swagger</groupId>
       <artifactId>swagger-jaxrs</artifactId>

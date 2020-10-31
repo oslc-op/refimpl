@@ -26,22 +26,11 @@ package co.oslc.refimpl.qm.gen;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.ServletContextEvent;
+import java.net.URI;
+import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
-import org.eclipse.lyo.oslc4j.core.model.ServiceProvider;
-import org.eclipse.lyo.oslc4j.core.model.AbstractResource;
-import co.oslc.refimpl.qm.gen.servlet.ServiceProviderCatalogSingleton;
-import co.oslc.refimpl.qm.gen.ServiceProviderInfo;
-import org.eclipse.lyo.oslc.domains.Agent;
-import org.eclipse.lyo.oslc.domains.cm.ChangeRequest;
-import org.eclipse.lyo.oslc.domains.config.ChangeSet;
-import org.eclipse.lyo.oslc.domains.cm.Defect;
-import org.eclipse.lyo.oslc4j.core.model.Discussion;
-import org.eclipse.lyo.oslc.domains.Person;
-import org.eclipse.lyo.oslc.domains.cm.Priority;
-import org.eclipse.lyo.oslc.domains.rm.Requirement;
-import org.eclipse.lyo.oslc.domains.rm.RequirementCollection;
-import org.eclipse.lyo.oslc.domains.cm.State;
 import org.eclipse.lyo.oslc.domains.qm.TestCase;
 import org.eclipse.lyo.oslc.domains.qm.TestExecutionRecord;
 import org.eclipse.lyo.oslc.domains.qm.TestPlan;
@@ -50,6 +39,8 @@ import org.eclipse.lyo.oslc.domains.qm.TestScript;
 
 
 // Start of user code imports
+import co.oslc.refimpl.lib.MemResourceRepository;
+import co.oslc.refimpl.lib.ResourceRepository;
 // End of user code
 
 // Start of user code pre_class_code
@@ -58,6 +49,12 @@ import org.eclipse.lyo.oslc.domains.qm.TestScript;
 public class QMManager {
 
     // Start of user code class_attributes
+    private static final ResourceRepository<TestCase> testCaseRepository = new MemResourceRepository<>();
+    private static final ResourceRepository<TestExecutionRecord> testExecutionRecordRepository = new MemResourceRepository<>();
+    private static final ResourceRepository<TestPlan> testPlanRepository = new MemResourceRepository<>();
+    private static final ResourceRepository<TestResult> testResultRepository = new MemResourceRepository<>();
+    private static final ResourceRepository<TestScript> testScriptRepository = new MemResourceRepository<>();
+    public static final String SP_DEFAULT = "SP";
     // End of user code
     
     
@@ -86,8 +83,8 @@ public class QMManager {
         
         // Start of user code "ServiceProviderInfo[] getServiceProviderInfos(...)"
         ServiceProviderInfo providerInfo = new ServiceProviderInfo();
-        providerInfo.name = "Dummy";
-        providerInfo.serviceProviderId = "dummy";
+        providerInfo.name = SP_DEFAULT;
+        providerInfo.serviceProviderId = "Default SP";
         serviceProviderInfos = new ServiceProviderInfo[] {providerInfo};
         // End of user code
         return serviceProviderInfos;
@@ -116,7 +113,16 @@ public class QMManager {
         TestCase newResource = null;
         
         // Start of user code createTestCase
-        // TODO Implement code to create a resource
+        String id = aResource.getIdentifier();
+        if(id == null) {
+            id = UUID.randomUUID().toString();
+            aResource.setIdentifier(id);
+        }
+        URI uri = QMResourcesFactory.constructURIForTestCase(SP_DEFAULT, id);
+        aResource.setAbout(uri);
+        aResource.setCreated(new Date());
+        testCaseRepository.addResource(SP_DEFAULT, id, aResource);
+        newResource = aResource;
         // End of user code
         return newResource;
     }
@@ -146,6 +152,15 @@ public class QMManager {
         TestPlan newResource = null;
         
         // Start of user code createTestPlan
+        String id = aResource.getIdentifier();
+        if(id == null) {
+            id = UUID.randomUUID().toString();
+            aResource.setIdentifier(id);
+        }
+        URI uri = QMResourcesFactory.constructURIForTestPlan(SP_DEFAULT, id);
+        aResource.setAbout(uri);
+        aResource.setCreated(new Date());
+        testPlanRepository.addResource(SP_DEFAULT, id, aResource);
         newResource = aResource;
         // End of user code
         return newResource;
@@ -260,7 +275,7 @@ public class QMManager {
         TestPlan aResource = null;
         
         // Start of user code getTestPlan
-        // TODO Implement code to return a resource
+        aResource = testPlanRepository.getResource(spSlug, id);
         // End of user code
         return aResource;
     }

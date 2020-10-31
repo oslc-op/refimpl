@@ -17,6 +17,7 @@ import kotlin.system.measureNanoTime
 
 private val SPC_RM = "http://localhost:8800/services/catalog/singleton"
 private val SPC_CM = "http://localhost:8801/services/catalog/singleton"
+private val SPC_QM = "http://localhost:8802/services/catalog/singleton"
 
 fun main() {
     println("Populating OSLC RefImpl servers with sample data.\n")
@@ -35,10 +36,10 @@ fun main() {
             ChangeRequest::class.java)
     chReqPopulator.populate()
 
-//    val qmTraverser = ServiceProviderCatalogTraverser("http://localhost:8802/services/catalog/singleton", client)
-//    var planPopulator = CreationFactoryPopulator(client, qmTraverser, 30,
-//            SimpleResourceGen(::genPlan), TestPlan::class.java)
-//    planPopulator.populate()
+    val qmTraverser = ServiceProviderCatalogTraverser(SPC_QM, client)
+    var planPopulator = CreationFactoryPopulator(client, qmTraverser, 30,
+            SimpleResourceGen(::genPlan), TestPlan::class.java)
+    planPopulator.populate()
 
 }
 
