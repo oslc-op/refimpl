@@ -82,7 +82,7 @@
 <!-- Begin page content -->
 <div class="container">
     <div class="page-header">
-        <h1>LinkType: <%= aLinkType.toString() %></h1>
+        <h1><%= aLinkType.toString() %></h1>
         <%
         URI shapeUri = UriBuilder.fromUri(OSLC4JUtils.getServletURI()).path(OslcConstants.PATH_RESOURCE_SHAPES).path(Oslc_amDomainConstants.LINKTYPE_PATH).build();
         Collection<URI> types = aLinkType.getTypes();   

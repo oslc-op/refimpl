@@ -177,6 +177,7 @@ fun genAMLink(sp: ServiceProvider, id: Int, max:Int): LinkType {
     val t = "ALi-$idStr"
     r.apply {
         identifier = idStr
+        label = t
         created = Date()
         comment = faker.chuckNorris().fact()
     }
