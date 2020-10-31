@@ -2,10 +2,7 @@ package co.oslc.refimpl.client
 
 import com.github.javafaker.Faker
 import org.eclipse.lyo.oslc.domains.cm.ChangeRequest
-import org.eclipse.lyo.oslc.domains.qm.TestCase
-import org.eclipse.lyo.oslc.domains.qm.TestPlan
-import org.eclipse.lyo.oslc.domains.qm.TestResult
-import org.eclipse.lyo.oslc.domains.qm.TestScript
+import org.eclipse.lyo.oslc.domains.qm.*
 import org.eclipse.lyo.oslc.domains.rm.Requirement
 import org.eclipse.lyo.oslc.domains.rm.RequirementCollection
 import org.eclipse.lyo.oslc4j.core.model.AbstractResource
@@ -145,6 +142,18 @@ fun genTestResult(sp: ServiceProvider, id: Int, max:Int): TestResult {
     return r
 }
 
+fun genTestExecutionRecord(sp: ServiceProvider, id: Int, max:Int): TestExecutionRecord {
+    val r = TestExecutionRecord()
+    val faker = Faker()
+    val idStr = faker.code().asin()
+    val t = "TExR-$idStr"
+    r.apply {
+        title = t
+        identifier = idStr
+        created = Date()
+    }
+    return r
+}
 
 class TestCaseGen(private val requirements: List<Link>,
                     private val changeRequests: List<Link>,

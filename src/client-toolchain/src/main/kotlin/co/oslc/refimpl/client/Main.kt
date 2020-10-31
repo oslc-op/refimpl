@@ -3,6 +3,7 @@ package co.oslc.refimpl.client
 import kotlinx.coroutines.*
 import org.eclipse.lyo.oslc.domains.cm.ChangeRequest
 import org.eclipse.lyo.oslc.domains.qm.TestCase
+import org.eclipse.lyo.oslc.domains.qm.TestExecutionRecord
 import org.eclipse.lyo.oslc.domains.qm.TestPlan
 import org.eclipse.lyo.oslc.domains.qm.TestResult
 import org.eclipse.lyo.oslc.domains.rm.Requirement
@@ -46,8 +47,9 @@ fun main() {
             CreationFactoryPopulator(client, qmTraverser, 30,
                     SimpleResourceGen(::genTestCase), TestCase::class.java),
             CreationFactoryPopulator(client, qmTraverser, 30,
-                    SimpleResourceGen(::genTestResult), TestResult::class.java)
-
+                    SimpleResourceGen(::genTestResult), TestResult::class.java),
+            CreationFactoryPopulator(client, qmTraverser, 30,
+                    SimpleResourceGen(::genTestExecutionRecord), TestExecutionRecord::class.java)
     )
     qmGenerators.forEach { it.populate() }
 
