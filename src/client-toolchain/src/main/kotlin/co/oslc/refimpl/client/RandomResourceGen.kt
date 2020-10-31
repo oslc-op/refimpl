@@ -1,8 +1,10 @@
 package co.oslc.refimpl.client
 
+import com.github.javafaker.Faker
 import org.eclipse.lyo.oslc.domains.cm.ChangeRequest
 import org.eclipse.lyo.oslc.domains.qm.TestCase
 import org.eclipse.lyo.oslc.domains.qm.TestPlan
+import org.eclipse.lyo.oslc.domains.qm.TestResult
 import org.eclipse.lyo.oslc.domains.qm.TestScript
 import org.eclipse.lyo.oslc.domains.rm.Requirement
 import org.eclipse.lyo.oslc.domains.rm.RequirementCollection
@@ -116,6 +118,32 @@ fun genPlan(sp: ServiceProvider, id: Int, max:Int): TestPlan {
     return r
 }
 
+fun genTestCase(sp: ServiceProvider, id: Int, max:Int): TestCase {
+    val r = TestCase()
+    val faker = Faker()
+    val f = faker.backToTheFuture()
+    r.apply {
+        title = "Back to the future ${f.character()} test case for ${f.date()}"
+        identifier = id.toString()
+        created = Date()
+        description = f.quote()
+    }
+    return r
+}
+
+fun genTestResult(sp: ServiceProvider, id: Int, max:Int): TestResult {
+    val r = TestResult()
+    val faker = Faker()
+    val idStr = faker.code().asin()
+    val t = "TR-$idStr"
+    r.apply {
+        title = t
+        identifier = idStr
+        created = Date()
+        status = faker.aviation().METAR()
+    }
+    return r
+}
 
 
 class TestCaseGen(private val requirements: List<Link>,

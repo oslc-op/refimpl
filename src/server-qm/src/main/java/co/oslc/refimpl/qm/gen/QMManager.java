@@ -119,7 +119,7 @@ public class QMManager {
         
         
         // Start of user code queryTestCases
-        // TODO Implement code to return a set of resources
+        resources = testCaseRepository.fetchResourcePageForSP(SP_DEFAULT, page, limit);
         // End of user code
         return resources;
     }
@@ -223,7 +223,16 @@ public class QMManager {
         
         
         // Start of user code createTestScript
-        // TODO Implement code to create a resource
+        String id = aResource.getIdentifier();
+        if(id == null) {
+            id = UUID.randomUUID().toString();
+            aResource.setIdentifier(id);
+        }
+        URI uri = QMResourcesFactory.constructURIForTestScript(SP_DEFAULT, id);
+        aResource.setAbout(uri);
+        aResource.setCreated(new Date());
+        testScriptRepository.addResource(SP_DEFAULT, id, aResource);
+        newResource = aResource;
         // End of user code
         return newResource;
     }
@@ -256,7 +265,16 @@ public class QMManager {
         
         
         // Start of user code createTestResult
-        // TODO Implement code to create a resource
+        String id = aResource.getIdentifier();
+        if(id == null) {
+            id = UUID.randomUUID().toString();
+            aResource.setIdentifier(id);
+        }
+        URI uri = QMResourcesFactory.constructURIForTestResult(SP_DEFAULT, id);
+        aResource.setAbout(uri);
+        aResource.setCreated(new Date());
+        testResultRepository.addResource(SP_DEFAULT, id, aResource);
+        newResource = aResource;
         // End of user code
         return newResource;
     }
@@ -289,7 +307,16 @@ public class QMManager {
         
         
         // Start of user code createTestExecutionRecord
-        // TODO Implement code to create a resource
+        String id = aResource.getIdentifier();
+        if(id == null) {
+            id = UUID.randomUUID().toString();
+            aResource.setIdentifier(id);
+        }
+        URI uri = QMResourcesFactory.constructURIForTestExecutionRecord(SP_DEFAULT, id);
+        aResource.setAbout(uri);
+        aResource.setCreated(new Date());
+        testExecutionRecordRepository.addResource(SP_DEFAULT, id, aResource);
+        newResource = aResource;
         // End of user code
         return newResource;
     }
@@ -303,7 +330,9 @@ public class QMManager {
         
         
         // Start of user code getTestCase
-        // TODO Implement code to return a resource
+        if(testCaseRepository.hasResource(spSlug, id)) {
+            aResource = testCaseRepository.getResource(spSlug, id);
+        }
         // End of user code
         return aResource;
     }
@@ -315,7 +344,9 @@ public class QMManager {
         
         
         // Start of user code getTestPlan
-        aResource = testPlanRepository.getResource(spSlug, id);
+        if(testPlanRepository.hasResource(spSlug, id)) {
+            aResource = testPlanRepository.getResource(spSlug, id);
+        }
         // End of user code
         return aResource;
     }
@@ -327,7 +358,9 @@ public class QMManager {
         
         
         // Start of user code getTestScript
-        // TODO Implement code to return a resource
+        if(testScriptRepository.hasResource(spSlug, id)) {
+            aResource = testScriptRepository.getResource(spSlug, id);
+        }
         // End of user code
         return aResource;
     }
@@ -339,7 +372,9 @@ public class QMManager {
         
         
         // Start of user code getTestResult
-        // TODO Implement code to return a resource
+        if(testResultRepository.hasResource(spSlug, id)) {
+            aResource = testResultRepository.getResource(spSlug, id);
+        }
         // End of user code
         return aResource;
     }
@@ -351,7 +386,7 @@ public class QMManager {
         
         
         // Start of user code getTestExecutionRecord
-        // TODO Implement code to return a resource
+        aResource = testExecutionRecordRepository.getResource(spSlug, id);
         // End of user code
         return aResource;
     }

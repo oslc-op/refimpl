@@ -2,7 +2,9 @@ package co.oslc.refimpl.client
 
 import kotlinx.coroutines.*
 import org.eclipse.lyo.oslc.domains.cm.ChangeRequest
+import org.eclipse.lyo.oslc.domains.qm.TestCase
 import org.eclipse.lyo.oslc.domains.qm.TestPlan
+import org.eclipse.lyo.oslc.domains.qm.TestResult
 import org.eclipse.lyo.oslc.domains.rm.Requirement
 import org.eclipse.lyo.oslc.domains.rm.RequirementCollection
 import org.eclipse.lyo.oslc4j.client.OslcClient
@@ -24,22 +26,30 @@ fun main() {
     val client = OslcClient()
 
     val rmTraverser = ServiceProviderCatalogTraverser(SPC_RM, client)
-    val reqPopulator = CreationFactoryPopulator(client, rmTraverser, 50, SimpleResourceGen(::genRequirement),
+    val reqPopulator = CreationFactoryPopulator(client, rmTraverser, 30, SimpleResourceGen(::genRequirement),
             Requirement::class.java)
     val requirements = reqPopulator.populate()
-    val reqCollPopulator = CreationFactoryPopulator(client, rmTraverser, 20,
+    val reqCollPopulator = CreationFactoryPopulator(client, rmTraverser, 30,
             SimpleResourceGen(::genRequirementColl), RequirementCollection::class.java)
     reqCollPopulator.populate()
 
     val cmTraverser = ServiceProviderCatalogTraverser(SPC_CM, client)
-    val chReqPopulator = CreationFactoryPopulator(client, cmTraverser, 50, ChangeRequestGen(requirements),
+    val chReqPopulator = CreationFactoryPopulator(client, cmTraverser, 30, ChangeRequestGen(requirements),
             ChangeRequest::class.java)
     chReqPopulator.populate()
 
     val qmTraverser = ServiceProviderCatalogTraverser(SPC_QM, client)
-    var planPopulator = CreationFactoryPopulator(client, qmTraverser, 30,
-            SimpleResourceGen(::genPlan), TestPlan::class.java)
-    planPopulator.populate()
+
+    val qmGenerators = listOf(
+            CreationFactoryPopulator(client, qmTraverser, 30,
+                    SimpleResourceGen(::genPlan), TestPlan::class.java),
+            CreationFactoryPopulator(client, qmTraverser, 30,
+                    SimpleResourceGen(::genTestCase), TestCase::class.java),
+            CreationFactoryPopulator(client, qmTraverser, 30,
+                    SimpleResourceGen(::genTestResult), TestResult::class.java)
+
+    )
+    qmGenerators.forEach { it.populate() }
 
 }
 

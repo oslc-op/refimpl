@@ -61,4 +61,14 @@ public class MemResourceRepository<R extends AbstractResource> implements Resour
             throw new NoSuchElementException("Resource does not exist under a given SP");
         }
     }
+
+    @Override
+    public boolean hasResource(String serviceProvider, String id) {
+        Map<String, R> rMap = resources.get(serviceProvider);
+        if (rMap == null) {
+            return false;
+        }
+        R resource = rMap.get(id);
+        return resource != null;
+    }
 }

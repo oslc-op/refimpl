@@ -10,4 +10,5 @@ public interface ResourceRepository <R extends AbstractResource> {
     void addResource(String serviceProvider, String id, R resource);
     R getResource(String serviceProvider, String id);
     void deleteResource(String serviceProvider, String id);
+    boolean hasResource(String serviceProvider, String id);
 }
