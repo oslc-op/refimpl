@@ -45,7 +45,7 @@ import org.eclipse.lyo.oslc4j.core.model.ServiceProvider;
 import org.eclipse.lyo.oslc4j.core.model.ServiceProviderCatalog;
 import org.eclipse.lyo.oslc4j.core.OSLC4JUtils;
 
-import co.oslc.refimpl.rm.gen.RMManager;
+import co.oslc.refimpl.rm.gen.OSLCRMServer2020RefImplManager;
 import co.oslc.refimpl.rm.gen.ServiceProviderInfo;
 
 // Start of user code imports
@@ -230,7 +230,7 @@ public class ServiceProviderCatalogSingleton
             serviceProviderCatalog.setDescription("Service Provider Catalog for the Requirements Management Server");
             // End of user code
 
-            ServiceProviderInfo [] serviceProviderInfos = RMManager.getServiceProviderInfos(httpServletRequest);
+            ServiceProviderInfo [] serviceProviderInfos = OSLCRMServer2020RefImplManager.getServiceProviderInfos(httpServletRequest);
             //Register each service provider
             for (ServiceProviderInfo serviceProviderInfo : serviceProviderInfos) {
                 if (!containsServiceProvider(ServiceProvidersFactory.constructIdentifier(serviceProviderInfo))) {

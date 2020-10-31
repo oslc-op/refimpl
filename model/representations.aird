@@ -6,7 +6,7 @@
     <semanticResources>platform:/resource/org.eclipse.lyo.tools.domainmodels/vocabulary.xml</semanticResources>
     <ownedViews xmi:type="viewpoint:DView" uid="_Vrm8oLCrEemIy4JCdJFCBQ">
       <viewpoint xmi:type="description:Viewpoint" href="platform:/plugin/org.eclipse.lyo.tools.toolchain.design/description/ToolChainModel.odesign#//@ownedViewpoints[name='ToolchainViewpoint']"/>
-      <ownedRepresentationDescriptors xmi:type="viewpoint:DRepresentationDescriptor" uid="_VxOccLCrEemIy4JCdJFCBQ" name="ToolchainDiagram" repPath="#_VxHuwLCrEemIy4JCdJFCBQ" changeId="0644112d-bf5b-48bc-8394-9498475aba4c">
+      <ownedRepresentationDescriptors xmi:type="viewpoint:DRepresentationDescriptor" uid="_VxOccLCrEemIy4JCdJFCBQ" name="ToolchainDiagram" repPath="#_VxHuwLCrEemIy4JCdJFCBQ" changeId="c2f792c2-d590-4e95-bd93-a0168b9e54aa">
         <description xmi:type="description_1:DiagramDescription" href="platform:/plugin/org.eclipse.lyo.tools.toolchain.design/description/ToolChainModel.odesign#//@ownedViewpoints[name='ToolchainViewpoint']/@ownedRepresentations[name='ToolchainDiagram']"/>
         <target xmi:type="oslc4j_tc:Toolchain" href="toolchain.xml#/"/>
       </ownedRepresentationDescriptors>
@@ -390,7 +390,7 @@
         </edges>
       </data>
     </ownedAnnotationEntries>
-    <ownedDiagramElements xmi:type="diagram:DNodeContainer" uid="_w4Df0LCrEemIy4JCdJFCBQ" name="RM" tooltipText="" width="15" height="15">
+    <ownedDiagramElements xmi:type="diagram:DNodeContainer" uid="_w4Df0LCrEemIy4JCdJFCBQ" name="OSLC RM Server (2020 RefImpl)" tooltipText="" width="15" height="15">
       <target xmi:type="oslc4j_ai:AdaptorInterface" href="toolchain.xml#//@adaptorInterfaces.0"/>
       <semanticElements xmi:type="oslc4j_ai:AdaptorInterface" href="toolchain.xml#//@adaptorInterfaces.0"/>
       <ownedBorderedNodes xmi:type="diagram:DNode" uid="_-kGZELCrEemIy4JCdJFCBQ" name="Requirement" tooltipText="" incomingEdges="_Q7dcoLL2EemKmZh5Pjubfw _wVN08LewEemdTYx80ub67Q _X67lcLeyEemdTYx80ub67Q" width="0" height="0" resizeKind="NSEW">
@@ -423,7 +423,7 @@
       </ownedStyle>
       <actualMapping xmi:type="description_1:ContainerMapping" href="platform:/plugin/org.eclipse.lyo.tools.toolchain.design/description/ToolChainModel.odesign#//@ownedViewpoints[name='ToolchainViewpoint']/@ownedRepresentations[name='ToolchainDiagram']/@defaultLayer/@containerMappings[name='Toolchain.AdaptorInterface']"/>
     </ownedDiagramElements>
-    <ownedDiagramElements xmi:type="diagram:DNodeContainer" uid="_vNJu8LL1EemKmZh5Pjubfw" name="CM" tooltipText="" width="15" height="15">
+    <ownedDiagramElements xmi:type="diagram:DNodeContainer" uid="_vNJu8LL1EemKmZh5Pjubfw" name="OSLC CM Server (2020 RefImpl)" tooltipText="" width="15" height="15">
       <target xmi:type="oslc4j_ai:AdaptorInterface" href="toolchain.xml#//@adaptorInterfaces.1"/>
       <semanticElements xmi:type="oslc4j_ai:AdaptorInterface" href="toolchain.xml#//@adaptorInterfaces.1"/>
       <ownedBorderedNodes xmi:type="diagram:DNode" uid="_Q69GULL2EemKmZh5Pjubfw" name="ChangeRequest" tooltipText="" outgoingEdges="_Q7dcoLL2EemKmZh5Pjubfw" incomingEdges="_wVKxoLewEemdTYx80ub67Q _DH9FwLeyEemdTYx80ub67Q _X66-YLeyEemdTYx80ub67Q _2MgGgLeyEemdTYx80ub67Q _PZmoILezEemdTYx80ub67Q" width="0" height="0" resizeKind="NSEW">
@@ -511,7 +511,7 @@
       </ownedStyle>
       <actualMapping xmi:type="description_1:EdgeMapping" href="platform:/plugin/org.eclipse.lyo.tools.toolchain.design/description/ToolChainModel.odesign#//@ownedViewpoints[name='ToolchainViewpoint']/@ownedRepresentations[name='ToolchainDiagram']/@defaultLayer/@edgeMappings[name='Toolchain.ManagedResourceToManagedResource']"/>
     </ownedDiagramElements>
-    <ownedDiagramElements xmi:type="diagram:DNodeContainer" uid="_eVfAULetEemdTYx80ub67Q" name="QM" tooltipText="" width="15" height="15">
+    <ownedDiagramElements xmi:type="diagram:DNodeContainer" uid="_eVfAULetEemdTYx80ub67Q" name="OSLC QM Server (2020 RefImpl)" tooltipText="" width="15" height="15">
       <target xmi:type="oslc4j_ai:AdaptorInterface" href="toolchain.xml#//@adaptorInterfaces.2"/>
       <semanticElements xmi:type="oslc4j_ai:AdaptorInterface" href="toolchain.xml#//@adaptorInterfaces.2"/>
       <ownedBorderedNodes xmi:type="diagram:DNode" uid="_wVC10LewEemdTYx80ub67Q" name="TestCase" tooltipText="" outgoingEdges="_wVKxoLewEemdTYx80ub67Q _wVN08LewEemdTYx80ub67Q" width="0" height="0" resizeKind="NSEW">
@@ -651,7 +651,7 @@
       </ownedStyle>
       <actualMapping xmi:type="description_1:EdgeMapping" href="platform:/plugin/org.eclipse.lyo.tools.toolchain.design/description/ToolChainModel.odesign#//@ownedViewpoints[name='ToolchainViewpoint']/@ownedRepresentations[name='ToolchainDiagram']/@defaultLayer/@edgeMappings[name='Toolchain.ManagedResourceToManagedResource']"/>
     </ownedDiagramElements>
-    <ownedDiagramElements xmi:type="diagram:DNodeContainer" uid="_RwO2YLe1EemdTYx80ub67Q" name="AM" width="15" height="15">
+    <ownedDiagramElements xmi:type="diagram:DNodeContainer" uid="_RwO2YLe1EemdTYx80ub67Q" name="OSLC AM Server (2020 RefImpl)" width="15" height="15">
       <target xmi:type="oslc4j_ai:AdaptorInterface" href="toolchain.xml#//@adaptorInterfaces.3"/>
       <semanticElements xmi:type="oslc4j_ai:AdaptorInterface" href="toolchain.xml#//@adaptorInterfaces.3"/>
       <ownedBorderedNodes xmi:type="diagram:DNode" uid="_A2rp4Le2EemdTYx80ub67Q" name="Resource" width="0" height="0" resizeKind="NSEW">

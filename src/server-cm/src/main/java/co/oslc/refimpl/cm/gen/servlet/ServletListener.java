@@ -37,7 +37,7 @@ import javax.servlet.ServletRegistration;
 import javax.ws.rs.core.UriBuilder;
 
 import org.eclipse.lyo.oslc4j.core.OSLC4JUtils;
-import co.oslc.refimpl.cm.gen.CMManager;
+import co.oslc.refimpl.cm.gen.OSLCCMServer2020RefImplManager;
 
 // Start of user code imports
 // End of user code
@@ -96,7 +96,7 @@ public class ServletListener implements ServletContextListener  {
         logger.info("servletListner contextInitialized.");
 
         // Establish connection to data backbone etc ...
-        CMManager.contextInitializeServletListener(servletContextEvent);
+        OSLCCMServer2020RefImplManager.contextInitializeServletListener(servletContextEvent);
 
         // Start of user code contextInitialized_final
         // End of user code
@@ -109,7 +109,7 @@ public class ServletListener implements ServletContextListener  {
         // End of user code
 
         // Shutdown connections to data backbone etc...
-        CMManager.contextDestroyServletListener(servletContextEvent);
+        OSLCCMServer2020RefImplManager.contextDestroyServletListener(servletContextEvent);
 
         // Start of user code contextDestroyed_final
         // End of user code

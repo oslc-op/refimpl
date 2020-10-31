@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<oslc4j_tc:Toolchain xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:oslc4j_ai="http://org.eclipse.lyo/oslc4j/adaptorInterface" xmlns:oslc4j_tc="http://org.eclipse.lyo/oslc4j/toolChain">
-  <adaptorInterfaces name="RM">
+<oslc4j_tc:Toolchain xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:oslc4j_ai="http://org.eclipse.lyo/oslc4j/adaptorInterface" xmlns:oslc4j_tc="http://org.eclipse.lyo/oslc4j/toolChain" name="OSLC 2020 Reference Implementation">
+  <adaptorInterfaces name="OSLC RM Server (2020 RefImpl)">
     <serviceProviderCatalog title="Service Provider Catalog" description="Service Provider Catalog">
       <serviceProviders title="RM Service Provider" description="Service Provider for the RM domain resources" serviceNamespace="">
         <services serviceNamespace="relativeToServiceProvider">
@@ -45,7 +45,7 @@
       <projectConfiguration xsi:type="oslc4j_ai:MavenProjectConfiguration" doNotGenerateProjectConfigurationFiles="true" lyoVersion="4.0.0-SNAPSHOT" groupId="co.oslc.refimpl.rm.gen" artifactId="rm" version="0.0.1-SNAPSHOT"/>
     </configuration>
   </adaptorInterfaces>
-  <adaptorInterfaces name="CM" swaggerDocumentation="false">
+  <adaptorInterfaces name="OSLC CM Server (2020 RefImpl)" swaggerDocumentation="false">
     <serviceProviderCatalog title="Service Provider Catalog" description="Service Provider Catalog">
       <serviceProviders title="Service Provider" description="Service Provider">
         <services>
@@ -118,7 +118,7 @@
       <projectConfiguration xsi:type="oslc4j_ai:MavenProjectConfiguration" doNotGenerateProjectConfigurationFiles="true" lyoVersion="4.0.0-SNAPSHOT" groupId="co.oslc.refimpl.cm.gen" artifactId="cm" version="0.0.1-SNAPSHOT"/>
     </configuration>
   </adaptorInterfaces>
-  <adaptorInterfaces name="QM" swaggerDocumentation="false">
+  <adaptorInterfaces name="OSLC QM Server (2020 RefImpl)" swaggerDocumentation="false">
     <serviceProviderCatalog title="Service Provider Catalog" description="Service Provider Catalog">
       <serviceProviders title="QM Service Provider" description="Quality Management Spec Service Provider">
         <services>
@@ -210,7 +210,7 @@
       <projectConfiguration xsi:type="oslc4j_ai:MavenProjectConfiguration" doNotGenerateProjectConfigurationFiles="true" lyoVersion="4.0.0-SNAPSHOT" groupId="co.oslc.refimpl.qm.gen" artifactId="qm" version="0.0.1-SNAPSHOT"/>
     </configuration>
   </adaptorInterfaces>
-  <adaptorInterfaces name="AM">
+  <adaptorInterfaces name="OSLC AM Server (2020 RefImpl)">
     <serviceProviderCatalog title="Service Provider Catalog" description="Service Provider Catalog">
       <serviceProviders title="Service Provider" description="Service Provider">
         <services>

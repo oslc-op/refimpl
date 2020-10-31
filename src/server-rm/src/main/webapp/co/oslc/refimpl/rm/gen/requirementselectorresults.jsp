@@ -37,7 +37,7 @@
 <% int i = 0; for (Requirement r : resources) { %>
   <% if (i > 0) { %>,<% } %>
   {
-    "oslc:label" : "<%= r.getShortTitle() %> <%= r.getTitle() %>",
+    "oslc:label" : "<%= r.toString() %>",
     "rdf:resource" : "<%= r.getAbout() %>"
   }
 <% i++; } %>

@@ -42,7 +42,7 @@
 <div class="container">
     <div class="jumbotron">
         <h1 class="display-3"><%= application.getServletContextName() %></h1>
-        <p class="lead">This is a homepage of the <em>CM</em> that was generated using
+        <p class="lead">This is a homepage of the <em>OSLC CM Server (2020 RefImpl)</em> that was generated using
             Eclipse Lyo Toolchain Designer.</p>
         <hr class="my-4">
         <p class="lead">

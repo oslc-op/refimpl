@@ -79,8 +79,8 @@ import org.eclipse.lyo.oslc4j.core.model.ServiceProvider;
 import org.eclipse.lyo.oslc4j.core.model.Link;
 import org.eclipse.lyo.oslc4j.core.model.AbstractResource;
 
-import co.oslc.refimpl.qm.gen.QMManager;
-import co.oslc.refimpl.qm.gen.QMConstants;
+import co.oslc.refimpl.qm.gen.OSLCQMServer2020RefImplManager;
+import co.oslc.refimpl.qm.gen.OSLCQMServer2020RefImplConstants;
 import org.eclipse.lyo.oslc.domains.qm.Oslc_qmDomainConstants;
 import co.oslc.refimpl.qm.gen.servlet.ServiceProviderCatalogSingleton;
 import org.eclipse.lyo.oslc.domains.qm.TestPlan;
@@ -129,13 +129,13 @@ public class WsPlans
         // Start of user code getResource_init
         // End of user code
 
-        final TestPlan aTestPlan = QMManager.getTestPlan(httpServletRequest, spSlug, id);
+        final TestPlan aTestPlan = OSLCQMServer2020RefImplManager.getTestPlan(httpServletRequest, spSlug, id);
 
         if (aTestPlan != null) {
             // Start of user code getTestPlan
             // End of user code
-            httpServletResponse.setHeader("ETag", QMManager.getETagFromTestPlan(aTestPlan));
-            httpServletResponse.addHeader(QMConstants.HDR_OSLC_VERSION, QMConstants.OSLC_VERSION_V2);
+            httpServletResponse.setHeader("ETag", OSLCQMServer2020RefImplManager.getETagFromTestPlan(aTestPlan));
+            httpServletResponse.addHeader(OSLCQMServer2020RefImplConstants.HDR_OSLC_VERSION, OSLCQMServer2020RefImplConstants.OSLC_VERSION_V2);
             return aTestPlan;
         }
 
@@ -152,7 +152,7 @@ public class WsPlans
         // Start of user code getTestPlanAsHtml_init
         // End of user code
 
-        final TestPlan aTestPlan = QMManager.getTestPlan(httpServletRequest, spSlug, id);
+        final TestPlan aTestPlan = OSLCQMServer2020RefImplManager.getTestPlan(httpServletRequest, spSlug, id);
 
         if (aTestPlan != null) {
             httpServletRequest.setAttribute("aTestPlan", aTestPlan);
@@ -184,7 +184,7 @@ public class WsPlans
         //TODO: adjust the preview height & width values from the default values provided above.
         // End of user code
 
-        final TestPlan aTestPlan = QMManager.getTestPlan(httpServletRequest, spSlug, id);
+        final TestPlan aTestPlan = OSLCQMServer2020RefImplManager.getTestPlan(httpServletRequest, spSlug, id);
 
         if (aTestPlan != null) {
             final Compact compact = new Compact();
@@ -207,7 +207,7 @@ public class WsPlans
             largePreview.setDocument(UriBuilder.fromUri(aTestPlan.getAbout()).path("largePreview").build());
             compact.setLargePreview(largePreview);
 
-            httpServletResponse.addHeader(QMConstants.HDR_OSLC_VERSION, QMConstants.OSLC_VERSION_V2);
+            httpServletResponse.addHeader(OSLCQMServer2020RefImplConstants.HDR_OSLC_VERSION, OSLCQMServer2020RefImplConstants.OSLC_VERSION_V2);
             addCORSHeaders(httpServletResponse);
             return compact;
         }
@@ -224,7 +224,7 @@ public class WsPlans
         // Start of user code getTestPlanAsHtmlSmallPreview_init
         // End of user code
 
-        final TestPlan aTestPlan = QMManager.getTestPlan(httpServletRequest, spSlug, id);
+        final TestPlan aTestPlan = OSLCQMServer2020RefImplManager.getTestPlan(httpServletRequest, spSlug, id);
 
         if (aTestPlan != null) {
             httpServletRequest.setAttribute("aTestPlan", aTestPlan);
@@ -232,7 +232,7 @@ public class WsPlans
             // End of user code
 
             RequestDispatcher rd = httpServletRequest.getRequestDispatcher("/co/oslc/refimpl/qm/gen/testplansmallpreview.jsp");
-            httpServletResponse.addHeader(QMConstants.HDR_OSLC_VERSION, QMConstants.OSLC_VERSION_V2);
+            httpServletResponse.addHeader(OSLCQMServer2020RefImplConstants.HDR_OSLC_VERSION, OSLCQMServer2020RefImplConstants.OSLC_VERSION_V2);
             addCORSHeaders(httpServletResponse);
             rd.forward(httpServletRequest, httpServletResponse);
             return;
@@ -251,7 +251,7 @@ public class WsPlans
         // Start of user code getTestPlanAsHtmlLargePreview_init
         // End of user code
 
-        final TestPlan aTestPlan = QMManager.getTestPlan(httpServletRequest, spSlug, id);
+        final TestPlan aTestPlan = OSLCQMServer2020RefImplManager.getTestPlan(httpServletRequest, spSlug, id);
 
         if (aTestPlan != null) {
             httpServletRequest.setAttribute("aTestPlan", aTestPlan);
@@ -259,7 +259,7 @@ public class WsPlans
             // End of user code
 
             RequestDispatcher rd = httpServletRequest.getRequestDispatcher("/co/oslc/refimpl/qm/gen/testplanlargepreview.jsp");
-            httpServletResponse.addHeader(QMConstants.HDR_OSLC_VERSION, QMConstants.OSLC_VERSION_V2);
+            httpServletResponse.addHeader(OSLCQMServer2020RefImplConstants.HDR_OSLC_VERSION, OSLCQMServer2020RefImplConstants.OSLC_VERSION_V2);
             addCORSHeaders(httpServletResponse);
             rd.forward(httpServletRequest, httpServletResponse);
             return;

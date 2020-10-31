@@ -80,8 +80,8 @@ import org.eclipse.lyo.oslc4j.core.model.ServiceProvider;
 import org.eclipse.lyo.oslc4j.core.model.Link;
 import org.eclipse.lyo.oslc4j.core.model.AbstractResource;
 
-import co.oslc.refimpl.qm.gen.QMManager;
-import co.oslc.refimpl.qm.gen.QMConstants;
+import co.oslc.refimpl.qm.gen.OSLCQMServer2020RefImplManager;
+import co.oslc.refimpl.qm.gen.OSLCQMServer2020RefImplConstants;
 import org.eclipse.lyo.oslc.domains.qm.Oslc_qmDomainConstants;
 import org.eclipse.lyo.oslc.domains.qm.Oslc_qmDomainConstants;
 import co.oslc.refimpl.qm.gen.servlet.ServiceProviderCatalogSingleton;
@@ -166,7 +166,7 @@ public class Execution_recordsService
         // Here additional logic can be implemented that complements main action taken in QMManager
         // End of user code
 
-        final List<TestExecutionRecord> resources = QMManager.queryTestExecutionRecords(httpServletRequest, where, prefix, page, pageSize);
+        final List<TestExecutionRecord> resources = OSLCQMServer2020RefImplManager.queryTestExecutionRecords(httpServletRequest, where, prefix, page, pageSize);
         httpServletRequest.setAttribute("queryUri",
                 uriInfo.getAbsolutePath().toString() + "?oslc.paging=true");
         if (resources.size() > pageSize) {
@@ -199,7 +199,7 @@ public class Execution_recordsService
         // Start of user code queryTestExecutionRecordsAsHtml
         // End of user code
 
-        final List<TestExecutionRecord> resources = QMManager.queryTestExecutionRecords(httpServletRequest, where, prefix, page, pageSize);
+        final List<TestExecutionRecord> resources = OSLCQMServer2020RefImplManager.queryTestExecutionRecords(httpServletRequest, where, prefix, page, pageSize);
 
         if (resources!= null) {
             httpServletRequest.setAttribute("resources", resources);
@@ -248,7 +248,7 @@ public class Execution_recordsService
 
         if (terms != null ) {
             httpServletRequest.setAttribute("terms", terms);
-            final List<TestExecutionRecord> resources = QMManager.TestExecutionRecordSelector(httpServletRequest, terms);
+            final List<TestExecutionRecord> resources = OSLCQMServer2020RefImplManager.TestExecutionRecordSelector(httpServletRequest, terms);
             if (resources!= null) {
                         httpServletRequest.setAttribute("resources", resources);
                         RequestDispatcher rd = httpServletRequest.getRequestDispatcher("/co/oslc/refimpl/qm/gen/testexecutionrecordselectorresults.jsp");
@@ -288,9 +288,9 @@ public class Execution_recordsService
             final TestExecutionRecord aResource
         ) throws IOException, ServletException
     {
-        TestExecutionRecord newResource = QMManager.createTestExecutionRecord(httpServletRequest, aResource);
-        httpServletResponse.setHeader("ETag", QMManager.getETagFromTestExecutionRecord(newResource));
-        return Response.created(newResource.getAbout()).entity(newResource).header(QMConstants.HDR_OSLC_VERSION, QMConstants.OSLC_VERSION_V2).build();
+        TestExecutionRecord newResource = OSLCQMServer2020RefImplManager.createTestExecutionRecord(httpServletRequest, aResource);
+        httpServletResponse.setHeader("ETag", OSLCQMServer2020RefImplManager.getETagFromTestExecutionRecord(newResource));
+        return Response.created(newResource.getAbout()).entity(newResource).header(OSLCQMServer2020RefImplConstants.HDR_OSLC_VERSION, OSLCQMServer2020RefImplConstants.OSLC_VERSION_V2).build();
     }
 
 }

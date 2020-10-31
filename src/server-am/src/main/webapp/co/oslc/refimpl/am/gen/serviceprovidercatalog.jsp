@@ -37,7 +37,7 @@ ServiceProviderCatalog catalog = (ServiceProviderCatalog)request.getAttribute("c
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Service Provider Catalog - AM OSLC Adapter</title>
+    <title>Service Provider Catalog - OSLC AM Server (2020 RefImpl) OSLC Adapter</title>
 
     <link href="<c:url value="/static/css/bootstrap-4.0.0-beta.min.css"/>" rel="stylesheet">
     <link href="<c:url value="/static/css/adaptor.css"/>" rel="stylesheet">
@@ -60,10 +60,20 @@ ServiceProviderCatalog catalog = (ServiceProviderCatalog)request.getAttribute("c
 
   <div class="container">
     <div class="page-header">
-      <h1>AM Service Provider Catalogue</h1>
+      <h1>OSLC AM Server (2020 RefImpl) Service Provider Catalogue</h1>
     </div>
 
   	<h2>Service Providers</h2>
+    <% if (catalog.getServiceProviders().length == 0) {%>
+        <div class="alert alert-primary" role="alert">
+            <h4 class="alert-heading">No Service Providers defined for this server!</h4>
+            <hr>
+            <p>
+                Modify the method <code>getServiceProviderInfos()</code>
+                in the class <code>co.oslc.refimpl.am.gen.OSLCAMServer2020RefImplManager</code>, to return the expected set of Service Provider resources.
+            </p>
+        </div>
+    <% } %>
     <% for (ServiceProvider s : catalog.getServiceProviders()) { %>
       <div>
       <p class="lead">

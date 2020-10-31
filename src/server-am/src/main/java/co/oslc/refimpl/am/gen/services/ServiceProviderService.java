@@ -49,7 +49,7 @@ import org.eclipse.lyo.oslc4j.core.model.OslcMediaType;
 import org.eclipse.lyo.oslc4j.core.model.Service;
 import org.eclipse.lyo.oslc4j.core.model.ServiceProvider;
 
-import co.oslc.refimpl.am.gen.AMManager;
+import co.oslc.refimpl.am.gen.OSLCAMServer2020RefImplManager;
 import co.oslc.refimpl.am.gen.servlet.ServiceProviderCatalogSingleton;
 
 // Start of user code imports

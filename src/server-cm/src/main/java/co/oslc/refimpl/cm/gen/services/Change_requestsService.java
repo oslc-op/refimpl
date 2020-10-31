@@ -80,8 +80,8 @@ import org.eclipse.lyo.oslc4j.core.model.ServiceProvider;
 import org.eclipse.lyo.oslc4j.core.model.Link;
 import org.eclipse.lyo.oslc4j.core.model.AbstractResource;
 
-import co.oslc.refimpl.cm.gen.CMManager;
-import co.oslc.refimpl.cm.gen.CMConstants;
+import co.oslc.refimpl.cm.gen.OSLCCMServer2020RefImplManager;
+import co.oslc.refimpl.cm.gen.OSLCCMServer2020RefImplConstants;
 import org.eclipse.lyo.oslc.domains.cm.Oslc_cmDomainConstants;
 import org.eclipse.lyo.oslc.domains.cm.Oslc_cmDomainConstants;
 import org.eclipse.lyo.oslc.domains.cm.Oslc_cmDomainConstants;
@@ -170,7 +170,7 @@ public class Change_requestsService
         // Here additional logic can be implemented that complements main action taken in CMManager
         // End of user code
 
-        final List<ChangeRequest> resources = CMManager.queryChangeRequests(httpServletRequest, where, prefix, page, pageSize);
+        final List<ChangeRequest> resources = OSLCCMServer2020RefImplManager.queryChangeRequests(httpServletRequest, where, prefix, page, pageSize);
         httpServletRequest.setAttribute("queryUri",
                 uriInfo.getAbsolutePath().toString() + "?oslc.paging=true");
         if (resources.size() > pageSize) {
@@ -203,7 +203,7 @@ public class Change_requestsService
         // Start of user code queryChangeRequestsAsHtml
         // End of user code
 
-        final List<ChangeRequest> resources = CMManager.queryChangeRequests(httpServletRequest, where, prefix, page, pageSize);
+        final List<ChangeRequest> resources = OSLCCMServer2020RefImplManager.queryChangeRequests(httpServletRequest, where, prefix, page, pageSize);
 
         if (resources!= null) {
             httpServletRequest.setAttribute("resources", resources);
@@ -256,7 +256,7 @@ public class Change_requestsService
         // Here additional logic can be implemented that complements main action taken in CMManager
         // End of user code
 
-        final List<Defect> resources = CMManager.queryDefects(httpServletRequest, where, prefix, page, pageSize);
+        final List<Defect> resources = OSLCCMServer2020RefImplManager.queryDefects(httpServletRequest, where, prefix, page, pageSize);
         httpServletRequest.setAttribute("queryUri",
                 uriInfo.getAbsolutePath().toString() + "?oslc.paging=true");
         if (resources.size() > pageSize) {
@@ -289,7 +289,7 @@ public class Change_requestsService
         // Start of user code queryDefectsAsHtml
         // End of user code
 
-        final List<Defect> resources = CMManager.queryDefects(httpServletRequest, where, prefix, page, pageSize);
+        final List<Defect> resources = OSLCCMServer2020RefImplManager.queryDefects(httpServletRequest, where, prefix, page, pageSize);
 
         if (resources!= null) {
             httpServletRequest.setAttribute("resources", resources);
@@ -342,7 +342,7 @@ public class Change_requestsService
         // Here additional logic can be implemented that complements main action taken in CMManager
         // End of user code
 
-        final List<Task> resources = CMManager.queryTasks(httpServletRequest, where, prefix, page, pageSize);
+        final List<Task> resources = OSLCCMServer2020RefImplManager.queryTasks(httpServletRequest, where, prefix, page, pageSize);
         httpServletRequest.setAttribute("queryUri",
                 uriInfo.getAbsolutePath().toString() + "?oslc.paging=true");
         if (resources.size() > pageSize) {
@@ -375,7 +375,7 @@ public class Change_requestsService
         // Start of user code queryTasksAsHtml
         // End of user code
 
-        final List<Task> resources = CMManager.queryTasks(httpServletRequest, where, prefix, page, pageSize);
+        final List<Task> resources = OSLCCMServer2020RefImplManager.queryTasks(httpServletRequest, where, prefix, page, pageSize);
 
         if (resources!= null) {
             httpServletRequest.setAttribute("resources", resources);
@@ -428,7 +428,7 @@ public class Change_requestsService
         // Here additional logic can be implemented that complements main action taken in CMManager
         // End of user code
 
-        final List<Enhancement> resources = CMManager.queryEnhancements(httpServletRequest, where, prefix, page, pageSize);
+        final List<Enhancement> resources = OSLCCMServer2020RefImplManager.queryEnhancements(httpServletRequest, where, prefix, page, pageSize);
         httpServletRequest.setAttribute("queryUri",
                 uriInfo.getAbsolutePath().toString() + "?oslc.paging=true");
         if (resources.size() > pageSize) {
@@ -461,7 +461,7 @@ public class Change_requestsService
         // Start of user code queryEnhancementsAsHtml
         // End of user code
 
-        final List<Enhancement> resources = CMManager.queryEnhancements(httpServletRequest, where, prefix, page, pageSize);
+        final List<Enhancement> resources = OSLCCMServer2020RefImplManager.queryEnhancements(httpServletRequest, where, prefix, page, pageSize);
 
         if (resources!= null) {
             httpServletRequest.setAttribute("resources", resources);
@@ -514,7 +514,7 @@ public class Change_requestsService
         // Here additional logic can be implemented that complements main action taken in CMManager
         // End of user code
 
-        final List<ReviewTask> resources = CMManager.queryReviewTasks(httpServletRequest, where, prefix, page, pageSize);
+        final List<ReviewTask> resources = OSLCCMServer2020RefImplManager.queryReviewTasks(httpServletRequest, where, prefix, page, pageSize);
         httpServletRequest.setAttribute("queryUri",
                 uriInfo.getAbsolutePath().toString() + "?oslc.paging=true");
         if (resources.size() > pageSize) {
@@ -547,7 +547,7 @@ public class Change_requestsService
         // Start of user code queryReviewTasksAsHtml
         // End of user code
 
-        final List<ReviewTask> resources = CMManager.queryReviewTasks(httpServletRequest, where, prefix, page, pageSize);
+        final List<ReviewTask> resources = OSLCCMServer2020RefImplManager.queryReviewTasks(httpServletRequest, where, prefix, page, pageSize);
 
         if (resources!= null) {
             httpServletRequest.setAttribute("resources", resources);
@@ -600,7 +600,7 @@ public class Change_requestsService
         // Here additional logic can be implemented that complements main action taken in CMManager
         // End of user code
 
-        final List<ChangeNotice> resources = CMManager.queryChangeNotices(httpServletRequest, where, prefix, page, pageSize);
+        final List<ChangeNotice> resources = OSLCCMServer2020RefImplManager.queryChangeNotices(httpServletRequest, where, prefix, page, pageSize);
         httpServletRequest.setAttribute("queryUri",
                 uriInfo.getAbsolutePath().toString() + "?oslc.paging=true");
         if (resources.size() > pageSize) {
@@ -633,7 +633,7 @@ public class Change_requestsService
         // Start of user code queryChangeNoticesAsHtml
         // End of user code
 
-        final List<ChangeNotice> resources = CMManager.queryChangeNotices(httpServletRequest, where, prefix, page, pageSize);
+        final List<ChangeNotice> resources = OSLCCMServer2020RefImplManager.queryChangeNotices(httpServletRequest, where, prefix, page, pageSize);
 
         if (resources!= null) {
             httpServletRequest.setAttribute("resources", resources);
@@ -682,7 +682,7 @@ public class Change_requestsService
 
         if (terms != null ) {
             httpServletRequest.setAttribute("terms", terms);
-            final List<ChangeRequest> resources = CMManager.ChangeRequestSelector(httpServletRequest, terms);
+            final List<ChangeRequest> resources = OSLCCMServer2020RefImplManager.ChangeRequestSelector(httpServletRequest, terms);
             if (resources!= null) {
                         httpServletRequest.setAttribute("resources", resources);
                         RequestDispatcher rd = httpServletRequest.getRequestDispatcher("/co/oslc/refimpl/cm/gen/changerequestselectorresults.jsp");
@@ -726,7 +726,7 @@ public class Change_requestsService
 
         if (terms != null ) {
             httpServletRequest.setAttribute("terms", terms);
-            final List<Defect> resources = CMManager.DefectSelector(httpServletRequest, terms);
+            final List<Defect> resources = OSLCCMServer2020RefImplManager.DefectSelector(httpServletRequest, terms);
             if (resources!= null) {
                         httpServletRequest.setAttribute("resources", resources);
                         RequestDispatcher rd = httpServletRequest.getRequestDispatcher("/co/oslc/refimpl/cm/gen/defectselectorresults.jsp");
@@ -770,7 +770,7 @@ public class Change_requestsService
 
         if (terms != null ) {
             httpServletRequest.setAttribute("terms", terms);
-            final List<Task> resources = CMManager.TaskSelector(httpServletRequest, terms);
+            final List<Task> resources = OSLCCMServer2020RefImplManager.TaskSelector(httpServletRequest, terms);
             if (resources!= null) {
                         httpServletRequest.setAttribute("resources", resources);
                         RequestDispatcher rd = httpServletRequest.getRequestDispatcher("/co/oslc/refimpl/cm/gen/taskselectorresults.jsp");
@@ -814,7 +814,7 @@ public class Change_requestsService
 
         if (terms != null ) {
             httpServletRequest.setAttribute("terms", terms);
-            final List<ReviewTask> resources = CMManager.ReviewTaskSelector(httpServletRequest, terms);
+            final List<ReviewTask> resources = OSLCCMServer2020RefImplManager.ReviewTaskSelector(httpServletRequest, terms);
             if (resources!= null) {
                         httpServletRequest.setAttribute("resources", resources);
                         RequestDispatcher rd = httpServletRequest.getRequestDispatcher("/co/oslc/refimpl/cm/gen/reviewtaskselectorresults.jsp");
@@ -858,7 +858,7 @@ public class Change_requestsService
 
         if (terms != null ) {
             httpServletRequest.setAttribute("terms", terms);
-            final List<ChangeNotice> resources = CMManager.ChangeNoticeSelector(httpServletRequest, terms);
+            final List<ChangeNotice> resources = OSLCCMServer2020RefImplManager.ChangeNoticeSelector(httpServletRequest, terms);
             if (resources!= null) {
                         httpServletRequest.setAttribute("resources", resources);
                         RequestDispatcher rd = httpServletRequest.getRequestDispatcher("/co/oslc/refimpl/cm/gen/changenoticeselectorresults.jsp");
@@ -902,7 +902,7 @@ public class Change_requestsService
 
         if (terms != null ) {
             httpServletRequest.setAttribute("terms", terms);
-            final List<Enhancement> resources = CMManager.EnhancementSelector(httpServletRequest, terms);
+            final List<Enhancement> resources = OSLCCMServer2020RefImplManager.EnhancementSelector(httpServletRequest, terms);
             if (resources!= null) {
                         httpServletRequest.setAttribute("resources", resources);
                         RequestDispatcher rd = httpServletRequest.getRequestDispatcher("/co/oslc/refimpl/cm/gen/enhancementselectorresults.jsp");
@@ -942,9 +942,9 @@ public class Change_requestsService
             final ChangeRequest aResource
         ) throws IOException, ServletException
     {
-        ChangeRequest newResource = CMManager.createChangeRequest(httpServletRequest, aResource);
-        httpServletResponse.setHeader("ETag", CMManager.getETagFromChangeRequest(newResource));
-        return Response.created(newResource.getAbout()).entity(newResource).header(CMConstants.HDR_OSLC_VERSION, CMConstants.OSLC_VERSION_V2).build();
+        ChangeRequest newResource = OSLCCMServer2020RefImplManager.createChangeRequest(httpServletRequest, aResource);
+        httpServletResponse.setHeader("ETag", OSLCCMServer2020RefImplManager.getETagFromChangeRequest(newResource));
+        return Response.created(newResource.getAbout()).entity(newResource).header(OSLCCMServer2020RefImplConstants.HDR_OSLC_VERSION, OSLCCMServer2020RefImplConstants.OSLC_VERSION_V2).build();
     }
 
     /**
@@ -1231,7 +1231,7 @@ public class Change_requestsService
                 }
         }
 
-        newResource = CMManager.createDefectFromDialog(httpServletRequest, aResource);
+        newResource = OSLCCMServer2020RefImplManager.createDefectFromDialog(httpServletRequest, aResource);
 
         if (newResource != null) {
             httpServletRequest.setAttribute("newResource", newResource);
@@ -1543,7 +1543,7 @@ public class Change_requestsService
                 }
         }
 
-        newResource = CMManager.createTaskFromDialog(httpServletRequest, aResource);
+        newResource = OSLCCMServer2020RefImplManager.createTaskFromDialog(httpServletRequest, aResource);
 
         if (newResource != null) {
             httpServletRequest.setAttribute("newResource", newResource);
@@ -1855,7 +1855,7 @@ public class Change_requestsService
                 }
         }
 
-        newResource = CMManager.createReviewTaskFromDialog(httpServletRequest, aResource);
+        newResource = OSLCCMServer2020RefImplManager.createReviewTaskFromDialog(httpServletRequest, aResource);
 
         if (newResource != null) {
             httpServletRequest.setAttribute("newResource", newResource);
@@ -2167,7 +2167,7 @@ public class Change_requestsService
                 }
         }
 
-        newResource = CMManager.createChangeNoticeFromDialog(httpServletRequest, aResource);
+        newResource = OSLCCMServer2020RefImplManager.createChangeNoticeFromDialog(httpServletRequest, aResource);
 
         if (newResource != null) {
             httpServletRequest.setAttribute("newResource", newResource);
@@ -2479,7 +2479,7 @@ public class Change_requestsService
                 }
         }
 
-        newResource = CMManager.createEnhancementFromDialog(httpServletRequest, aResource);
+        newResource = OSLCCMServer2020RefImplManager.createEnhancementFromDialog(httpServletRequest, aResource);
 
         if (newResource != null) {
             httpServletRequest.setAttribute("newResource", newResource);

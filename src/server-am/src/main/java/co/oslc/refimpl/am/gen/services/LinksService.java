@@ -65,6 +65,7 @@ import org.apache.wink.json4j.JSONObject;
 import org.eclipse.lyo.oslc4j.provider.json4j.JsonHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.eclipse.lyo.oslc4j.core.OSLC4JConstants;
 import org.eclipse.lyo.oslc4j.core.OSLC4JUtils;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcCreationFactory;
 import org.eclipse.lyo.oslc4j.core.annotation.OslcDialog;
@@ -79,13 +80,15 @@ import org.eclipse.lyo.oslc4j.core.model.ServiceProvider;
 import org.eclipse.lyo.oslc4j.core.model.Link;
 import org.eclipse.lyo.oslc4j.core.model.AbstractResource;
 
-import co.oslc.refimpl.am.gen.AMManager;
-import co.oslc.refimpl.am.gen.AMConstants;
+import co.oslc.refimpl.am.gen.OSLCAMServer2020RefImplManager;
+import co.oslc.refimpl.am.gen.OSLCAMServer2020RefImplConstants;
 import org.eclipse.lyo.oslc.domains.am.Oslc_amDomainConstants;
 import org.eclipse.lyo.oslc.domains.am.Oslc_amDomainConstants;
 import co.oslc.refimpl.am.gen.servlet.ServiceProviderCatalogSingleton;
 import org.eclipse.lyo.oslc.domains.am.LinkType;
 import org.eclipse.lyo.oslc.domains.Person;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 
 // Start of user code imports
 // End of user code
@@ -94,6 +97,7 @@ import org.eclipse.lyo.oslc.domains.Person;
 // End of user code
 @OslcService(Oslc_amDomainConstants.ARCHITECTURE_MANAGEMENT_DOMAIN)
 @Path("service2/linkTypes")
+@Api(value = "OSLC Service for {" + Oslc_amDomainConstants.LINKTYPE_LOCALNAME + "}")
 public class LinksService
 {
     @Context private HttpServletRequest httpServletRequest;
@@ -133,51 +137,72 @@ public class LinksService
     @GET
     @Path("query")
     @Produces({OslcMediaType.APPLICATION_RDF_XML, OslcMediaType.APPLICATION_JSON_LD, OslcMediaType.TEXT_TURTLE, OslcMediaType.APPLICATION_XML, OslcMediaType.APPLICATION_JSON})
+    @ApiOperation(
+        value = "Query capability for resources of type {" + Oslc_amDomainConstants.LINKTYPE_LOCALNAME + "}",
+        notes = "Query capability for resources of type {" + "<a href=\"" + Oslc_amDomainConstants.LINKTYPE_TYPE + "\">" + Oslc_amDomainConstants.LINKTYPE_LOCALNAME + "</a>" + "}" +
+            ", with respective resource shapes {" + "<a href=\"" + "../services/" + OslcConstants.PATH_RESOURCE_SHAPES + "/" + Oslc_amDomainConstants.LINKTYPE_PATH + "\">" + Oslc_amDomainConstants.LINKTYPE_LOCALNAME + "</a>" + "}",
+        produces = OslcMediaType.APPLICATION_RDF_XML + ", " + OslcMediaType.APPLICATION_XML + ", " + OslcMediaType.APPLICATION_JSON + ", " + OslcMediaType.TEXT_TURTLE + ", " + MediaType.TEXT_HTML
+    )
     public LinkType[] queryLinkTypes(
                                                     
                                                      @QueryParam("oslc.where") final String where,
+                                                     @QueryParam("oslc.prefix") final String prefix,
                                                      @QueryParam("page") final String pageString,
-                                                    @QueryParam("limit") final String limitString) throws IOException, ServletException
+                                                    @QueryParam("oslc.pageSize") final String pageSizeString) throws IOException, ServletException
     {
         int page=0;
-        int limit=20;
+        int pageSize=20;
         if (null != pageString) {
             page = Integer.parseInt(pageString);
         }
-        if (null != limitString) {
-            limit = Integer.parseInt(limitString);
+        if (null != pageSizeString) {
+            pageSize = Integer.parseInt(pageSizeString);
         }
 
         // Start of user code queryLinkTypes
         // Here additional logic can be implemented that complements main action taken in AMManager
         // End of user code
 
-        final List<LinkType> resources = AMManager.queryLinkTypes(httpServletRequest, where, page, limit);
+        final List<LinkType> resources = OSLCAMServer2020RefImplManager.queryLinkTypes(httpServletRequest, where, prefix, page, pageSize);
+        httpServletRequest.setAttribute("queryUri",
+                uriInfo.getAbsolutePath().toString() + "?oslc.paging=true");
+        if (resources.size() > pageSize) {
+            resources.remove(resources.size() - 1);
+            httpServletRequest.setAttribute(OSLC4JConstants.OSLC4J_NEXT_PAGE,
+                    uriInfo.getAbsolutePath().toString() + "?oslc.paging=true&oslc.pageSize=" + pageSize + "&page=" + (page + 1));
+        }
         return resources.toArray(new LinkType [resources.size()]);
     }
 
     @GET
     @Path("query")
     @Produces({ MediaType.TEXT_HTML })
+    @ApiOperation(
+        value = "Query capability for resources of type {" + Oslc_amDomainConstants.LINKTYPE_LOCALNAME + "}",
+        notes = "Query capability for resources of type {" + "<a href=\"" + Oslc_amDomainConstants.LINKTYPE_TYPE + "\">" + Oslc_amDomainConstants.LINKTYPE_LOCALNAME + "</a>" + "}" +
+            ", with respective resource shapes {" + "<a href=\"" + "../services/" + OslcConstants.PATH_RESOURCE_SHAPES + "/" + Oslc_amDomainConstants.LINKTYPE_PATH + "\">" + Oslc_amDomainConstants.LINKTYPE_LOCALNAME + "</a>" + "}",
+        produces = OslcMediaType.APPLICATION_RDF_XML + ", " + OslcMediaType.APPLICATION_XML + ", " + OslcMediaType.APPLICATION_JSON + ", " + OslcMediaType.TEXT_TURTLE + ", " + MediaType.TEXT_HTML
+    )
     public void queryLinkTypesAsHtml(
                                     
                                        @QueryParam("oslc.where") final String where,
+                                       @QueryParam("oslc.prefix") final String prefix,
                                        @QueryParam("page") final String pageString,
-                                    @QueryParam("limit") final String limitString) throws ServletException, IOException
+                                    @QueryParam("oslc.pageSize") final String pageSizeString) throws ServletException, IOException
     {
         int page=0;
-        int limit=20;
+        int pageSize=20;
         if (null != pageString) {
             page = Integer.parseInt(pageString);
         }
-        if (null != limitString) {
-            limit = Integer.parseInt(limitString);
+        if (null != pageSizeString) {
+            pageSize = Integer.parseInt(pageSizeString);
         }
 
         // Start of user code queryLinkTypesAsHtml
         // End of user code
 
-        final List<LinkType> resources = AMManager.queryLinkTypes(httpServletRequest, where, page, limit);
+        final List<LinkType> resources = OSLCAMServer2020RefImplManager.queryLinkTypes(httpServletRequest, where, prefix, page, pageSize);
 
         if (resources!= null) {
             httpServletRequest.setAttribute("resources", resources);
@@ -186,10 +211,10 @@ public class LinksService
 
             httpServletRequest.setAttribute("queryUri",
                     uriInfo.getAbsolutePath().toString() + "?oslc.paging=true");
-            if (resources.size() > limit) {
+            if (resources.size() > pageSize) {
                 resources.remove(resources.size() - 1);
-                httpServletRequest.setAttribute("nextPageUri",
-                        uriInfo.getAbsolutePath().toString() + "?oslc.paging=true&amp;page=" + (page + 1));
+                httpServletRequest.setAttribute(OSLC4JConstants.OSLC4J_NEXT_PAGE,
+                        uriInfo.getAbsolutePath().toString() + "?oslc.paging=true&oslc.pageSize=" + pageSize + "&page=" + (page + 1));
             }
             RequestDispatcher rd = httpServletRequest.getRequestDispatcher("/co/oslc/refimpl/am/gen/linktypescollection.jsp");
             rd.forward(httpServletRequest,httpServletResponse);
@@ -226,7 +251,7 @@ public class LinksService
 
         if (terms != null ) {
             httpServletRequest.setAttribute("terms", terms);
-            final List<LinkType> resources = AMManager.LinkTypeSelector(httpServletRequest, terms);
+            final List<LinkType> resources = OSLCAMServer2020RefImplManager.LinkTypeSelector(httpServletRequest, terms);
             if (resources!= null) {
                         httpServletRequest.setAttribute("resources", resources);
                         RequestDispatcher rd = httpServletRequest.getRequestDispatcher("/co/oslc/refimpl/am/gen/linktypeselectorresults.jsp");
@@ -261,14 +286,20 @@ public class LinksService
     @Path("create")
     @Consumes({OslcMediaType.APPLICATION_RDF_XML, OslcMediaType.APPLICATION_JSON_LD, OslcMediaType.TEXT_TURTLE, OslcMediaType.APPLICATION_XML, OslcMediaType.APPLICATION_JSON })
     @Produces({OslcMediaType.APPLICATION_RDF_XML, OslcMediaType.APPLICATION_JSON_LD, OslcMediaType.TEXT_TURTLE, OslcMediaType.APPLICATION_XML, OslcMediaType.APPLICATION_JSON})
+    @ApiOperation(
+        value = "Creation factory for resources of type {" + Oslc_amDomainConstants.LINKTYPE_LOCALNAME + "}",
+        notes = "Creation factory for resources of type {" + "<a href=\"" + Oslc_amDomainConstants.LINKTYPE_TYPE + "\">" + Oslc_amDomainConstants.LINKTYPE_LOCALNAME + "</a>" + "}" +
+            ", with respective resource shapes {" + "<a href=\"" + "../services/" + OslcConstants.PATH_RESOURCE_SHAPES + "/" + Oslc_amDomainConstants.LINKTYPE_PATH + "\">" + Oslc_amDomainConstants.LINKTYPE_LOCALNAME + "</a>" + "}",
+        produces = OslcMediaType.APPLICATION_RDF_XML + ", " + OslcMediaType.APPLICATION_XML + ", " + OslcMediaType.APPLICATION_JSON + ", " + OslcMediaType.TEXT_TURTLE
+    )
     public Response createLinkType(
             
             final LinkType aResource
         ) throws IOException, ServletException
     {
-        LinkType newResource = AMManager.createLinkType(httpServletRequest, aResource);
-        httpServletResponse.setHeader("ETag", AMManager.getETagFromLinkType(newResource));
-        return Response.created(newResource.getAbout()).entity(newResource).header(AMConstants.HDR_OSLC_VERSION, AMConstants.OSLC_VERSION_V2).build();
+        LinkType newResource = OSLCAMServer2020RefImplManager.createLinkType(httpServletRequest, aResource);
+        httpServletResponse.setHeader("ETag", OSLCAMServer2020RefImplManager.getETagFromLinkType(newResource));
+        return Response.created(newResource.getAbout()).entity(newResource).header(OSLCAMServer2020RefImplConstants.HDR_OSLC_VERSION, OSLCAMServer2020RefImplConstants.OSLC_VERSION_V2).build();
     }
 
 }
