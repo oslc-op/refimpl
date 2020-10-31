@@ -114,9 +114,7 @@ public class CMManager {
         
         
         // Start of user code queryChangeRequests
-        // TODO Implement code to return a set of resources.
-        // An empty List should imply that no resources where found.
-        // If you encounter problems, consider throwing the runtime exception WebApplicationException(message, cause, final httpStatus)
+        resources = changeRequestRepository.fetchResourcePageForSP(SP_DEFAULT, page, limit);
         // End of user code
         return resources;
     }
@@ -249,6 +247,7 @@ public class CMManager {
         String id = aResource.getIdentifier();
         if(id == null) {
             id = UUID.randomUUID().toString();
+            aResource.setIdentifier(id);
         }
         URI uri = CMResourcesFactory.constructURIForChangeRequest(id);
         aResource.setAbout(uri);
