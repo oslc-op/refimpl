@@ -27,26 +27,15 @@ package co.oslc.refimpl.cm.gen;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.ServletContextEvent;
 import java.util.List;
-import java.util.ArrayList;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import org.eclipse.lyo.oslc4j.core.model.ServiceProvider;
-import org.eclipse.lyo.oslc4j.core.model.AbstractResource;
-import co.oslc.refimpl.cm.gen.servlet.ServiceProviderCatalogSingleton;
-import co.oslc.refimpl.cm.gen.ServiceProviderInfo;
-import org.eclipse.lyo.oslc.domains.Agent;
 import org.eclipse.lyo.oslc.domains.cm.ChangeNotice;
 import org.eclipse.lyo.oslc.domains.cm.ChangeRequest;
-import org.eclipse.lyo.oslc.domains.config.ChangeSet;
 import org.eclipse.lyo.oslc.domains.cm.Defect;
-import org.eclipse.lyo.oslc4j.core.model.Discussion;
 import org.eclipse.lyo.oslc.domains.cm.Enhancement;
-import org.eclipse.lyo.oslc.domains.Person;
-import org.eclipse.lyo.oslc.domains.cm.Priority;
-import org.eclipse.lyo.oslc.domains.rm.Requirement;
 import org.eclipse.lyo.oslc.domains.cm.ReviewTask;
-import org.eclipse.lyo.oslc.domains.cm.State;
 import org.eclipse.lyo.oslc.domains.cm.Task;
 
 
@@ -55,9 +44,8 @@ import org.eclipse.lyo.oslc.domains.cm.Task;
 import java.net.URI;
 import java.util.Date;
 import java.util.UUID;
-
-import co.oslc.refimpl.cm.xtra.MemResourceRepository;
-import co.oslc.refimpl.cm.xtra.ResourceRepository;
+import co.oslc.refimpl.lib.MemResourceRepository;
+import co.oslc.refimpl.lib.ResourceRepository;
 // End of user code
 
 // Start of user code pre_class_code

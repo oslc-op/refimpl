@@ -17,6 +17,7 @@
 	</properties>
 
   <modules>
+    <module>lib-common</module>
     <module>server-rm</module>
     <module>server-cm</module>
     <module>server-qm</module>
@@ -26,6 +27,11 @@
 
 	<dependencyManagement>
 		<dependencies>
+			<dependency>
+				<groupId>co.oslc.refimpl</groupId>
+				<artifactId>lib-common</artifactId>
+				<version>0.0.1-SNAPSHOT</version>
+			</dependency>
 			<!-- Adaptor-specific dependencies -->
 			<dependency>
 				<groupId>org.slf4j</groupId>

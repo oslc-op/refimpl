@@ -1,4 +1,4 @@
-package co.oslc.refimpl.cm.xtra;
+package co.oslc.refimpl.lib;
 
 import org.eclipse.lyo.oslc4j.core.model.AbstractResource;
 

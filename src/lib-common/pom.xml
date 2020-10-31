@@ -7,28 +7,20 @@
     <artifactId>parent</artifactId>
     <version>0.0.1-SNAPSHOT</version>
   </parent>
-  <name>OSLC Change Management Server (2019 RefImpl)</name>
-  <artifactId>server-cm</artifactId>
+  <name>OSLC RefImpl common library</name>
+  <artifactId>lib-common</artifactId>
   <version>0.0.1-SNAPSHOT</version>
-  <packaging>war</packaging>
+  <packaging>jar</packaging>
 
-  <properties></properties>
+  <properties>
+  </properties>
 
   <dependencies>
-    <dependency>
-      <groupId>co.oslc.refimpl</groupId>
-      <artifactId>lib-common</artifactId>
-    </dependency>
-    <!-- Adaptor-specific dependencies -->
     <dependency>
       <groupId>org.slf4j</groupId>
       <artifactId>slf4j-simple</artifactId>
       <scope>runtime</scope>
     </dependency>
-    <!-- <dependency>
-      <groupId>io.swagger</groupId>
-      <artifactId>swagger-jaxrs</artifactId>
-    </dependency> -->
 
     <!-- Lyo dependencies -->
     <dependency>
@@ -56,10 +48,22 @@
     <dependency>
       <groupId>org.glassfish.jersey.core</groupId>
       <artifactId>jersey-server</artifactId>
+      <exclusions>
+        <exclusion>
+          <groupId>javax.ws.rs</groupId>
+          <artifactId>javax.ws.rs-api</artifactId>
+        </exclusion>
+      </exclusions>
     </dependency>
     <dependency>
       <groupId>org.glassfish.jersey.containers</groupId>
       <artifactId>jersey-container-servlet</artifactId>
+      <exclusions>
+        <exclusion>
+          <groupId>javax.ws.rs</groupId>
+          <artifactId>javax.ws.rs-api</artifactId>
+        </exclusion>
+      </exclusions>
     </dependency>
     <dependency>
       <groupId>javax.servlet</groupId>
@@ -71,12 +75,6 @@
       <artifactId>javax.servlet.jsp.jstl-api</artifactId>
       <scope>provided</scope>
     </dependency>
-<!--
-    <dependency>
-      <groupId>io.swagger</groupId>
-      <artifactId>swagger-jersey2-jaxrs</artifactId>
-    </dependency>
--->
 
 
     <!-- Test dependencies -->
@@ -89,26 +87,6 @@
 
   <build>
     <plugins>
-      <plugin>
-        <groupId>org.eclipse.jetty</groupId>
-        <artifactId>jetty-maven-plugin</artifactId>
-        <version>9.4.19.v20190610</version>
-        <configuration>
-          <webAppConfig>
-            <contextPath>/</contextPath>
-          </webAppConfig>
-          <reload>automatic</reload>
-          <scanIntervalSeconds>5</scanIntervalSeconds>
-          <systemProperties>
-            <systemProperty>
-              <name>jetty.port</name>
-              <value>8801</value>
-            </systemProperty>
-          </systemProperties>
-          <stopKey/>
-          <stopPort/>
-        </configuration>
-      </plugin>
     </plugins>
   </build>
 </project>
