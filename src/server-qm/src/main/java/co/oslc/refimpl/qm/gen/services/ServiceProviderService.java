@@ -49,7 +49,7 @@ import org.eclipse.lyo.oslc4j.core.model.OslcMediaType;
 import org.eclipse.lyo.oslc4j.core.model.Service;
 import org.eclipse.lyo.oslc4j.core.model.ServiceProvider;
 
-import co.oslc.refimpl.qm.gen.OSLCQMServer2020RefImplManager;
+import co.oslc.refimpl.qm.gen.QMManager;
 import co.oslc.refimpl.qm.gen.servlet.ServiceProviderCatalogSingleton;
 
 // Start of user code imports

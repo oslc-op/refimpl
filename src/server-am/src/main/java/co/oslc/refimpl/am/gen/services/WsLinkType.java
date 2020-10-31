@@ -79,13 +79,11 @@ import org.eclipse.lyo.oslc4j.core.model.ServiceProvider;
 import org.eclipse.lyo.oslc4j.core.model.Link;
 import org.eclipse.lyo.oslc4j.core.model.AbstractResource;
 
-import co.oslc.refimpl.am.gen.OSLCAMServer2020RefImplManager;
-import co.oslc.refimpl.am.gen.OSLCAMServer2020RefImplConstants;
+import co.oslc.refimpl.am.gen.AMManager;
+import co.oslc.refimpl.am.gen.AMConstants;
 import org.eclipse.lyo.oslc.domains.am.Oslc_amDomainConstants;
 import co.oslc.refimpl.am.gen.servlet.ServiceProviderCatalogSingleton;
 import org.eclipse.lyo.oslc.domains.am.LinkType;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
 
 // Start of user code imports
 // End of user code
@@ -93,7 +91,6 @@ import io.swagger.annotations.ApiOperation;
 // Start of user code pre_class_code
 // End of user code
 @Path("lt")
-@Api(value = "Web Service for {" + Oslc_amDomainConstants.LINKTYPE_LOCALNAME + "}")
 public class WsLinkType
 {
     @Context private HttpServletRequest httpServletRequest;
@@ -125,12 +122,6 @@ public class WsLinkType
     @GET
     @Path("{id}")
     @Produces({OslcMediaType.APPLICATION_RDF_XML, OslcMediaType.APPLICATION_JSON_LD, OslcMediaType.TEXT_TURTLE, OslcMediaType.APPLICATION_XML, OslcMediaType.APPLICATION_JSON})
-    @ApiOperation(
-        value = "GET for resources of type {'" + Oslc_amDomainConstants.LINKTYPE_LOCALNAME + "'}",
-        notes = "GET for resources of type {'" + "<a href=\"" + Oslc_amDomainConstants.LINKTYPE_TYPE + "\">" + Oslc_amDomainConstants.LINKTYPE_LOCALNAME + "</a>" + "'}" +
-            ", with respective resource shapes {'" + "<a href=\"" + "../services/" + OslcConstants.PATH_RESOURCE_SHAPES + "/" + Oslc_amDomainConstants.LINKTYPE_PATH + "\">" + Oslc_amDomainConstants.LINKTYPE_LOCALNAME + "</a>" + "'}",
-        produces = OslcMediaType.APPLICATION_RDF_XML + ", " + OslcMediaType.APPLICATION_XML + ", " + OslcMediaType.APPLICATION_JSON + ", " + OslcMediaType.TEXT_TURTLE + ", " + MediaType.TEXT_HTML + ", " + OslcMediaType.APPLICATION_X_OSLC_COMPACT_XML
-    )
     public LinkType getLinkType(
                 @PathParam("id") final String id
         ) throws IOException, ServletException, URISyntaxException
@@ -138,13 +129,13 @@ public class WsLinkType
         // Start of user code getResource_init
         // End of user code
 
-        final LinkType aLinkType = OSLCAMServer2020RefImplManager.getLinkType(httpServletRequest, id);
+        final LinkType aLinkType = AMManager.getLinkType(httpServletRequest, id);
 
         if (aLinkType != null) {
             // Start of user code getLinkType
             // End of user code
-            httpServletResponse.setHeader("ETag", OSLCAMServer2020RefImplManager.getETagFromLinkType(aLinkType));
-            httpServletResponse.addHeader(OSLCAMServer2020RefImplConstants.HDR_OSLC_VERSION, OSLCAMServer2020RefImplConstants.OSLC_VERSION_V2);
+            httpServletResponse.setHeader("ETag", AMManager.getETagFromLinkType(aLinkType));
+            httpServletResponse.addHeader(AMConstants.HDR_OSLC_VERSION, AMConstants.OSLC_VERSION_V2);
             return aLinkType;
         }
 
@@ -154,12 +145,6 @@ public class WsLinkType
     @GET
     @Path("{id}")
     @Produces({ MediaType.TEXT_HTML })
-    @ApiOperation(
-        value = "GET for resources of type {'" + Oslc_amDomainConstants.LINKTYPE_LOCALNAME + "'}",
-        notes = "GET for resources of type {'" + "<a href=\"" + Oslc_amDomainConstants.LINKTYPE_TYPE + "\">" + Oslc_amDomainConstants.LINKTYPE_LOCALNAME + "</a>" + "'}" +
-            ", with respective resource shapes {'" + "<a href=\"" + "../services/" + OslcConstants.PATH_RESOURCE_SHAPES + "/" + Oslc_amDomainConstants.LINKTYPE_PATH + "\">" + Oslc_amDomainConstants.LINKTYPE_LOCALNAME + "</a>" + "'}",
-        produces = OslcMediaType.APPLICATION_RDF_XML + ", " + OslcMediaType.APPLICATION_XML + ", " + OslcMediaType.APPLICATION_JSON + ", " + OslcMediaType.TEXT_TURTLE + ", " + MediaType.TEXT_HTML + ", " + OslcMediaType.APPLICATION_X_OSLC_COMPACT_XML
-    )
     public void getLinkTypeAsHtml(
         @PathParam("id") final String id
         ) throws ServletException, IOException, URISyntaxException
@@ -167,7 +152,7 @@ public class WsLinkType
         // Start of user code getLinkTypeAsHtml_init
         // End of user code
 
-        final LinkType aLinkType = OSLCAMServer2020RefImplManager.getLinkType(httpServletRequest, id);
+        final LinkType aLinkType = AMManager.getLinkType(httpServletRequest, id);
 
         if (aLinkType != null) {
             httpServletRequest.setAttribute("aLinkType", aLinkType);
@@ -185,12 +170,6 @@ public class WsLinkType
     @GET
     @Path("{id}")
     @Produces({OslcMediaType.APPLICATION_X_OSLC_COMPACT_XML})
-    @ApiOperation(
-        value = "GET for resources of type {'" + Oslc_amDomainConstants.LINKTYPE_LOCALNAME + "'}",
-        notes = "GET for resources of type {'" + "<a href=\"" + Oslc_amDomainConstants.LINKTYPE_TYPE + "\">" + Oslc_amDomainConstants.LINKTYPE_LOCALNAME + "</a>" + "'}" +
-            ", with respective resource shapes {'" + "<a href=\"" + "../services/" + OslcConstants.PATH_RESOURCE_SHAPES + "/" + Oslc_amDomainConstants.LINKTYPE_PATH + "\">" + Oslc_amDomainConstants.LINKTYPE_LOCALNAME + "</a>" + "'}",
-        produces = OslcMediaType.APPLICATION_RDF_XML + ", " + OslcMediaType.APPLICATION_XML + ", " + OslcMediaType.APPLICATION_JSON + ", " + OslcMediaType.TEXT_TURTLE + ", " + MediaType.TEXT_HTML + ", " + OslcMediaType.APPLICATION_X_OSLC_COMPACT_XML
-    )
     public Compact getLinkTypeCompact(
         @PathParam("id") final String id
         ) throws ServletException, IOException, URISyntaxException
@@ -205,7 +184,7 @@ public class WsLinkType
         //TODO: adjust the preview height & width values from the default values provided above.
         // End of user code
 
-        final LinkType aLinkType = OSLCAMServer2020RefImplManager.getLinkType(httpServletRequest, id);
+        final LinkType aLinkType = AMManager.getLinkType(httpServletRequest, id);
 
         if (aLinkType != null) {
             final Compact compact = new Compact();
@@ -228,7 +207,7 @@ public class WsLinkType
             largePreview.setDocument(UriBuilder.fromUri(aLinkType.getAbout()).path("largePreview").build());
             compact.setLargePreview(largePreview);
 
-            httpServletResponse.addHeader(OSLCAMServer2020RefImplConstants.HDR_OSLC_VERSION, OSLCAMServer2020RefImplConstants.OSLC_VERSION_V2);
+            httpServletResponse.addHeader(AMConstants.HDR_OSLC_VERSION, AMConstants.OSLC_VERSION_V2);
             addCORSHeaders(httpServletResponse);
             return compact;
         }
@@ -245,7 +224,7 @@ public class WsLinkType
         // Start of user code getLinkTypeAsHtmlSmallPreview_init
         // End of user code
 
-        final LinkType aLinkType = OSLCAMServer2020RefImplManager.getLinkType(httpServletRequest, id);
+        final LinkType aLinkType = AMManager.getLinkType(httpServletRequest, id);
 
         if (aLinkType != null) {
             httpServletRequest.setAttribute("aLinkType", aLinkType);
@@ -253,7 +232,7 @@ public class WsLinkType
             // End of user code
 
             RequestDispatcher rd = httpServletRequest.getRequestDispatcher("/co/oslc/refimpl/am/gen/linktypesmallpreview.jsp");
-            httpServletResponse.addHeader(OSLCAMServer2020RefImplConstants.HDR_OSLC_VERSION, OSLCAMServer2020RefImplConstants.OSLC_VERSION_V2);
+            httpServletResponse.addHeader(AMConstants.HDR_OSLC_VERSION, AMConstants.OSLC_VERSION_V2);
             addCORSHeaders(httpServletResponse);
             rd.forward(httpServletRequest, httpServletResponse);
             return;
@@ -272,7 +251,7 @@ public class WsLinkType
         // Start of user code getLinkTypeAsHtmlLargePreview_init
         // End of user code
 
-        final LinkType aLinkType = OSLCAMServer2020RefImplManager.getLinkType(httpServletRequest, id);
+        final LinkType aLinkType = AMManager.getLinkType(httpServletRequest, id);
 
         if (aLinkType != null) {
             httpServletRequest.setAttribute("aLinkType", aLinkType);
@@ -280,7 +259,7 @@ public class WsLinkType
             // End of user code
 
             RequestDispatcher rd = httpServletRequest.getRequestDispatcher("/co/oslc/refimpl/am/gen/linktypelargepreview.jsp");
-            httpServletResponse.addHeader(OSLCAMServer2020RefImplConstants.HDR_OSLC_VERSION, OSLCAMServer2020RefImplConstants.OSLC_VERSION_V2);
+            httpServletResponse.addHeader(AMConstants.HDR_OSLC_VERSION, AMConstants.OSLC_VERSION_V2);
             addCORSHeaders(httpServletResponse);
             rd.forward(httpServletRequest, httpServletResponse);
             return;

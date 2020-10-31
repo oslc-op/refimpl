@@ -80,8 +80,8 @@ import org.eclipse.lyo.oslc4j.core.model.ServiceProvider;
 import org.eclipse.lyo.oslc4j.core.model.Link;
 import org.eclipse.lyo.oslc4j.core.model.AbstractResource;
 
-import co.oslc.refimpl.rm.gen.OSLCRMServer2020RefImplManager;
-import co.oslc.refimpl.rm.gen.OSLCRMServer2020RefImplConstants;
+import co.oslc.refimpl.rm.gen.RMManager;
+import co.oslc.refimpl.rm.gen.RMConstants;
 import org.eclipse.lyo.oslc.domains.rm.Oslc_rmDomainConstants;
 import org.eclipse.lyo.oslc.domains.rm.Oslc_rmDomainConstants;
 import co.oslc.refimpl.rm.gen.servlet.ServiceProviderCatalogSingleton;
@@ -163,7 +163,7 @@ public class RequirementsService
         // Here additional logic can be implemented that complements main action taken in RMManager
         // End of user code
 
-        final List<Requirement> resources = OSLCRMServer2020RefImplManager.queryRequirements(httpServletRequest, serviceProviderId, where, prefix, page, pageSize);
+        final List<Requirement> resources = RMManager.queryRequirements(httpServletRequest, serviceProviderId, where, prefix, page, pageSize);
         httpServletRequest.setAttribute("queryUri",
                 uriInfo.getAbsolutePath().toString() + "?oslc.paging=true");
         if (resources.size() > pageSize) {
@@ -202,7 +202,7 @@ public class RequirementsService
         // Start of user code queryRequirementsAsHtml
         // End of user code
 
-        final List<Requirement> resources = OSLCRMServer2020RefImplManager.queryRequirements(httpServletRequest, serviceProviderId, where, prefix, page, pageSize);
+        final List<Requirement> resources = RMManager.queryRequirements(httpServletRequest, serviceProviderId, where, prefix, page, pageSize);
 
         if (resources!= null) {
             httpServletRequest.setAttribute("resources", resources);
@@ -251,7 +251,7 @@ public class RequirementsService
 
         if (terms != null ) {
             httpServletRequest.setAttribute("terms", terms);
-            final List<Requirement> resources = OSLCRMServer2020RefImplManager.RequirementSelector(httpServletRequest, serviceProviderId, terms);
+            final List<Requirement> resources = RMManager.RequirementSelector(httpServletRequest, serviceProviderId, terms);
             if (resources!= null) {
                         httpServletRequest.setAttribute("resources", resources);
                         RequestDispatcher rd = httpServletRequest.getRequestDispatcher("/co/oslc/refimpl/rm/gen/requirementselectorresults.jsp");
@@ -297,9 +297,9 @@ public class RequirementsService
             final Requirement aResource
         ) throws IOException, ServletException
     {
-        Requirement newResource = OSLCRMServer2020RefImplManager.createRequirement(httpServletRequest, aResource, serviceProviderId);
-        httpServletResponse.setHeader("ETag", OSLCRMServer2020RefImplManager.getETagFromRequirement(newResource));
-        return Response.created(newResource.getAbout()).entity(newResource).header(OSLCRMServer2020RefImplConstants.HDR_OSLC_VERSION, OSLCRMServer2020RefImplConstants.OSLC_VERSION_V2).build();
+        Requirement newResource = RMManager.createRequirement(httpServletRequest, aResource, serviceProviderId);
+        httpServletResponse.setHeader("ETag", RMManager.getETagFromRequirement(newResource));
+        return Response.created(newResource.getAbout()).entity(newResource).header(RMConstants.HDR_OSLC_VERSION, RMConstants.OSLC_VERSION_V2).build();
     }
 
     /**
@@ -521,7 +521,7 @@ public class RequirementsService
                 }
         }
 
-        newResource = OSLCRMServer2020RefImplManager.createRequirementFromDialog(httpServletRequest, aResource, serviceProviderId);
+        newResource = RMManager.createRequirementFromDialog(httpServletRequest, aResource, serviceProviderId);
 
         if (newResource != null) {
             httpServletRequest.setAttribute("newResource", newResource);

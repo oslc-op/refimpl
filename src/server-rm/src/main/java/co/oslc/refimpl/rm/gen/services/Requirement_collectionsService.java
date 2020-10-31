@@ -80,8 +80,8 @@ import org.eclipse.lyo.oslc4j.core.model.ServiceProvider;
 import org.eclipse.lyo.oslc4j.core.model.Link;
 import org.eclipse.lyo.oslc4j.core.model.AbstractResource;
 
-import co.oslc.refimpl.rm.gen.OSLCRMServer2020RefImplManager;
-import co.oslc.refimpl.rm.gen.OSLCRMServer2020RefImplConstants;
+import co.oslc.refimpl.rm.gen.RMManager;
+import co.oslc.refimpl.rm.gen.RMConstants;
 import org.eclipse.lyo.oslc.domains.rm.Oslc_rmDomainConstants;
 import org.eclipse.lyo.oslc.domains.rm.Oslc_rmDomainConstants;
 import co.oslc.refimpl.rm.gen.servlet.ServiceProviderCatalogSingleton;
@@ -163,7 +163,7 @@ public class Requirement_collectionsService
         // Here additional logic can be implemented that complements main action taken in RMManager
         // End of user code
 
-        final List<RequirementCollection> resources = OSLCRMServer2020RefImplManager.queryRequirementCollections(httpServletRequest, serviceProviderId, where, prefix, page, pageSize);
+        final List<RequirementCollection> resources = RMManager.queryRequirementCollections(httpServletRequest, serviceProviderId, where, prefix, page, pageSize);
         httpServletRequest.setAttribute("queryUri",
                 uriInfo.getAbsolutePath().toString() + "?oslc.paging=true");
         if (resources.size() > pageSize) {
@@ -202,7 +202,7 @@ public class Requirement_collectionsService
         // Start of user code queryRequirementCollectionsAsHtml
         // End of user code
 
-        final List<RequirementCollection> resources = OSLCRMServer2020RefImplManager.queryRequirementCollections(httpServletRequest, serviceProviderId, where, prefix, page, pageSize);
+        final List<RequirementCollection> resources = RMManager.queryRequirementCollections(httpServletRequest, serviceProviderId, where, prefix, page, pageSize);
 
         if (resources!= null) {
             httpServletRequest.setAttribute("resources", resources);
@@ -251,7 +251,7 @@ public class Requirement_collectionsService
 
         if (terms != null ) {
             httpServletRequest.setAttribute("terms", terms);
-            final List<RequirementCollection> resources = OSLCRMServer2020RefImplManager.RequirementCollectionSelector(httpServletRequest, serviceProviderId, terms);
+            final List<RequirementCollection> resources = RMManager.RequirementCollectionSelector(httpServletRequest, serviceProviderId, terms);
             if (resources!= null) {
                         httpServletRequest.setAttribute("resources", resources);
                         RequestDispatcher rd = httpServletRequest.getRequestDispatcher("/co/oslc/refimpl/rm/gen/requirementcollectionselectorresults.jsp");
@@ -297,9 +297,9 @@ public class Requirement_collectionsService
             final RequirementCollection aResource
         ) throws IOException, ServletException
     {
-        RequirementCollection newResource = OSLCRMServer2020RefImplManager.createRequirementCollection(httpServletRequest, aResource, serviceProviderId);
-        httpServletResponse.setHeader("ETag", OSLCRMServer2020RefImplManager.getETagFromRequirementCollection(newResource));
-        return Response.created(newResource.getAbout()).entity(newResource).header(OSLCRMServer2020RefImplConstants.HDR_OSLC_VERSION, OSLCRMServer2020RefImplConstants.OSLC_VERSION_V2).build();
+        RequirementCollection newResource = RMManager.createRequirementCollection(httpServletRequest, aResource, serviceProviderId);
+        httpServletResponse.setHeader("ETag", RMManager.getETagFromRequirementCollection(newResource));
+        return Response.created(newResource.getAbout()).entity(newResource).header(RMConstants.HDR_OSLC_VERSION, RMConstants.OSLC_VERSION_V2).build();
     }
 
 }

@@ -80,8 +80,8 @@ import org.eclipse.lyo.oslc4j.core.model.ServiceProvider;
 import org.eclipse.lyo.oslc4j.core.model.Link;
 import org.eclipse.lyo.oslc4j.core.model.AbstractResource;
 
-import co.oslc.refimpl.qm.gen.OSLCQMServer2020RefImplManager;
-import co.oslc.refimpl.qm.gen.OSLCQMServer2020RefImplConstants;
+import co.oslc.refimpl.qm.gen.QMManager;
+import co.oslc.refimpl.qm.gen.QMConstants;
 import org.eclipse.lyo.oslc.domains.qm.Oslc_qmDomainConstants;
 import org.eclipse.lyo.oslc.domains.qm.Oslc_qmDomainConstants;
 import co.oslc.refimpl.qm.gen.servlet.ServiceProviderCatalogSingleton;
@@ -162,7 +162,7 @@ public class ScriptsService
         // Here additional logic can be implemented that complements main action taken in QMManager
         // End of user code
 
-        final List<TestScript> resources = OSLCQMServer2020RefImplManager.queryTestScripts(httpServletRequest, where, prefix, page, pageSize);
+        final List<TestScript> resources = QMManager.queryTestScripts(httpServletRequest, where, prefix, page, pageSize);
         httpServletRequest.setAttribute("queryUri",
                 uriInfo.getAbsolutePath().toString() + "?oslc.paging=true");
         if (resources.size() > pageSize) {
@@ -195,7 +195,7 @@ public class ScriptsService
         // Start of user code queryTestScriptsAsHtml
         // End of user code
 
-        final List<TestScript> resources = OSLCQMServer2020RefImplManager.queryTestScripts(httpServletRequest, where, prefix, page, pageSize);
+        final List<TestScript> resources = QMManager.queryTestScripts(httpServletRequest, where, prefix, page, pageSize);
 
         if (resources!= null) {
             httpServletRequest.setAttribute("resources", resources);
@@ -244,7 +244,7 @@ public class ScriptsService
 
         if (terms != null ) {
             httpServletRequest.setAttribute("terms", terms);
-            final List<TestScript> resources = OSLCQMServer2020RefImplManager.TestScriptSelector(httpServletRequest, terms);
+            final List<TestScript> resources = QMManager.TestScriptSelector(httpServletRequest, terms);
             if (resources!= null) {
                         httpServletRequest.setAttribute("resources", resources);
                         RequestDispatcher rd = httpServletRequest.getRequestDispatcher("/co/oslc/refimpl/qm/gen/testscriptselectorresults.jsp");
@@ -284,9 +284,9 @@ public class ScriptsService
             final TestScript aResource
         ) throws IOException, ServletException
     {
-        TestScript newResource = OSLCQMServer2020RefImplManager.createTestScript(httpServletRequest, aResource);
-        httpServletResponse.setHeader("ETag", OSLCQMServer2020RefImplManager.getETagFromTestScript(newResource));
-        return Response.created(newResource.getAbout()).entity(newResource).header(OSLCQMServer2020RefImplConstants.HDR_OSLC_VERSION, OSLCQMServer2020RefImplConstants.OSLC_VERSION_V2).build();
+        TestScript newResource = QMManager.createTestScript(httpServletRequest, aResource);
+        httpServletResponse.setHeader("ETag", QMManager.getETagFromTestScript(newResource));
+        return Response.created(newResource.getAbout()).entity(newResource).header(QMConstants.HDR_OSLC_VERSION, QMConstants.OSLC_VERSION_V2).build();
     }
 
 }

@@ -79,8 +79,8 @@ import org.eclipse.lyo.oslc4j.core.model.ServiceProvider;
 import org.eclipse.lyo.oslc4j.core.model.Link;
 import org.eclipse.lyo.oslc4j.core.model.AbstractResource;
 
-import co.oslc.refimpl.cm.gen.OSLCCMServer2020RefImplManager;
-import co.oslc.refimpl.cm.gen.OSLCCMServer2020RefImplConstants;
+import co.oslc.refimpl.cm.gen.CMManager;
+import co.oslc.refimpl.cm.gen.CMConstants;
 import org.eclipse.lyo.oslc.domains.cm.Oslc_cmDomainConstants;
 import co.oslc.refimpl.cm.gen.servlet.ServiceProviderCatalogSingleton;
 import org.eclipse.lyo.oslc.domains.cm.ChangeRequest;
@@ -129,13 +129,13 @@ public class WsChangeRequest
         // Start of user code getResource_init
         // End of user code
 
-        final ChangeRequest aChangeRequest = OSLCCMServer2020RefImplManager.getChangeRequest(httpServletRequest, id);
+        final ChangeRequest aChangeRequest = CMManager.getChangeRequest(httpServletRequest, id);
 
         if (aChangeRequest != null) {
             // Start of user code getChangeRequest
             // End of user code
-            httpServletResponse.setHeader("ETag", OSLCCMServer2020RefImplManager.getETagFromChangeRequest(aChangeRequest));
-            httpServletResponse.addHeader(OSLCCMServer2020RefImplConstants.HDR_OSLC_VERSION, OSLCCMServer2020RefImplConstants.OSLC_VERSION_V2);
+            httpServletResponse.setHeader("ETag", CMManager.getETagFromChangeRequest(aChangeRequest));
+            httpServletResponse.addHeader(CMConstants.HDR_OSLC_VERSION, CMConstants.OSLC_VERSION_V2);
             return aChangeRequest;
         }
 
@@ -152,7 +152,7 @@ public class WsChangeRequest
         // Start of user code getChangeRequestAsHtml_init
         // End of user code
 
-        final ChangeRequest aChangeRequest = OSLCCMServer2020RefImplManager.getChangeRequest(httpServletRequest, id);
+        final ChangeRequest aChangeRequest = CMManager.getChangeRequest(httpServletRequest, id);
 
         if (aChangeRequest != null) {
             httpServletRequest.setAttribute("aChangeRequest", aChangeRequest);
@@ -184,7 +184,7 @@ public class WsChangeRequest
         //TODO: adjust the preview height & width values from the default values provided above.
         // End of user code
 
-        final ChangeRequest aChangeRequest = OSLCCMServer2020RefImplManager.getChangeRequest(httpServletRequest, id);
+        final ChangeRequest aChangeRequest = CMManager.getChangeRequest(httpServletRequest, id);
 
         if (aChangeRequest != null) {
             final Compact compact = new Compact();
@@ -207,7 +207,7 @@ public class WsChangeRequest
             largePreview.setDocument(UriBuilder.fromUri(aChangeRequest.getAbout()).path("largePreview").build());
             compact.setLargePreview(largePreview);
 
-            httpServletResponse.addHeader(OSLCCMServer2020RefImplConstants.HDR_OSLC_VERSION, OSLCCMServer2020RefImplConstants.OSLC_VERSION_V2);
+            httpServletResponse.addHeader(CMConstants.HDR_OSLC_VERSION, CMConstants.OSLC_VERSION_V2);
             addCORSHeaders(httpServletResponse);
             return compact;
         }
@@ -224,7 +224,7 @@ public class WsChangeRequest
         // Start of user code getChangeRequestAsHtmlSmallPreview_init
         // End of user code
 
-        final ChangeRequest aChangeRequest = OSLCCMServer2020RefImplManager.getChangeRequest(httpServletRequest, id);
+        final ChangeRequest aChangeRequest = CMManager.getChangeRequest(httpServletRequest, id);
 
         if (aChangeRequest != null) {
             httpServletRequest.setAttribute("aChangeRequest", aChangeRequest);
@@ -232,7 +232,7 @@ public class WsChangeRequest
             // End of user code
 
             RequestDispatcher rd = httpServletRequest.getRequestDispatcher("/co/oslc/refimpl/cm/gen/changerequestsmallpreview.jsp");
-            httpServletResponse.addHeader(OSLCCMServer2020RefImplConstants.HDR_OSLC_VERSION, OSLCCMServer2020RefImplConstants.OSLC_VERSION_V2);
+            httpServletResponse.addHeader(CMConstants.HDR_OSLC_VERSION, CMConstants.OSLC_VERSION_V2);
             addCORSHeaders(httpServletResponse);
             rd.forward(httpServletRequest, httpServletResponse);
             return;
@@ -251,7 +251,7 @@ public class WsChangeRequest
         // Start of user code getChangeRequestAsHtmlLargePreview_init
         // End of user code
 
-        final ChangeRequest aChangeRequest = OSLCCMServer2020RefImplManager.getChangeRequest(httpServletRequest, id);
+        final ChangeRequest aChangeRequest = CMManager.getChangeRequest(httpServletRequest, id);
 
         if (aChangeRequest != null) {
             httpServletRequest.setAttribute("aChangeRequest", aChangeRequest);
@@ -259,7 +259,7 @@ public class WsChangeRequest
             // End of user code
 
             RequestDispatcher rd = httpServletRequest.getRequestDispatcher("/co/oslc/refimpl/cm/gen/changerequestlargepreview.jsp");
-            httpServletResponse.addHeader(OSLCCMServer2020RefImplConstants.HDR_OSLC_VERSION, OSLCCMServer2020RefImplConstants.OSLC_VERSION_V2);
+            httpServletResponse.addHeader(CMConstants.HDR_OSLC_VERSION, CMConstants.OSLC_VERSION_V2);
             addCORSHeaders(httpServletResponse);
             rd.forward(httpServletRequest, httpServletResponse);
             return;
@@ -275,14 +275,14 @@ public class WsChangeRequest
     {
         // Start of user code deleteChangeRequest_init
         // End of user code
-        final ChangeRequest aResource = OSLCCMServer2020RefImplManager.getChangeRequest(httpServletRequest, id);
+        final ChangeRequest aResource = CMManager.getChangeRequest(httpServletRequest, id);
 
         if (aResource != null) {
             // Start of user code deleteChangeRequest
             // End of user code
-            boolean deleted = OSLCCMServer2020RefImplManager.deleteChangeRequest(httpServletRequest, id);
+            boolean deleted = CMManager.deleteChangeRequest(httpServletRequest, id);
             if (deleted)
-                return Response.ok().header(OSLCCMServer2020RefImplConstants.HDR_OSLC_VERSION, OSLCCMServer2020RefImplConstants.OSLC_VERSION_V2).build();
+                return Response.ok().header(CMConstants.HDR_OSLC_VERSION, CMConstants.OSLC_VERSION_V2).build();
             else
                 throw new WebApplicationException(Status.INTERNAL_SERVER_ERROR);
         }
@@ -300,17 +300,17 @@ public class WsChangeRequest
     {
         // Start of user code updateChangeRequest_init
         // End of user code
-        final ChangeRequest originalResource = OSLCCMServer2020RefImplManager.getChangeRequest(httpServletRequest, id);
+        final ChangeRequest originalResource = CMManager.getChangeRequest(httpServletRequest, id);
 
         if (originalResource != null) {
-            final String originalETag = OSLCCMServer2020RefImplManager.getETagFromChangeRequest(originalResource);
+            final String originalETag = CMManager.getETagFromChangeRequest(originalResource);
 
             if ((eTagHeader == null) || (originalETag.equals(eTagHeader))) {
                 // Start of user code updateChangeRequest
                 // End of user code
-                final ChangeRequest updatedResource = OSLCCMServer2020RefImplManager.updateChangeRequest(httpServletRequest, aResource, id);
-                httpServletResponse.setHeader("ETag", OSLCCMServer2020RefImplManager.getETagFromChangeRequest(updatedResource));
-                return Response.ok().header(OSLCCMServer2020RefImplConstants.HDR_OSLC_VERSION, OSLCCMServer2020RefImplConstants.OSLC_VERSION_V2).build();
+                final ChangeRequest updatedResource = CMManager.updateChangeRequest(httpServletRequest, aResource, id);
+                httpServletResponse.setHeader("ETag", CMManager.getETagFromChangeRequest(updatedResource));
+                return Response.ok().header(CMConstants.HDR_OSLC_VERSION, CMConstants.OSLC_VERSION_V2).build();
             }
             else {
                 throw new WebApplicationException(Status.PRECONDITION_FAILED);

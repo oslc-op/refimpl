@@ -79,8 +79,8 @@ import org.eclipse.lyo.oslc4j.core.model.ServiceProvider;
 import org.eclipse.lyo.oslc4j.core.model.Link;
 import org.eclipse.lyo.oslc4j.core.model.AbstractResource;
 
-import co.oslc.refimpl.qm.gen.OSLCQMServer2020RefImplManager;
-import co.oslc.refimpl.qm.gen.OSLCQMServer2020RefImplConstants;
+import co.oslc.refimpl.qm.gen.QMManager;
+import co.oslc.refimpl.qm.gen.QMConstants;
 import org.eclipse.lyo.oslc.domains.qm.Oslc_qmDomainConstants;
 import co.oslc.refimpl.qm.gen.servlet.ServiceProviderCatalogSingleton;
 import org.eclipse.lyo.oslc.domains.qm.TestExecutionRecord;
@@ -129,13 +129,13 @@ public class WsExecRecords
         // Start of user code getResource_init
         // End of user code
 
-        final TestExecutionRecord aTestExecutionRecord = OSLCQMServer2020RefImplManager.getTestExecutionRecord(httpServletRequest, spSlug, id);
+        final TestExecutionRecord aTestExecutionRecord = QMManager.getTestExecutionRecord(httpServletRequest, spSlug, id);
 
         if (aTestExecutionRecord != null) {
             // Start of user code getTestExecutionRecord
             // End of user code
-            httpServletResponse.setHeader("ETag", OSLCQMServer2020RefImplManager.getETagFromTestExecutionRecord(aTestExecutionRecord));
-            httpServletResponse.addHeader(OSLCQMServer2020RefImplConstants.HDR_OSLC_VERSION, OSLCQMServer2020RefImplConstants.OSLC_VERSION_V2);
+            httpServletResponse.setHeader("ETag", QMManager.getETagFromTestExecutionRecord(aTestExecutionRecord));
+            httpServletResponse.addHeader(QMConstants.HDR_OSLC_VERSION, QMConstants.OSLC_VERSION_V2);
             return aTestExecutionRecord;
         }
 
@@ -152,7 +152,7 @@ public class WsExecRecords
         // Start of user code getTestExecutionRecordAsHtml_init
         // End of user code
 
-        final TestExecutionRecord aTestExecutionRecord = OSLCQMServer2020RefImplManager.getTestExecutionRecord(httpServletRequest, spSlug, id);
+        final TestExecutionRecord aTestExecutionRecord = QMManager.getTestExecutionRecord(httpServletRequest, spSlug, id);
 
         if (aTestExecutionRecord != null) {
             httpServletRequest.setAttribute("aTestExecutionRecord", aTestExecutionRecord);
@@ -184,7 +184,7 @@ public class WsExecRecords
         //TODO: adjust the preview height & width values from the default values provided above.
         // End of user code
 
-        final TestExecutionRecord aTestExecutionRecord = OSLCQMServer2020RefImplManager.getTestExecutionRecord(httpServletRequest, spSlug, id);
+        final TestExecutionRecord aTestExecutionRecord = QMManager.getTestExecutionRecord(httpServletRequest, spSlug, id);
 
         if (aTestExecutionRecord != null) {
             final Compact compact = new Compact();
@@ -207,7 +207,7 @@ public class WsExecRecords
             largePreview.setDocument(UriBuilder.fromUri(aTestExecutionRecord.getAbout()).path("largePreview").build());
             compact.setLargePreview(largePreview);
 
-            httpServletResponse.addHeader(OSLCQMServer2020RefImplConstants.HDR_OSLC_VERSION, OSLCQMServer2020RefImplConstants.OSLC_VERSION_V2);
+            httpServletResponse.addHeader(QMConstants.HDR_OSLC_VERSION, QMConstants.OSLC_VERSION_V2);
             addCORSHeaders(httpServletResponse);
             return compact;
         }
@@ -224,7 +224,7 @@ public class WsExecRecords
         // Start of user code getTestExecutionRecordAsHtmlSmallPreview_init
         // End of user code
 
-        final TestExecutionRecord aTestExecutionRecord = OSLCQMServer2020RefImplManager.getTestExecutionRecord(httpServletRequest, spSlug, id);
+        final TestExecutionRecord aTestExecutionRecord = QMManager.getTestExecutionRecord(httpServletRequest, spSlug, id);
 
         if (aTestExecutionRecord != null) {
             httpServletRequest.setAttribute("aTestExecutionRecord", aTestExecutionRecord);
@@ -232,7 +232,7 @@ public class WsExecRecords
             // End of user code
 
             RequestDispatcher rd = httpServletRequest.getRequestDispatcher("/co/oslc/refimpl/qm/gen/testexecutionrecordsmallpreview.jsp");
-            httpServletResponse.addHeader(OSLCQMServer2020RefImplConstants.HDR_OSLC_VERSION, OSLCQMServer2020RefImplConstants.OSLC_VERSION_V2);
+            httpServletResponse.addHeader(QMConstants.HDR_OSLC_VERSION, QMConstants.OSLC_VERSION_V2);
             addCORSHeaders(httpServletResponse);
             rd.forward(httpServletRequest, httpServletResponse);
             return;
@@ -251,7 +251,7 @@ public class WsExecRecords
         // Start of user code getTestExecutionRecordAsHtmlLargePreview_init
         // End of user code
 
-        final TestExecutionRecord aTestExecutionRecord = OSLCQMServer2020RefImplManager.getTestExecutionRecord(httpServletRequest, spSlug, id);
+        final TestExecutionRecord aTestExecutionRecord = QMManager.getTestExecutionRecord(httpServletRequest, spSlug, id);
 
         if (aTestExecutionRecord != null) {
             httpServletRequest.setAttribute("aTestExecutionRecord", aTestExecutionRecord);
@@ -259,7 +259,7 @@ public class WsExecRecords
             // End of user code
 
             RequestDispatcher rd = httpServletRequest.getRequestDispatcher("/co/oslc/refimpl/qm/gen/testexecutionrecordlargepreview.jsp");
-            httpServletResponse.addHeader(OSLCQMServer2020RefImplConstants.HDR_OSLC_VERSION, OSLCQMServer2020RefImplConstants.OSLC_VERSION_V2);
+            httpServletResponse.addHeader(QMConstants.HDR_OSLC_VERSION, QMConstants.OSLC_VERSION_V2);
             addCORSHeaders(httpServletResponse);
             rd.forward(httpServletRequest, httpServletResponse);
             return;

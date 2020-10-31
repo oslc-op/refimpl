@@ -79,8 +79,8 @@ import org.eclipse.lyo.oslc4j.core.model.ServiceProvider;
 import org.eclipse.lyo.oslc4j.core.model.Link;
 import org.eclipse.lyo.oslc4j.core.model.AbstractResource;
 
-import co.oslc.refimpl.rm.gen.OSLCRMServer2020RefImplManager;
-import co.oslc.refimpl.rm.gen.OSLCRMServer2020RefImplConstants;
+import co.oslc.refimpl.rm.gen.RMManager;
+import co.oslc.refimpl.rm.gen.RMConstants;
 import org.eclipse.lyo.oslc.domains.rm.Oslc_rmDomainConstants;
 import org.eclipse.lyo.oslc.domains.rm.Oslc_rmDomainConstants;
 import co.oslc.refimpl.rm.gen.servlet.ServiceProviderCatalogSingleton;
@@ -140,13 +140,13 @@ public class WebServiceBasic
         // Start of user code getResource_init
         // End of user code
 
-        final Requirement aRequirement = OSLCRMServer2020RefImplManager.getRequirement(httpServletRequest, serviceProviderId, resourceId);
+        final Requirement aRequirement = RMManager.getRequirement(httpServletRequest, serviceProviderId, resourceId);
 
         if (aRequirement != null) {
             // Start of user code getRequirement
             // End of user code
-            httpServletResponse.setHeader("ETag", OSLCRMServer2020RefImplManager.getETagFromRequirement(aRequirement));
-            httpServletResponse.addHeader(OSLCRMServer2020RefImplConstants.HDR_OSLC_VERSION, OSLCRMServer2020RefImplConstants.OSLC_VERSION_V2);
+            httpServletResponse.setHeader("ETag", RMManager.getETagFromRequirement(aRequirement));
+            httpServletResponse.addHeader(RMConstants.HDR_OSLC_VERSION, RMConstants.OSLC_VERSION_V2);
             return aRequirement;
         }
 
@@ -169,7 +169,7 @@ public class WebServiceBasic
         // Start of user code getRequirementAsHtml_init
         // End of user code
 
-        final Requirement aRequirement = OSLCRMServer2020RefImplManager.getRequirement(httpServletRequest, serviceProviderId, resourceId);
+        final Requirement aRequirement = RMManager.getRequirement(httpServletRequest, serviceProviderId, resourceId);
 
         if (aRequirement != null) {
             httpServletRequest.setAttribute("aRequirement", aRequirement);
@@ -207,7 +207,7 @@ public class WebServiceBasic
         //TODO: adjust the preview height & width values from the default values provided above.
         // End of user code
 
-        final Requirement aRequirement = OSLCRMServer2020RefImplManager.getRequirement(httpServletRequest, serviceProviderId, resourceId);
+        final Requirement aRequirement = RMManager.getRequirement(httpServletRequest, serviceProviderId, resourceId);
 
         if (aRequirement != null) {
             final Compact compact = new Compact();
@@ -230,7 +230,7 @@ public class WebServiceBasic
             largePreview.setDocument(UriBuilder.fromUri(aRequirement.getAbout()).path("largePreview").build());
             compact.setLargePreview(largePreview);
 
-            httpServletResponse.addHeader(OSLCRMServer2020RefImplConstants.HDR_OSLC_VERSION, OSLCRMServer2020RefImplConstants.OSLC_VERSION_V2);
+            httpServletResponse.addHeader(RMConstants.HDR_OSLC_VERSION, RMConstants.OSLC_VERSION_V2);
             addCORSHeaders(httpServletResponse);
             return compact;
         }
@@ -247,7 +247,7 @@ public class WebServiceBasic
         // Start of user code getRequirementAsHtmlSmallPreview_init
         // End of user code
 
-        final Requirement aRequirement = OSLCRMServer2020RefImplManager.getRequirement(httpServletRequest, serviceProviderId, resourceId);
+        final Requirement aRequirement = RMManager.getRequirement(httpServletRequest, serviceProviderId, resourceId);
 
         if (aRequirement != null) {
             httpServletRequest.setAttribute("aRequirement", aRequirement);
@@ -255,7 +255,7 @@ public class WebServiceBasic
             // End of user code
 
             RequestDispatcher rd = httpServletRequest.getRequestDispatcher("/co/oslc/refimpl/rm/gen/requirementsmallpreview.jsp");
-            httpServletResponse.addHeader(OSLCRMServer2020RefImplConstants.HDR_OSLC_VERSION, OSLCRMServer2020RefImplConstants.OSLC_VERSION_V2);
+            httpServletResponse.addHeader(RMConstants.HDR_OSLC_VERSION, RMConstants.OSLC_VERSION_V2);
             addCORSHeaders(httpServletResponse);
             rd.forward(httpServletRequest, httpServletResponse);
             return;
@@ -274,7 +274,7 @@ public class WebServiceBasic
         // Start of user code getRequirementAsHtmlLargePreview_init
         // End of user code
 
-        final Requirement aRequirement = OSLCRMServer2020RefImplManager.getRequirement(httpServletRequest, serviceProviderId, resourceId);
+        final Requirement aRequirement = RMManager.getRequirement(httpServletRequest, serviceProviderId, resourceId);
 
         if (aRequirement != null) {
             httpServletRequest.setAttribute("aRequirement", aRequirement);
@@ -282,7 +282,7 @@ public class WebServiceBasic
             // End of user code
 
             RequestDispatcher rd = httpServletRequest.getRequestDispatcher("/co/oslc/refimpl/rm/gen/requirementlargepreview.jsp");
-            httpServletResponse.addHeader(OSLCRMServer2020RefImplConstants.HDR_OSLC_VERSION, OSLCRMServer2020RefImplConstants.OSLC_VERSION_V2);
+            httpServletResponse.addHeader(RMConstants.HDR_OSLC_VERSION, RMConstants.OSLC_VERSION_V2);
             addCORSHeaders(httpServletResponse);
             rd.forward(httpServletRequest, httpServletResponse);
             return;
@@ -306,13 +306,13 @@ public class WebServiceBasic
         // Start of user code getResource_init
         // End of user code
 
-        final RequirementCollection aRequirementCollection = OSLCRMServer2020RefImplManager.getRequirementCollection(httpServletRequest, serviceProviderId, resourceId);
+        final RequirementCollection aRequirementCollection = RMManager.getRequirementCollection(httpServletRequest, serviceProviderId, resourceId);
 
         if (aRequirementCollection != null) {
             // Start of user code getRequirementCollection
             // End of user code
-            httpServletResponse.setHeader("ETag", OSLCRMServer2020RefImplManager.getETagFromRequirementCollection(aRequirementCollection));
-            httpServletResponse.addHeader(OSLCRMServer2020RefImplConstants.HDR_OSLC_VERSION, OSLCRMServer2020RefImplConstants.OSLC_VERSION_V2);
+            httpServletResponse.setHeader("ETag", RMManager.getETagFromRequirementCollection(aRequirementCollection));
+            httpServletResponse.addHeader(RMConstants.HDR_OSLC_VERSION, RMConstants.OSLC_VERSION_V2);
             return aRequirementCollection;
         }
 
@@ -335,7 +335,7 @@ public class WebServiceBasic
         // Start of user code getRequirementCollectionAsHtml_init
         // End of user code
 
-        final RequirementCollection aRequirementCollection = OSLCRMServer2020RefImplManager.getRequirementCollection(httpServletRequest, serviceProviderId, resourceId);
+        final RequirementCollection aRequirementCollection = RMManager.getRequirementCollection(httpServletRequest, serviceProviderId, resourceId);
 
         if (aRequirementCollection != null) {
             httpServletRequest.setAttribute("aRequirementCollection", aRequirementCollection);
@@ -373,7 +373,7 @@ public class WebServiceBasic
         //TODO: adjust the preview height & width values from the default values provided above.
         // End of user code
 
-        final RequirementCollection aRequirementCollection = OSLCRMServer2020RefImplManager.getRequirementCollection(httpServletRequest, serviceProviderId, resourceId);
+        final RequirementCollection aRequirementCollection = RMManager.getRequirementCollection(httpServletRequest, serviceProviderId, resourceId);
 
         if (aRequirementCollection != null) {
             final Compact compact = new Compact();
@@ -396,7 +396,7 @@ public class WebServiceBasic
             largePreview.setDocument(UriBuilder.fromUri(aRequirementCollection.getAbout()).path("largePreview").build());
             compact.setLargePreview(largePreview);
 
-            httpServletResponse.addHeader(OSLCRMServer2020RefImplConstants.HDR_OSLC_VERSION, OSLCRMServer2020RefImplConstants.OSLC_VERSION_V2);
+            httpServletResponse.addHeader(RMConstants.HDR_OSLC_VERSION, RMConstants.OSLC_VERSION_V2);
             addCORSHeaders(httpServletResponse);
             return compact;
         }
@@ -413,7 +413,7 @@ public class WebServiceBasic
         // Start of user code getRequirementCollectionAsHtmlSmallPreview_init
         // End of user code
 
-        final RequirementCollection aRequirementCollection = OSLCRMServer2020RefImplManager.getRequirementCollection(httpServletRequest, serviceProviderId, resourceId);
+        final RequirementCollection aRequirementCollection = RMManager.getRequirementCollection(httpServletRequest, serviceProviderId, resourceId);
 
         if (aRequirementCollection != null) {
             httpServletRequest.setAttribute("aRequirementCollection", aRequirementCollection);
@@ -421,7 +421,7 @@ public class WebServiceBasic
             // End of user code
 
             RequestDispatcher rd = httpServletRequest.getRequestDispatcher("/co/oslc/refimpl/rm/gen/requirementcollectionsmallpreview.jsp");
-            httpServletResponse.addHeader(OSLCRMServer2020RefImplConstants.HDR_OSLC_VERSION, OSLCRMServer2020RefImplConstants.OSLC_VERSION_V2);
+            httpServletResponse.addHeader(RMConstants.HDR_OSLC_VERSION, RMConstants.OSLC_VERSION_V2);
             addCORSHeaders(httpServletResponse);
             rd.forward(httpServletRequest, httpServletResponse);
             return;
@@ -440,7 +440,7 @@ public class WebServiceBasic
         // Start of user code getRequirementCollectionAsHtmlLargePreview_init
         // End of user code
 
-        final RequirementCollection aRequirementCollection = OSLCRMServer2020RefImplManager.getRequirementCollection(httpServletRequest, serviceProviderId, resourceId);
+        final RequirementCollection aRequirementCollection = RMManager.getRequirementCollection(httpServletRequest, serviceProviderId, resourceId);
 
         if (aRequirementCollection != null) {
             httpServletRequest.setAttribute("aRequirementCollection", aRequirementCollection);
@@ -448,7 +448,7 @@ public class WebServiceBasic
             // End of user code
 
             RequestDispatcher rd = httpServletRequest.getRequestDispatcher("/co/oslc/refimpl/rm/gen/requirementcollectionlargepreview.jsp");
-            httpServletResponse.addHeader(OSLCRMServer2020RefImplConstants.HDR_OSLC_VERSION, OSLCRMServer2020RefImplConstants.OSLC_VERSION_V2);
+            httpServletResponse.addHeader(RMConstants.HDR_OSLC_VERSION, RMConstants.OSLC_VERSION_V2);
             addCORSHeaders(httpServletResponse);
             rd.forward(httpServletRequest, httpServletResponse);
             return;
@@ -470,14 +470,14 @@ public class WebServiceBasic
     {
         // Start of user code deleteRequirement_init
         // End of user code
-        final Requirement aResource = OSLCRMServer2020RefImplManager.getRequirement(httpServletRequest, serviceProviderId, resourceId);
+        final Requirement aResource = RMManager.getRequirement(httpServletRequest, serviceProviderId, resourceId);
 
         if (aResource != null) {
             // Start of user code deleteRequirement
             // End of user code
-            boolean deleted = OSLCRMServer2020RefImplManager.deleteRequirement(httpServletRequest, serviceProviderId, resourceId);
+            boolean deleted = RMManager.deleteRequirement(httpServletRequest, serviceProviderId, resourceId);
             if (deleted)
-                return Response.ok().header(OSLCRMServer2020RefImplConstants.HDR_OSLC_VERSION, OSLCRMServer2020RefImplConstants.OSLC_VERSION_V2).build();
+                return Response.ok().header(RMConstants.HDR_OSLC_VERSION, RMConstants.OSLC_VERSION_V2).build();
             else
                 throw new WebApplicationException(Status.INTERNAL_SERVER_ERROR);
         }
@@ -498,14 +498,14 @@ public class WebServiceBasic
     {
         // Start of user code deleteRequirementCollection_init
         // End of user code
-        final RequirementCollection aResource = OSLCRMServer2020RefImplManager.getRequirementCollection(httpServletRequest, serviceProviderId, resourceId);
+        final RequirementCollection aResource = RMManager.getRequirementCollection(httpServletRequest, serviceProviderId, resourceId);
 
         if (aResource != null) {
             // Start of user code deleteRequirementCollection
             // End of user code
-            boolean deleted = OSLCRMServer2020RefImplManager.deleteRequirementCollection(httpServletRequest, serviceProviderId, resourceId);
+            boolean deleted = RMManager.deleteRequirementCollection(httpServletRequest, serviceProviderId, resourceId);
             if (deleted)
-                return Response.ok().header(OSLCRMServer2020RefImplConstants.HDR_OSLC_VERSION, OSLCRMServer2020RefImplConstants.OSLC_VERSION_V2).build();
+                return Response.ok().header(RMConstants.HDR_OSLC_VERSION, RMConstants.OSLC_VERSION_V2).build();
             else
                 throw new WebApplicationException(Status.INTERNAL_SERVER_ERROR);
         }
@@ -529,17 +529,17 @@ public class WebServiceBasic
     {
         // Start of user code updateRequirement_init
         // End of user code
-        final Requirement originalResource = OSLCRMServer2020RefImplManager.getRequirement(httpServletRequest, serviceProviderId, resourceId);
+        final Requirement originalResource = RMManager.getRequirement(httpServletRequest, serviceProviderId, resourceId);
 
         if (originalResource != null) {
-            final String originalETag = OSLCRMServer2020RefImplManager.getETagFromRequirement(originalResource);
+            final String originalETag = RMManager.getETagFromRequirement(originalResource);
 
             if ((eTagHeader == null) || (originalETag.equals(eTagHeader))) {
                 // Start of user code updateRequirement
                 // End of user code
-                final Requirement updatedResource = OSLCRMServer2020RefImplManager.updateRequirement(httpServletRequest, aResource, serviceProviderId, resourceId);
-                httpServletResponse.setHeader("ETag", OSLCRMServer2020RefImplManager.getETagFromRequirement(updatedResource));
-                return Response.ok().header(OSLCRMServer2020RefImplConstants.HDR_OSLC_VERSION, OSLCRMServer2020RefImplConstants.OSLC_VERSION_V2).build();
+                final Requirement updatedResource = RMManager.updateRequirement(httpServletRequest, aResource, serviceProviderId, resourceId);
+                httpServletResponse.setHeader("ETag", RMManager.getETagFromRequirement(updatedResource));
+                return Response.ok().header(RMConstants.HDR_OSLC_VERSION, RMConstants.OSLC_VERSION_V2).build();
             }
             else {
                 throw new WebApplicationException(Status.PRECONDITION_FAILED);
@@ -567,17 +567,17 @@ public class WebServiceBasic
     {
         // Start of user code updateRequirementCollection_init
         // End of user code
-        final RequirementCollection originalResource = OSLCRMServer2020RefImplManager.getRequirementCollection(httpServletRequest, serviceProviderId, resourceId);
+        final RequirementCollection originalResource = RMManager.getRequirementCollection(httpServletRequest, serviceProviderId, resourceId);
 
         if (originalResource != null) {
-            final String originalETag = OSLCRMServer2020RefImplManager.getETagFromRequirementCollection(originalResource);
+            final String originalETag = RMManager.getETagFromRequirementCollection(originalResource);
 
             if ((eTagHeader == null) || (originalETag.equals(eTagHeader))) {
                 // Start of user code updateRequirementCollection
                 // End of user code
-                final RequirementCollection updatedResource = OSLCRMServer2020RefImplManager.updateRequirementCollection(httpServletRequest, aResource, serviceProviderId, resourceId);
-                httpServletResponse.setHeader("ETag", OSLCRMServer2020RefImplManager.getETagFromRequirementCollection(updatedResource));
-                return Response.ok().header(OSLCRMServer2020RefImplConstants.HDR_OSLC_VERSION, OSLCRMServer2020RefImplConstants.OSLC_VERSION_V2).build();
+                final RequirementCollection updatedResource = RMManager.updateRequirementCollection(httpServletRequest, aResource, serviceProviderId, resourceId);
+                httpServletResponse.setHeader("ETag", RMManager.getETagFromRequirementCollection(updatedResource));
+                return Response.ok().header(RMConstants.HDR_OSLC_VERSION, RMConstants.OSLC_VERSION_V2).build();
             }
             else {
                 throw new WebApplicationException(Status.PRECONDITION_FAILED);

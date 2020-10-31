@@ -26,10 +26,11 @@ package co.oslc.refimpl.am.gen;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.ServletContextEvent;
-import java.net.URI;
-import java.util.Date;
 import java.util.List;
-import java.util.UUID;
+import java.util.ArrayList;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import org.eclipse.lyo.oslc4j.core.model.ServiceProvider;
 import org.eclipse.lyo.oslc4j.core.model.AbstractResource;
@@ -40,7 +41,12 @@ import org.eclipse.lyo.oslc.domains.Person;
 import org.eclipse.lyo.oslc.domains.am.Resource;
 
 
+
 // Start of user code imports
+import java.net.URI;
+import java.util.Date;
+import java.util.UUID;
+
 import co.oslc.refimpl.lib.MemResourceRepository;
 import co.oslc.refimpl.lib.ResourceRepository;
 // End of user code
@@ -50,6 +56,9 @@ import co.oslc.refimpl.lib.ResourceRepository;
 
 public class AMManager {
 
+    private static final Logger log = LoggerFactory.getLogger(AMManager.class);
+
+    
     // Start of user code class_attributes
     public static final String SP_DEFAULT = "SP";
 
@@ -67,6 +76,7 @@ public class AMManager {
         // Start of user code contextInitializeServletListener
         // TODO Implement code to establish connection to data backbone etc ...
         // End of user code
+        
     }
 
     public static void contextDestroyServletListener(ServletContextEvent servletContextEvent) 
@@ -90,9 +100,10 @@ public class AMManager {
         return serviceProviderInfos;
     }
 
-    public static List<Resource> queryResources(HttpServletRequest httpServletRequest, String where, int page, int limit)
+    public static List<Resource> queryResources(HttpServletRequest httpServletRequest, String where, String prefix, int page, int limit)
     {
         List<Resource> resources = null;
+        
         
         // Start of user code queryResources
         // TODO Implement code to return a set of resources
@@ -103,6 +114,7 @@ public class AMManager {
     {
         List<Resource> resources = null;
         
+        
         // Start of user code ResourceSelector
         // TODO Implement code to return a set of resources, based on search criteria 
         // End of user code
@@ -111,6 +123,7 @@ public class AMManager {
     public static Resource createResource(HttpServletRequest httpServletRequest, final Resource aResource)
     {
         Resource newResource = null;
+        
         
         // Start of user code createResource
         String id = aResource.getIdentifier();
@@ -129,9 +142,10 @@ public class AMManager {
 
 
 
-    public static List<LinkType> queryLinkTypes(HttpServletRequest httpServletRequest, String where, int page, int limit)
+    public static List<LinkType> queryLinkTypes(HttpServletRequest httpServletRequest, String where, String prefix, int page, int limit)
     {
         List<LinkType> resources = null;
+        
         
         // Start of user code queryLinkTypes
         // TODO Implement code to return a set of resources
@@ -142,6 +156,7 @@ public class AMManager {
     {
         List<LinkType> resources = null;
         
+        
         // Start of user code LinkTypeSelector
         // TODO Implement code to return a set of resources, based on search criteria 
         // End of user code
@@ -150,6 +165,7 @@ public class AMManager {
     public static LinkType createLinkType(HttpServletRequest httpServletRequest, final LinkType aResource)
     {
         LinkType newResource = null;
+        
         
         // Start of user code createLinkType
         String id = aResource.getIdentifier();
@@ -173,6 +189,7 @@ public class AMManager {
     {
         Resource aResource = null;
         
+        
         // Start of user code getResource
         if(resourceRepository.hasResource(SP_DEFAULT, id)) {
             aResource = resourceRepository.getResource(SP_DEFAULT, id);
@@ -185,6 +202,7 @@ public class AMManager {
     public static LinkType getLinkType(HttpServletRequest httpServletRequest, final String id)
     {
         LinkType aResource = null;
+        
         
         // Start of user code getLinkType
         if(linkRepository.hasResource(SP_DEFAULT, id)) {

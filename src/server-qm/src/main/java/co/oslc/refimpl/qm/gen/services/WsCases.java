@@ -79,8 +79,8 @@ import org.eclipse.lyo.oslc4j.core.model.ServiceProvider;
 import org.eclipse.lyo.oslc4j.core.model.Link;
 import org.eclipse.lyo.oslc4j.core.model.AbstractResource;
 
-import co.oslc.refimpl.qm.gen.OSLCQMServer2020RefImplManager;
-import co.oslc.refimpl.qm.gen.OSLCQMServer2020RefImplConstants;
+import co.oslc.refimpl.qm.gen.QMManager;
+import co.oslc.refimpl.qm.gen.QMConstants;
 import org.eclipse.lyo.oslc.domains.qm.Oslc_qmDomainConstants;
 import co.oslc.refimpl.qm.gen.servlet.ServiceProviderCatalogSingleton;
 import org.eclipse.lyo.oslc.domains.qm.TestCase;
@@ -129,13 +129,13 @@ public class WsCases
         // Start of user code getResource_init
         // End of user code
 
-        final TestCase aTestCase = OSLCQMServer2020RefImplManager.getTestCase(httpServletRequest, spSlug, id);
+        final TestCase aTestCase = QMManager.getTestCase(httpServletRequest, spSlug, id);
 
         if (aTestCase != null) {
             // Start of user code getTestCase
             // End of user code
-            httpServletResponse.setHeader("ETag", OSLCQMServer2020RefImplManager.getETagFromTestCase(aTestCase));
-            httpServletResponse.addHeader(OSLCQMServer2020RefImplConstants.HDR_OSLC_VERSION, OSLCQMServer2020RefImplConstants.OSLC_VERSION_V2);
+            httpServletResponse.setHeader("ETag", QMManager.getETagFromTestCase(aTestCase));
+            httpServletResponse.addHeader(QMConstants.HDR_OSLC_VERSION, QMConstants.OSLC_VERSION_V2);
             return aTestCase;
         }
 
@@ -152,7 +152,7 @@ public class WsCases
         // Start of user code getTestCaseAsHtml_init
         // End of user code
 
-        final TestCase aTestCase = OSLCQMServer2020RefImplManager.getTestCase(httpServletRequest, spSlug, id);
+        final TestCase aTestCase = QMManager.getTestCase(httpServletRequest, spSlug, id);
 
         if (aTestCase != null) {
             httpServletRequest.setAttribute("aTestCase", aTestCase);
@@ -184,7 +184,7 @@ public class WsCases
         //TODO: adjust the preview height & width values from the default values provided above.
         // End of user code
 
-        final TestCase aTestCase = OSLCQMServer2020RefImplManager.getTestCase(httpServletRequest, spSlug, id);
+        final TestCase aTestCase = QMManager.getTestCase(httpServletRequest, spSlug, id);
 
         if (aTestCase != null) {
             final Compact compact = new Compact();
@@ -207,7 +207,7 @@ public class WsCases
             largePreview.setDocument(UriBuilder.fromUri(aTestCase.getAbout()).path("largePreview").build());
             compact.setLargePreview(largePreview);
 
-            httpServletResponse.addHeader(OSLCQMServer2020RefImplConstants.HDR_OSLC_VERSION, OSLCQMServer2020RefImplConstants.OSLC_VERSION_V2);
+            httpServletResponse.addHeader(QMConstants.HDR_OSLC_VERSION, QMConstants.OSLC_VERSION_V2);
             addCORSHeaders(httpServletResponse);
             return compact;
         }
@@ -224,7 +224,7 @@ public class WsCases
         // Start of user code getTestCaseAsHtmlSmallPreview_init
         // End of user code
 
-        final TestCase aTestCase = OSLCQMServer2020RefImplManager.getTestCase(httpServletRequest, spSlug, id);
+        final TestCase aTestCase = QMManager.getTestCase(httpServletRequest, spSlug, id);
 
         if (aTestCase != null) {
             httpServletRequest.setAttribute("aTestCase", aTestCase);
@@ -232,7 +232,7 @@ public class WsCases
             // End of user code
 
             RequestDispatcher rd = httpServletRequest.getRequestDispatcher("/co/oslc/refimpl/qm/gen/testcasesmallpreview.jsp");
-            httpServletResponse.addHeader(OSLCQMServer2020RefImplConstants.HDR_OSLC_VERSION, OSLCQMServer2020RefImplConstants.OSLC_VERSION_V2);
+            httpServletResponse.addHeader(QMConstants.HDR_OSLC_VERSION, QMConstants.OSLC_VERSION_V2);
             addCORSHeaders(httpServletResponse);
             rd.forward(httpServletRequest, httpServletResponse);
             return;
@@ -251,7 +251,7 @@ public class WsCases
         // Start of user code getTestCaseAsHtmlLargePreview_init
         // End of user code
 
-        final TestCase aTestCase = OSLCQMServer2020RefImplManager.getTestCase(httpServletRequest, spSlug, id);
+        final TestCase aTestCase = QMManager.getTestCase(httpServletRequest, spSlug, id);
 
         if (aTestCase != null) {
             httpServletRequest.setAttribute("aTestCase", aTestCase);
@@ -259,7 +259,7 @@ public class WsCases
             // End of user code
 
             RequestDispatcher rd = httpServletRequest.getRequestDispatcher("/co/oslc/refimpl/qm/gen/testcaselargepreview.jsp");
-            httpServletResponse.addHeader(OSLCQMServer2020RefImplConstants.HDR_OSLC_VERSION, OSLCQMServer2020RefImplConstants.OSLC_VERSION_V2);
+            httpServletResponse.addHeader(QMConstants.HDR_OSLC_VERSION, QMConstants.OSLC_VERSION_V2);
             addCORSHeaders(httpServletResponse);
             rd.forward(httpServletRequest, httpServletResponse);
             return;

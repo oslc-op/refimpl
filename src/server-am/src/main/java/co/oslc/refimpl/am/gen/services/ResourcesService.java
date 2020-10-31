@@ -80,15 +80,13 @@ import org.eclipse.lyo.oslc4j.core.model.ServiceProvider;
 import org.eclipse.lyo.oslc4j.core.model.Link;
 import org.eclipse.lyo.oslc4j.core.model.AbstractResource;
 
-import co.oslc.refimpl.am.gen.OSLCAMServer2020RefImplManager;
-import co.oslc.refimpl.am.gen.OSLCAMServer2020RefImplConstants;
+import co.oslc.refimpl.am.gen.AMManager;
+import co.oslc.refimpl.am.gen.AMConstants;
 import org.eclipse.lyo.oslc.domains.am.Oslc_amDomainConstants;
 import org.eclipse.lyo.oslc.domains.am.Oslc_amDomainConstants;
 import co.oslc.refimpl.am.gen.servlet.ServiceProviderCatalogSingleton;
 import org.eclipse.lyo.oslc.domains.Person;
 import org.eclipse.lyo.oslc.domains.am.Resource;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
 
 // Start of user code imports
 // End of user code
@@ -97,7 +95,6 @@ import io.swagger.annotations.ApiOperation;
 // End of user code
 @OslcService(Oslc_amDomainConstants.ARCHITECTURE_MANAGEMENT_DOMAIN)
 @Path("service1/resources")
-@Api(value = "OSLC Service for {" + Oslc_amDomainConstants.RESOURCE_LOCALNAME + "}")
 public class ResourcesService
 {
     @Context private HttpServletRequest httpServletRequest;
@@ -137,12 +134,6 @@ public class ResourcesService
     @GET
     @Path("query")
     @Produces({OslcMediaType.APPLICATION_RDF_XML, OslcMediaType.APPLICATION_JSON_LD, OslcMediaType.TEXT_TURTLE, OslcMediaType.APPLICATION_XML, OslcMediaType.APPLICATION_JSON})
-    @ApiOperation(
-        value = "Query capability for resources of type {" + Oslc_amDomainConstants.RESOURCE_LOCALNAME + "}",
-        notes = "Query capability for resources of type {" + "<a href=\"" + Oslc_amDomainConstants.RESOURCE_TYPE + "\">" + Oslc_amDomainConstants.RESOURCE_LOCALNAME + "</a>" + "}" +
-            ", with respective resource shapes {" + "<a href=\"" + "../services/" + OslcConstants.PATH_RESOURCE_SHAPES + "/" + Oslc_amDomainConstants.RESOURCE_PATH + "\">" + Oslc_amDomainConstants.RESOURCE_LOCALNAME + "</a>" + "}",
-        produces = OslcMediaType.APPLICATION_RDF_XML + ", " + OslcMediaType.APPLICATION_XML + ", " + OslcMediaType.APPLICATION_JSON + ", " + OslcMediaType.TEXT_TURTLE + ", " + MediaType.TEXT_HTML
-    )
     public Resource[] queryResources(
                                                     
                                                      @QueryParam("oslc.where") final String where,
@@ -163,7 +154,7 @@ public class ResourcesService
         // Here additional logic can be implemented that complements main action taken in AMManager
         // End of user code
 
-        final List<Resource> resources = OSLCAMServer2020RefImplManager.queryResources(httpServletRequest, where, prefix, page, pageSize);
+        final List<Resource> resources = AMManager.queryResources(httpServletRequest, where, prefix, page, pageSize);
         httpServletRequest.setAttribute("queryUri",
                 uriInfo.getAbsolutePath().toString() + "?oslc.paging=true");
         if (resources.size() > pageSize) {
@@ -177,12 +168,6 @@ public class ResourcesService
     @GET
     @Path("query")
     @Produces({ MediaType.TEXT_HTML })
-    @ApiOperation(
-        value = "Query capability for resources of type {" + Oslc_amDomainConstants.RESOURCE_LOCALNAME + "}",
-        notes = "Query capability for resources of type {" + "<a href=\"" + Oslc_amDomainConstants.RESOURCE_TYPE + "\">" + Oslc_amDomainConstants.RESOURCE_LOCALNAME + "</a>" + "}" +
-            ", with respective resource shapes {" + "<a href=\"" + "../services/" + OslcConstants.PATH_RESOURCE_SHAPES + "/" + Oslc_amDomainConstants.RESOURCE_PATH + "\">" + Oslc_amDomainConstants.RESOURCE_LOCALNAME + "</a>" + "}",
-        produces = OslcMediaType.APPLICATION_RDF_XML + ", " + OslcMediaType.APPLICATION_XML + ", " + OslcMediaType.APPLICATION_JSON + ", " + OslcMediaType.TEXT_TURTLE + ", " + MediaType.TEXT_HTML
-    )
     public void queryResourcesAsHtml(
                                     
                                        @QueryParam("oslc.where") final String where,
@@ -202,7 +187,7 @@ public class ResourcesService
         // Start of user code queryResourcesAsHtml
         // End of user code
 
-        final List<Resource> resources = OSLCAMServer2020RefImplManager.queryResources(httpServletRequest, where, prefix, page, pageSize);
+        final List<Resource> resources = AMManager.queryResources(httpServletRequest, where, prefix, page, pageSize);
 
         if (resources!= null) {
             httpServletRequest.setAttribute("resources", resources);
@@ -251,7 +236,7 @@ public class ResourcesService
 
         if (terms != null ) {
             httpServletRequest.setAttribute("terms", terms);
-            final List<Resource> resources = OSLCAMServer2020RefImplManager.ResourceSelector(httpServletRequest, terms);
+            final List<Resource> resources = AMManager.ResourceSelector(httpServletRequest, terms);
             if (resources!= null) {
                         httpServletRequest.setAttribute("resources", resources);
                         RequestDispatcher rd = httpServletRequest.getRequestDispatcher("/co/oslc/refimpl/am/gen/resourceselectorresults.jsp");
@@ -286,20 +271,14 @@ public class ResourcesService
     @Path("create")
     @Consumes({OslcMediaType.APPLICATION_RDF_XML, OslcMediaType.APPLICATION_JSON_LD, OslcMediaType.TEXT_TURTLE, OslcMediaType.APPLICATION_XML, OslcMediaType.APPLICATION_JSON })
     @Produces({OslcMediaType.APPLICATION_RDF_XML, OslcMediaType.APPLICATION_JSON_LD, OslcMediaType.TEXT_TURTLE, OslcMediaType.APPLICATION_XML, OslcMediaType.APPLICATION_JSON})
-    @ApiOperation(
-        value = "Creation factory for resources of type {" + Oslc_amDomainConstants.RESOURCE_LOCALNAME + "}",
-        notes = "Creation factory for resources of type {" + "<a href=\"" + Oslc_amDomainConstants.RESOURCE_TYPE + "\">" + Oslc_amDomainConstants.RESOURCE_LOCALNAME + "</a>" + "}" +
-            ", with respective resource shapes {" + "<a href=\"" + "../services/" + OslcConstants.PATH_RESOURCE_SHAPES + "/" + Oslc_amDomainConstants.RESOURCE_PATH + "\">" + Oslc_amDomainConstants.RESOURCE_LOCALNAME + "</a>" + "}",
-        produces = OslcMediaType.APPLICATION_RDF_XML + ", " + OslcMediaType.APPLICATION_XML + ", " + OslcMediaType.APPLICATION_JSON + ", " + OslcMediaType.TEXT_TURTLE
-    )
     public Response createResource(
             
             final Resource aResource
         ) throws IOException, ServletException
     {
-        Resource newResource = OSLCAMServer2020RefImplManager.createResource(httpServletRequest, aResource);
-        httpServletResponse.setHeader("ETag", OSLCAMServer2020RefImplManager.getETagFromResource(newResource));
-        return Response.created(newResource.getAbout()).entity(newResource).header(OSLCAMServer2020RefImplConstants.HDR_OSLC_VERSION, OSLCAMServer2020RefImplConstants.OSLC_VERSION_V2).build();
+        Resource newResource = AMManager.createResource(httpServletRequest, aResource);
+        httpServletResponse.setHeader("ETag", AMManager.getETagFromResource(newResource));
+        return Response.created(newResource.getAbout()).entity(newResource).header(AMConstants.HDR_OSLC_VERSION, AMConstants.OSLC_VERSION_V2).build();
     }
 
 }

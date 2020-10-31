@@ -52,8 +52,8 @@ import org.eclipse.lyo.oslc4j.core.model.OslcConstants;
 import org.eclipse.lyo.oslc4j.core.model.OslcMediaType;
 import org.eclipse.lyo.oslc4j.core.model.ServiceProviderCatalog;
 
-import co.oslc.refimpl.rm.gen.OSLCRMServer2020RefImplConstants;
-import co.oslc.refimpl.rm.gen.OSLCRMServer2020RefImplManager;
+import co.oslc.refimpl.rm.gen.RMConstants;
+import co.oslc.refimpl.rm.gen.RMManager;
 import co.oslc.refimpl.rm.gen.servlet.ServiceProviderCatalogSingleton;
 
 // Start of user code imports
@@ -116,7 +116,7 @@ public class ServiceProviderCatalogService
         ServiceProviderCatalog catalog =  ServiceProviderCatalogSingleton.getServiceProviderCatalog(httpServletRequest);
 
         if (catalog != null) {
-            httpServletResponse.addHeader(OSLCRMServer2020RefImplConstants.HDR_OSLC_VERSION,"2.0");
+            httpServletResponse.addHeader(RMConstants.HDR_OSLC_VERSION,"2.0");
             return catalog;
         }
 

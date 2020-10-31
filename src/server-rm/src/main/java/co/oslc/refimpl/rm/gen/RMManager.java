@@ -27,6 +27,9 @@ package co.oslc.refimpl.rm.gen;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.ServletContextEvent;
 import java.util.List;
+import java.util.ArrayList;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import org.eclipse.lyo.oslc4j.core.model.ServiceProvider;
 import org.eclipse.lyo.oslc4j.core.model.AbstractResource;
@@ -35,6 +38,7 @@ import co.oslc.refimpl.rm.gen.ServiceProviderInfo;
 import org.eclipse.lyo.oslc.domains.Person;
 import org.eclipse.lyo.oslc.domains.rm.Requirement;
 import org.eclipse.lyo.oslc.domains.rm.RequirementCollection;
+
 
 
 // Start of user code imports
@@ -80,8 +84,10 @@ import org.slf4j.LoggerFactory;
 
 public class RMManager {
 
+    private static final Logger log = LoggerFactory.getLogger(RMManager.class);
+
+    
     // Start of user code class_attributes
-    private final static Logger log = LoggerFactory.getLogger(RMManager.class);
     private final static Map<String, Map<String, Requirement>> requirements = new HashMap<>();
     private final static Map<String, Map<String, RequirementCollection>> requirementCollections = new HashMap<>();
     private final static Directory searchIndex = new ByteBuffersDirectory();
@@ -158,6 +164,7 @@ public class RMManager {
         
         // Start of user code contextInitializeServletListener
         // End of user code
+        
     }
 
     public static void contextDestroyServletListener(ServletContextEvent servletContextEvent) 
@@ -181,9 +188,10 @@ public class RMManager {
         return serviceProviderInfos;
     }
 
-    public static List<Requirement> queryRequirements(HttpServletRequest httpServletRequest, final String serviceProviderId, String where, int page, int limit)
+    public static List<Requirement> queryRequirements(HttpServletRequest httpServletRequest, final String serviceProviderId, String where, String prefix, int page, int limit)
     {
         List<Requirement> resources = null;
+        
         
         // Start of user code queryRequirements
         final Map<String, Requirement> requirements = requirementsForSP(serviceProviderId);
@@ -199,6 +207,7 @@ public class RMManager {
     public static List<Requirement> RequirementSelector(HttpServletRequest httpServletRequest, final String serviceProviderId, String terms)   
     {
         List<Requirement> resources = null;
+        
         
         // Start of user code RequirementSelector
         final Map<String, Requirement> requirements = requirementsForSP(serviceProviderId);
@@ -231,6 +240,7 @@ public class RMManager {
     {
         Requirement newResource = null;
         
+        
         // Start of user code createRequirement
         final Map<String, Requirement> requirements = requirementsForSP(serviceProviderId);
         aResource.setAbout(RMResourcesFactory.constructURIForRequirement(serviceProviderId, aResource.getIdentifier()));
@@ -247,6 +257,7 @@ public class RMManager {
     {
         Requirement newResource = null;
         
+        
         // Start of user code createRequirementFromDialog
         // TODO Implement code to create a resource
         // End of user code
@@ -254,9 +265,10 @@ public class RMManager {
     }
 
 
-    public static List<RequirementCollection> queryRequirementCollections(HttpServletRequest httpServletRequest, final String serviceProviderId, String where, int page, int limit)
+    public static List<RequirementCollection> queryRequirementCollections(HttpServletRequest httpServletRequest, final String serviceProviderId, String where, String prefix, int page, int limit)
     {
         List<RequirementCollection> resources = null;
+        
         
         // Start of user code queryRequirementCollections
         // TODO Implement code to return a set of resources
@@ -267,6 +279,7 @@ public class RMManager {
     {
         List<RequirementCollection> resources = null;
         
+        
         // Start of user code RequirementCollectionSelector
         // TODO Implement code to return a set of resources, based on search criteria
         // End of user code
@@ -275,6 +288,7 @@ public class RMManager {
     public static RequirementCollection createRequirementCollection(HttpServletRequest httpServletRequest, final RequirementCollection aResource, final String serviceProviderId)
     {
         RequirementCollection newResource = null;
+        
         
         // Start of user code createRequirementCollection
         if(aResource == null) {
@@ -299,6 +313,7 @@ public class RMManager {
     {
         Requirement aResource = null;
         
+        
         // Start of user code getRequirement
         final Map<String, Requirement> requirements = requirementsForSP(serviceProviderId);
         aResource = requirements.get(resourceId);
@@ -308,6 +323,7 @@ public class RMManager {
     public static RequirementCollection getRequirementCollection(HttpServletRequest httpServletRequest, final String serviceProviderId, final String resourceId)
     {
         RequirementCollection aResource = null;
+        
         
         // Start of user code getRequirementCollection
         // TODO Andrew@2019-09-24: add delete/update capability
@@ -320,6 +336,7 @@ public class RMManager {
     public static Boolean deleteRequirement(HttpServletRequest httpServletRequest, final String serviceProviderId, final String resourceId)
     {
         Boolean deleted = false;
+        
         // Start of user code deleteRequirement
         final Map<String, Requirement> requirements = requirementsForSP(serviceProviderId);
         deleted = requirements.remove(resourceId) != null;
@@ -329,6 +346,7 @@ public class RMManager {
     public static Boolean deleteRequirementCollection(HttpServletRequest httpServletRequest, final String serviceProviderId, final String resourceId)
     {
         Boolean deleted = false;
+        
         // Start of user code deleteRequirementCollection
         // TODO Implement code to delete a resource
         // If you encounter problems, consider throwing the runtime exception WebApplicationException(message, cause, final httpStatus)
@@ -338,6 +356,7 @@ public class RMManager {
 
     public static Requirement updateRequirement(HttpServletRequest httpServletRequest, final Requirement aResource, final String serviceProviderId, final String resourceId) {
         Requirement updatedResource = null;
+        
         // Start of user code updateRequirement
         // TODO Implement code to update and return a resource
         // End of user code
@@ -345,6 +364,7 @@ public class RMManager {
     }
     public static RequirementCollection updateRequirementCollection(HttpServletRequest httpServletRequest, final RequirementCollection aResource, final String serviceProviderId, final String resourceId) {
         RequirementCollection updatedResource = null;
+        
         // Start of user code updateRequirementCollection
         // TODO Implement code to update and return a resource
         // If you encounter problems, consider throwing the runtime exception WebApplicationException(message, cause, final httpStatus)

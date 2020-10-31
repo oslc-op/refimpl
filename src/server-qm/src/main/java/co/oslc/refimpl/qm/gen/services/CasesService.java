@@ -80,8 +80,8 @@ import org.eclipse.lyo.oslc4j.core.model.ServiceProvider;
 import org.eclipse.lyo.oslc4j.core.model.Link;
 import org.eclipse.lyo.oslc4j.core.model.AbstractResource;
 
-import co.oslc.refimpl.qm.gen.OSLCQMServer2020RefImplManager;
-import co.oslc.refimpl.qm.gen.OSLCQMServer2020RefImplConstants;
+import co.oslc.refimpl.qm.gen.QMManager;
+import co.oslc.refimpl.qm.gen.QMConstants;
 import org.eclipse.lyo.oslc.domains.qm.Oslc_qmDomainConstants;
 import org.eclipse.lyo.oslc.domains.qm.Oslc_qmDomainConstants;
 import co.oslc.refimpl.qm.gen.servlet.ServiceProviderCatalogSingleton;
@@ -163,7 +163,7 @@ public class CasesService
         // Here additional logic can be implemented that complements main action taken in QMManager
         // End of user code
 
-        final List<TestCase> resources = OSLCQMServer2020RefImplManager.queryTestCases(httpServletRequest, where, prefix, page, pageSize);
+        final List<TestCase> resources = QMManager.queryTestCases(httpServletRequest, where, prefix, page, pageSize);
         httpServletRequest.setAttribute("queryUri",
                 uriInfo.getAbsolutePath().toString() + "?oslc.paging=true");
         if (resources.size() > pageSize) {
@@ -196,7 +196,7 @@ public class CasesService
         // Start of user code queryTestCasesAsHtml
         // End of user code
 
-        final List<TestCase> resources = OSLCQMServer2020RefImplManager.queryTestCases(httpServletRequest, where, prefix, page, pageSize);
+        final List<TestCase> resources = QMManager.queryTestCases(httpServletRequest, where, prefix, page, pageSize);
 
         if (resources!= null) {
             httpServletRequest.setAttribute("resources", resources);
@@ -245,7 +245,7 @@ public class CasesService
 
         if (terms != null ) {
             httpServletRequest.setAttribute("terms", terms);
-            final List<TestCase> resources = OSLCQMServer2020RefImplManager.TestCaseSelector(httpServletRequest, terms);
+            final List<TestCase> resources = QMManager.TestCaseSelector(httpServletRequest, terms);
             if (resources!= null) {
                         httpServletRequest.setAttribute("resources", resources);
                         RequestDispatcher rd = httpServletRequest.getRequestDispatcher("/co/oslc/refimpl/qm/gen/testcaseselectorresults.jsp");
@@ -285,9 +285,9 @@ public class CasesService
             final TestCase aResource
         ) throws IOException, ServletException
     {
-        TestCase newResource = OSLCQMServer2020RefImplManager.createTestCase(httpServletRequest, aResource);
-        httpServletResponse.setHeader("ETag", OSLCQMServer2020RefImplManager.getETagFromTestCase(newResource));
-        return Response.created(newResource.getAbout()).entity(newResource).header(OSLCQMServer2020RefImplConstants.HDR_OSLC_VERSION, OSLCQMServer2020RefImplConstants.OSLC_VERSION_V2).build();
+        TestCase newResource = QMManager.createTestCase(httpServletRequest, aResource);
+        httpServletResponse.setHeader("ETag", QMManager.getETagFromTestCase(newResource));
+        return Response.created(newResource.getAbout()).entity(newResource).header(QMConstants.HDR_OSLC_VERSION, QMConstants.OSLC_VERSION_V2).build();
     }
 
 }
