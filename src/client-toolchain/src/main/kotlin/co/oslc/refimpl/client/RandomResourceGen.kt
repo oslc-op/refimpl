@@ -1,6 +1,8 @@
 package co.oslc.refimpl.client
 
 import com.github.javafaker.Faker
+import org.eclipse.lyo.oslc.domains.am.LinkType
+import org.eclipse.lyo.oslc.domains.am.Resource
 import org.eclipse.lyo.oslc.domains.cm.ChangeRequest
 import org.eclipse.lyo.oslc.domains.qm.*
 import org.eclipse.lyo.oslc.domains.rm.Requirement
@@ -154,6 +156,33 @@ fun genTestExecutionRecord(sp: ServiceProvider, id: Int, max:Int): TestExecution
     }
     return r
 }
+
+fun genAMResource(sp: ServiceProvider, id: Int, max:Int): Resource {
+    val r = Resource()
+    val faker = Faker()
+    val idStr = faker.code().asin()
+    val t = "AMR-$idStr"
+    r.apply {
+        title = t
+        identifier = idStr
+        created = Date()
+    }
+    return r
+}
+
+fun genAMLink(sp: ServiceProvider, id: Int, max:Int): LinkType {
+    val r = LinkType()
+    val faker = Faker()
+    val idStr = faker.code().asin()
+    val t = "ALi-$idStr"
+    r.apply {
+        identifier = idStr
+        created = Date()
+        comment = faker.chuckNorris().fact()
+    }
+    return r
+}
+
 
 class TestCaseGen(private val requirements: List<Link>,
                     private val changeRequests: List<Link>,

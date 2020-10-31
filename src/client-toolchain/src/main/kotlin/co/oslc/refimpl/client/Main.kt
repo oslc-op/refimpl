@@ -1,6 +1,8 @@
 package co.oslc.refimpl.client
 
 import kotlinx.coroutines.*
+import org.eclipse.lyo.oslc.domains.am.LinkType
+import org.eclipse.lyo.oslc.domains.am.Resource
 import org.eclipse.lyo.oslc.domains.cm.ChangeRequest
 import org.eclipse.lyo.oslc.domains.qm.TestCase
 import org.eclipse.lyo.oslc.domains.qm.TestExecutionRecord
@@ -21,38 +23,49 @@ import kotlin.system.measureNanoTime
 private val SPC_RM = "http://localhost:8800/services/catalog/singleton"
 private val SPC_CM = "http://localhost:8801/services/catalog/singleton"
 private val SPC_QM = "http://localhost:8802/services/catalog/singleton"
+private val SPC_AM = "http://localhost:8803/services/catalog/singleton"
+
+private const val N_RESOURCES = 30
 
 fun main() {
     println("Populating OSLC RefImpl servers with sample data.\n")
     val client = OslcClient()
 
     val rmTraverser = ServiceProviderCatalogTraverser(SPC_RM, client)
-    val reqPopulator = CreationFactoryPopulator(client, rmTraverser, 30, SimpleResourceGen(::genRequirement),
+    val reqPopulator = CreationFactoryPopulator(client, rmTraverser, N_RESOURCES, SimpleResourceGen(::genRequirement),
             Requirement::class.java)
     val requirements = reqPopulator.populate()
-    val reqCollPopulator = CreationFactoryPopulator(client, rmTraverser, 30,
+    val reqCollPopulator = CreationFactoryPopulator(client, rmTraverser, N_RESOURCES,
             SimpleResourceGen(::genRequirementColl), RequirementCollection::class.java)
     reqCollPopulator.populate()
 
     val cmTraverser = ServiceProviderCatalogTraverser(SPC_CM, client)
-    val chReqPopulator = CreationFactoryPopulator(client, cmTraverser, 30, ChangeRequestGen(requirements),
+    val chReqPopulator = CreationFactoryPopulator(client, cmTraverser, N_RESOURCES, ChangeRequestGen(requirements),
             ChangeRequest::class.java)
     chReqPopulator.populate()
 
     val qmTraverser = ServiceProviderCatalogTraverser(SPC_QM, client)
 
     val qmGenerators = listOf(
-            CreationFactoryPopulator(client, qmTraverser, 30,
+            CreationFactoryPopulator(client, qmTraverser, N_RESOURCES,
                     SimpleResourceGen(::genPlan), TestPlan::class.java),
-            CreationFactoryPopulator(client, qmTraverser, 30,
+            CreationFactoryPopulator(client, qmTraverser, N_RESOURCES,
                     SimpleResourceGen(::genTestCase), TestCase::class.java),
-            CreationFactoryPopulator(client, qmTraverser, 30,
+            CreationFactoryPopulator(client, qmTraverser, N_RESOURCES,
                     SimpleResourceGen(::genTestResult), TestResult::class.java),
-            CreationFactoryPopulator(client, qmTraverser, 30,
+            CreationFactoryPopulator(client, qmTraverser, N_RESOURCES,
                     SimpleResourceGen(::genTestExecutionRecord), TestExecutionRecord::class.java)
     )
     qmGenerators.forEach { it.populate() }
 
+    val amTraverser = ServiceProviderCatalogTraverser(SPC_AM, client)
+
+
+    val amResources = CreationFactoryPopulator(client, amTraverser, N_RESOURCES,
+            SimpleResourceGen(::genAMResource), Resource::class.java).populate()
+
+    val amLinks = CreationFactoryPopulator(client, amTraverser, N_RESOURCES,
+            SimpleResourceGen(::genAMLink), LinkType::class.java).populate()
 }
 
 

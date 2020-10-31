@@ -26,7 +26,10 @@ package co.oslc.refimpl.am.gen;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.ServletContextEvent;
+import java.net.URI;
+import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 import org.eclipse.lyo.oslc4j.core.model.ServiceProvider;
 import org.eclipse.lyo.oslc4j.core.model.AbstractResource;
@@ -38,6 +41,8 @@ import org.eclipse.lyo.oslc.domains.am.Resource;
 
 
 // Start of user code imports
+import co.oslc.refimpl.lib.MemResourceRepository;
+import co.oslc.refimpl.lib.ResourceRepository;
 // End of user code
 
 // Start of user code pre_class_code
@@ -46,6 +51,10 @@ import org.eclipse.lyo.oslc.domains.am.Resource;
 public class AMManager {
 
     // Start of user code class_attributes
+    public static final String SP_DEFAULT = "SP";
+
+    private static final ResourceRepository<Resource> resourceRepository = new MemResourceRepository<>();
+    private static final ResourceRepository<LinkType> linkRepository = new MemResourceRepository<>();
     // End of user code
     
     
@@ -104,7 +113,16 @@ public class AMManager {
         Resource newResource = null;
         
         // Start of user code createResource
-        // TODO Implement code to create a resource
+        String id = aResource.getIdentifier();
+        if(id == null) {
+            id = UUID.randomUUID().toString();
+            aResource.setIdentifier(id);
+        }
+        URI uri = AMResourcesFactory.constructURIForResource(id);
+        aResource.setAbout(uri);
+        aResource.setCreated(new Date());
+        resourceRepository.addResource(SP_DEFAULT, id, aResource);
+        newResource = aResource;
         // End of user code
         return newResource;
     }
@@ -134,7 +152,16 @@ public class AMManager {
         LinkType newResource = null;
         
         // Start of user code createLinkType
-        // TODO Implement code to create a resource
+        String id = aResource.getIdentifier();
+        if(id == null) {
+            id = UUID.randomUUID().toString();
+            aResource.setIdentifier(id);
+        }
+        URI uri = AMResourcesFactory.constructURIForLinkType(id);
+        aResource.setAbout(uri);
+        aResource.setCreated(new Date());
+        linkRepository.addResource(SP_DEFAULT, id, aResource);
+        newResource = aResource;
         // End of user code
         return newResource;
     }
@@ -147,7 +174,9 @@ public class AMManager {
         Resource aResource = null;
         
         // Start of user code getResource
-        // TODO Implement code to return a resource
+        if(resourceRepository.hasResource(SP_DEFAULT, id)) {
+            aResource = resourceRepository.getResource(SP_DEFAULT, id);
+        }
         // End of user code
         return aResource;
     }
@@ -158,8 +187,9 @@ public class AMManager {
         LinkType aResource = null;
         
         // Start of user code getLinkType
-        // TODO Implement code to return a resource
-        // End of user code
+        if(linkRepository.hasResource(SP_DEFAULT, id)) {
+            aResource = linkRepository.getResource(SP_DEFAULT, id);
+        }        // End of user code
         return aResource;
     }
 
