@@ -29,41 +29,33 @@ fun main() {
     val client = OslcClient()
 
     val rmTraverser = ServiceProviderCatalogTraverser(SPC_RM, client)
-    val reqPopulator = CreationFactoryPopulator(client, rmTraverser, N_RESOURCES, SimpleResourceGen(::genRequirement),
-            Requirement::class.java)
-    val requirements = reqPopulator.populate()
-    val reqCollPopulator = CreationFactoryPopulator(client, rmTraverser, N_RESOURCES,
-            SimpleResourceGen(::genRequirementColl), RequirementCollection::class.java)
-    reqCollPopulator.populate()
-
     val cmTraverser = ServiceProviderCatalogTraverser(SPC_CM, client)
-    val chReqPopulator = CreationFactoryPopulator(client, cmTraverser, N_RESOURCES, ChangeRequestGen(requirements),
-            ChangeRequest::class.java)
-    chReqPopulator.populate()
-
     val qmTraverser = ServiceProviderCatalogTraverser(SPC_QM, client)
-
-    val qmGenerators = listOf(
-            CreationFactoryPopulator(client, qmTraverser, N_RESOURCES,
-                    SimpleResourceGen(::genPlan), TestPlan::class.java),
-            CreationFactoryPopulator(client, qmTraverser, N_RESOURCES,
-                    SimpleResourceGen(::genTestCase), TestCase::class.java),
-            CreationFactoryPopulator(client, qmTraverser, N_RESOURCES,
-                    SimpleResourceGen(::genTestResult), TestResult::class.java),
-            CreationFactoryPopulator(client, qmTraverser, N_RESOURCES,
-                    SimpleResourceGen(::genTestExecutionRecord), TestExecutionRecord::class.java),
-            CreationFactoryPopulator(client, qmTraverser, N_RESOURCES,
-                    SimpleResourceGen(::genTestScript), TestScript::class.java)
-
-    )
-    qmGenerators.forEach { it.populate() }
-
     val amTraverser = ServiceProviderCatalogTraverser(SPC_AM, client)
+
+    val rmRequirements = CreationFactoryPopulator(client, rmTraverser, N_RESOURCES, SimpleResourceGen(::genRequirement),
+            Requirement::class.java).populate()
+    val rmRequirementColl = CreationFactoryPopulator(client, rmTraverser, N_RESOURCES,
+            SimpleResourceGen(::genRequirementColl), RequirementCollection::class.java).populate()
+
+    val cmChangeReq = CreationFactoryPopulator(client, cmTraverser, N_RESOURCES, ChangeRequestGen(rmRequirements),
+            ChangeRequest::class.java).populate()
+
+
+    val qmTestPlans = CreationFactoryPopulator(client, qmTraverser, N_RESOURCES,
+            SimpleResourceGen(::genPlan), TestPlan::class.java).populate()
+    val qmTestCases = CreationFactoryPopulator(client, qmTraverser, N_RESOURCES,
+            SimpleResourceGen(::genTestCase), TestCase::class.java).populate()
+    val qmTestResults = CreationFactoryPopulator(client, qmTraverser, N_RESOURCES,
+            SimpleResourceGen(::genTestResult), TestResult::class.java).populate()
+    val qmTestExecRecords = CreationFactoryPopulator(client, qmTraverser, N_RESOURCES,
+            SimpleResourceGen(::genTestExecutionRecord), TestExecutionRecord::class.java).populate()
+    val qmTestScripts = CreationFactoryPopulator(client, qmTraverser, N_RESOURCES,
+            SimpleResourceGen(::genTestScript), TestScript::class.java).populate()
 
 
     val amResources = CreationFactoryPopulator(client, amTraverser, N_RESOURCES,
             SimpleResourceGen(::genAMResource), Resource::class.java).populate()
-
     val amLinks = CreationFactoryPopulator(client, amTraverser, N_RESOURCES,
             SimpleResourceGen(::genAMLink), LinkType::class.java).populate()
 }
