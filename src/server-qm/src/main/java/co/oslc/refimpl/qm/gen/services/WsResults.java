@@ -84,6 +84,8 @@ import co.oslc.refimpl.qm.gen.QMConstants;
 import org.eclipse.lyo.oslc.domains.qm.Oslc_qmDomainConstants;
 import co.oslc.refimpl.qm.gen.servlet.ServiceProviderCatalogSingleton;
 import org.eclipse.lyo.oslc.domains.qm.TestResult;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 
 // Start of user code imports
 // End of user code
@@ -91,6 +93,7 @@ import org.eclipse.lyo.oslc.domains.qm.TestResult;
 // Start of user code pre_class_code
 // End of user code
 @Path("results")
+@Api(value = "Web Service for {" + Oslc_qmDomainConstants.TESTRESULT_LOCALNAME + "}")
 public class WsResults
 {
     @Context private HttpServletRequest httpServletRequest;
@@ -122,6 +125,12 @@ public class WsResults
     @GET
     @Path("{spSlug}-{id}")
     @Produces({OslcMediaType.APPLICATION_RDF_XML, OslcMediaType.APPLICATION_JSON_LD, OslcMediaType.TEXT_TURTLE, OslcMediaType.APPLICATION_XML, OslcMediaType.APPLICATION_JSON})
+    @ApiOperation(
+        value = "GET for resources of type {'" + Oslc_qmDomainConstants.TESTRESULT_LOCALNAME + "'}",
+        notes = "GET for resources of type {'" + "<a href=\"" + Oslc_qmDomainConstants.TESTRESULT_TYPE + "\">" + Oslc_qmDomainConstants.TESTRESULT_LOCALNAME + "</a>" + "'}" +
+            ", with respective resource shapes {'" + "<a href=\"" + "../services/" + OslcConstants.PATH_RESOURCE_SHAPES + "/" + Oslc_qmDomainConstants.TESTRESULT_PATH + "\">" + Oslc_qmDomainConstants.TESTRESULT_LOCALNAME + "</a>" + "'}",
+        produces = OslcMediaType.APPLICATION_RDF_XML + ", " + OslcMediaType.APPLICATION_XML + ", " + OslcMediaType.APPLICATION_JSON + ", " + OslcMediaType.TEXT_TURTLE + ", " + MediaType.TEXT_HTML + ", " + OslcMediaType.APPLICATION_X_OSLC_COMPACT_XML
+    )
     public TestResult getTestResult(
                 @PathParam("spSlug") final String spSlug, @PathParam("id") final String id
         ) throws IOException, ServletException, URISyntaxException
@@ -145,6 +154,12 @@ public class WsResults
     @GET
     @Path("{spSlug}-{id}")
     @Produces({ MediaType.TEXT_HTML })
+    @ApiOperation(
+        value = "GET for resources of type {'" + Oslc_qmDomainConstants.TESTRESULT_LOCALNAME + "'}",
+        notes = "GET for resources of type {'" + "<a href=\"" + Oslc_qmDomainConstants.TESTRESULT_TYPE + "\">" + Oslc_qmDomainConstants.TESTRESULT_LOCALNAME + "</a>" + "'}" +
+            ", with respective resource shapes {'" + "<a href=\"" + "../services/" + OslcConstants.PATH_RESOURCE_SHAPES + "/" + Oslc_qmDomainConstants.TESTRESULT_PATH + "\">" + Oslc_qmDomainConstants.TESTRESULT_LOCALNAME + "</a>" + "'}",
+        produces = OslcMediaType.APPLICATION_RDF_XML + ", " + OslcMediaType.APPLICATION_XML + ", " + OslcMediaType.APPLICATION_JSON + ", " + OslcMediaType.TEXT_TURTLE + ", " + MediaType.TEXT_HTML + ", " + OslcMediaType.APPLICATION_X_OSLC_COMPACT_XML
+    )
     public void getTestResultAsHtml(
         @PathParam("spSlug") final String spSlug, @PathParam("id") final String id
         ) throws ServletException, IOException, URISyntaxException
@@ -170,6 +185,12 @@ public class WsResults
     @GET
     @Path("{spSlug}-{id}")
     @Produces({OslcMediaType.APPLICATION_X_OSLC_COMPACT_XML})
+    @ApiOperation(
+        value = "GET for resources of type {'" + Oslc_qmDomainConstants.TESTRESULT_LOCALNAME + "'}",
+        notes = "GET for resources of type {'" + "<a href=\"" + Oslc_qmDomainConstants.TESTRESULT_TYPE + "\">" + Oslc_qmDomainConstants.TESTRESULT_LOCALNAME + "</a>" + "'}" +
+            ", with respective resource shapes {'" + "<a href=\"" + "../services/" + OslcConstants.PATH_RESOURCE_SHAPES + "/" + Oslc_qmDomainConstants.TESTRESULT_PATH + "\">" + Oslc_qmDomainConstants.TESTRESULT_LOCALNAME + "</a>" + "'}",
+        produces = OslcMediaType.APPLICATION_RDF_XML + ", " + OslcMediaType.APPLICATION_XML + ", " + OslcMediaType.APPLICATION_JSON + ", " + OslcMediaType.TEXT_TURTLE + ", " + MediaType.TEXT_HTML + ", " + OslcMediaType.APPLICATION_X_OSLC_COMPACT_XML
+    )
     public Compact getTestResultCompact(
         @PathParam("spSlug") final String spSlug, @PathParam("id") final String id
         ) throws ServletException, IOException, URISyntaxException
@@ -269,6 +290,12 @@ public class WsResults
     }
     @DELETE
     @Path("{spSlug}-{id}")
+    @ApiOperation(
+        value = "DELETE for resources of type {'" + Oslc_qmDomainConstants.TESTRESULT_LOCALNAME + "'}",
+        notes = "DELETE for resources of type {'" + "<a href=\"" + Oslc_qmDomainConstants.TESTRESULT_TYPE + "\">" + Oslc_qmDomainConstants.TESTRESULT_LOCALNAME + "</a>" + "'}" +
+            ", with respective resource shapes {'" + "<a href=\"" + "../services/" + OslcConstants.PATH_RESOURCE_SHAPES + "/" + Oslc_qmDomainConstants.TESTRESULT_PATH + "\">" + Oslc_qmDomainConstants.TESTRESULT_LOCALNAME + "</a>" + "'}",
+        produces = OslcMediaType.APPLICATION_RDF_XML + ", " + OslcMediaType.APPLICATION_XML + ", " + OslcMediaType.APPLICATION_JSON + ", " + OslcMediaType.TEXT_TURTLE + ", " + MediaType.TEXT_HTML + ", " + OslcMediaType.APPLICATION_X_OSLC_COMPACT_XML
+    )
     public Response deleteTestResult(
                 @PathParam("spSlug") final String spSlug, @PathParam("id") final String id
         ) throws IOException, ServletException, URISyntaxException
@@ -292,6 +319,12 @@ public class WsResults
     @PUT
     @Path("{spSlug}-{id}")
     @Consumes({OslcMediaType.APPLICATION_RDF_XML, OslcMediaType.APPLICATION_JSON_LD, OslcMediaType.TEXT_TURTLE, OslcMediaType.APPLICATION_XML, OslcMediaType.APPLICATION_JSON })
+    @ApiOperation(
+        value = "PUT for resources of type {'" + Oslc_qmDomainConstants.TESTRESULT_LOCALNAME + "'}",
+        notes = "PUT for resources of type {'" + "<a href=\"" + Oslc_qmDomainConstants.TESTRESULT_TYPE + "\">" + Oslc_qmDomainConstants.TESTRESULT_LOCALNAME + "</a>" + "'}" +
+            ", with respective resource shapes {'" + "<a href=\"" + "../services/" + OslcConstants.PATH_RESOURCE_SHAPES + "/" + Oslc_qmDomainConstants.TESTRESULT_PATH + "\">" + Oslc_qmDomainConstants.TESTRESULT_LOCALNAME + "</a>" + "'}",
+        produces = OslcMediaType.APPLICATION_RDF_XML + ", " + OslcMediaType.APPLICATION_XML + ", " + OslcMediaType.APPLICATION_JSON + ", " + OslcMediaType.TEXT_TURTLE + ", " + MediaType.TEXT_HTML + ", " + OslcMediaType.APPLICATION_X_OSLC_COMPACT_XML
+    )
     public Response updateTestResult(
             @HeaderParam("If-Match") final String eTagHeader,
             @PathParam("spSlug") final String spSlug, @PathParam("id") final String id ,

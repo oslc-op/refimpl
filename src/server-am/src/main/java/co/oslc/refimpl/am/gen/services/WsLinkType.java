@@ -84,6 +84,8 @@ import co.oslc.refimpl.am.gen.AMConstants;
 import org.eclipse.lyo.oslc.domains.am.Oslc_amDomainConstants;
 import co.oslc.refimpl.am.gen.servlet.ServiceProviderCatalogSingleton;
 import org.eclipse.lyo.oslc.domains.am.LinkType;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 
 // Start of user code imports
 // End of user code
@@ -91,6 +93,7 @@ import org.eclipse.lyo.oslc.domains.am.LinkType;
 // Start of user code pre_class_code
 // End of user code
 @Path("lt")
+@Api(value = "Web Service for {" + Oslc_amDomainConstants.LINKTYPE_LOCALNAME + "}")
 public class WsLinkType
 {
     @Context private HttpServletRequest httpServletRequest;
@@ -122,6 +125,12 @@ public class WsLinkType
     @GET
     @Path("{id}")
     @Produces({OslcMediaType.APPLICATION_RDF_XML, OslcMediaType.APPLICATION_JSON_LD, OslcMediaType.TEXT_TURTLE, OslcMediaType.APPLICATION_XML, OslcMediaType.APPLICATION_JSON})
+    @ApiOperation(
+        value = "GET for resources of type {'" + Oslc_amDomainConstants.LINKTYPE_LOCALNAME + "'}",
+        notes = "GET for resources of type {'" + "<a href=\"" + Oslc_amDomainConstants.LINKTYPE_TYPE + "\">" + Oslc_amDomainConstants.LINKTYPE_LOCALNAME + "</a>" + "'}" +
+            ", with respective resource shapes {'" + "<a href=\"" + "../services/" + OslcConstants.PATH_RESOURCE_SHAPES + "/" + Oslc_amDomainConstants.LINKTYPE_PATH + "\">" + Oslc_amDomainConstants.LINKTYPE_LOCALNAME + "</a>" + "'}",
+        produces = OslcMediaType.APPLICATION_RDF_XML + ", " + OslcMediaType.APPLICATION_XML + ", " + OslcMediaType.APPLICATION_JSON + ", " + OslcMediaType.TEXT_TURTLE + ", " + MediaType.TEXT_HTML + ", " + OslcMediaType.APPLICATION_X_OSLC_COMPACT_XML
+    )
     public LinkType getLinkType(
                 @PathParam("id") final String id
         ) throws IOException, ServletException, URISyntaxException
@@ -145,6 +154,12 @@ public class WsLinkType
     @GET
     @Path("{id}")
     @Produces({ MediaType.TEXT_HTML })
+    @ApiOperation(
+        value = "GET for resources of type {'" + Oslc_amDomainConstants.LINKTYPE_LOCALNAME + "'}",
+        notes = "GET for resources of type {'" + "<a href=\"" + Oslc_amDomainConstants.LINKTYPE_TYPE + "\">" + Oslc_amDomainConstants.LINKTYPE_LOCALNAME + "</a>" + "'}" +
+            ", with respective resource shapes {'" + "<a href=\"" + "../services/" + OslcConstants.PATH_RESOURCE_SHAPES + "/" + Oslc_amDomainConstants.LINKTYPE_PATH + "\">" + Oslc_amDomainConstants.LINKTYPE_LOCALNAME + "</a>" + "'}",
+        produces = OslcMediaType.APPLICATION_RDF_XML + ", " + OslcMediaType.APPLICATION_XML + ", " + OslcMediaType.APPLICATION_JSON + ", " + OslcMediaType.TEXT_TURTLE + ", " + MediaType.TEXT_HTML + ", " + OslcMediaType.APPLICATION_X_OSLC_COMPACT_XML
+    )
     public void getLinkTypeAsHtml(
         @PathParam("id") final String id
         ) throws ServletException, IOException, URISyntaxException
@@ -170,6 +185,12 @@ public class WsLinkType
     @GET
     @Path("{id}")
     @Produces({OslcMediaType.APPLICATION_X_OSLC_COMPACT_XML})
+    @ApiOperation(
+        value = "GET for resources of type {'" + Oslc_amDomainConstants.LINKTYPE_LOCALNAME + "'}",
+        notes = "GET for resources of type {'" + "<a href=\"" + Oslc_amDomainConstants.LINKTYPE_TYPE + "\">" + Oslc_amDomainConstants.LINKTYPE_LOCALNAME + "</a>" + "'}" +
+            ", with respective resource shapes {'" + "<a href=\"" + "../services/" + OslcConstants.PATH_RESOURCE_SHAPES + "/" + Oslc_amDomainConstants.LINKTYPE_PATH + "\">" + Oslc_amDomainConstants.LINKTYPE_LOCALNAME + "</a>" + "'}",
+        produces = OslcMediaType.APPLICATION_RDF_XML + ", " + OslcMediaType.APPLICATION_XML + ", " + OslcMediaType.APPLICATION_JSON + ", " + OslcMediaType.TEXT_TURTLE + ", " + MediaType.TEXT_HTML + ", " + OslcMediaType.APPLICATION_X_OSLC_COMPACT_XML
+    )
     public Compact getLinkTypeCompact(
         @PathParam("id") final String id
         ) throws ServletException, IOException, URISyntaxException
@@ -269,6 +290,12 @@ public class WsLinkType
     }
     @DELETE
     @Path("{id}")
+    @ApiOperation(
+        value = "DELETE for resources of type {'" + Oslc_amDomainConstants.LINKTYPE_LOCALNAME + "'}",
+        notes = "DELETE for resources of type {'" + "<a href=\"" + Oslc_amDomainConstants.LINKTYPE_TYPE + "\">" + Oslc_amDomainConstants.LINKTYPE_LOCALNAME + "</a>" + "'}" +
+            ", with respective resource shapes {'" + "<a href=\"" + "../services/" + OslcConstants.PATH_RESOURCE_SHAPES + "/" + Oslc_amDomainConstants.LINKTYPE_PATH + "\">" + Oslc_amDomainConstants.LINKTYPE_LOCALNAME + "</a>" + "'}",
+        produces = OslcMediaType.APPLICATION_RDF_XML + ", " + OslcMediaType.APPLICATION_XML + ", " + OslcMediaType.APPLICATION_JSON + ", " + OslcMediaType.TEXT_TURTLE + ", " + MediaType.TEXT_HTML + ", " + OslcMediaType.APPLICATION_X_OSLC_COMPACT_XML
+    )
     public Response deleteLinkType(
                 @PathParam("id") final String id
         ) throws IOException, ServletException, URISyntaxException
@@ -292,6 +319,12 @@ public class WsLinkType
     @PUT
     @Path("{id}")
     @Consumes({OslcMediaType.APPLICATION_RDF_XML, OslcMediaType.APPLICATION_JSON_LD, OslcMediaType.TEXT_TURTLE, OslcMediaType.APPLICATION_XML, OslcMediaType.APPLICATION_JSON })
+    @ApiOperation(
+        value = "PUT for resources of type {'" + Oslc_amDomainConstants.LINKTYPE_LOCALNAME + "'}",
+        notes = "PUT for resources of type {'" + "<a href=\"" + Oslc_amDomainConstants.LINKTYPE_TYPE + "\">" + Oslc_amDomainConstants.LINKTYPE_LOCALNAME + "</a>" + "'}" +
+            ", with respective resource shapes {'" + "<a href=\"" + "../services/" + OslcConstants.PATH_RESOURCE_SHAPES + "/" + Oslc_amDomainConstants.LINKTYPE_PATH + "\">" + Oslc_amDomainConstants.LINKTYPE_LOCALNAME + "</a>" + "'}",
+        produces = OslcMediaType.APPLICATION_RDF_XML + ", " + OslcMediaType.APPLICATION_XML + ", " + OslcMediaType.APPLICATION_JSON + ", " + OslcMediaType.TEXT_TURTLE + ", " + MediaType.TEXT_HTML + ", " + OslcMediaType.APPLICATION_X_OSLC_COMPACT_XML
+    )
     public Response updateLinkType(
             @HeaderParam("If-Match") final String eTagHeader,
             @PathParam("id") final String id ,

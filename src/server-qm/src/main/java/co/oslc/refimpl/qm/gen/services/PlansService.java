@@ -98,6 +98,8 @@ import org.eclipse.lyo.oslc.domains.cm.State;
 import org.eclipse.lyo.oslc.domains.qm.TestCase;
 import org.eclipse.lyo.oslc.domains.qm.TestPlan;
 import org.eclipse.lyo.oslc.domains.qm.TestScript;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 
 // Start of user code imports
 // End of user code
@@ -106,6 +108,7 @@ import org.eclipse.lyo.oslc.domains.qm.TestScript;
 // End of user code
 @OslcService(Oslc_qmDomainConstants.QUALITY_MANAGEMENT_DOMAIN)
 @Path("service2/testPlans")
+@Api(value = "OSLC Service for {" + Oslc_qmDomainConstants.TESTPLAN_LOCALNAME + "}")
 public class PlansService
 {
     @Context private HttpServletRequest httpServletRequest;
@@ -145,6 +148,12 @@ public class PlansService
     @GET
     @Path("query")
     @Produces({OslcMediaType.APPLICATION_RDF_XML, OslcMediaType.APPLICATION_JSON_LD, OslcMediaType.TEXT_TURTLE, OslcMediaType.APPLICATION_XML, OslcMediaType.APPLICATION_JSON})
+    @ApiOperation(
+        value = "Query capability for resources of type {" + Oslc_qmDomainConstants.TESTPLAN_LOCALNAME + "}",
+        notes = "Query capability for resources of type {" + "<a href=\"" + Oslc_qmDomainConstants.TESTPLAN_TYPE + "\">" + Oslc_qmDomainConstants.TESTPLAN_LOCALNAME + "</a>" + "}" +
+            ", with respective resource shapes {" + "<a href=\"" + "../services/" + OslcConstants.PATH_RESOURCE_SHAPES + "/" + Oslc_qmDomainConstants.TESTPLAN_PATH + "\">" + Oslc_qmDomainConstants.TESTPLAN_LOCALNAME + "</a>" + "}",
+        produces = OslcMediaType.APPLICATION_RDF_XML + ", " + OslcMediaType.APPLICATION_XML + ", " + OslcMediaType.APPLICATION_JSON + ", " + OslcMediaType.TEXT_TURTLE + ", " + MediaType.TEXT_HTML
+    )
     public TestPlan[] queryTestPlans(
                                                     
                                                      @QueryParam("oslc.where") final String where,
@@ -179,6 +188,12 @@ public class PlansService
     @GET
     @Path("query")
     @Produces({ MediaType.TEXT_HTML })
+    @ApiOperation(
+        value = "Query capability for resources of type {" + Oslc_qmDomainConstants.TESTPLAN_LOCALNAME + "}",
+        notes = "Query capability for resources of type {" + "<a href=\"" + Oslc_qmDomainConstants.TESTPLAN_TYPE + "\">" + Oslc_qmDomainConstants.TESTPLAN_LOCALNAME + "</a>" + "}" +
+            ", with respective resource shapes {" + "<a href=\"" + "../services/" + OslcConstants.PATH_RESOURCE_SHAPES + "/" + Oslc_qmDomainConstants.TESTPLAN_PATH + "\">" + Oslc_qmDomainConstants.TESTPLAN_LOCALNAME + "</a>" + "}",
+        produces = OslcMediaType.APPLICATION_RDF_XML + ", " + OslcMediaType.APPLICATION_XML + ", " + OslcMediaType.APPLICATION_JSON + ", " + OslcMediaType.TEXT_TURTLE + ", " + MediaType.TEXT_HTML
+    )
     public void queryTestPlansAsHtml(
                                     
                                        @QueryParam("oslc.where") final String where,
@@ -282,6 +297,12 @@ public class PlansService
     @Path("create")
     @Consumes({OslcMediaType.APPLICATION_RDF_XML, OslcMediaType.APPLICATION_JSON_LD, OslcMediaType.TEXT_TURTLE, OslcMediaType.APPLICATION_XML, OslcMediaType.APPLICATION_JSON })
     @Produces({OslcMediaType.APPLICATION_RDF_XML, OslcMediaType.APPLICATION_JSON_LD, OslcMediaType.TEXT_TURTLE, OslcMediaType.APPLICATION_XML, OslcMediaType.APPLICATION_JSON})
+    @ApiOperation(
+        value = "Creation factory for resources of type {" + Oslc_qmDomainConstants.TESTPLAN_LOCALNAME + "}",
+        notes = "Creation factory for resources of type {" + "<a href=\"" + Oslc_qmDomainConstants.TESTPLAN_TYPE + "\">" + Oslc_qmDomainConstants.TESTPLAN_LOCALNAME + "</a>" + "}" +
+            ", with respective resource shapes {" + "<a href=\"" + "../services/" + OslcConstants.PATH_RESOURCE_SHAPES + "/" + Oslc_qmDomainConstants.TESTPLAN_PATH + "\">" + Oslc_qmDomainConstants.TESTPLAN_LOCALNAME + "</a>" + "}",
+        produces = OslcMediaType.APPLICATION_RDF_XML + ", " + OslcMediaType.APPLICATION_XML + ", " + OslcMediaType.APPLICATION_JSON + ", " + OslcMediaType.TEXT_TURTLE
+    )
     public Response createTestPlan(
             
             final TestPlan aResource

@@ -100,6 +100,8 @@ import org.eclipse.lyo.oslc.domains.qm.TestExecutionRecord;
 import org.eclipse.lyo.oslc.domains.qm.TestPlan;
 import org.eclipse.lyo.oslc.domains.qm.TestResult;
 import org.eclipse.lyo.oslc.domains.qm.TestScript;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 
 // Start of user code imports
 // End of user code
@@ -108,6 +110,7 @@ import org.eclipse.lyo.oslc.domains.qm.TestScript;
 // End of user code
 @OslcService(Oslc_qmDomainConstants.QUALITY_MANAGEMENT_DOMAIN)
 @Path("service4/testResults")
+@Api(value = "OSLC Service for {" + Oslc_qmDomainConstants.TESTRESULT_LOCALNAME + "}")
 public class ResultsService
 {
     @Context private HttpServletRequest httpServletRequest;
@@ -147,6 +150,12 @@ public class ResultsService
     @GET
     @Path("query")
     @Produces({OslcMediaType.APPLICATION_RDF_XML, OslcMediaType.APPLICATION_JSON_LD, OslcMediaType.TEXT_TURTLE, OslcMediaType.APPLICATION_XML, OslcMediaType.APPLICATION_JSON})
+    @ApiOperation(
+        value = "Query capability for resources of type {" + Oslc_qmDomainConstants.TESTRESULT_LOCALNAME + "}",
+        notes = "Query capability for resources of type {" + "<a href=\"" + Oslc_qmDomainConstants.TESTRESULT_TYPE + "\">" + Oslc_qmDomainConstants.TESTRESULT_LOCALNAME + "</a>" + "}" +
+            ", with respective resource shapes {" + "<a href=\"" + "../services/" + OslcConstants.PATH_RESOURCE_SHAPES + "/" + Oslc_qmDomainConstants.TESTRESULT_PATH + "\">" + Oslc_qmDomainConstants.TESTRESULT_LOCALNAME + "</a>" + "}",
+        produces = OslcMediaType.APPLICATION_RDF_XML + ", " + OslcMediaType.APPLICATION_XML + ", " + OslcMediaType.APPLICATION_JSON + ", " + OslcMediaType.TEXT_TURTLE + ", " + MediaType.TEXT_HTML
+    )
     public TestResult[] queryTestResults(
                                                     
                                                      @QueryParam("oslc.where") final String where,
@@ -181,6 +190,12 @@ public class ResultsService
     @GET
     @Path("query")
     @Produces({ MediaType.TEXT_HTML })
+    @ApiOperation(
+        value = "Query capability for resources of type {" + Oslc_qmDomainConstants.TESTRESULT_LOCALNAME + "}",
+        notes = "Query capability for resources of type {" + "<a href=\"" + Oslc_qmDomainConstants.TESTRESULT_TYPE + "\">" + Oslc_qmDomainConstants.TESTRESULT_LOCALNAME + "</a>" + "}" +
+            ", with respective resource shapes {" + "<a href=\"" + "../services/" + OslcConstants.PATH_RESOURCE_SHAPES + "/" + Oslc_qmDomainConstants.TESTRESULT_PATH + "\">" + Oslc_qmDomainConstants.TESTRESULT_LOCALNAME + "</a>" + "}",
+        produces = OslcMediaType.APPLICATION_RDF_XML + ", " + OslcMediaType.APPLICATION_XML + ", " + OslcMediaType.APPLICATION_JSON + ", " + OslcMediaType.TEXT_TURTLE + ", " + MediaType.TEXT_HTML
+    )
     public void queryTestResultsAsHtml(
                                     
                                        @QueryParam("oslc.where") final String where,
@@ -284,6 +299,12 @@ public class ResultsService
     @Path("create")
     @Consumes({OslcMediaType.APPLICATION_RDF_XML, OslcMediaType.APPLICATION_JSON_LD, OslcMediaType.TEXT_TURTLE, OslcMediaType.APPLICATION_XML, OslcMediaType.APPLICATION_JSON })
     @Produces({OslcMediaType.APPLICATION_RDF_XML, OslcMediaType.APPLICATION_JSON_LD, OslcMediaType.TEXT_TURTLE, OslcMediaType.APPLICATION_XML, OslcMediaType.APPLICATION_JSON})
+    @ApiOperation(
+        value = "Creation factory for resources of type {" + Oslc_qmDomainConstants.TESTRESULT_LOCALNAME + "}",
+        notes = "Creation factory for resources of type {" + "<a href=\"" + Oslc_qmDomainConstants.TESTRESULT_TYPE + "\">" + Oslc_qmDomainConstants.TESTRESULT_LOCALNAME + "</a>" + "}" +
+            ", with respective resource shapes {" + "<a href=\"" + "../services/" + OslcConstants.PATH_RESOURCE_SHAPES + "/" + Oslc_qmDomainConstants.TESTRESULT_PATH + "\">" + Oslc_qmDomainConstants.TESTRESULT_LOCALNAME + "</a>" + "}",
+        produces = OslcMediaType.APPLICATION_RDF_XML + ", " + OslcMediaType.APPLICATION_XML + ", " + OslcMediaType.APPLICATION_JSON + ", " + OslcMediaType.TEXT_TURTLE
+    )
     public Response createTestResult(
             
             final TestResult aResource

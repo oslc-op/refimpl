@@ -103,6 +103,10 @@ public class Application extends javax.ws.rs.core.Application {
         RESOURCE_CLASSES.add(ServiceProviderCatalogService.class);
         RESOURCE_CLASSES.add(ServiceProviderService.class);
         RESOURCE_CLASSES.add(ResourceShapeService.class);
+
+        // Swagger resources
+        RESOURCE_CLASSES.add(io.swagger.jaxrs.listing.ApiListingResource.class);
+        RESOURCE_CLASSES.add(io.swagger.jaxrs.listing.SwaggerSerializers.class);
         // OAuth resources
         RESOURCE_CLASSES.add(RootServicesService.class);
         try {

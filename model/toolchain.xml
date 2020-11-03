@@ -46,7 +46,7 @@
       <authenticationConfiguration applicationName="RM" oauthRealm="RM"/>
     </configuration>
   </adaptorInterfaces>
-  <adaptorInterfaces name="CM" swaggerDocumentation="false">
+  <adaptorInterfaces name="CM">
     <serviceProviderCatalog title="Service Provider Catalog" description="Service Provider Catalog">
       <serviceProviders title="Service Provider" description="Service Provider">
         <services>
@@ -120,7 +120,7 @@
       <authenticationConfiguration applicationName="CM" oauthRealm="CM"/>
     </configuration>
   </adaptorInterfaces>
-  <adaptorInterfaces name="QM" swaggerDocumentation="false">
+  <adaptorInterfaces name="QM">
     <serviceProviderCatalog title="Service Provider Catalog" description="Service Provider Catalog">
       <serviceProviders title="QM Service Provider" description="Quality Management Spec Service Provider">
         <services>
@@ -213,7 +213,7 @@
       <authenticationConfiguration applicationName="QM" oauthRealm="QM"/>
     </configuration>
   </adaptorInterfaces>
-  <adaptorInterfaces name="AM" swaggerDocumentation="false">
+  <adaptorInterfaces name="AM">
     <serviceProviderCatalog title="Service Provider Catalog" description="Service Provider Catalog">
       <serviceProviders title="Service Provider" description="Service Provider">
         <services>

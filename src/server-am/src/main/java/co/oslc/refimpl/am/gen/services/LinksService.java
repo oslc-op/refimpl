@@ -87,6 +87,8 @@ import org.eclipse.lyo.oslc.domains.am.Oslc_amDomainConstants;
 import co.oslc.refimpl.am.gen.servlet.ServiceProviderCatalogSingleton;
 import org.eclipse.lyo.oslc.domains.am.LinkType;
 import org.eclipse.lyo.oslc.domains.Person;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 
 // Start of user code imports
 // End of user code
@@ -95,6 +97,7 @@ import org.eclipse.lyo.oslc.domains.Person;
 // End of user code
 @OslcService(Oslc_amDomainConstants.ARCHITECTURE_MANAGEMENT_DOMAIN)
 @Path("service2/linkTypes")
+@Api(value = "OSLC Service for {" + Oslc_amDomainConstants.LINKTYPE_LOCALNAME + "}")
 public class LinksService
 {
     @Context private HttpServletRequest httpServletRequest;
@@ -134,6 +137,12 @@ public class LinksService
     @GET
     @Path("query")
     @Produces({OslcMediaType.APPLICATION_RDF_XML, OslcMediaType.APPLICATION_JSON_LD, OslcMediaType.TEXT_TURTLE, OslcMediaType.APPLICATION_XML, OslcMediaType.APPLICATION_JSON})
+    @ApiOperation(
+        value = "Query capability for resources of type {" + Oslc_amDomainConstants.LINKTYPE_LOCALNAME + "}",
+        notes = "Query capability for resources of type {" + "<a href=\"" + Oslc_amDomainConstants.LINKTYPE_TYPE + "\">" + Oslc_amDomainConstants.LINKTYPE_LOCALNAME + "</a>" + "}" +
+            ", with respective resource shapes {" + "<a href=\"" + "../services/" + OslcConstants.PATH_RESOURCE_SHAPES + "/" + Oslc_amDomainConstants.LINKTYPE_PATH + "\">" + Oslc_amDomainConstants.LINKTYPE_LOCALNAME + "</a>" + "}",
+        produces = OslcMediaType.APPLICATION_RDF_XML + ", " + OslcMediaType.APPLICATION_XML + ", " + OslcMediaType.APPLICATION_JSON + ", " + OslcMediaType.TEXT_TURTLE + ", " + MediaType.TEXT_HTML
+    )
     public LinkType[] queryLinkTypes(
                                                     
                                                      @QueryParam("oslc.where") final String where,
@@ -168,6 +177,12 @@ public class LinksService
     @GET
     @Path("query")
     @Produces({ MediaType.TEXT_HTML })
+    @ApiOperation(
+        value = "Query capability for resources of type {" + Oslc_amDomainConstants.LINKTYPE_LOCALNAME + "}",
+        notes = "Query capability for resources of type {" + "<a href=\"" + Oslc_amDomainConstants.LINKTYPE_TYPE + "\">" + Oslc_amDomainConstants.LINKTYPE_LOCALNAME + "</a>" + "}" +
+            ", with respective resource shapes {" + "<a href=\"" + "../services/" + OslcConstants.PATH_RESOURCE_SHAPES + "/" + Oslc_amDomainConstants.LINKTYPE_PATH + "\">" + Oslc_amDomainConstants.LINKTYPE_LOCALNAME + "</a>" + "}",
+        produces = OslcMediaType.APPLICATION_RDF_XML + ", " + OslcMediaType.APPLICATION_XML + ", " + OslcMediaType.APPLICATION_JSON + ", " + OslcMediaType.TEXT_TURTLE + ", " + MediaType.TEXT_HTML
+    )
     public void queryLinkTypesAsHtml(
                                     
                                        @QueryParam("oslc.where") final String where,
@@ -271,6 +286,12 @@ public class LinksService
     @Path("create")
     @Consumes({OslcMediaType.APPLICATION_RDF_XML, OslcMediaType.APPLICATION_JSON_LD, OslcMediaType.TEXT_TURTLE, OslcMediaType.APPLICATION_XML, OslcMediaType.APPLICATION_JSON })
     @Produces({OslcMediaType.APPLICATION_RDF_XML, OslcMediaType.APPLICATION_JSON_LD, OslcMediaType.TEXT_TURTLE, OslcMediaType.APPLICATION_XML, OslcMediaType.APPLICATION_JSON})
+    @ApiOperation(
+        value = "Creation factory for resources of type {" + Oslc_amDomainConstants.LINKTYPE_LOCALNAME + "}",
+        notes = "Creation factory for resources of type {" + "<a href=\"" + Oslc_amDomainConstants.LINKTYPE_TYPE + "\">" + Oslc_amDomainConstants.LINKTYPE_LOCALNAME + "</a>" + "}" +
+            ", with respective resource shapes {" + "<a href=\"" + "../services/" + OslcConstants.PATH_RESOURCE_SHAPES + "/" + Oslc_amDomainConstants.LINKTYPE_PATH + "\">" + Oslc_amDomainConstants.LINKTYPE_LOCALNAME + "</a>" + "}",
+        produces = OslcMediaType.APPLICATION_RDF_XML + ", " + OslcMediaType.APPLICATION_XML + ", " + OslcMediaType.APPLICATION_JSON + ", " + OslcMediaType.TEXT_TURTLE
+    )
     public Response createLinkType(
             
             final LinkType aResource
