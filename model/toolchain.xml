@@ -43,6 +43,7 @@
     <configuration xsi:type="oslc4j_ai:MavenServerConfiguration" rootServerBaseUrl="http://localhost:8800/" applicationContextPath="/" servletUrlPattern="/services/*" jettyPort="8800">
       <generalConfiguration filesBasePath="../src/server-rm/" javaBasePackageName="co.oslc.refimpl.rm.gen"/>
       <projectConfiguration xsi:type="oslc4j_ai:MavenProjectConfiguration" doNotGenerateProjectConfigurationFiles="true" lyoVersion="4.0.0-SNAPSHOT" groupId="co.oslc.refimpl.rm.gen" artifactId="rm" version="0.0.1-SNAPSHOT"/>
+      <authenticationConfiguration applicationName="RM" oauthRealm="RM"/>
     </configuration>
   </adaptorInterfaces>
   <adaptorInterfaces name="CM" swaggerDocumentation="false">
@@ -116,6 +117,7 @@
     <configuration xsi:type="oslc4j_ai:MavenServerConfiguration" rootServerBaseUrl="http://localhost:8801/" applicationContextPath="/" servletUrlPattern="/services/*" jettyPort="8801">
       <generalConfiguration filesBasePath="../src/server-cm/" javaBasePackageName="co.oslc.refimpl.cm.gen"/>
       <projectConfiguration xsi:type="oslc4j_ai:MavenProjectConfiguration" doNotGenerateProjectConfigurationFiles="true" lyoVersion="4.0.0-SNAPSHOT" groupId="co.oslc.refimpl.cm.gen" artifactId="cm" version="0.0.1-SNAPSHOT"/>
+      <authenticationConfiguration applicationName="CM" oauthRealm="CM"/>
     </configuration>
   </adaptorInterfaces>
   <adaptorInterfaces name="QM" swaggerDocumentation="false">
@@ -208,6 +210,7 @@
     <configuration xsi:type="oslc4j_ai:MavenServerConfiguration" rootServerBaseUrl="http://localhost:8802/" applicationContextPath="/" servletUrlPattern="/services/*" jettyPort="8802">
       <generalConfiguration filesBasePath="../src/server-qm/" javaBasePackageName="co.oslc.refimpl.qm.gen"/>
       <projectConfiguration xsi:type="oslc4j_ai:MavenProjectConfiguration" doNotGenerateProjectConfigurationFiles="true" lyoVersion="4.0.0-SNAPSHOT" groupId="co.oslc.refimpl.qm.gen" artifactId="qm" version="0.0.1-SNAPSHOT"/>
+      <authenticationConfiguration applicationName="QM" oauthRealm="QM"/>
     </configuration>
   </adaptorInterfaces>
   <adaptorInterfaces name="AM" swaggerDocumentation="false">
@@ -252,6 +255,7 @@
     <configuration xsi:type="oslc4j_ai:MavenServerConfiguration" rootServerBaseUrl="http://localhost:8803/" applicationContextPath="/" servletUrlPattern="/services/*" jettyPort="8803">
       <generalConfiguration filesBasePath="../src/server-am/" javaBasePackageName="co.oslc.refimpl.am.gen"/>
       <projectConfiguration xsi:type="oslc4j_ai:MavenProjectConfiguration" doNotGenerateProjectConfigurationFiles="true" lyoVersion="4.0.0-SNAPSHOT" groupId="co.oslc.refimpl.am.gen" artifactId="am" version="0.0.1-SNAPSHOT"/>
+      <authenticationConfiguration applicationName="AM" oauthRealm="AM"/>
     </configuration>
   </adaptorInterfaces>
   <specification>

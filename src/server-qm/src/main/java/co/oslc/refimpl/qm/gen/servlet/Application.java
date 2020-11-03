@@ -51,6 +51,7 @@ import org.eclipse.lyo.oslc4j.core.model.ServiceProviderCatalog;
 import org.eclipse.lyo.oslc4j.provider.jena.JenaProvidersRegistry;
 import org.eclipse.lyo.oslc4j.provider.json4j.Json4JProvidersRegistry;
 
+import co.oslc.refimpl.qm.gen.services.RootServicesService;
 import co.oslc.refimpl.qm.gen.services.ServiceProviderCatalogService;
 import co.oslc.refimpl.qm.gen.services.ServiceProviderService;
 import co.oslc.refimpl.qm.gen.services.ResourceShapeService;
@@ -128,6 +129,15 @@ public class Application extends javax.ws.rs.core.Application {
         RESOURCE_CLASSES.add(ServiceProviderCatalogService.class);
         RESOURCE_CLASSES.add(ServiceProviderService.class);
         RESOURCE_CLASSES.add(ResourceShapeService.class);
+        // OAuth resources
+        RESOURCE_CLASSES.add(RootServicesService.class);
+        try {
+            RESOURCE_CLASSES.add(Class.forName("org.eclipse.lyo.server.oauth.webapp.services.ConsumersService"));
+            RESOURCE_CLASSES.add(Class.forName("org.eclipse.lyo.server.oauth.webapp.services.OAuthService"));
+        } catch (ClassNotFoundException e) {
+            // Start of user code OAuthServiceClasses_notFound
+            // End of user code
+        }
 
         // Start of user code Custom Resource Classes
         // End of user code

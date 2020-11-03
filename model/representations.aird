@@ -18,19 +18,19 @@
         <description xmi:type="description_1:DiagramDescription" href="platform:/plugin/org.eclipse.lyo.tools.toolchain.design/description/ToolChainModel.odesign#//@ownedViewpoints[name='ToolchainViewpoint']/@ownedRepresentations[name='VocabularyDiagram']"/>
         <target xmi:type="oscl4j_vocabulary:Vocabularies" href="toolchain.xml#//@vocabularies"/>
       </ownedRepresentationDescriptors>
-      <ownedRepresentationDescriptors xmi:type="viewpoint:DRepresentationDescriptor" uid="_3AnZgLCrEemIy4JCdJFCBQ" name="AdaptorInterfaceDiagram" repPath="#_3AmycLCrEemIy4JCdJFCBQ" changeId="35ee7db8-6ca4-4f22-ac80-dfb158915846">
+      <ownedRepresentationDescriptors xmi:type="viewpoint:DRepresentationDescriptor" uid="_3AnZgLCrEemIy4JCdJFCBQ" name="AdaptorInterfaceDiagram" repPath="#_3AmycLCrEemIy4JCdJFCBQ" changeId="36b8ffb0-9188-404d-9137-d4944b9118ac">
         <description xmi:type="description_1:DiagramDescription" href="platform:/plugin/org.eclipse.lyo.tools.toolchain.design/description/ToolChainModel.odesign#//@ownedViewpoints[name='ToolchainViewpoint']/@ownedRepresentations[name='AdaptorInterfaceDiagram']"/>
         <target xmi:type="oslc4j_ai:AdaptorInterface" href="toolchain.xml#//@adaptorInterfaces.0"/>
       </ownedRepresentationDescriptors>
-      <ownedRepresentationDescriptors xmi:type="viewpoint:DRepresentationDescriptor" uid="_5Oa_kLL1EemKmZh5Pjubfw" name="AdaptorInterfaceDiagram" repPath="#_5OYjULL1EemKmZh5Pjubfw" changeId="68b80eee-b5de-4e93-84b7-8a96e16eddd7">
+      <ownedRepresentationDescriptors xmi:type="viewpoint:DRepresentationDescriptor" uid="_5Oa_kLL1EemKmZh5Pjubfw" name="AdaptorInterfaceDiagram" repPath="#_5OYjULL1EemKmZh5Pjubfw" changeId="884308f6-b59d-488e-84d5-8c3217a29d42">
         <description xmi:type="description_1:DiagramDescription" href="platform:/plugin/org.eclipse.lyo.tools.toolchain.design/description/ToolChainModel.odesign#//@ownedViewpoints[name='ToolchainViewpoint']/@ownedRepresentations[name='AdaptorInterfaceDiagram']"/>
         <target xmi:type="oslc4j_ai:AdaptorInterface" href="toolchain.xml#//@adaptorInterfaces.1"/>
       </ownedRepresentationDescriptors>
-      <ownedRepresentationDescriptors xmi:type="viewpoint:DRepresentationDescriptor" uid="_mSKjALetEemdTYx80ub67Q" name="AdaptorInterfaceDiagram" repPath="#_mSG4oLetEemdTYx80ub67Q" changeId="88d485b8-9163-4f6a-ab88-1ca70315c51b">
+      <ownedRepresentationDescriptors xmi:type="viewpoint:DRepresentationDescriptor" uid="_mSKjALetEemdTYx80ub67Q" name="AdaptorInterfaceDiagram" repPath="#_mSG4oLetEemdTYx80ub67Q" changeId="ead241f3-9e73-4b1f-8dac-810c6d4a534f">
         <description xmi:type="description_1:DiagramDescription" href="platform:/plugin/org.eclipse.lyo.tools.toolchain.design/description/ToolChainModel.odesign#//@ownedViewpoints[name='ToolchainViewpoint']/@ownedRepresentations[name='AdaptorInterfaceDiagram']"/>
         <target xmi:type="oslc4j_ai:AdaptorInterface" href="toolchain.xml#//@adaptorInterfaces.2"/>
       </ownedRepresentationDescriptors>
-      <ownedRepresentationDescriptors xmi:type="viewpoint:DRepresentationDescriptor" uid="_Y2si2Le1EemdTYx80ub67Q" name="AdaptorInterfaceDiagram" repPath="#_Y2siwLe1EemdTYx80ub67Q" changeId="b4dd88f0-bd73-4af8-a18c-400c0475cac3">
+      <ownedRepresentationDescriptors xmi:type="viewpoint:DRepresentationDescriptor" uid="_Y2si2Le1EemdTYx80ub67Q" name="AdaptorInterfaceDiagram" repPath="#_Y2siwLe1EemdTYx80ub67Q" changeId="da5bd511-0c2f-44e6-a3cb-72f3878b5320">
         <description xmi:type="description_1:DiagramDescription" href="platform:/plugin/org.eclipse.lyo.tools.toolchain.design/description/ToolChainModel.odesign#//@ownedViewpoints[name='ToolchainViewpoint']/@ownedRepresentations[name='AdaptorInterfaceDiagram']"/>
         <target xmi:type="oslc4j_ai:AdaptorInterface" href="toolchain.xml#//@adaptorInterfaces.3"/>
       </ownedRepresentationDescriptors>
@@ -926,6 +926,10 @@
               <styles xmi:type="notation:FontStyle" xmi:id="_xnf5tHUBEeqFtsweTfPZVw" fontName=".AppleSystemUIFont" fontHeight="8"/>
               <layoutConstraint xmi:type="notation:Location" xmi:id="_xnf5tXUBEeqFtsweTfPZVw"/>
             </children>
+            <children xmi:type="notation:Node" xmi:id="_0m3FMB4jEeuctpkzgSllNw" type="3010" element="_0iUjcB4jEeuctpkzgSllNw">
+              <styles xmi:type="notation:FontStyle" xmi:id="_0m3FMR4jEeuctpkzgSllNw" fontName=".AppleSystemUIFont" fontHeight="8"/>
+              <layoutConstraint xmi:type="notation:Location" xmi:id="_0m3FMh4jEeuctpkzgSllNw"/>
+            </children>
             <styles xmi:type="notation:SortingStyle" xmi:id="_xnerlXUBEeqFtsweTfPZVw"/>
             <styles xmi:type="notation:FilteringStyle" xmi:id="_xnerlnUBEeqFtsweTfPZVw"/>
           </children>
@@ -1573,6 +1577,14 @@
         </ownedStyle>
         <actualMapping xmi:type="description_1:NodeMapping" href="platform:/plugin/org.eclipse.lyo.tools.toolchain.design/description/ToolChainModel.odesign#//@ownedViewpoints[name='ToolchainViewpoint']/@ownedRepresentations[name='AdaptorInterfaceDiagram']/@defaultLayer/@containerMappings[name='AdaptorInterface.ServerConfiguration']/@subNodeMappings[name='AdaptorInterface.ServerConfiguration.ProjectConfiguration']"/>
       </ownedElements>
+      <ownedElements xmi:type="diagram:DNodeListElement" uid="_0iUjcB4jEeuctpkzgSllNw" name="Authentication">
+        <target xmi:type="oslc4j_ai:AuthenticationConfiguration" href="toolchain.xml#//@adaptorInterfaces.0/@configuration/@authenticationConfiguration"/>
+        <semanticElements xmi:type="oslc4j_ai:AuthenticationConfiguration" href="toolchain.xml#//@adaptorInterfaces.0/@configuration/@authenticationConfiguration"/>
+        <ownedStyle xmi:type="diagram:BundledImage" uid="_0iVxkB4jEeuctpkzgSllNw" showIcon="false" labelAlignment="LEFT" labelPosition="node">
+          <description xmi:type="style:BundledImageDescription" href="platform:/plugin/org.eclipse.lyo.tools.toolchain.design/description/ToolChainModel.odesign#//@ownedViewpoints[name='ToolchainViewpoint']/@ownedRepresentations[name='AdaptorInterfaceDiagram']/@defaultLayer/@containerMappings[name='AdaptorInterface.ServerConfiguration']/@subNodeMappings[name='AdaptorInterface.ServerConfiguration.AuthenticationConfiguration']/@style"/>
+        </ownedStyle>
+        <actualMapping xmi:type="description_1:NodeMapping" href="platform:/plugin/org.eclipse.lyo.tools.toolchain.design/description/ToolChainModel.odesign#//@ownedViewpoints[name='ToolchainViewpoint']/@ownedRepresentations[name='AdaptorInterfaceDiagram']/@defaultLayer/@containerMappings[name='AdaptorInterface.ServerConfiguration']/@subNodeMappings[name='AdaptorInterface.ServerConfiguration.AuthenticationConfiguration']"/>
+      </ownedElements>
     </ownedDiagramElements>
     <ownedDiagramElements xmi:type="diagram:DNode" uid="_1TAFoHUCEeqFtsweTfPZVw" name="WebServiceBasic" outgoingEdges="_3zEOvHUCEeqFtsweTfPZVw _3zE1snUCEeqFtsweTfPZVw" width="10" height="10" resizeKind="NSEW">
       <target xmi:type="oslc4j_ai:WebService" href="toolchain.xml#//@adaptorInterfaces.0/@webServices.0"/>
@@ -1877,6 +1889,10 @@
             <children xmi:type="notation:Node" xmi:id="_d-jHunUCEeqFtsweTfPZVw" type="3010" element="_d9uBQnUCEeqFtsweTfPZVw">
               <styles xmi:type="notation:FontStyle" xmi:id="_d-jHu3UCEeqFtsweTfPZVw" fontName=".AppleSystemUIFont" fontHeight="8"/>
               <layoutConstraint xmi:type="notation:Location" xmi:id="_d-jHvHUCEeqFtsweTfPZVw"/>
+            </children>
+            <children xmi:type="notation:Node" xmi:id="_09Da0B4nEeuctpkzgSllNw" type="3010" element="_06LF8B4nEeuctpkzgSllNw">
+              <styles xmi:type="notation:FontStyle" xmi:id="_09Da0R4nEeuctpkzgSllNw" fontName=".AppleSystemUIFont" fontHeight="8"/>
+              <layoutConstraint xmi:type="notation:Location" xmi:id="_09Da0h4nEeuctpkzgSllNw"/>
             </children>
             <styles xmi:type="notation:SortingStyle" xmi:id="_d-jHsnUCEeqFtsweTfPZVw"/>
             <styles xmi:type="notation:FilteringStyle" xmi:id="_d-jHs3UCEeqFtsweTfPZVw"/>
@@ -3142,6 +3158,14 @@
         </ownedStyle>
         <actualMapping xmi:type="description_1:NodeMapping" href="platform:/plugin/org.eclipse.lyo.tools.toolchain.design/description/ToolChainModel.odesign#//@ownedViewpoints[name='ToolchainViewpoint']/@ownedRepresentations[name='AdaptorInterfaceDiagram']/@defaultLayer/@containerMappings[name='AdaptorInterface.ServerConfiguration']/@subNodeMappings[name='AdaptorInterface.ServerConfiguration.ProjectConfiguration']"/>
       </ownedElements>
+      <ownedElements xmi:type="diagram:DNodeListElement" uid="_06LF8B4nEeuctpkzgSllNw" name="Authentication">
+        <target xmi:type="oslc4j_ai:AuthenticationConfiguration" href="toolchain.xml#//@adaptorInterfaces.1/@configuration/@authenticationConfiguration"/>
+        <semanticElements xmi:type="oslc4j_ai:AuthenticationConfiguration" href="toolchain.xml#//@adaptorInterfaces.1/@configuration/@authenticationConfiguration"/>
+        <ownedStyle xmi:type="diagram:BundledImage" uid="_06LtAB4nEeuctpkzgSllNw" showIcon="false" labelAlignment="LEFT" labelPosition="node">
+          <description xmi:type="style:BundledImageDescription" href="platform:/plugin/org.eclipse.lyo.tools.toolchain.design/description/ToolChainModel.odesign#//@ownedViewpoints[name='ToolchainViewpoint']/@ownedRepresentations[name='AdaptorInterfaceDiagram']/@defaultLayer/@containerMappings[name='AdaptorInterface.ServerConfiguration']/@subNodeMappings[name='AdaptorInterface.ServerConfiguration.AuthenticationConfiguration']/@style"/>
+        </ownedStyle>
+        <actualMapping xmi:type="description_1:NodeMapping" href="platform:/plugin/org.eclipse.lyo.tools.toolchain.design/description/ToolChainModel.odesign#//@ownedViewpoints[name='ToolchainViewpoint']/@ownedRepresentations[name='AdaptorInterfaceDiagram']/@defaultLayer/@containerMappings[name='AdaptorInterface.ServerConfiguration']/@subNodeMappings[name='AdaptorInterface.ServerConfiguration.AuthenticationConfiguration']"/>
+      </ownedElements>
     </ownedDiagramElements>
     <ownedDiagramElements xmi:type="diagram:DNode" uid="_XMfIgHqpEeqXUOZh7hkf3Q" name="WsChangeRequest" outgoingEdges="_dKh0cHqpEeqXUOZh7hkf3Q" width="10" height="10" resizeKind="NSEW">
       <target xmi:type="oslc4j_ai:WebService" href="toolchain.xml#//@adaptorInterfaces.1/@webServices.0"/>
@@ -3573,6 +3597,10 @@
             <children xmi:type="notation:Node" xmi:id="_J4WOc3UCEeqFtsweTfPZVw" type="3010" element="_J4RV8nUCEeqFtsweTfPZVw">
               <styles xmi:type="notation:FontStyle" xmi:id="_J4WOdHUCEeqFtsweTfPZVw" fontName=".AppleSystemUIFont" fontHeight="8"/>
               <layoutConstraint xmi:type="notation:Location" xmi:id="_J4WOdXUCEeqFtsweTfPZVw"/>
+            </children>
+            <children xmi:type="notation:Node" xmi:id="_wxh1kB4nEeuctpkzgSllNw" type="3010" element="_wuV-sB4nEeuctpkzgSllNw">
+              <styles xmi:type="notation:FontStyle" xmi:id="_wxh1kR4nEeuctpkzgSllNw" fontName=".AppleSystemUIFont" fontHeight="8"/>
+              <layoutConstraint xmi:type="notation:Location" xmi:id="_wxh1kh4nEeuctpkzgSllNw"/>
             </children>
             <styles xmi:type="notation:SortingStyle" xmi:id="_J4VnZXUCEeqFtsweTfPZVw"/>
             <styles xmi:type="notation:FilteringStyle" xmi:id="_J4VnZnUCEeqFtsweTfPZVw"/>
@@ -4923,6 +4951,14 @@
         </ownedStyle>
         <actualMapping xmi:type="description_1:NodeMapping" href="platform:/plugin/org.eclipse.lyo.tools.toolchain.design/description/ToolChainModel.odesign#//@ownedViewpoints[name='ToolchainViewpoint']/@ownedRepresentations[name='AdaptorInterfaceDiagram']/@defaultLayer/@containerMappings[name='AdaptorInterface.ServerConfiguration']/@subNodeMappings[name='AdaptorInterface.ServerConfiguration.ProjectConfiguration']"/>
       </ownedElements>
+      <ownedElements xmi:type="diagram:DNodeListElement" uid="_wuV-sB4nEeuctpkzgSllNw" name="Authentication">
+        <target xmi:type="oslc4j_ai:AuthenticationConfiguration" href="toolchain.xml#//@adaptorInterfaces.2/@configuration/@authenticationConfiguration"/>
+        <semanticElements xmi:type="oslc4j_ai:AuthenticationConfiguration" href="toolchain.xml#//@adaptorInterfaces.2/@configuration/@authenticationConfiguration"/>
+        <ownedStyle xmi:type="diagram:BundledImage" uid="_wuV-sR4nEeuctpkzgSllNw" showIcon="false" labelAlignment="LEFT" labelPosition="node">
+          <description xmi:type="style:BundledImageDescription" href="platform:/plugin/org.eclipse.lyo.tools.toolchain.design/description/ToolChainModel.odesign#//@ownedViewpoints[name='ToolchainViewpoint']/@ownedRepresentations[name='AdaptorInterfaceDiagram']/@defaultLayer/@containerMappings[name='AdaptorInterface.ServerConfiguration']/@subNodeMappings[name='AdaptorInterface.ServerConfiguration.AuthenticationConfiguration']/@style"/>
+        </ownedStyle>
+        <actualMapping xmi:type="description_1:NodeMapping" href="platform:/plugin/org.eclipse.lyo.tools.toolchain.design/description/ToolChainModel.odesign#//@ownedViewpoints[name='ToolchainViewpoint']/@ownedRepresentations[name='AdaptorInterfaceDiagram']/@defaultLayer/@containerMappings[name='AdaptorInterface.ServerConfiguration']/@subNodeMappings[name='AdaptorInterface.ServerConfiguration.AuthenticationConfiguration']"/>
+      </ownedElements>
     </ownedDiagramElements>
     <ownedDiagramElements xmi:type="diagram:DNode" uid="_fOHe4HUSEeqFtsweTfPZVw" name="WsCases" outgoingEdges="_jfiQ_HUSEeqFtsweTfPZVw" width="10" height="10" resizeKind="NSEW">
       <target xmi:type="oslc4j_ai:WebService" href="toolchain.xml#//@adaptorInterfaces.2/@webServices.0"/>
@@ -5185,6 +5221,10 @@
             <children xmi:type="notation:Node" xmi:id="_YILxSnUCEeqFtsweTfPZVw" type="3010" element="_YH42UnUCEeqFtsweTfPZVw">
               <styles xmi:type="notation:FontStyle" xmi:id="_YILxS3UCEeqFtsweTfPZVw" fontName=".AppleSystemUIFont" fontHeight="8"/>
               <layoutConstraint xmi:type="notation:Location" xmi:id="_YILxTHUCEeqFtsweTfPZVw"/>
+            </children>
+            <children xmi:type="notation:Node" xmi:id="_yxe7IB4nEeuctpkzgSllNw" type="3010" element="_ys6kMB4nEeuctpkzgSllNw">
+              <styles xmi:type="notation:FontStyle" xmi:id="_yxe7IR4nEeuctpkzgSllNw" fontName=".AppleSystemUIFont" fontHeight="8"/>
+              <layoutConstraint xmi:type="notation:Location" xmi:id="_yxe7Ih4nEeuctpkzgSllNw"/>
             </children>
             <styles xmi:type="notation:SortingStyle" xmi:id="_YILxQnUCEeqFtsweTfPZVw"/>
             <styles xmi:type="notation:FilteringStyle" xmi:id="_YILxQ3UCEeqFtsweTfPZVw"/>
@@ -5784,6 +5824,14 @@
           <description xmi:type="style:BundledImageDescription" href="platform:/plugin/org.eclipse.lyo.tools.toolchain.design/description/ToolChainModel.odesign#//@ownedViewpoints[name='ToolchainViewpoint']/@ownedRepresentations[name='AdaptorInterfaceDiagram']/@defaultLayer/@containerMappings[name='AdaptorInterface.ServerConfiguration']/@subNodeMappings[name='AdaptorInterface.ServerConfiguration.ProjectConfiguration']/@style"/>
         </ownedStyle>
         <actualMapping xmi:type="description_1:NodeMapping" href="platform:/plugin/org.eclipse.lyo.tools.toolchain.design/description/ToolChainModel.odesign#//@ownedViewpoints[name='ToolchainViewpoint']/@ownedRepresentations[name='AdaptorInterfaceDiagram']/@defaultLayer/@containerMappings[name='AdaptorInterface.ServerConfiguration']/@subNodeMappings[name='AdaptorInterface.ServerConfiguration.ProjectConfiguration']"/>
+      </ownedElements>
+      <ownedElements xmi:type="diagram:DNodeListElement" uid="_ys6kMB4nEeuctpkzgSllNw" name="Authentication">
+        <target xmi:type="oslc4j_ai:AuthenticationConfiguration" href="toolchain.xml#//@adaptorInterfaces.3/@configuration/@authenticationConfiguration"/>
+        <semanticElements xmi:type="oslc4j_ai:AuthenticationConfiguration" href="toolchain.xml#//@adaptorInterfaces.3/@configuration/@authenticationConfiguration"/>
+        <ownedStyle xmi:type="diagram:BundledImage" uid="_ys7LQB4nEeuctpkzgSllNw" showIcon="false" labelAlignment="LEFT" labelPosition="node">
+          <description xmi:type="style:BundledImageDescription" href="platform:/plugin/org.eclipse.lyo.tools.toolchain.design/description/ToolChainModel.odesign#//@ownedViewpoints[name='ToolchainViewpoint']/@ownedRepresentations[name='AdaptorInterfaceDiagram']/@defaultLayer/@containerMappings[name='AdaptorInterface.ServerConfiguration']/@subNodeMappings[name='AdaptorInterface.ServerConfiguration.AuthenticationConfiguration']/@style"/>
+        </ownedStyle>
+        <actualMapping xmi:type="description_1:NodeMapping" href="platform:/plugin/org.eclipse.lyo.tools.toolchain.design/description/ToolChainModel.odesign#//@ownedViewpoints[name='ToolchainViewpoint']/@ownedRepresentations[name='AdaptorInterfaceDiagram']/@defaultLayer/@containerMappings[name='AdaptorInterface.ServerConfiguration']/@subNodeMappings[name='AdaptorInterface.ServerConfiguration.AuthenticationConfiguration']"/>
       </ownedElements>
     </ownedDiagramElements>
     <ownedDiagramElements xmi:type="diagram:DNode" uid="_UVp98HqsEeqXUOZh7hkf3Q" name="WsResource" outgoingEdges="_fhj1tnqsEeqXUOZh7hkf3Q" width="10" height="10" resizeKind="NSEW">

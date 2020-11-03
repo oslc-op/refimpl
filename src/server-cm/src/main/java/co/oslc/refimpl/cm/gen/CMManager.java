@@ -26,8 +26,6 @@ package co.oslc.refimpl.cm.gen;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.ServletContextEvent;
-import javax.ws.rs.WebApplicationException;
-import javax.ws.rs.core.Response;
 import java.util.List;
 import java.util.ArrayList;
 import org.slf4j.Logger;
@@ -57,6 +55,10 @@ import org.eclipse.lyo.oslc.domains.cm.Task;
 import java.net.URI;
 import java.util.Date;
 import java.util.UUID;
+
+import javax.ws.rs.WebApplicationException;
+import javax.ws.rs.core.Response;
+
 import co.oslc.refimpl.lib.MemResourceRepository;
 import co.oslc.refimpl.lib.ResourceRepository;
 // End of user code

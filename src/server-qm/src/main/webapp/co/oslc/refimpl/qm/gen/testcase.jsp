@@ -85,7 +85,7 @@
 <!-- Begin page content -->
 <div class="container">
     <div class="page-header">
-        <h1><%= aTestCase.getTitle() %></h1>
+        <h1>TestCase: <%= aTestCase.toString() %></h1>
         <%
         URI shapeUri = UriBuilder.fromUri(OSLC4JUtils.getServletURI()).path(OslcConstants.PATH_RESOURCE_SHAPES).path(Oslc_qmDomainConstants.TESTCASE_PATH).build();
         Collection<URI> types = aTestCase.getTypes();   

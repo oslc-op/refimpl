@@ -67,6 +67,23 @@
       <artifactId>oslc4j-client</artifactId>
     </dependency>
 
+
+    <!--  OAuth  -->
+    <dependency>
+      <groupId>org.eclipse.lyo.server</groupId>
+      <artifactId>oauth-core</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.eclipse.lyo.server</groupId>
+      <artifactId>oauth-consumer-store</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.eclipse.lyo.server</groupId>
+      <artifactId>oauth-webapp</artifactId>
+      <type>war</type>
+    </dependency>
+
+
     <!-- Servlet-related dependencies -->
     <dependency>
       <groupId>org.glassfish.jersey.core</groupId>

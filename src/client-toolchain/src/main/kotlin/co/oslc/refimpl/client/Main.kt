@@ -79,7 +79,7 @@ fun linkChangeRequestsToRequirementsSingle(chgRequestLink: Link, reqLink: Link) 
 
     chgRequest.addImplementsRequirement(reqLink)
     client.updateResource(chgRequest.about.toString(), chgRequest, OslcMediaType.APPLICATION_RDF_XML)
-    println("Created a link (${chgRequestLink.value}:ChangeRequest)-[:implementsRequirement]-(${reqLink.value}:Requirement)")
+    println("Created a link (${chgRequestLink.value} :ChangeRequest)-[:implementsRequirement]-(${reqLink.value} :Requirement)")
 }
 
 fun linkTestPlanstoChangeRequests(qmTestPlans: List<Link>, cmChangeReq: List<Link>) {
@@ -97,7 +97,7 @@ fun linkTestPlanstoChangeRequestsSingle(planLink: Link, chgRequestLink: Link) {
 
     testPlan.addRelatedChangeRequest(chgRequestLink)
     client.updateResource(testPlan.about.toString(), testPlan, OslcMediaType.APPLICATION_RDF_XML)
-    println("Created a link (${planLink.value}:TestPlan)-[:relatedChangeRequest]-(${chgRequestLink.value}:ChangeRequest)")
+    println("Created a link (${planLink.value} :TestPlan)-[:relatedChangeRequest]-(${chgRequestLink.value} :ChangeRequest)")
 }
 
 class ServiceProviderCatalogTraverser(private val spCatalog: String, private val client: OslcClient) {

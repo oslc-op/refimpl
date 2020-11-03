@@ -19,6 +19,7 @@ src/server-rm/.project
 
 # Maven
 target/
+overlays/
 pom.xml.tag
 pom.xml.releaseBackup
 pom.xml.versionsBackup
