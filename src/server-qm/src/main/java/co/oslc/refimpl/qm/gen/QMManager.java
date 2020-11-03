@@ -26,6 +26,8 @@ package co.oslc.refimpl.qm.gen;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.ServletContextEvent;
+import javax.ws.rs.WebApplicationException;
+import javax.ws.rs.core.Response;
 import java.util.List;
 import java.util.ArrayList;
 import org.slf4j.Logger;
@@ -386,8 +388,12 @@ public class QMManager {
         TestPlan updatedResource = null;
         
         // Start of user code updateTestPlan
-        // TODO Implement code to update and return a resource
-        // If you encounter problems, consider throwing the runtime exception WebApplicationException(message, cause, final httpStatus)
+        if(!QMResourcesFactory.constructURIForTestPlan(spSlug, id).equals(aResource.getAbout())) {
+            throw new WebApplicationException("Subject URI shall match the endpoint", Response.Status.BAD_REQUEST);
+        }
+        aResource.setModified(new Date());
+        testPlanRepository.updateResource(spSlug, id, aResource);
+        updatedResource = aResource;
         // End of user code
         return updatedResource;
     }

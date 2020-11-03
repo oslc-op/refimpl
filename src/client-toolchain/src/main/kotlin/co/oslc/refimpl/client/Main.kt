@@ -24,14 +24,15 @@ private val SPC_AM = "http://localhost:8803/services/catalog/singleton"
 
 private const val N_RESOURCES = 30
 
+val client = OslcClient()
+val rmTraverser = ServiceProviderCatalogTraverser(SPC_RM, client)
+val cmTraverser = ServiceProviderCatalogTraverser(SPC_CM, client)
+val qmTraverser = ServiceProviderCatalogTraverser(SPC_QM, client)
+val amTraverser = ServiceProviderCatalogTraverser(SPC_AM, client)
+
+
 fun main() {
     println("Populating OSLC RefImpl servers with sample data.\n")
-    val client = OslcClient()
-
-    val rmTraverser = ServiceProviderCatalogTraverser(SPC_RM, client)
-    val cmTraverser = ServiceProviderCatalogTraverser(SPC_CM, client)
-    val qmTraverser = ServiceProviderCatalogTraverser(SPC_QM, client)
-    val amTraverser = ServiceProviderCatalogTraverser(SPC_AM, client)
 
     val rmRequirements = CreationFactoryPopulator(client, rmTraverser, N_RESOURCES, SimpleResourceGen(::genRequirement),
             Requirement::class.java).populate()
@@ -58,8 +59,46 @@ fun main() {
             SimpleResourceGen(::genAMResource), Resource::class.java).populate()
     val amLinks = CreationFactoryPopulator(client, amTraverser, N_RESOURCES,
             SimpleResourceGen(::genAMLink), LinkType::class.java).populate()
+
+    linkChangeRequestsToRequirements(cmChangeReq, rmRequirements)
+    linkTestPlanstoChangeRequests(qmTestPlans, cmChangeReq)
 }
 
+fun linkChangeRequestsToRequirements(cmChangeReq: List<Link>, rmRequirements: List<Link>) {
+    assert(cmChangeReq.size == rmRequirements.size)
+
+    val changeRequests = cmChangeReq.shuffled()
+    changeRequests.zip(rmRequirements).forEach {
+        linkChangeRequestsToRequirementsSingle(it.first, it.second)
+    }
+}
+
+fun linkChangeRequestsToRequirementsSingle(chgRequestLink: Link, reqLink: Link) {
+    val chgRequest = client.getResource(chgRequestLink, ChangeRequest::class.java)
+//    val requirement = client.getResource(reqLink, Requirement::class.java)
+
+    chgRequest.addImplementsRequirement(reqLink)
+    client.updateResource(chgRequest.about.toString(), chgRequest, OslcMediaType.APPLICATION_RDF_XML)
+    println("Created a link (${chgRequestLink.value}:ChangeRequest)-[:implementsRequirement]-(${reqLink.value}:Requirement)")
+}
+
+fun linkTestPlanstoChangeRequests(qmTestPlans: List<Link>, cmChangeReq: List<Link>) {
+    assert(qmTestPlans.size == cmChangeReq.size)
+
+    val shuffled = qmTestPlans.shuffled()
+    shuffled.zip(cmChangeReq).forEach {
+        linkTestPlanstoChangeRequestsSingle(it.first, it.second)
+    }
+}
+
+fun linkTestPlanstoChangeRequestsSingle(planLink: Link, chgRequestLink: Link) {
+//    val chgRequest = client.getResource(chgRequestLink, ChangeRequest::class.java)
+    val testPlan = client.getResource(planLink, TestPlan::class.java)
+
+    testPlan.addRelatedChangeRequest(chgRequestLink)
+    client.updateResource(testPlan.about.toString(), testPlan, OslcMediaType.APPLICATION_RDF_XML)
+    println("Created a link (${planLink.value}:TestPlan)-[:relatedChangeRequest]-(${chgRequestLink.value}:ChangeRequest)")
+}
 
 class ServiceProviderCatalogTraverser(private val spCatalog: String, private val client: OslcClient) {
     private val providers: MutableSet<ServiceProvider> = HashSet()
