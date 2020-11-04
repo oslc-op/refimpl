@@ -78,6 +78,20 @@ After that, OSLC servers are available at the following URLs:
 - http://localhost:8802/services/catalog/singleton
 - http://localhost:8803/services/catalog/singleton
 
+Currently, OAuth 1.0 with Basic fallback is enabled only on the OSLC RM server (port 8800). Use `admin:admin` credentials for Basic authentication. In order to enable OAuth support on other servers, uncomment the following lines under `src/main/webapp/WEB-INF/web.xml` of each server:
+
+```xml
+<filter>
+    <display-name>CredentialsFilter</display-name>
+    <filter-name>CredentialsFilter</filter-name>
+    <filter-class>co.oslc.refimpl.rm.gen.servlet.CredentialsFilter</filter-class>
+</filter>
+<filter-mapping>
+    <filter-name>CredentialsFilter</filter-name>
+    <url-pattern>/services/*</url-pattern>
+</filter-mapping>
+```
+
 Swagger endpoints are available at the following URIs (use `sp_single` as a `serviceProviderId` where required):
 
 - http://localhost:8800/swagger-ui/index.jsp

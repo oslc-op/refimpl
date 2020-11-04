@@ -45,7 +45,7 @@
       <filter>
           <display-name>CredentialsFilter</display-name>
           <filter-name>CredentialsFilter</filter-name>
-          <filter-class>co.oslc.refimpl.rm.gen.servlet.CredentialsFilter</filter-class>
+          <filter-class>co.oslc.refimpl.am.gen.servlet.CredentialsFilter</filter-class>
       </filter>
       <filter-mapping>
           <filter-name>CredentialsFilter</filter-name>

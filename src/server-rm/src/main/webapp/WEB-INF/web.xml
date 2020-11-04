@@ -41,7 +41,6 @@
         <servlet-name>JAX-RS Servlet</servlet-name>
         <url-pattern>/services/*</url-pattern>
     </servlet-mapping>
-<!--
     <filter>
         <display-name>CredentialsFilter</display-name>
         <filter-name>CredentialsFilter</filter-name>
@@ -51,7 +50,6 @@
         <filter-name>CredentialsFilter</filter-name>
         <url-pattern>/services/*</url-pattern>
     </filter-mapping>
- -->
     <servlet>
         <servlet-name>DefaultJaxrsConfig</servlet-name>
         <servlet-class>io.swagger.jaxrs.config.DefaultJaxrsConfig</servlet-class>
