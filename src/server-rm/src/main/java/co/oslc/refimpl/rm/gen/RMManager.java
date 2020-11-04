@@ -274,7 +274,13 @@ public class RMManager {
         
         
         // Start of user code queryRequirementCollections
-        // TODO Implement code to return a set of resources
+        final Map<String, RequirementCollection> repository = requirementCollectionsForSP(serviceProviderId);
+        // page starts from 0
+        resources = repository.values()
+                .stream()
+                .skip((page) * limit)
+                .limit(limit + 1)
+                .collect(Collectors.toList());
         // End of user code
         return resources;
     }
