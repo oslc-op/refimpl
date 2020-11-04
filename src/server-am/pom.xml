@@ -7,7 +7,7 @@
     <artifactId>parent</artifactId>
     <version>0.0.1-SNAPSHOT</version>
   </parent>
-  <name>OSLC Architecture Management Server (2019 RefImpl)</name>
+  <name>OSLC Architecture Management Server (2020 RefImpl)</name>
   <artifactId>server-am</artifactId>
   <version>0.0.1-SNAPSHOT</version>
   <packaging>war</packaging>

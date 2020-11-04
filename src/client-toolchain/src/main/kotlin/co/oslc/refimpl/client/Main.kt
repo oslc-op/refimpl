@@ -22,7 +22,7 @@ private val SPC_CM = "http://localhost:8801/services/catalog/singleton"
 private val SPC_QM = "http://localhost:8802/services/catalog/singleton"
 private val SPC_AM = "http://localhost:8803/services/catalog/singleton"
 
-private const val N_RESOURCES = 30
+private const val N_RESOURCES = 50
 
 val client = OslcClient()
 val rmTraverser = ServiceProviderCatalogTraverser(SPC_RM, client)

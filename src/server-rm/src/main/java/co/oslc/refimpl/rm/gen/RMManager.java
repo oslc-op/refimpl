@@ -89,6 +89,8 @@ public class RMManager {
 
     
     // Start of user code class_attributes
+    public static final String SP_DEFAULT = "sp_single";
+
     private final static Map<String, Map<String, Requirement>> requirements = new HashMap<>();
     private final static Map<String, Map<String, RequirementCollection>> requirementCollections = new HashMap<>();
     private final static Directory searchIndex = new ByteBuffersDirectory();
@@ -182,7 +184,7 @@ public class RMManager {
         
         // Start of user code "ServiceProviderInfo[] getServiceProviderInfos(...)"
         ServiceProviderInfo spInfo = new ServiceProviderInfo();
-        spInfo.serviceProviderId = "def";
+        spInfo.serviceProviderId = SP_DEFAULT;
         spInfo.name = "Default ServiceProvider";
         serviceProviderInfos = new ServiceProviderInfo[] {spInfo};
         // End of user code

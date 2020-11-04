@@ -42,7 +42,7 @@
     <requiredAdaptors xsi:type="oslc4j_ai:GenericRequiredAdaptor" serviceProviderCatalogURI="http://your.host.com/adaptor/services/catalog/singleton" name="GenericRequiredAdaptor"/>
     <configuration xsi:type="oslc4j_ai:MavenServerConfiguration" rootServerBaseUrl="http://localhost:8800/" applicationContextPath="/" servletUrlPattern="/services/*" jettyPort="8800">
       <generalConfiguration filesBasePath="../src/server-rm/" javaBasePackageName="co.oslc.refimpl.rm.gen"/>
-      <projectConfiguration xsi:type="oslc4j_ai:MavenProjectConfiguration" doNotGenerateProjectConfigurationFiles="true" lyoVersion="4.0.0-SNAPSHOT" groupId="co.oslc.refimpl.rm.gen" artifactId="rm" version="0.0.1-SNAPSHOT"/>
+      <projectConfiguration xsi:type="oslc4j_ai:MavenProjectConfiguration" lyoVersion="4.0.0-SNAPSHOT" groupId="co.oslc.refimpl.rm.gen" artifactId="rm" version="0.0.1-SNAPSHOT"/>
       <authenticationConfiguration applicationName="RM" oauthRealm="RM"/>
     </configuration>
   </adaptorInterfaces>

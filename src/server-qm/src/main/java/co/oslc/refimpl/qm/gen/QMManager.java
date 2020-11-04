@@ -74,13 +74,14 @@ public class QMManager {
 
     
     // Start of user code class_attributes
+    public static final String SP_DEFAULT = "sp_single";
+    public static final int SELECTOR_LIMIT = 30;
+
     private static final ResourceRepository<TestCase> testCaseRepository = new MemResourceRepository<>();
     private static final ResourceRepository<TestExecutionRecord> testExecutionRecordRepository = new MemResourceRepository<>();
     private static final ResourceRepository<TestPlan> testPlanRepository = new MemResourceRepository<>();
     private static final ResourceRepository<TestResult> testResultRepository = new MemResourceRepository<>();
     private static final ResourceRepository<TestScript> testScriptRepository = new MemResourceRepository<>();
-    public static final String SP_DEFAULT = "SP";
-    public static final int SELECTOR_LIMIT = 30;
     // End of user code
     
     

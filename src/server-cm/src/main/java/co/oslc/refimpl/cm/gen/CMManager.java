@@ -72,7 +72,7 @@ public class CMManager {
 
     
     // Start of user code class_attributes
-    public static final String SP_DEFAULT = "SP";
+    public static final String SP_DEFAULT = "sp_single";
 
     private static final ResourceRepository<ChangeRequest> changeRequestRepository = new MemResourceRepository<>();
     // End of user code

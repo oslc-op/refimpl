@@ -61,7 +61,7 @@ public class AMManager {
 
     
     // Start of user code class_attributes
-    public static final String SP_DEFAULT = "SP";
+    public static final String SP_DEFAULT = "sp_single";
 
     private static final ResourceRepository<Resource> resourceRepository = new MemResourceRepository<>();
     private static final ResourceRepository<LinkType> linkRepository = new MemResourceRepository<>();
@@ -94,7 +94,7 @@ public class AMManager {
         
         // Start of user code "ServiceProviderInfo[] getServiceProviderInfos(...)"
         ServiceProviderInfo spInfo = new ServiceProviderInfo();
-        spInfo.serviceProviderId = "SP";
+        spInfo.serviceProviderId = SP_DEFAULT;
         spInfo.name = "Default ServiceProvider";
         serviceProviderInfos = new ServiceProviderInfo[] {spInfo};
         // End of user code
