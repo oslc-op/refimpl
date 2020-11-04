@@ -26,6 +26,8 @@ package co.oslc.refimpl.am.gen;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.ServletContextEvent;
+import javax.ws.rs.WebApplicationException;
+import javax.ws.rs.core.Response;
 import java.util.List;
 import java.util.ArrayList;
 import org.slf4j.Logger;
@@ -213,8 +215,12 @@ public class AMManager {
         Resource updatedResource = null;
         
         // Start of user code updateResource
+        if(!AMResourcesFactory.constructURIForResource(id).equals(aResource.getAbout())) {
+            throw new WebApplicationException("Subject URI shall match the endpoint", Response.Status.BAD_REQUEST);
+        }
+        aResource.setModified(new Date());
         resourceRepository.updateResource(SP_DEFAULT, id, aResource);
-        // If you encounter problems, consider throwing the runtime exception WebApplicationException(message, cause, final httpStatus)
+        updatedResource = aResource;
         // End of user code
         return updatedResource;
     }
@@ -246,7 +252,12 @@ public class AMManager {
         LinkType updatedResource = null;
         
         // Start of user code updateLinkType
+        if(!AMResourcesFactory.constructURIForLinkType(id).equals(aResource.getAbout())) {
+            throw new WebApplicationException("Subject URI shall match the endpoint", Response.Status.BAD_REQUEST);
+        }
+        aResource.setModified(new Date());
         linkRepository.updateResource(SP_DEFAULT, id, aResource);
+        updatedResource = aResource;
         // If you encounter problems, consider throwing the runtime exception WebApplicationException(message, cause, final httpStatus)
         // End of user code
         return updatedResource;

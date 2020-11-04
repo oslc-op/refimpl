@@ -52,6 +52,7 @@ import java.util.Map;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Response;
@@ -281,7 +282,11 @@ public class RMManager {
         
         
         // Start of user code RequirementCollectionSelector
-        // TODO Implement code to return a set of resources, based on search criteria
+        final Map<String, RequirementCollection> repository = requirementCollectionsForSP(serviceProviderId);
+        resources = repository.values()
+                .stream()
+                .filter(requirement -> requirement.toString().contains(terms))
+                .collect(Collectors.toList());
         // End of user code
         return resources;
     }
@@ -348,8 +353,8 @@ public class RMManager {
         Boolean deleted = false;
         
         // Start of user code deleteRequirementCollection
-        // TODO Implement code to delete a resource
-        // If you encounter problems, consider throwing the runtime exception WebApplicationException(message, cause, final httpStatus)
+        final Map<String, RequirementCollection> repository = requirementCollectionsForSP(serviceProviderId);
+        deleted = repository.remove(resourceId) != null;
         // End of user code
         return deleted;
     }
@@ -358,7 +363,13 @@ public class RMManager {
         Requirement updatedResource = null;
         
         // Start of user code updateRequirement
-        // TODO Implement code to update and return a resource
+        if(!RMResourcesFactory.constructURIForRequirement(serviceProviderId, resourceId).equals(aResource.getAbout())) {
+            throw new WebApplicationException("Subject URI shall match the endpoint", Response.Status.BAD_REQUEST);
+        }
+        aResource.setModified(new Date());
+        final Map<String, Requirement> repository = requirementsForSP(serviceProviderId);
+        repository.put(resourceId, aResource);
+        updatedResource = aResource;
         // End of user code
         return updatedResource;
     }
@@ -366,8 +377,13 @@ public class RMManager {
         RequirementCollection updatedResource = null;
         
         // Start of user code updateRequirementCollection
-        // TODO Implement code to update and return a resource
-        // If you encounter problems, consider throwing the runtime exception WebApplicationException(message, cause, final httpStatus)
+        if(!RMResourcesFactory.constructURIForRequirementCollection(serviceProviderId, resourceId).equals(aResource.getAbout())) {
+            throw new WebApplicationException("Subject URI shall match the endpoint", Response.Status.BAD_REQUEST);
+        }
+        aResource.setModified(new Date());
+        final Map<String, RequirementCollection> repository = requirementCollectionsForSP(serviceProviderId);
+        repository.put(resourceId, aResource);
+        updatedResource = aResource;
         // End of user code
         return updatedResource;
     }

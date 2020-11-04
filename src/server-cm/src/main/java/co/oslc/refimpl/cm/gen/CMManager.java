@@ -330,8 +330,8 @@ public class CMManager {
         Boolean deleted = false;
         
         // Start of user code deleteChangeRequest
-        // TODO Implement code to delete a resource
-        // If you encounter problems, consider throwing the runtime exception WebApplicationException(message, cause, final httpStatus)
+        changeRequestRepository.deleteResource(SP_DEFAULT, id);
+        deleted = true;
         // End of user code
         return deleted;
     }

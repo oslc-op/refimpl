@@ -346,8 +346,8 @@ public class QMManager {
         Boolean deleted = false;
         
         // Start of user code deleteTestCase
-        // TODO Implement code to delete a resource
-        // If you encounter problems, consider throwing the runtime exception WebApplicationException(message, cause, final httpStatus)
+        testCaseRepository.deleteResource(spSlug, id);
+        deleted = true;
         // End of user code
         return deleted;
     }
@@ -356,8 +356,12 @@ public class QMManager {
         TestCase updatedResource = null;
         
         // Start of user code updateTestCase
-        // TODO Implement code to update and return a resource
-        // If you encounter problems, consider throwing the runtime exception WebApplicationException(message, cause, final httpStatus)
+        if(!QMResourcesFactory.constructURIForTestCase(spSlug, id).equals(aResource.getAbout())) {
+            throw new WebApplicationException("Subject URI shall match the endpoint", Response.Status.BAD_REQUEST);
+        }
+        aResource.setModified(new Date());
+        testCaseRepository.updateResource(SP_DEFAULT, id, aResource);
+        updatedResource = aResource;
         // End of user code
         return updatedResource;
     }
@@ -379,8 +383,8 @@ public class QMManager {
         Boolean deleted = false;
         
         // Start of user code deleteTestPlan
-        // TODO Implement code to delete a resource
-        // If you encounter problems, consider throwing the runtime exception WebApplicationException(message, cause, final httpStatus)
+        testPlanRepository.deleteResource(spSlug, id);
+        deleted = true;
         // End of user code
         return deleted;
     }
@@ -416,8 +420,8 @@ public class QMManager {
         Boolean deleted = false;
         
         // Start of user code deleteTestScript
-        // TODO Implement code to delete a resource
-        // If you encounter problems, consider throwing the runtime exception WebApplicationException(message, cause, final httpStatus)
+        testScriptRepository.deleteResource(spSlug, id);
+        deleted = true;
         // End of user code
         return deleted;
     }
@@ -426,8 +430,12 @@ public class QMManager {
         TestScript updatedResource = null;
         
         // Start of user code updateTestScript
-        // TODO Implement code to update and return a resource
-        // If you encounter problems, consider throwing the runtime exception WebApplicationException(message, cause, final httpStatus)
+        if(!QMResourcesFactory.constructURIForTestScript(spSlug, id).equals(aResource.getAbout())) {
+            throw new WebApplicationException("Subject URI shall match the endpoint", Response.Status.BAD_REQUEST);
+        }
+        aResource.setModified(new Date());
+        testScriptRepository.updateResource(SP_DEFAULT, id, aResource);
+        updatedResource = aResource;
         // End of user code
         return updatedResource;
     }
@@ -449,8 +457,8 @@ public class QMManager {
         Boolean deleted = false;
         
         // Start of user code deleteTestResult
-        // TODO Implement code to delete a resource
-        // If you encounter problems, consider throwing the runtime exception WebApplicationException(message, cause, final httpStatus)
+        testResultRepository.deleteResource(spSlug, id);
+        deleted = true;
         // End of user code
         return deleted;
     }
@@ -459,8 +467,12 @@ public class QMManager {
         TestResult updatedResource = null;
         
         // Start of user code updateTestResult
-        // TODO Implement code to update and return a resource
-        // If you encounter problems, consider throwing the runtime exception WebApplicationException(message, cause, final httpStatus)
+        if(!QMResourcesFactory.constructURIForTestResult(spSlug, id).equals(aResource.getAbout())) {
+            throw new WebApplicationException("Subject URI shall match the endpoint", Response.Status.BAD_REQUEST);
+        }
+        aResource.setModified(new Date());
+        testResultRepository.updateResource(SP_DEFAULT, id, aResource);
+        updatedResource = aResource;
         // End of user code
         return updatedResource;
     }
@@ -480,8 +492,8 @@ public class QMManager {
         Boolean deleted = false;
         
         // Start of user code deleteTestExecutionRecord
-        // TODO Implement code to delete a resource
-        // If you encounter problems, consider throwing the runtime exception WebApplicationException(message, cause, final httpStatus)
+        testExecutionRecordRepository.deleteResource(spSlug, id);
+        deleted = true;
         // End of user code
         return deleted;
     }
@@ -490,8 +502,12 @@ public class QMManager {
         TestExecutionRecord updatedResource = null;
         
         // Start of user code updateTestExecutionRecord
-        // TODO Implement code to update and return a resource
-        // If you encounter problems, consider throwing the runtime exception WebApplicationException(message, cause, final httpStatus)
+        if(!QMResourcesFactory.constructURIForTestExecutionRecord(spSlug, id).equals(aResource.getAbout())) {
+            throw new WebApplicationException("Subject URI shall match the endpoint", Response.Status.BAD_REQUEST);
+        }
+        aResource.setModified(new Date());
+        testExecutionRecordRepository.updateResource(SP_DEFAULT, id, aResource);
+        updatedResource = aResource;
         // End of user code
         return updatedResource;
     }
