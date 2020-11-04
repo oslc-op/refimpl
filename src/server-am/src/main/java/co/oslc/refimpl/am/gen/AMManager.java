@@ -107,7 +107,7 @@ public class AMManager {
         
         
         // Start of user code queryResources
-        // TODO Implement code to return a set of resources
+        resources = resourceRepository.fetchResourcePageForSP(SP_DEFAULT, 1, limit);
         // End of user code
         return resources;
     }
@@ -149,7 +149,7 @@ public class AMManager {
         
         
         // Start of user code queryLinkTypes
-        // TODO Implement code to return a set of resources
+        resources = linkRepository.fetchResourcePageForSP(SP_DEFAULT, 1, limit);
         // End of user code
         return resources;
     }
