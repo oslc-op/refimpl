@@ -1,8 +1,5 @@
 # OSLC 2020 Reference Implementation
 
-> ⚠️ **This is a 🚧 work-in-progress 🚧 repository!** If you are interested in getting involved,
-[join](https://github.com/oslc-op/oslc-admin/blob/master/CONTRIBUTING.md#online-meetings) one of our weekly calls.
-
 ## Intro
 
 RM/CM/QM/AM domains are covered.
