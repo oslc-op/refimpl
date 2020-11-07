@@ -9,7 +9,6 @@
   </parent>
   <name>OSLC Architecture Management Server (2020 RefImpl)</name>
   <artifactId>server-am</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
   <packaging>war</packaging>
 
   <properties></properties>

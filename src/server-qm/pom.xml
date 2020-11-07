@@ -9,7 +9,6 @@
   </parent>
   <name>OSLC Quality Management Server (2020 RefImpl)</name>
   <artifactId>server-qm</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
   <packaging>war</packaging>
 
   <properties></properties>
