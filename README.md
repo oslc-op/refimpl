@@ -1,5 +1,9 @@
 # OSLC 2020 Reference Implementation
 
+![CI](https://github.com/oslc-op/refimpl/workflows/CI/badge.svg)
+[![](https://img.shields.io/badge/talk-discourse-lightgrey.svg)](https://forum.open-services.net/)
+
+
 ## Intro
 
 RM/CM/QM/AM domains are covered.
