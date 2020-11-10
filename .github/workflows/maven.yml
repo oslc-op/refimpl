@@ -9,7 +9,8 @@ on:
   pull_request:
     branches: [ master ]
   schedule:
-    - cron: "30 4 * * 5" # catch SNAPSHOT breaking changes
+    # catch SNAPSHOT breaking changes, check before THU OSLC calls and on Sat
+    - cron: "30 4 * * 4,6" 
   workflow_dispatch:
       
 jobs:
