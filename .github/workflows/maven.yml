@@ -10,6 +10,7 @@ on:
     branches: [ master ]
   schedule:
     - cron: "30 4 * * 5" # catch SNAPSHOT breaking changes
+  workflow_dispatch:
       
 jobs:
   build:
