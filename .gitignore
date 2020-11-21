@@ -5,17 +5,6 @@ model/src/
 
 # Eclipse
 .settings/
-src/.project
-src/client-toolchain/.classpath
-src/client-toolchain/.project
-src/server-am/.classpath
-src/server-am/.project
-src/server-cm/.classpath
-src/server-cm/.project
-src/server-qm/.classpath
-src/server-qm/.project
-src/server-rm/.classpath
-src/server-rm/.project
 
 # Maven
 target/
@@ -30,12 +19,14 @@ buildNumber.properties
 .mvn/timing.properties
 
 # Avoid ignoring Maven wrapper jar file (.jar files are usually ignored)
-!/.mvn/wrapper/maven-wrapper.jar
+!.mvn/wrapper/maven-wrapper.jar
 
 #Idea
-
 .idea/
 *.iml
+
+#VSCode
+.vscode/
 
 #Misc
 .DS_Store
