@@ -73,6 +73,18 @@ docker run -p 8803:8080 refimpl-server-cm
 
 After following these steps, proceed to the steps listed in the next section _Navigating OSLC servers_.
 
+### Running on Tomcat in Docker
+
+```bash
+cd src/
+mvn clean install
+
+cd server-rm/
+mvn clean package
+docker build -f tomcat.Dockerfile -t refimpl-server-rm .
+docker run -p 8800:8080 refimpl-server-rm
+```
+
 ## Navigating OSLC servers
 
 After that, OSLC servers are available at the following URLs:
