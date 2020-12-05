@@ -9,8 +9,8 @@ on:
   pull_request:
     branches: [ master ]
   schedule:
-    # catch SNAPSHOT breaking changes, check before THU OSLC calls and on Sat
-    - cron: "30 4 * * 4,6"
+    # run integration tests every morning
+    - cron: "30 5 * * *"
   workflow_dispatch:
 
 jobs:
