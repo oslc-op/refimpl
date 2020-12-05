@@ -10,9 +10,9 @@ on:
     branches: [ master ]
   schedule:
     # catch SNAPSHOT breaking changes, check before THU OSLC calls and on Sat
-    - cron: "30 4 * * 4,6" 
+    - cron: "30 4 * * 4,6"
   workflow_dispatch:
-      
+
 jobs:
   build:
 
@@ -25,4 +25,4 @@ jobs:
       with:
         java-version: 1.8
     - name: Build with Maven
-      run: mvn -B package --file src/pom.xml
+      run: mvn -B verify --file src/pom.xml

@@ -12,7 +12,8 @@
   <packaging>war</packaging>
 
   <properties>
-    <version.lucene>7.7.2</version.lucene>
+    <v.lucene>7.7.2</v.lucene>
+    <v.rest-assured>4.3.2</v.rest-assured>
   </properties>
 
   <dependencies>
@@ -20,12 +21,12 @@
     <dependency>
       <groupId>org.apache.lucene</groupId>
       <artifactId>lucene-core</artifactId>
-      <version>${version.lucene}</version>
+      <version>${v.lucene}</version>
     </dependency>
     <dependency>
       <groupId>org.apache.lucene</groupId>
       <artifactId>lucene-queryparser</artifactId>
-      <version>${version.lucene}</version>
+      <version>${v.lucene}</version>
     </dependency>
 
     <dependency>
@@ -122,29 +123,72 @@
       <artifactId>junit</artifactId>
       <scope>test</scope>
     </dependency>
+    <dependency>
+      <groupId>io.rest-assured</groupId>
+      <artifactId>rest-assured</artifactId>
+      <version>${v.rest-assured}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>io.rest-assured</groupId>
+      <artifactId>xml-path</artifactId>
+      <version>${v.rest-assured}</version>
+      <scope>test</scope>
+    </dependency>
+
   </dependencies>
 
   <build>
     <plugins>
       <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-failsafe-plugin</artifactId>
+        <version>3.0.0-M5</version>
+        <executions>
+          <execution>
+            <goals>
+              <goal>integration-test</goal>
+              <goal>verify</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
         <groupId>org.eclipse.jetty</groupId>
         <artifactId>jetty-maven-plugin</artifactId>
-        <version>9.4.19.v20190610</version>
+        <version>9.4.35.v20201120</version>
         <configuration>
           <webAppConfig>
             <contextPath>/</contextPath>
           </webAppConfig>
           <reload>automatic</reload>
           <scanIntervalSeconds>5</scanIntervalSeconds>
-          <systemProperties>
-            <systemProperty>
-              <name>jetty.port</name>
-              <value>8800</value>
-            </systemProperty>
-          </systemProperties>
-          <stopKey/>
-          <stopPort/>
+          <httpConnector>
+            <port>8800</port>
+          </httpConnector>
+          <stopPort>18800</stopPort>
+          <stopKey>jetty</stopKey>
         </configuration>
+        <executions>
+          <execution>
+            <id>start-jetty</id>
+            <phase>pre-integration-test</phase>
+            <goals>
+              <goal>start</goal>
+            </goals>
+            <configuration>
+              <scanIntervalSeconds>0</scanIntervalSeconds>
+              <daemon>true</daemon>
+            </configuration>
+          </execution>
+          <execution>
+            <id>stop-jetty</id>
+            <phase>post-integration-test</phase>
+            <goals>
+              <goal>stop</goal>
+            </goals>
+          </execution>
+        </executions>
       </plugin>
       <plugin>
         <!-- Download Swagger UI webjar. -->
