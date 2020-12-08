@@ -20,8 +20,8 @@
 package co.oslc.refimpl.qm.gen.clients;
 
 import javax.ws.rs.core.Response;
-import org.eclipse.lyo.oslc4j.client.OSLCConstants;
-import org.eclipse.lyo.oslc4j.client.OslcClient;
+import org.eclipse.lyo.client.OSLCConstants;
+import org.eclipse.lyo.client.OslcClient;
 import org.eclipse.lyo.oslc4j.core.model.ServiceProviderCatalog;
 
 // Start of user code imports

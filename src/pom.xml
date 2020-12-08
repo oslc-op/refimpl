@@ -12,7 +12,7 @@
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     <maven.compiler.source>1.8</maven.compiler.source>
     <maven.compiler.target>1.8</maven.compiler.target>
-    <version.lyo>4.0.0.M2</version.lyo>
+    <version.lyo>4.0.0.RC</version.lyo>
     <version.jersey>2.25.1</version.jersey>
   </properties>
 
@@ -36,7 +36,7 @@
       <dependency>
         <groupId>org.slf4j</groupId>
         <artifactId>slf4j-simple</artifactId>
-        <version>1.7.21</version>
+        <version>1.7.26</version><!--Make sure to match the API used by Lyo-->
       </dependency>
 
       <!-- Lyo dependencies -->
@@ -63,14 +63,8 @@
 
       <dependency>
         <groupId>org.eclipse.lyo.clients</groupId>
-        <artifactId>oslc4j-client</artifactId>
+        <artifactId>oslc-client</artifactId>
         <version>${version.lyo}</version>
-      </dependency>
-
-      <dependency>
-        <groupId>io.swagger</groupId>
-        <artifactId>swagger-jersey2-jaxrs</artifactId>
-        <version>1.5.22</version>
       </dependency>
 
 
@@ -108,13 +102,20 @@
         <groupId>javax.servlet</groupId>
         <artifactId>javax.servlet-api</artifactId>
         <version>3.1.0</version>
+        <!--TODO provided-->
       </dependency>
       <dependency>
         <groupId>javax.servlet.jsp.jstl</groupId>
         <artifactId>javax.servlet.jsp.jstl-api</artifactId>
         <version>1.2.2</version>
+        <!--TODO provided-->
       </dependency>
 
+      <dependency>
+        <groupId>io.swagger</groupId>
+        <artifactId>swagger-jersey2-jaxrs</artifactId>
+        <version>1.5.22</version>
+      </dependency>
 
 
       <!-- Test dependencies -->

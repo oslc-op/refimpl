@@ -9,8 +9,8 @@ import org.eclipse.lyo.oslc.domains.cm.ChangeRequest
 import org.eclipse.lyo.oslc.domains.qm.*
 import org.eclipse.lyo.oslc.domains.rm.Requirement
 import org.eclipse.lyo.oslc.domains.rm.RequirementCollection
-import org.eclipse.lyo.oslc4j.client.IOslcClient
-import org.eclipse.lyo.oslc4j.client.OslcClientFactory
+import org.eclipse.lyo.client.IOslcClient
+import org.eclipse.lyo.client.OslcClientFactory
 import org.eclipse.lyo.oslc4j.core.annotation.OslcResourceShape
 import org.eclipse.lyo.oslc4j.core.model.*
 import org.glassfish.jersey.apache.connector.ApacheConnectorProvider
@@ -85,6 +85,8 @@ fun main() {
             ChangeRequest::class.java).populate()
 
 
+    linkChangeRequestsToRequirements(cmChangeReq, rmRequirements)
+
     val qmTestPlans = CreationFactoryPopulator(client, qmTraverser, N_RESOURCES,
             SimpleResourceGen(::genPlan), TestPlan::class.java).populate()
     val qmTestCases = CreationFactoryPopulator(client, qmTraverser, N_RESOURCES,
@@ -102,7 +104,6 @@ fun main() {
     val amLinks = CreationFactoryPopulator(client, amTraverser, N_RESOURCES,
             SimpleResourceGen(::genAMLink), LinkType::class.java).populate()
 
-    linkChangeRequestsToRequirements(cmChangeReq, rmRequirements)
     linkTestPlanstoChangeRequests(qmTestPlans, cmChangeReq)
 }
 
