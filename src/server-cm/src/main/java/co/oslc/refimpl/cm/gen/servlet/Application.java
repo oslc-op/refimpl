@@ -153,6 +153,7 @@ public class Application extends jakarta.ws.rs.core.Application {
         // Start of user code Custom Resource Classes
         RESOURCE_CLASSES.add(OslcCorsFilter.class);
         RESOURCE_CLASSES.add(OslcCspFilter.class);
+        RESOURCE_CLASSES.add(ExtendedPropWriteInterceptor.class);
         // End of user code
 
         RESOURCE_SHAPE_PATH_TO_RESOURCE_CLASS_MAP.put(OslcConstants.PATH_ALLOWED_VALUES,           AllowedValues.class);
