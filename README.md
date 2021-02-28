@@ -1,7 +1,9 @@
+
 # OSLC 2020 Reference Implementation
 
 ![CI](https://github.com/oslc-op/refimpl/workflows/CI/badge.svg)
 [![](https://img.shields.io/badge/talk-discourse-lightgrey.svg)](https://forum.open-services.net/)
+[![Gitpod ready-to-code](https://img.shields.io/badge/Gitpod-ready--to--code-blue?logo=gitpod)](https://gitpod.io/#https://github.com/oslc-op/refimpl)
 
 
 ## Intro
