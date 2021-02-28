@@ -3,4 +3,4 @@ image:
 
 tasks:
   - init: mvn -f src/pom.xml clean install
-    command: mvn -f src/server-rm/pom.xml jetty:start
+    command: mvn -f src/server-rm/pom.xml jetty:run
