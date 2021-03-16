@@ -9,8 +9,8 @@ on:
   pull_request:
     branches: [master]
   schedule:
-    # run integration tests every morning
-    - cron: "30 5 * * *"
+    # run integration tests every Thursday
+    - cron: "50 12 * * 4"
   workflow_dispatch:
 
 jobs:
@@ -18,11 +18,9 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        jdk: [8, 11, 15]
+        jdk: [8, 11, 16]
         experimental: [false]
         include:
-          - jdk: 16-ea
-            experimental: true
           - jdk: 17-ea
             experimental: true
     runs-on: ubuntu-latest
