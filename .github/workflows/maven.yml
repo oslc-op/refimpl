@@ -10,7 +10,7 @@ on:
     branches: [master]
   schedule:
     # run integration tests every morning
-    - cron: "30 5 * * *"
+    - cron: "50 12 * * 4"
   workflow_dispatch:
 
 jobs:
