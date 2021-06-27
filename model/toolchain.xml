@@ -11,10 +11,10 @@
           <queryCapabilities title="RequirementQC" label="Requirements Query Capability" queryBaseURI="query">
             <resourceTypes href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#_pnz6IJUdEeq-KoPaR9_Cfg"/>
           </queryCapabilities>
-          <selectionDialogs title="RequirementSD" label="Requirements Selection Dialog" dialogURI="selector">
+          <selectionDialogs title="RequirementSD" label="Requirements Selection Dialog" dialogURI="selector" hintWidth="500" hintHeight="500">
             <resourceTypes href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#_pnz6IJUdEeq-KoPaR9_Cfg"/>
           </selectionDialogs>
-          <creationDialogs title="RequirementCD" label="Requirements Creation Dialog" dialogURI="creator">
+          <creationDialogs title="RequirementCD" label="Requirements Creation Dialog" dialogURI="creator" hintWidth="500" hintHeight="500">
             <resourceTypes href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#_pnz6IJUdEeq-KoPaR9_Cfg"/>
           </creationDialogs>
           <usages>requirements</usages>
@@ -27,7 +27,7 @@
           <queryCapabilities title="RequirementCollectionQC" label="Requirement Collections Query Capability" queryBaseURI="query">
             <resourceTypes href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#_pn2WYZUdEeq-KoPaR9_Cfg"/>
           </queryCapabilities>
-          <selectionDialogs title="RequirementCollectionSD" label="Requirement Collections Selection Dialog" dialogURI="selector">
+          <selectionDialogs title="RequirementCollectionSD" label="Requirement Collections Selection Dialog" dialogURI="selector" hintWidth="500" hintHeight="500">
             <resourceTypes href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#_pn2WYZUdEeq-KoPaR9_Cfg"/>
           </selectionDialogs>
           <usages>requirement_collections</usages>
@@ -41,8 +41,8 @@
     <specification/>
     <requiredAdaptors xsi:type="oslc4j_ai:GenericRequiredAdaptor" serviceProviderCatalogURI="http://your.host.com/adaptor/services/catalog/singleton" name="GenericRequiredAdaptor"/>
     <configuration xsi:type="oslc4j_ai:MavenServerConfiguration" rootServerBaseUrl="http://localhost:8800/" applicationContextPath="/" servletUrlPattern="/services/*" jettyPort="8800">
-      <generalConfiguration filesBasePath="../src/server-rm/" javaBasePackageName="co.oslc.refimpl.rm.gen"/>
-      <projectConfiguration xsi:type="oslc4j_ai:MavenProjectConfiguration" lyoVersion="4.0.0-SNAPSHOT" groupId="co.oslc.refimpl.rm.gen" artifactId="rm" version="0.0.1-SNAPSHOT"/>
+      <generalConfiguration doNotGenerateFromImportedModels="true" filesBasePath="../src/server-rm/" javaBasePackageName="co.oslc.refimpl.rm.gen"/>
+      <projectConfiguration xsi:type="oslc4j_ai:MavenProjectConfiguration" lyoVersion="4.1.0-SNAPSHOT" groupId="co.oslc.refimpl.rm.gen" artifactId="rm" version="0.0.1-SNAPSHOT"/>
       <authenticationConfiguration applicationName="RM" oauthRealm="RM"/>
     </configuration>
   </adaptorInterfaces>
@@ -72,37 +72,37 @@
           <queryCapabilities title="ChangeNotice QC" label="ChangeNotice Query Capability" queryBaseURI="query_cn">
             <resourceTypes href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#_poLtkpUdEeq-KoPaR9_Cfg"/>
           </queryCapabilities>
-          <selectionDialogs title="ChangeRequestDlgSel" label="Change Request Selection Dialog" dialogURI="select_change_request">
+          <selectionDialogs title="ChangeRequestDlgSel" label="Change Request Selection Dialog" dialogURI="select_change_request" hintWidth="500" hintHeight="500">
             <resourceTypes href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#_poJRUJUdEeq-KoPaR9_Cfg"/>
           </selectionDialogs>
-          <selectionDialogs title="DefectDlgSel" label="Defect Selection Dialog" dialogURI="select_defect">
+          <selectionDialogs title="DefectDlgSel" label="Defect Selection Dialog" dialogURI="select_defect" hintWidth="500" hintHeight="500">
             <resourceTypes href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#_poLGgpUdEeq-KoPaR9_Cfg"/>
           </selectionDialogs>
-          <selectionDialogs title="TaskDlgSel" label="Task Selection Dialog" dialogURI="select_task">
+          <selectionDialogs title="TaskDlgSel" label="Task Selection Dialog" dialogURI="select_task" hintWidth="500" hintHeight="500">
             <resourceTypes href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#_poLtk5UdEeq-KoPaR9_Cfg"/>
           </selectionDialogs>
-          <selectionDialogs title="ReviewTaskDlgSel" label="Review Task Selection Dialog" dialogURI="select_review_task">
+          <selectionDialogs title="ReviewTaskDlgSel" label="Review Task Selection Dialog" dialogURI="select_review_task" hintWidth="500" hintHeight="500">
             <resourceTypes href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#_poMUoJUdEeq-KoPaR9_Cfg"/>
           </selectionDialogs>
-          <selectionDialogs title="ChangeNoticeDlgSel" label="Change Notice Selection Dialog" dialogURI="select_change_notice">
+          <selectionDialogs title="ChangeNoticeDlgSel" label="Change Notice Selection Dialog" dialogURI="select_change_notice" hintWidth="500" hintHeight="500">
             <resourceTypes href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#_poLtkpUdEeq-KoPaR9_Cfg"/>
           </selectionDialogs>
-          <selectionDialogs title="EnhancementDlgSel" label="Enhancement Selection Dialog" dialogURI="select_enhancement">
+          <selectionDialogs title="EnhancementDlgSel" label="Enhancement Selection Dialog" dialogURI="select_enhancement" hintWidth="500" hintHeight="500">
             <resourceTypes href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#_poMUoZUdEeq-KoPaR9_Cfg"/>
           </selectionDialogs>
-          <creationDialogs title="DefectDlgCr" label="Defect Creation Dialog" dialogURI="create_defect">
+          <creationDialogs title="DefectDlgCr" label="Defect Creation Dialog" dialogURI="create_defect" hintWidth="500" hintHeight="500">
             <resourceTypes href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#_poLGgpUdEeq-KoPaR9_Cfg"/>
           </creationDialogs>
-          <creationDialogs title="TaskDlgCr" label="Task Creation Dialog" dialogURI="create_task">
+          <creationDialogs title="TaskDlgCr" label="Task Creation Dialog" dialogURI="create_task" hintWidth="500" hintHeight="500">
             <resourceTypes href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#_poLtk5UdEeq-KoPaR9_Cfg"/>
           </creationDialogs>
-          <creationDialogs title="ReviewTaskDlgCr" label="Review Task Creation Dialog" dialogURI="create_review_task">
+          <creationDialogs title="ReviewTaskDlgCr" label="Review Task Creation Dialog" dialogURI="create_review_task" hintWidth="500" hintHeight="500">
             <resourceTypes href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#_poMUoJUdEeq-KoPaR9_Cfg"/>
           </creationDialogs>
-          <creationDialogs title="ChangeNoticeDlgCr" label="Change Notice Creation Dialog" dialogURI="create_change_notice">
+          <creationDialogs title="ChangeNoticeDlgCr" label="Change Notice Creation Dialog" dialogURI="create_change_notice" hintWidth="500" hintHeight="500">
             <resourceTypes href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#_poLtkpUdEeq-KoPaR9_Cfg"/>
           </creationDialogs>
-          <creationDialogs title="EnhancementDlgCr" label="Enhancement Creation Dialog" dialogURI="create_enhancement">
+          <creationDialogs title="EnhancementDlgCr" label="Enhancement Creation Dialog" dialogURI="create_enhancement" hintWidth="500" hintHeight="500">
             <resourceTypes href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#_poMUoZUdEeq-KoPaR9_Cfg"/>
           </creationDialogs>
           <usages>change_requests</usages>
@@ -114,9 +114,9 @@
     </webServices>
     <specification/>
     <requiredAdaptors xsi:type="oslc4j_ai:GenericRequiredAdaptor" serviceProviderCatalogURI="http://your.host.com/adaptor/services/catalog/singleton" name="GenericRequiredAdaptor"/>
-    <configuration xsi:type="oslc4j_ai:MavenServerConfiguration" rootServerBaseUrl="http://localhost:8801/" applicationContextPath="/" servletUrlPattern="/services/*" jettyPort="8801">
-      <generalConfiguration filesBasePath="../src/server-cm/" javaBasePackageName="co.oslc.refimpl.cm.gen"/>
-      <projectConfiguration xsi:type="oslc4j_ai:MavenProjectConfiguration" doNotGenerateProjectConfigurationFiles="true" lyoVersion="4.0.0-SNAPSHOT" groupId="co.oslc.refimpl.cm.gen" artifactId="cm" version="0.0.1-SNAPSHOT"/>
+    <configuration xsi:type="oslc4j_ai:MavenServerConfiguration" rootServerBaseUrl="http://localhost:8801/" applicationContextPath="/" servletUrlPattern="/services/*" generateJspFilesForOslcUI="true" jettyPort="8801">
+      <generalConfiguration doNotGenerateFromImportedModels="true" filesBasePath="../src/server-cm/" javaBasePackageName="co.oslc.refimpl.cm.gen"/>
+      <projectConfiguration xsi:type="oslc4j_ai:MavenProjectConfiguration" lyoVersion="4.0.0" groupId="co.oslc.refimpl.cm.gen" artifactId="cm" version="0.0.1-SNAPSHOT"/>
       <authenticationConfiguration applicationName="CM" oauthRealm="CM"/>
     </configuration>
   </adaptorInterfaces>

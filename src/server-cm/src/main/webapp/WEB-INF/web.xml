@@ -1,73 +1,81 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xmlns="http://java.sun.com/xml/ns/javaee"
-         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
-         id="WebApp_ID" version="3.0">
-  <display-name>OSLC Change Management Server (2020 RefImpl)</display-name>
-  <context-param>
-    <description>Base URI for the adaptor.</description>
-    <param-name>co.oslc.refimpl.cm.gen.servlet.baseurl</param-name>
-    <param-value>http://localhost:8801/</param-value>
-  </context-param>
-  <!-- Start of user code webxml1
+    xmlns="http://java.sun.com/xml/ns/javaee"
+    xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
+    id="WebApp_ID" version="3.0">
+    <display-name>OSLC Change Management Server (2020 RefImpl)</display-name>
+    <context-param>
+        <description>Base URI for the adaptor.</description>
+        <param-name>co.oslc.refimpl.cm.gen.servlet.baseurl</param-name>
+        <param-value>http://localhost:8801/</param-value>
+        <!-- Start of user code webxml_baseurl
+        -->
+        <!-- TODO: Add additional configurations here to avoid them be overrriden upon future re-generation -->
+        <!-- End of user code
+        -->
+    </context-param>
+    <!-- Start of user code webxml1
   -->
   <!-- TODO: Add additional configurations here to avoid them be overrriden upon future re-generation -->
   <!-- End of user code
-  -->
-  <listener>
-    <description>Listener for ServletContext lifecycle changes</description>
-    <listener-class>co.oslc.refimpl.cm.gen.servlet.ServletListener</listener-class>
-  </listener>
-  <!-- Start of user code webxml2
-  -->
-  <!-- TODO: Add additional configurations here to avoid them be overrriden upon future re-generation -->
-  <!-- End of user code
-  -->
-  <servlet>
-    <servlet-name>JAX-RS Servlet</servlet-name>
-    <servlet-class>org.glassfish.jersey.servlet.ServletContainer</servlet-class>
-    <init-param>
-      <param-name>javax.ws.rs.Application</param-name>
-      <param-value>co.oslc.refimpl.cm.gen.servlet.Application</param-value>
-    </init-param>
-    <load-on-startup>1</load-on-startup>
-  </servlet>
-  <!-- Start of user code webxml3
+    -->
+    <listener>
+        <description>Listener for ServletContext lifecycle changes</description>
+        <listener-class>co.oslc.refimpl.cm.gen.servlet.ServletListener</listener-class>
+    </listener>
+    <!-- Start of user code webxml2
   -->
   <!-- TODO: Add additional configurations here to avoid them be overrriden upon future re-generation -->
   <!-- End of user code
-  -->
-  <servlet-mapping>
-    <servlet-name>JAX-RS Servlet</servlet-name>
-    <url-pattern>/services/*</url-pattern>
-  </servlet-mapping>
-  <!--
-      <filter>
-          <display-name>CredentialsFilter</display-name>
-          <filter-name>CredentialsFilter</filter-name>
-          <filter-class>co.oslc.refimpl.cm.gen.servlet.CredentialsFilter</filter-class>
-      </filter>
-      <filter-mapping>
-          <filter-name>CredentialsFilter</filter-name>
-          <url-pattern>/services/*</url-pattern>
-      </filter-mapping>
-   -->
-  <servlet>
-    <servlet-name>DefaultJaxrsConfig</servlet-name>
-    <servlet-class>io.swagger.jaxrs.config.DefaultJaxrsConfig</servlet-class>
-    <init-param>
-      <param-name>api.version</param-name>
-      <param-value>1.0.0</param-value>
-    </init-param>
-    <init-param>
-      <param-name>swagger.api.basepath</param-name>
-      <param-value>http://localhost:8801/services/</param-value>
-    </init-param>
-    <load-on-startup>2</load-on-startup>
-  </servlet>
-  <!-- Start of user code webxml4
+    -->
+    <servlet>
+        <servlet-name>JAX-RS Servlet</servlet-name>
+        <servlet-class>org.glassfish.jersey.servlet.ServletContainer</servlet-class>
+        <init-param>
+            <param-name>javax.ws.rs.Application</param-name>
+            <param-value>co.oslc.refimpl.cm.gen.servlet.Application</param-value>
+        </init-param>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    <!-- Start of user code webxml3
   -->
   <!-- TODO: Add additional configurations here to avoid them be overrriden upon future re-generation -->
   <!-- End of user code
+    -->
+    <servlet-mapping>
+        <servlet-name>JAX-RS Servlet</servlet-name>
+        <url-pattern>/services/*</url-pattern>
+    </servlet-mapping>
+    <filter>
+        <display-name>CredentialsFilter</display-name>
+        <filter-name>CredentialsFilter</filter-name>
+        <filter-class>co.oslc.refimpl.cm.gen.servlet.CredentialsFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>CredentialsFilter</filter-name>
+        <url-pattern>/services/*</url-pattern>
+    </filter-mapping>
+    <servlet>
+        <servlet-name>DefaultJaxrsConfig</servlet-name>
+        <servlet-class>io.swagger.jaxrs.config.DefaultJaxrsConfig</servlet-class>
+        <init-param>
+            <param-name>api.version</param-name>
+            <param-value>1.0.0</param-value>
+        </init-param>
+        <init-param>
+            <param-name>swagger.api.basepath</param-name>
+            <param-value>http://localhost:8801/services/</param-value>
+            <!-- Start of user code webxml_swagger
+            -->
+            <!-- TODO: Add additional configurations here to avoid them be overrriden upon future re-generation -->
+            <!-- End of user code
+            -->
+        </init-param>
+        <load-on-startup>2</load-on-startup>
+    </servlet>
+    <!-- Start of user code webxml4
   -->
+  <!-- TODO: Add additional configurations here to avoid them be overrriden upon future re-generation -->
+  <!-- End of user code
+    -->
 </web-app>

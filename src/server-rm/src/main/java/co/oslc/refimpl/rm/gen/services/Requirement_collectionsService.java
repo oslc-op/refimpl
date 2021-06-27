@@ -62,6 +62,7 @@ import javax.ws.rs.core.UriBuilder;
 
 import org.apache.wink.json4j.JSONException;
 import org.apache.wink.json4j.JSONObject;
+import org.apache.wink.json4j.JSONArray;
 import org.eclipse.lyo.oslc4j.provider.json4j.JsonHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -229,18 +230,18 @@ public class Requirement_collectionsService
          title = "RequirementCollectionSD",
          label = "Requirement Collections Selection Dialog",
          uri = "serviceProviders/{serviceProviderId}/service2/requirementCollections/selector",
-         hintWidth = "0px",
-         hintHeight = "0px",
+         hintWidth = "500px",
+         hintHeight = "500px",
          resourceTypes = {Oslc_rmDomainConstants.REQUIREMENTCOLLECTION_TYPE},
          usages = {}
     )
     @GET
     @Path("selector")
     @Consumes({ MediaType.TEXT_HTML, MediaType.WILDCARD })
-    public void RequirementCollectionSelector(
+    public Response RequirementCollectionSelector(
         @QueryParam("terms") final String terms
         , @PathParam("serviceProviderId") final String serviceProviderId
-        ) throws ServletException, IOException
+        ) throws ServletException, IOException, JSONException
     {
         // Start of user code RequirementCollectionSelector_init
             // End of user code
@@ -253,10 +254,18 @@ public class Requirement_collectionsService
             httpServletRequest.setAttribute("terms", terms);
             final List<RequirementCollection> resources = RMManager.RequirementCollectionSelector(httpServletRequest, serviceProviderId, terms);
             if (resources!= null) {
-                        httpServletRequest.setAttribute("resources", resources);
-                        RequestDispatcher rd = httpServletRequest.getRequestDispatcher("/co/oslc/refimpl/rm/gen/requirementcollectionselectorresults.jsp");
-                        rd.forward(httpServletRequest, httpServletResponse);
-                        return;
+                JSONArray resourceArray = new JSONArray();
+                for (RequirementCollection resource : resources) {
+                    JSONObject r = new JSONObject();
+                    r.put("oslc:label", resource.toString());
+                    r.put("rdf:resource", resource.getAbout().toString());
+                    // Start of user code RequirementCollectionSelector_setResponse
+                    // End of user code
+                    resourceArray.add(r);
+                }
+                JSONObject response = new JSONObject();
+                response.put("oslc:results", resourceArray);
+                return Response.ok(response.write()).build();
             }
             log.error("A empty search should return an empty list and not NULL!");
             throw new WebApplicationException(Status.INTERNAL_SERVER_ERROR);
@@ -264,7 +273,7 @@ public class Requirement_collectionsService
         } else {
             RequestDispatcher rd = httpServletRequest.getRequestDispatcher("/co/oslc/refimpl/rm/gen/requirementcollectionselector.jsp");
             rd.forward(httpServletRequest, httpServletResponse);
-            return;
+            return null;
         }
     }
 
