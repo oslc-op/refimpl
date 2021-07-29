@@ -33,7 +33,8 @@ jobs:
       - name: Set up JDK
         uses: actions/setup-java@v2
         with:
-          distribution: 'adopt'
+#           distribution: 'adopt'
+          distribution: 'zulu'
           java-version: ${{ matrix.jdk }}
       - uses: actions/cache@v1
         with:
