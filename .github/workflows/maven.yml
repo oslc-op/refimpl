@@ -7,7 +7,7 @@ on:
   push:
     branches: [master]
   pull_request:
-    branches: [master]
+    types: [assigned, opened, synchronize, reopened]
   schedule:
     # run integration tests every Thursday
     - cron: "50 12 * * 4"
