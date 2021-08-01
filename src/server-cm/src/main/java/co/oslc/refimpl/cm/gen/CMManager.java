@@ -68,7 +68,7 @@ import co.oslc.refimpl.lib.ResourceRepository;
 
 public class CMManager {
 
-    private static final Logger log = LoggerFactory.getLogger(CMManager.class);
+    private static final Logger LOG = LoggerFactory.getLogger(CMManager.class);
 
     
     // Start of user code class_attributes
@@ -130,6 +130,8 @@ public class CMManager {
         // TODO Implement code to return a set of resources.
         // An empty List should imply that no resources where found.
         // If you encounter problems, consider throwing the runtime exception WebApplicationException(message, cause, final httpStatus)
+        LOG.warn("QC for Defect resources not implemented");
+        resources = new ArrayList<>();
         // End of user code
         return resources;
     }
@@ -142,6 +144,8 @@ public class CMManager {
         // TODO Implement code to return a set of resources.
         // An empty List should imply that no resources where found.
         // If you encounter problems, consider throwing the runtime exception WebApplicationException(message, cause, final httpStatus)
+        LOG.warn("QC for Task resources not implemented");
+        resources = new ArrayList<>();
         // End of user code
         return resources;
     }
@@ -154,6 +158,8 @@ public class CMManager {
         // TODO Implement code to return a set of resources.
         // An empty List should imply that no resources where found.
         // If you encounter problems, consider throwing the runtime exception WebApplicationException(message, cause, final httpStatus)
+        LOG.warn("QC for Enhancement resources not implemented");
+        resources = new ArrayList<>();
         // End of user code
         return resources;
     }
@@ -166,6 +172,8 @@ public class CMManager {
         // TODO Implement code to return a set of resources.
         // An empty List should imply that no resources where found.
         // If you encounter problems, consider throwing the runtime exception WebApplicationException(message, cause, final httpStatus)
+        LOG.warn("QC for Review resources not implemented");
+        resources = new ArrayList<>();
         // End of user code
         return resources;
     }
@@ -178,6 +186,8 @@ public class CMManager {
         // TODO Implement code to return a set of resources.
         // An empty List should imply that no resources where found.
         // If you encounter problems, consider throwing the runtime exception WebApplicationException(message, cause, final httpStatus)
+        LOG.warn("QC for ChangeNotice resources not implemented");
+        resources = new ArrayList<>();
         // End of user code
         return resources;
     }
@@ -354,7 +364,7 @@ public class CMManager {
     {
         String eTag = null;
         // Start of user code getETagFromChangeNotice
-        // TODO Implement code to return an ETag for a particular resource
+        eTag = changeRequestRepository.calculateETag(aResource);
         // End of user code
         return eTag;
     }
@@ -362,7 +372,7 @@ public class CMManager {
     {
         String eTag = null;
         // Start of user code getETagFromChangeRequest
-        // TODO Implement code to return an ETag for a particular resource
+        eTag = changeRequestRepository.calculateETag(aResource);
         // End of user code
         return eTag;
     }
@@ -370,7 +380,7 @@ public class CMManager {
     {
         String eTag = null;
         // Start of user code getETagFromDefect
-        // TODO Implement code to return an ETag for a particular resource
+        eTag = changeRequestRepository.calculateETag(aResource);
         // End of user code
         return eTag;
     }
@@ -378,7 +388,7 @@ public class CMManager {
     {
         String eTag = null;
         // Start of user code getETagFromEnhancement
-        // TODO Implement code to return an ETag for a particular resource
+        eTag = changeRequestRepository.calculateETag(aResource);
         // End of user code
         return eTag;
     }
@@ -386,7 +396,7 @@ public class CMManager {
     {
         String eTag = null;
         // Start of user code getETagFromReviewTask
-        // TODO Implement code to return an ETag for a particular resource
+        eTag = changeRequestRepository.calculateETag(aResource);
         // End of user code
         return eTag;
     }
@@ -394,7 +404,7 @@ public class CMManager {
     {
         String eTag = null;
         // Start of user code getETagFromTask
-        // TODO Implement code to return an ETag for a particular resource
+        eTag = changeRequestRepository.calculateETag(aResource);
         // End of user code
         return eTag;
     }
