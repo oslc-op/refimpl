@@ -4,3 +4,9 @@ image:
 tasks:
   - init: mvn -f src/pom.xml clean install
     command: mvn -f src/server-rm/pom.xml jetty:run
+
+ports:
+  - port: 8800
+  - port: 8801
+  - port: 8802
+  - port: 8803
