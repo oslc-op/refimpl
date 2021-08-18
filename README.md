@@ -149,5 +149,4 @@ In order to initialise resources in all reference implementation servers, use th
 
 ## License
 
-
-TBD
+The Refernce Implementation code and Lyo Designer model are licensed under the Apache License v2.0. See the LICENSE file for the full text of the license.
