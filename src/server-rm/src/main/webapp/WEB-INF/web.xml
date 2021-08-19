@@ -8,6 +8,11 @@
         <description>Base URI for the adaptor.</description>
         <param-name>co.oslc.refimpl.rm.gen.servlet.baseurl</param-name>
         <param-value>http://localhost:8800/</param-value>
+        <!-- Start of user code webxml_baseurl
+        -->
+        <!-- TODO: Add additional configurations here to avoid them be overrriden upon future re-generation -->
+        <!-- End of user code
+        -->
     </context-param>
     <!-- Start of user code webxml1
     -->
@@ -60,6 +65,11 @@
         <init-param>
             <param-name>swagger.api.basepath</param-name>
             <param-value>http://localhost:8800/services/</param-value>
+            <!-- Start of user code webxml_swagger
+            -->
+            <!-- TODO: Add additional configurations here to avoid them be overrriden upon future re-generation -->
+            <!-- End of user code
+            -->
         </init-param>
         <load-on-startup>2</load-on-startup>
     </servlet>

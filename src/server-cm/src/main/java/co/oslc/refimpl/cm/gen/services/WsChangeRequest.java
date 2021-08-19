@@ -87,6 +87,7 @@ import org.eclipse.lyo.oslc.domains.cm.ChangeRequest;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
+import org.eclipse.lyo.server.ui.model.PreviewFactory;
 // Start of user code imports
 // End of user code
 
@@ -174,7 +175,10 @@ public class WsChangeRequest
             // Start of user code getChangeRequestAsHtml_setAttributes
             // End of user code
 
-            RequestDispatcher rd = httpServletRequest.getRequestDispatcher("/co/oslc/refimpl/cm/gen/changerequest.jsp");
+            httpServletRequest.setAttribute("aResource", aChangeRequest);
+            httpServletRequest.setAttribute("resourceTypeName", Oslc_cmDomainConstants.CHANGEREQUEST_LOCALNAME);
+            httpServletRequest.setAttribute("shapeUri", UriBuilder.fromUri(OSLC4JUtils.getServletURI()).path(OslcConstants.PATH_RESOURCE_SHAPES).path(Oslc_cmDomainConstants.CHANGEREQUEST_PATH).build());
+            RequestDispatcher rd = httpServletRequest.getRequestDispatcher("/co/oslc/refimpl/cm/gen/viewresource.jsp");
             rd.forward(httpServletRequest,httpServletResponse);
             return;
         }
@@ -196,10 +200,10 @@ public class WsChangeRequest
         ) throws ServletException, IOException, URISyntaxException
     {
         String iconUri = OSLC4JUtils.getPublicURI() + "/images/ui_preview_icon.gif";
-        String smallPreviewHintHeight = "10em";
-        String smallPreviewHintWidth = "45em";
-        String largePreviewHintHeight = "20em";
-        String largePreviewHintWidth = "45em";
+        String smallPreviewHintHeight = "200px";
+        String smallPreviewHintWidth = "300px";
+        String largePreviewHintHeight = "400px";
+        String largePreviewHintWidth = "600px";
 
         // Start of user code getChangeRequestCompact_init
         //TODO: adjust the preview height & width values from the default values provided above.
@@ -252,7 +256,19 @@ public class WsChangeRequest
             // Start of user code getChangeRequestAsHtmlSmallPreview_setAttributes
             // End of user code
 
-            RequestDispatcher rd = httpServletRequest.getRequestDispatcher("/co/oslc/refimpl/cm/gen/changerequestsmallpreview.jsp");
+            try {
+                httpServletRequest.setAttribute("resourceTitle", aChangeRequest.toString());
+                ArrayList<String> getterMethodNames = new ArrayList<String>(Arrays.asList("getShortTitle", "getDescription", "getTitle", "getIdentifier", "getSubject", "getCreator", "getContributor", "getCreated", "getModified", "getServiceProvider", "getInstanceShape", "getDiscussedBy", "getCloseDate", "getStatus", "isClosed", "isInProgress", "isFixed", "isApproved", "isReviewed", "isVerified", "getRelatedChangeRequest", "getAffectsPlanItem", "getAffectedByDefect", "getTracksRequirement", "getImplementsRequirement", "getAffectsRequirement", "getTracksChangeSet", "getParent", "getPriority", "getState", "getAuthorizer"));
+                // Start of user code getChangeRequestAsHtmlSmallPreview_setResourceGetterMethods
+                //TODO: modify the set of attributes to show in the preview
+                // End of user code
+                String oslcPreviewDataSetAsString = PreviewFactory.getPreviewAsJsonString(aChangeRequest, getterMethodNames, false);
+                httpServletRequest.setAttribute("resourcePreviewDataSet", oslcPreviewDataSetAsString);
+            } catch (Exception e) {
+                log.error("Could not handle smallPreview", e);
+                throw new WebApplicationException("Could not handle smallPreview", e);
+            }
+            RequestDispatcher rd = httpServletRequest.getRequestDispatcher("/co/oslc/refimpl/cm/gen/uipreview.jsp");
             httpServletResponse.addHeader(CMConstants.HDR_OSLC_VERSION, CMConstants.OSLC_VERSION_V2);
             addCORSHeaders(httpServletResponse);
             rd.forward(httpServletRequest, httpServletResponse);
@@ -279,7 +295,19 @@ public class WsChangeRequest
             // Start of user code getChangeRequestAsHtmlLargePreview_setAttributes
             // End of user code
 
-            RequestDispatcher rd = httpServletRequest.getRequestDispatcher("/co/oslc/refimpl/cm/gen/changerequestlargepreview.jsp");
+            try {
+                httpServletRequest.setAttribute("resourceTitle", aChangeRequest.toString());
+                ArrayList<String> getterMethodNames = new ArrayList<String>(Arrays.asList("getShortTitle", "getDescription", "getTitle", "getIdentifier", "getSubject", "getCreator", "getContributor", "getCreated", "getModified", "getServiceProvider", "getInstanceShape", "getDiscussedBy", "getCloseDate", "getStatus", "isClosed", "isInProgress", "isFixed", "isApproved", "isReviewed", "isVerified", "getRelatedChangeRequest", "getAffectsPlanItem", "getAffectedByDefect", "getTracksRequirement", "getImplementsRequirement", "getAffectsRequirement", "getTracksChangeSet", "getParent", "getPriority", "getState", "getAuthorizer"));
+                // Start of user code getChangeRequestAsHtmlLargePreview_setResourceGetterMethods
+                //TODO: modify the set of attributes to show in the preview
+                // End of user code
+                String oslcPreviewDataSetAsString = PreviewFactory.getPreviewAsJsonString(aChangeRequest, getterMethodNames, true);
+                httpServletRequest.setAttribute("resourcePreviewDataSet", oslcPreviewDataSetAsString);
+            } catch (Exception e) {
+                log.error("Could not handle largePreview", e);
+                throw new WebApplicationException("Could not handle largePreview", e);
+            }
+            RequestDispatcher rd = httpServletRequest.getRequestDispatcher("/co/oslc/refimpl/cm/gen/uipreview.jsp");
             httpServletResponse.addHeader(CMConstants.HDR_OSLC_VERSION, CMConstants.OSLC_VERSION_V2);
             addCORSHeaders(httpServletResponse);
             rd.forward(httpServletRequest, httpServletResponse);

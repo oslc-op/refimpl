@@ -62,6 +62,7 @@ import javax.ws.rs.core.UriBuilder;
 
 import org.apache.wink.json4j.JSONException;
 import org.apache.wink.json4j.JSONObject;
+import org.apache.wink.json4j.JSONArray;
 import org.eclipse.lyo.oslc4j.provider.json4j.JsonHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -735,18 +736,18 @@ public class Change_requestsService
          title = "ChangeRequestDlgSel",
          label = "Change Request Selection Dialog",
          uri = "resources/select_change_request",
-         hintWidth = "0px",
-         hintHeight = "0px",
+         hintWidth = "500px",
+         hintHeight = "500px",
          resourceTypes = {Oslc_cmDomainConstants.CHANGEREQUEST_TYPE},
          usages = {}
     )
     @GET
     @Path("select_change_request")
     @Consumes({ MediaType.TEXT_HTML, MediaType.WILDCARD })
-    public void ChangeRequestSelector(
+    public Response ChangeRequestSelector(
         @QueryParam("terms") final String terms
         
-        ) throws ServletException, IOException
+        ) throws ServletException, IOException, JSONException
     {
         // Start of user code ChangeRequestSelector_init
         // End of user code
@@ -759,18 +760,27 @@ public class Change_requestsService
             httpServletRequest.setAttribute("terms", terms);
             final List<ChangeRequest> resources = CMManager.ChangeRequestSelector(httpServletRequest, terms);
             if (resources!= null) {
-                        httpServletRequest.setAttribute("resources", resources);
-                        RequestDispatcher rd = httpServletRequest.getRequestDispatcher("/co/oslc/refimpl/cm/gen/changerequestselectorresults.jsp");
-                        rd.forward(httpServletRequest, httpServletResponse);
-                        return;
+                JSONArray resourceArray = new JSONArray();
+                for (ChangeRequest resource : resources) {
+                    JSONObject r = new JSONObject();
+                    r.put("oslc:label", resource.toString());
+                    r.put("rdf:resource", resource.getAbout().toString());
+                    // Start of user code ChangeRequestSelector_setResponse
+                    // End of user code
+                    resourceArray.add(r);
+                }
+                JSONObject response = new JSONObject();
+                response.put("oslc:results", resourceArray);
+                return Response.ok(response.write()).build();
             }
             log.error("A empty search should return an empty list and not NULL!");
             throw new WebApplicationException(Status.INTERNAL_SERVER_ERROR);
 
         } else {
-            RequestDispatcher rd = httpServletRequest.getRequestDispatcher("/co/oslc/refimpl/cm/gen/changerequestselector.jsp");
+            httpServletRequest.setAttribute("resourceTypeLabel", "ChangeRequest");
+            RequestDispatcher rd = httpServletRequest.getRequestDispatcher("/co/oslc/refimpl/cm/gen/selectiondialog.jsp");
             rd.forward(httpServletRequest, httpServletResponse);
-            return;
+            return null;
         }
     }
 
@@ -779,18 +789,18 @@ public class Change_requestsService
          title = "DefectDlgSel",
          label = "Defect Selection Dialog",
          uri = "resources/select_defect",
-         hintWidth = "0px",
-         hintHeight = "0px",
+         hintWidth = "500px",
+         hintHeight = "500px",
          resourceTypes = {Oslc_cmDomainConstants.DEFECT_TYPE},
          usages = {}
     )
     @GET
     @Path("select_defect")
     @Consumes({ MediaType.TEXT_HTML, MediaType.WILDCARD })
-    public void DefectSelector(
+    public Response DefectSelector(
         @QueryParam("terms") final String terms
         
-        ) throws ServletException, IOException
+        ) throws ServletException, IOException, JSONException
     {
         // Start of user code DefectSelector_init
         // End of user code
@@ -803,18 +813,27 @@ public class Change_requestsService
             httpServletRequest.setAttribute("terms", terms);
             final List<Defect> resources = CMManager.DefectSelector(httpServletRequest, terms);
             if (resources!= null) {
-                        httpServletRequest.setAttribute("resources", resources);
-                        RequestDispatcher rd = httpServletRequest.getRequestDispatcher("/co/oslc/refimpl/cm/gen/defectselectorresults.jsp");
-                        rd.forward(httpServletRequest, httpServletResponse);
-                        return;
+                JSONArray resourceArray = new JSONArray();
+                for (Defect resource : resources) {
+                    JSONObject r = new JSONObject();
+                    r.put("oslc:label", resource.toString());
+                    r.put("rdf:resource", resource.getAbout().toString());
+                    // Start of user code DefectSelector_setResponse
+                    // End of user code
+                    resourceArray.add(r);
+                }
+                JSONObject response = new JSONObject();
+                response.put("oslc:results", resourceArray);
+                return Response.ok(response.write()).build();
             }
             log.error("A empty search should return an empty list and not NULL!");
             throw new WebApplicationException(Status.INTERNAL_SERVER_ERROR);
 
         } else {
-            RequestDispatcher rd = httpServletRequest.getRequestDispatcher("/co/oslc/refimpl/cm/gen/defectselector.jsp");
+            httpServletRequest.setAttribute("resourceTypeLabel", "Defect");
+            RequestDispatcher rd = httpServletRequest.getRequestDispatcher("/co/oslc/refimpl/cm/gen/selectiondialog.jsp");
             rd.forward(httpServletRequest, httpServletResponse);
-            return;
+            return null;
         }
     }
 
@@ -823,18 +842,18 @@ public class Change_requestsService
          title = "TaskDlgSel",
          label = "Task Selection Dialog",
          uri = "resources/select_task",
-         hintWidth = "0px",
-         hintHeight = "0px",
+         hintWidth = "500px",
+         hintHeight = "500px",
          resourceTypes = {Oslc_cmDomainConstants.TASK_TYPE},
          usages = {}
     )
     @GET
     @Path("select_task")
     @Consumes({ MediaType.TEXT_HTML, MediaType.WILDCARD })
-    public void TaskSelector(
+    public Response TaskSelector(
         @QueryParam("terms") final String terms
         
-        ) throws ServletException, IOException
+        ) throws ServletException, IOException, JSONException
     {
         // Start of user code TaskSelector_init
         // End of user code
@@ -847,18 +866,27 @@ public class Change_requestsService
             httpServletRequest.setAttribute("terms", terms);
             final List<Task> resources = CMManager.TaskSelector(httpServletRequest, terms);
             if (resources!= null) {
-                        httpServletRequest.setAttribute("resources", resources);
-                        RequestDispatcher rd = httpServletRequest.getRequestDispatcher("/co/oslc/refimpl/cm/gen/taskselectorresults.jsp");
-                        rd.forward(httpServletRequest, httpServletResponse);
-                        return;
+                JSONArray resourceArray = new JSONArray();
+                for (Task resource : resources) {
+                    JSONObject r = new JSONObject();
+                    r.put("oslc:label", resource.toString());
+                    r.put("rdf:resource", resource.getAbout().toString());
+                    // Start of user code TaskSelector_setResponse
+                    // End of user code
+                    resourceArray.add(r);
+                }
+                JSONObject response = new JSONObject();
+                response.put("oslc:results", resourceArray);
+                return Response.ok(response.write()).build();
             }
             log.error("A empty search should return an empty list and not NULL!");
             throw new WebApplicationException(Status.INTERNAL_SERVER_ERROR);
 
         } else {
-            RequestDispatcher rd = httpServletRequest.getRequestDispatcher("/co/oslc/refimpl/cm/gen/taskselector.jsp");
+            httpServletRequest.setAttribute("resourceTypeLabel", "Task");
+            RequestDispatcher rd = httpServletRequest.getRequestDispatcher("/co/oslc/refimpl/cm/gen/selectiondialog.jsp");
             rd.forward(httpServletRequest, httpServletResponse);
-            return;
+            return null;
         }
     }
 
@@ -867,18 +895,18 @@ public class Change_requestsService
          title = "ReviewTaskDlgSel",
          label = "Review Task Selection Dialog",
          uri = "resources/select_review_task",
-         hintWidth = "0px",
-         hintHeight = "0px",
+         hintWidth = "500px",
+         hintHeight = "500px",
          resourceTypes = {Oslc_cmDomainConstants.REVIEWTASK_TYPE},
          usages = {}
     )
     @GET
     @Path("select_review_task")
     @Consumes({ MediaType.TEXT_HTML, MediaType.WILDCARD })
-    public void ReviewTaskSelector(
+    public Response ReviewTaskSelector(
         @QueryParam("terms") final String terms
         
-        ) throws ServletException, IOException
+        ) throws ServletException, IOException, JSONException
     {
         // Start of user code ReviewTaskSelector_init
         // End of user code
@@ -891,18 +919,27 @@ public class Change_requestsService
             httpServletRequest.setAttribute("terms", terms);
             final List<ReviewTask> resources = CMManager.ReviewTaskSelector(httpServletRequest, terms);
             if (resources!= null) {
-                        httpServletRequest.setAttribute("resources", resources);
-                        RequestDispatcher rd = httpServletRequest.getRequestDispatcher("/co/oslc/refimpl/cm/gen/reviewtaskselectorresults.jsp");
-                        rd.forward(httpServletRequest, httpServletResponse);
-                        return;
+                JSONArray resourceArray = new JSONArray();
+                for (ReviewTask resource : resources) {
+                    JSONObject r = new JSONObject();
+                    r.put("oslc:label", resource.toString());
+                    r.put("rdf:resource", resource.getAbout().toString());
+                    // Start of user code ReviewTaskSelector_setResponse
+                    // End of user code
+                    resourceArray.add(r);
+                }
+                JSONObject response = new JSONObject();
+                response.put("oslc:results", resourceArray);
+                return Response.ok(response.write()).build();
             }
             log.error("A empty search should return an empty list and not NULL!");
             throw new WebApplicationException(Status.INTERNAL_SERVER_ERROR);
 
         } else {
-            RequestDispatcher rd = httpServletRequest.getRequestDispatcher("/co/oslc/refimpl/cm/gen/reviewtaskselector.jsp");
+            httpServletRequest.setAttribute("resourceTypeLabel", "ReviewTask");
+            RequestDispatcher rd = httpServletRequest.getRequestDispatcher("/co/oslc/refimpl/cm/gen/selectiondialog.jsp");
             rd.forward(httpServletRequest, httpServletResponse);
-            return;
+            return null;
         }
     }
 
@@ -911,18 +948,18 @@ public class Change_requestsService
          title = "ChangeNoticeDlgSel",
          label = "Change Notice Selection Dialog",
          uri = "resources/select_change_notice",
-         hintWidth = "0px",
-         hintHeight = "0px",
+         hintWidth = "500px",
+         hintHeight = "500px",
          resourceTypes = {Oslc_cmDomainConstants.CHANGENOTICE_TYPE},
          usages = {}
     )
     @GET
     @Path("select_change_notice")
     @Consumes({ MediaType.TEXT_HTML, MediaType.WILDCARD })
-    public void ChangeNoticeSelector(
+    public Response ChangeNoticeSelector(
         @QueryParam("terms") final String terms
         
-        ) throws ServletException, IOException
+        ) throws ServletException, IOException, JSONException
     {
         // Start of user code ChangeNoticeSelector_init
         // End of user code
@@ -935,18 +972,27 @@ public class Change_requestsService
             httpServletRequest.setAttribute("terms", terms);
             final List<ChangeNotice> resources = CMManager.ChangeNoticeSelector(httpServletRequest, terms);
             if (resources!= null) {
-                        httpServletRequest.setAttribute("resources", resources);
-                        RequestDispatcher rd = httpServletRequest.getRequestDispatcher("/co/oslc/refimpl/cm/gen/changenoticeselectorresults.jsp");
-                        rd.forward(httpServletRequest, httpServletResponse);
-                        return;
+                JSONArray resourceArray = new JSONArray();
+                for (ChangeNotice resource : resources) {
+                    JSONObject r = new JSONObject();
+                    r.put("oslc:label", resource.toString());
+                    r.put("rdf:resource", resource.getAbout().toString());
+                    // Start of user code ChangeNoticeSelector_setResponse
+                    // End of user code
+                    resourceArray.add(r);
+                }
+                JSONObject response = new JSONObject();
+                response.put("oslc:results", resourceArray);
+                return Response.ok(response.write()).build();
             }
             log.error("A empty search should return an empty list and not NULL!");
             throw new WebApplicationException(Status.INTERNAL_SERVER_ERROR);
 
         } else {
-            RequestDispatcher rd = httpServletRequest.getRequestDispatcher("/co/oslc/refimpl/cm/gen/changenoticeselector.jsp");
+            httpServletRequest.setAttribute("resourceTypeLabel", "ChangeNotice");
+            RequestDispatcher rd = httpServletRequest.getRequestDispatcher("/co/oslc/refimpl/cm/gen/selectiondialog.jsp");
             rd.forward(httpServletRequest, httpServletResponse);
-            return;
+            return null;
         }
     }
 
@@ -955,18 +1001,18 @@ public class Change_requestsService
          title = "EnhancementDlgSel",
          label = "Enhancement Selection Dialog",
          uri = "resources/select_enhancement",
-         hintWidth = "0px",
-         hintHeight = "0px",
+         hintWidth = "500px",
+         hintHeight = "500px",
          resourceTypes = {Oslc_cmDomainConstants.ENHANCEMENT_TYPE},
          usages = {}
     )
     @GET
     @Path("select_enhancement")
     @Consumes({ MediaType.TEXT_HTML, MediaType.WILDCARD })
-    public void EnhancementSelector(
+    public Response EnhancementSelector(
         @QueryParam("terms") final String terms
         
-        ) throws ServletException, IOException
+        ) throws ServletException, IOException, JSONException
     {
         // Start of user code EnhancementSelector_init
         // End of user code
@@ -979,18 +1025,27 @@ public class Change_requestsService
             httpServletRequest.setAttribute("terms", terms);
             final List<Enhancement> resources = CMManager.EnhancementSelector(httpServletRequest, terms);
             if (resources!= null) {
-                        httpServletRequest.setAttribute("resources", resources);
-                        RequestDispatcher rd = httpServletRequest.getRequestDispatcher("/co/oslc/refimpl/cm/gen/enhancementselectorresults.jsp");
-                        rd.forward(httpServletRequest, httpServletResponse);
-                        return;
+                JSONArray resourceArray = new JSONArray();
+                for (Enhancement resource : resources) {
+                    JSONObject r = new JSONObject();
+                    r.put("oslc:label", resource.toString());
+                    r.put("rdf:resource", resource.getAbout().toString());
+                    // Start of user code EnhancementSelector_setResponse
+                    // End of user code
+                    resourceArray.add(r);
+                }
+                JSONObject response = new JSONObject();
+                response.put("oslc:results", resourceArray);
+                return Response.ok(response.write()).build();
             }
             log.error("A empty search should return an empty list and not NULL!");
             throw new WebApplicationException(Status.INTERNAL_SERVER_ERROR);
 
         } else {
-            RequestDispatcher rd = httpServletRequest.getRequestDispatcher("/co/oslc/refimpl/cm/gen/enhancementselector.jsp");
+            httpServletRequest.setAttribute("resourceTypeLabel", "Enhancement");
+            RequestDispatcher rd = httpServletRequest.getRequestDispatcher("/co/oslc/refimpl/cm/gen/selectiondialog.jsp");
             rd.forward(httpServletRequest, httpServletResponse);
-            return;
+            return null;
         }
     }
 
@@ -1037,7 +1092,7 @@ public class Change_requestsService
     @GET
     @Path("create_defect")
     @Consumes({MediaType.WILDCARD})
-    public void DefectCreator(
+    public Response DefectCreator(
                 
         ) throws IOException, ServletException
     {
@@ -1048,6 +1103,7 @@ public class Change_requestsService
 
         RequestDispatcher rd = httpServletRequest.getRequestDispatcher("/co/oslc/refimpl/cm/gen/defectcreator.jsp");
         rd.forward(httpServletRequest, httpServletResponse);
+        return null;
     }
 
     /**
@@ -1060,8 +1116,8 @@ public class Change_requestsService
          title = "DefectDlgCr",
          label = "Defect Creation Dialog",
          uri = "resources/create_defect",
-         hintWidth = "0px",
-         hintHeight = "0px",
+         hintWidth = "500px",
+         hintHeight = "500px",
          resourceTypes = {Oslc_cmDomainConstants.DEFECT_TYPE},
          usages = {}
     )
@@ -1349,7 +1405,7 @@ public class Change_requestsService
     @GET
     @Path("create_task")
     @Consumes({MediaType.WILDCARD})
-    public void TaskCreator(
+    public Response TaskCreator(
                 
         ) throws IOException, ServletException
     {
@@ -1360,6 +1416,7 @@ public class Change_requestsService
 
         RequestDispatcher rd = httpServletRequest.getRequestDispatcher("/co/oslc/refimpl/cm/gen/taskcreator.jsp");
         rd.forward(httpServletRequest, httpServletResponse);
+        return null;
     }
 
     /**
@@ -1372,8 +1429,8 @@ public class Change_requestsService
          title = "TaskDlgCr",
          label = "Task Creation Dialog",
          uri = "resources/create_task",
-         hintWidth = "0px",
-         hintHeight = "0px",
+         hintWidth = "500px",
+         hintHeight = "500px",
          resourceTypes = {Oslc_cmDomainConstants.TASK_TYPE},
          usages = {}
     )
@@ -1661,7 +1718,7 @@ public class Change_requestsService
     @GET
     @Path("create_review_task")
     @Consumes({MediaType.WILDCARD})
-    public void ReviewTaskCreator(
+    public Response ReviewTaskCreator(
                 
         ) throws IOException, ServletException
     {
@@ -1672,6 +1729,7 @@ public class Change_requestsService
 
         RequestDispatcher rd = httpServletRequest.getRequestDispatcher("/co/oslc/refimpl/cm/gen/reviewtaskcreator.jsp");
         rd.forward(httpServletRequest, httpServletResponse);
+        return null;
     }
 
     /**
@@ -1684,8 +1742,8 @@ public class Change_requestsService
          title = "ReviewTaskDlgCr",
          label = "Review Task Creation Dialog",
          uri = "resources/create_review_task",
-         hintWidth = "0px",
-         hintHeight = "0px",
+         hintWidth = "500px",
+         hintHeight = "500px",
          resourceTypes = {Oslc_cmDomainConstants.REVIEWTASK_TYPE},
          usages = {}
     )
@@ -1973,7 +2031,7 @@ public class Change_requestsService
     @GET
     @Path("create_change_notice")
     @Consumes({MediaType.WILDCARD})
-    public void ChangeNoticeCreator(
+    public Response ChangeNoticeCreator(
                 
         ) throws IOException, ServletException
     {
@@ -1984,6 +2042,7 @@ public class Change_requestsService
 
         RequestDispatcher rd = httpServletRequest.getRequestDispatcher("/co/oslc/refimpl/cm/gen/changenoticecreator.jsp");
         rd.forward(httpServletRequest, httpServletResponse);
+        return null;
     }
 
     /**
@@ -1996,8 +2055,8 @@ public class Change_requestsService
          title = "ChangeNoticeDlgCr",
          label = "Change Notice Creation Dialog",
          uri = "resources/create_change_notice",
-         hintWidth = "0px",
-         hintHeight = "0px",
+         hintWidth = "500px",
+         hintHeight = "500px",
          resourceTypes = {Oslc_cmDomainConstants.CHANGENOTICE_TYPE},
          usages = {}
     )
@@ -2285,7 +2344,7 @@ public class Change_requestsService
     @GET
     @Path("create_enhancement")
     @Consumes({MediaType.WILDCARD})
-    public void EnhancementCreator(
+    public Response EnhancementCreator(
                 
         ) throws IOException, ServletException
     {
@@ -2296,6 +2355,7 @@ public class Change_requestsService
 
         RequestDispatcher rd = httpServletRequest.getRequestDispatcher("/co/oslc/refimpl/cm/gen/enhancementcreator.jsp");
         rd.forward(httpServletRequest, httpServletResponse);
+        return null;
     }
 
     /**
@@ -2308,8 +2368,8 @@ public class Change_requestsService
          title = "EnhancementDlgCr",
          label = "Enhancement Creation Dialog",
          uri = "resources/create_enhancement",
-         hintWidth = "0px",
-         hintHeight = "0px",
+         hintWidth = "500px",
+         hintHeight = "500px",
          resourceTypes = {Oslc_cmDomainConstants.ENHANCEMENT_TYPE},
          usages = {}
     )

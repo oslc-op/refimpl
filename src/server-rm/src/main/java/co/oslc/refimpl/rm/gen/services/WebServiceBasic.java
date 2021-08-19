@@ -198,10 +198,10 @@ public class WebServiceBasic
         ) throws ServletException, IOException, URISyntaxException
     {
         String iconUri = OSLC4JUtils.getPublicURI() + "/images/ui_preview_icon.gif";
-        String smallPreviewHintHeight = "10em";
-        String smallPreviewHintWidth = "45em";
-        String largePreviewHintHeight = "20em";
-        String largePreviewHintWidth = "45em";
+        String smallPreviewHintHeight = "200px";
+        String smallPreviewHintWidth = "300px";
+        String largePreviewHintHeight = "400px";
+        String largePreviewHintWidth = "600px";
 
         // Start of user code getRequirementCompact_init
         //TODO: adjust the preview height & width values from the default values provided above.
@@ -364,10 +364,10 @@ public class WebServiceBasic
         ) throws ServletException, IOException, URISyntaxException
     {
         String iconUri = OSLC4JUtils.getPublicURI() + "/images/ui_preview_icon.gif";
-        String smallPreviewHintHeight = "10em";
-        String smallPreviewHintWidth = "45em";
-        String largePreviewHintHeight = "20em";
-        String largePreviewHintWidth = "45em";
+        String smallPreviewHintHeight = "200px";
+        String smallPreviewHintWidth = "300px";
+        String largePreviewHintHeight = "400px";
+        String largePreviewHintWidth = "600px";
 
         // Start of user code getRequirementCollectionCompact_init
         //TODO: adjust the preview height & width values from the default values provided above.
