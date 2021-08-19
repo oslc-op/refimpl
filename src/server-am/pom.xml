@@ -99,6 +99,16 @@
   <build>
     <plugins>
       <plugin>
+        <!-- Download Swagger UI webjar. -->
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-dependency-plugin</artifactId>
+      </plugin>
+      <plugin>
+        <!-- Add Swagger UI resources to the war file. -->
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-war-plugin</artifactId>
+      </plugin>
+      <plugin>
         <groupId>org.eclipse.jetty</groupId>
         <artifactId>jetty-maven-plugin</artifactId>
         <version>9.4.19.v20190610</version>
@@ -116,47 +126,6 @@
           </systemProperties>
           <stopKey/>
           <stopPort/>
-        </configuration>
-      </plugin>
-      <plugin>
-        <!-- Download Swagger UI webjar. -->
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-dependency-plugin</artifactId>
-        <version>3.1.2</version>
-        <executions>
-          <execution>
-            <phase>prepare-package</phase>
-            <goals>
-              <goal>unpack</goal>
-            </goals>
-            <configuration>
-              <artifactItems>
-                <artifactItem>
-                  <groupId>org.webjars</groupId>
-                  <artifactId>swagger-ui</artifactId>
-                  <version>3.25.0</version>
-                </artifactItem>
-              </artifactItems>
-              <outputDirectory>${project.build.directory}/swagger-ui</outputDirectory>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
-      <plugin>
-        <!-- Add Swagger UI resources to the war file. -->
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-war-plugin</artifactId>
-        <version>3.2.3</version>
-        <configuration>
-          <webResources combine.children="append">
-            <resource>
-              <directory>${project.build.directory}/swagger-ui/META-INF/resources/webjars/swagger-ui/3.25.0</directory>
-              <includes>
-                <include>**/*.*</include>
-              </includes>
-              <targetPath>/swagger-ui/dist</targetPath>
-            </resource>
-          </webResources>
         </configuration>
       </plugin>
     </plugins>

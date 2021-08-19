@@ -148,9 +148,9 @@ public class Application extends javax.ws.rs.core.Application {
         }
     }
 
-    @Override 
-    public Set<Class<?>> getClasses() { 
-        return RESOURCE_CLASSES; 
+    @Override
+    public Set<Class<?>> getClasses() {
+        return RESOURCE_CLASSES;
     }
 
     public static Map<String, Class<?>> getResourceShapePathToResourceClassMap() {
