@@ -12,7 +12,7 @@
   <packaging>war</packaging>
 
   <properties>
-    <v.lucene>7.7.2</v.lucene>
+    <v.lucene>7.7.3</v.lucene>
     <v.rest-assured>4.3.2</v.rest-assured>
   </properties>
 
