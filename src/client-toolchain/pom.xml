@@ -31,7 +31,7 @@
     <dependency>
       <groupId>org.glassfish.jersey.core</groupId>
       <artifactId>jersey-client</artifactId>
-      <version>2.25.1</version>
+      <version>2.34</version>
       <exclusions>
         <exclusion>
           <!-- Jakarta API is used in Lyo Client -->
