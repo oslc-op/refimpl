@@ -11,8 +11,8 @@ services:
   server-qm:
     build: server-qm/
     ports:
-      - "8802:8802"
+      - "8802:8080"
   server-am:
     build: server-am/
     ports:
-      - "8803:8803"
+      - "8803:8080"
