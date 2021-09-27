@@ -1,0 +1,10 @@
+version: "3.9"
+services:
+  server-rm:
+    build: ../../../../server-rm/
+  server-cm:
+    build: ../../../../server-cm/
+  server-qm:
+    build: ../../../../server-qm/
+  server-am:
+    build: ../../../../server-am/
