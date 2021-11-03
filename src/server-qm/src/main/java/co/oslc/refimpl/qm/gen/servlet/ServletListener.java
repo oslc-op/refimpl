@@ -116,13 +116,24 @@ public class ServletListener implements ServletContextListener  {
     }
 
     // Start of user code class_methods
+    private static Optional<String> getBasePathFromSystemProperties(String basePathContextPropertyKey) {
+        String base = System.getProperty(basePathContextPropertyKey);
+        if (base == null || base.trim().isEmpty()) {
+            return Optional.empty();
+        }
+        return Optional.of(base);
+    }
     // End of user code
 
     private static String generateBasePath(final ServletContextEvent servletContextEvent, String basePathEnvKey, String basePathContextPropertyKey, String fallbackBase) {
-        String base = getBasePathFromEnvironment(basePathEnvKey).orElseGet(() -> getBasePathFromContext(servletContextEvent, basePathContextPropertyKey).orElseGet(() -> fallbackBase));
+        String base = getBasePathFromEnvironment(basePathEnvKey)
+        .orElseGet(() -> getBasePathFromSystemProperties(basePathContextPropertyKey)
+            .orElseGet(() -> getBasePathFromContext(servletContextEvent, basePathContextPropertyKey)
+                .orElse(fallbackBase)));
         UriBuilder builder = UriBuilder.fromUri(base);
         return builder.path(servletContextEvent.getServletContext().getContextPath()).build().toString();
     }
+
 
     private static Optional<String> getBasePathFromEnvironment(String basePathEnvKey) {
         final Map<String, String> env = System.getenv();

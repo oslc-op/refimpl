@@ -134,6 +134,10 @@
               <name>jetty.port</name>
               <value>8803</value>
             </systemProperty>
+            <systemProperty>
+                <name>co.oslc.refimpl.am.gen.servlet.baseurl</name>
+                <value>${lyo.baseurl}</value>
+            </systemProperty>
           </systemProperties>
           <stopKey/>
           <stopPort/>

@@ -189,6 +189,12 @@
           </httpConnector>
           <stopPort>18800</stopPort>
           <stopKey>jetty</stopKey>
+          <systemProperties>
+            <systemProperty>
+              <name>co.oslc.refimpl.rm.gen.servlet.baseurl</name>
+              <value>${lyo.baseurl}</value>
+            </systemProperty>
+          </systemProperties>
         </configuration>
         <executions>
           <execution>
