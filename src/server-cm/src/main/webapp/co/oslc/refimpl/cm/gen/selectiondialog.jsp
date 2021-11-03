@@ -22,6 +22,7 @@
 <%
   String selectionUri = (String) request.getAttribute("selectionUri");
   String resourceTypeLabel = (String) request.getAttribute("resourceTypeLabel");
+  String fieldsToList = (String) request.getAttribute("fieldsToList");
 %>
 <html>
     <head>
@@ -29,7 +30,7 @@
         <link rel="stylesheet" href="<c:url value="/static/dist/oslc-ui/styles.css"/>">
     </head>
     <body>
-        <oslc-selector selection-uri="<%=selectionUri%>" fields='["oslc:label"]' no-data-text="No <%=resourceTypeLabel%> found" search-placeholder-text="Search for resources of type: <%=resourceTypeLabel%>"></oslc-selector>
+        <oslc-selector selection-uri="<%=selectionUri%>" fields='<%=fieldsToList%>' no-data-text="No <%=resourceTypeLabel%> found" search-placeholder-text="Search for resources of type: <%=resourceTypeLabel%>"></oslc-selector>
         <script src="<c:url value="/static/dist/oslc-ui/runtime-es2015.js"/>" type="module"></script>
         <script src="<c:url value="/static/dist/oslc-ui/runtime-es5.js"/>" nomodule defer></script>
         <script src="<c:url value="/static/dist/oslc-ui/polyfills-es5.js"/>" nomodule defer></script>

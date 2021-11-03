@@ -12,7 +12,7 @@
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     <maven.compiler.source>1.8</maven.compiler.source>
     <maven.compiler.target>1.8</maven.compiler.target>
-    <version.lyo>4.0.0</version.lyo>
+    <version.lyo>4.1.0-SNAPSHOT</version.lyo>
     <version.lyo.oslc-ui>4.1.0.M1</version.lyo.oslc-ui>
     <version.jersey>2.25.1</version.jersey>
   </properties>
@@ -177,17 +177,6 @@
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-war-plugin</artifactId>
           <version>3.2.3</version>
-          <configuration>
-            <webResources combine.children="append">
-              <resource>
-                <directory>${project.build.directory}/swagger-ui/META-INF/resources/webjars/swagger-ui/3.25.0</directory>
-                <includes>
-                  <include>**/*.*</include>
-                </includes>
-                <targetPath>/swagger-ui/dist</targetPath>
-              </resource>
-            </webResources>
-          </configuration>
         </plugin>
       </plugins>
     </pluginManagement>

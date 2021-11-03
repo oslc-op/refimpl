@@ -109,6 +109,17 @@
         <!-- Add Swagger UI resources to the war file. -->
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-war-plugin</artifactId>
+        <configuration>
+          <webResources combine.children="append">
+            <resource>
+              <directory>${project.build.directory}/swagger-ui/META-INF/resources/webjars/swagger-ui/3.25.0</directory>
+              <includes>
+                <include>**/*.*</include>
+              </includes>
+              <targetPath>/swagger-ui/dist</targetPath>
+            </resource>
+          </webResources>
+        </configuration>
       </plugin>
       <plugin>
         <groupId>org.eclipse.jetty</groupId>

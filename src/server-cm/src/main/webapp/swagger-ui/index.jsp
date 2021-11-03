@@ -23,7 +23,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <% 
-File swaggerFolder = new File(application.getRealPath("/swagger-ui/dist")); 
 URI yamlPath = UriBuilder.fromUri(OSLC4JUtils.getServletURI()).path("/swagger.yaml").build();
 %>
 
@@ -31,7 +30,6 @@ URI yamlPath = UriBuilder.fromUri(OSLC4JUtils.getServletURI()).path("/swagger.ya
 <head>
     <meta charset="UTF-8">
     <title>Swagger UI</title>
-        <%if(swaggerFolder.exists()) {%>
         <link rel="stylesheet" type="text/css" href="./dist/swagger-ui.css" >
         <link rel="icon" type="image/png" href="./dist/favicon-32x32.png" sizes="32x32" />
         <link rel="icon" type="image/png" href="./dist/favicon-16x16.png" sizes="16x16" />
@@ -56,16 +54,8 @@ URI yamlPath = UriBuilder.fromUri(OSLC4JUtils.getServletURI()).path("/swagger.ya
             background: #fafafa;
           }
         </style>
-        <%}else{%>
-        <link href="<c:url value="/static/css/bootstrap-4.0.0-beta.min.css"/>" rel="stylesheet">
-        <link href="<c:url value="/static/css/adaptor.css"/>" rel="stylesheet">
-    
-        <script src="<c:url value="/static/js/jquery-3.2.1.min.js"/>"></script>
-        <script src="<c:url value="/static/js/bootstrap-4.0.0-beta.min.js"/>"></script>
-        <%}%>
 </head>
 <body>
-    <%if(swaggerFolder.exists()) {%>
         <div id="swagger-ui"></div>
         <script src="./dist/swagger-ui-bundle.js"> </script>
         <script src="./dist/swagger-ui-standalone-preset.js"> </script>
@@ -90,41 +80,5 @@ URI yamlPath = UriBuilder.fromUri(OSLC4JUtils.getServletURI()).path("/swagger.ya
           window.ui = ui
         }
       </script>
-    <%}else{%>
-          <nav class="navbar navbar-expand-lg sticky-top navbar-light bg-light">
-            <div class="container">
-              <ul class="navbar-nav mr-auto">
-                <li class="nav-item"><a class="nav-link" href="<c:url value="/"/>"><%= application.getServletContextName() %></a></li>
-                <li class="nav-item"><a class="nav-link" href="<c:url value="/services/catalog/singleton"/>">Service Provider Catalog</a></li>
-                <li class="nav-item"><a class="nav-link" href="<c:url value="/swagger-ui/index.jsp"/>">Swagger UI</a></li>
-              </ul>
-            </div>
-          </nav>
-        <div class="container">
-            <div class="alert alert-primary" role="alert">
-                <h4 class="alert-heading">Swagger UI</h4>
-                <hr>
-                <p><strong>You don't seem to have fully configured your project to use a local standalone distribution of Swagger UI!</strong></p>
-                <ul>
-                    <li>A "dist" folder containing the Swagger UI collection of HTML, Javascript, and CSS assets is missing.</li>
-                    <li>Please follow the complete instrunctions under <a href="<%= "https://oslc.github.io/developing-oslc-applications/eclipse_lyo/setup-an-oslc-provider-consumer-application.html#provide-openapi-support" %>">Lyo Instructions for Swagger</a></li>
-                    <li>Until then, you can copy <a href="<%=yamlPath%>">this OpenAPI specification document (yaml file)</a> 
-                    to a remote <a href="<%= "https://editor.swagger.io" %>">Swagger Editor</a> and
-                    <ul>
-                        <li>use the remote Swagger UI interface</li>
-                        <li>generate client SDK code for a number of languages and platforms.</li>
-                    </ul>
-                    </li>
-                </ul>
-            </div>
-        </div>
-        <footer class="footer">
-          <div class="container">
-            <p class="text-muted">
-              OSLC Adaptor was generated using <a href="http://eclipse.org/lyo">Eclipse Lyo</a>.
-            </p>
-          </div>
-        </footer>
-    <%}%>
 </body>
 </html>

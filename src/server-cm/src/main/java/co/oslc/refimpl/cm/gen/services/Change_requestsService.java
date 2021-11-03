@@ -104,8 +104,9 @@ import org.eclipse.lyo.oslc.domains.rm.Requirement;
 import org.eclipse.lyo.oslc.domains.cm.ReviewTask;
 import org.eclipse.lyo.oslc.domains.cm.State;
 import org.eclipse.lyo.oslc.domains.cm.Task;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 
 // Start of user code imports
 // End of user code
@@ -114,7 +115,6 @@ import io.swagger.annotations.ApiOperation;
 // End of user code
 @OslcService(Oslc_cmDomainConstants.CHANGE_MANAGEMENT_SHAPES_DOMAIN)
 @Path("resources")
-@Api(value = "OSLC Service for {" + Oslc_cmDomainConstants.CHANGENOTICE_LOCALNAME + ", " + Oslc_cmDomainConstants.CHANGEREQUEST_LOCALNAME + ", " + Oslc_cmDomainConstants.DEFECT_LOCALNAME + ", " + Oslc_cmDomainConstants.ENHANCEMENT_LOCALNAME + ", " + Oslc_cmDomainConstants.REVIEWTASK_LOCALNAME + ", " + Oslc_cmDomainConstants.TASK_LOCALNAME + "}")
 public class Change_requestsService
 {
     @Context private HttpServletRequest httpServletRequest;
@@ -154,11 +154,13 @@ public class Change_requestsService
     @GET
     @Path("query_cr")
     @Produces({OslcMediaType.APPLICATION_RDF_XML, OslcMediaType.APPLICATION_JSON_LD, OslcMediaType.TEXT_TURTLE, OslcMediaType.APPLICATION_XML, OslcMediaType.APPLICATION_JSON})
-    @ApiOperation(
-        value = "Query capability for resources of type {" + Oslc_cmDomainConstants.CHANGEREQUEST_LOCALNAME + "}",
-        notes = "Query capability for resources of type {" + "<a href=\"" + Oslc_cmDomainConstants.CHANGEREQUEST_TYPE + "\">" + Oslc_cmDomainConstants.CHANGEREQUEST_LOCALNAME + "</a>" + "}" +
+    @Operation(
+        summary = "Query capability for resources of type {" + Oslc_cmDomainConstants.CHANGEREQUEST_LOCALNAME + "}",
+        description = "Query capability for resources of type {" + "<a href=\"" + Oslc_cmDomainConstants.CHANGEREQUEST_TYPE + "\">" + Oslc_cmDomainConstants.CHANGEREQUEST_LOCALNAME + "</a>" + "}" +
             ", with respective resource shapes {" + "<a href=\"" + "../services/" + OslcConstants.PATH_RESOURCE_SHAPES + "/" + Oslc_cmDomainConstants.CHANGEREQUEST_PATH + "\">" + Oslc_cmDomainConstants.CHANGEREQUEST_LOCALNAME + "</a>" + "}",
-        produces = OslcMediaType.APPLICATION_RDF_XML + ", " + OslcMediaType.APPLICATION_XML + ", " + OslcMediaType.APPLICATION_JSON + ", " + OslcMediaType.TEXT_TURTLE + ", " + MediaType.TEXT_HTML
+        responses = { 
+            @ApiResponse(content = {@Content(mediaType = OslcMediaType.APPLICATION_RDF_XML), @Content(mediaType = OslcMediaType.APPLICATION_XML), @Content(mediaType = OslcMediaType.APPLICATION_JSON), @Content(mediaType = OslcMediaType.TEXT_TURTLE), @Content(mediaType = MediaType.TEXT_HTML)})
+        }
     )
     public ChangeRequest[] queryChangeRequests(
                                                     
@@ -194,11 +196,13 @@ public class Change_requestsService
     @GET
     @Path("query_cr")
     @Produces({ MediaType.TEXT_HTML })
-    @ApiOperation(
-        value = "Query capability for resources of type {" + Oslc_cmDomainConstants.CHANGEREQUEST_LOCALNAME + "}",
-        notes = "Query capability for resources of type {" + "<a href=\"" + Oslc_cmDomainConstants.CHANGEREQUEST_TYPE + "\">" + Oslc_cmDomainConstants.CHANGEREQUEST_LOCALNAME + "</a>" + "}" +
+    @Operation(
+        summary = "Query capability for resources of type {" + Oslc_cmDomainConstants.CHANGEREQUEST_LOCALNAME + "}",
+        description = "Query capability for resources of type {" + "<a href=\"" + Oslc_cmDomainConstants.CHANGEREQUEST_TYPE + "\">" + Oslc_cmDomainConstants.CHANGEREQUEST_LOCALNAME + "</a>" + "}" +
             ", with respective resource shapes {" + "<a href=\"" + "../services/" + OslcConstants.PATH_RESOURCE_SHAPES + "/" + Oslc_cmDomainConstants.CHANGEREQUEST_PATH + "\">" + Oslc_cmDomainConstants.CHANGEREQUEST_LOCALNAME + "</a>" + "}",
-        produces = OslcMediaType.APPLICATION_RDF_XML + ", " + OslcMediaType.APPLICATION_XML + ", " + OslcMediaType.APPLICATION_JSON + ", " + OslcMediaType.TEXT_TURTLE + ", " + MediaType.TEXT_HTML
+        responses = { 
+            @ApiResponse(content = {@Content(mediaType = OslcMediaType.APPLICATION_RDF_XML), @Content(mediaType = OslcMediaType.APPLICATION_XML), @Content(mediaType = OslcMediaType.APPLICATION_JSON), @Content(mediaType = OslcMediaType.TEXT_TURTLE), @Content(mediaType = MediaType.TEXT_HTML)})
+        }
     )
     public void queryChangeRequestsAsHtml(
                                     
@@ -252,11 +256,13 @@ public class Change_requestsService
     @GET
     @Path("query_defect")
     @Produces({OslcMediaType.APPLICATION_RDF_XML, OslcMediaType.APPLICATION_JSON_LD, OslcMediaType.TEXT_TURTLE, OslcMediaType.APPLICATION_XML, OslcMediaType.APPLICATION_JSON})
-    @ApiOperation(
-        value = "Query capability for resources of type {" + Oslc_cmDomainConstants.DEFECT_LOCALNAME + "}",
-        notes = "Query capability for resources of type {" + "<a href=\"" + Oslc_cmDomainConstants.DEFECT_TYPE + "\">" + Oslc_cmDomainConstants.DEFECT_LOCALNAME + "</a>" + "}" +
+    @Operation(
+        summary = "Query capability for resources of type {" + Oslc_cmDomainConstants.DEFECT_LOCALNAME + "}",
+        description = "Query capability for resources of type {" + "<a href=\"" + Oslc_cmDomainConstants.DEFECT_TYPE + "\">" + Oslc_cmDomainConstants.DEFECT_LOCALNAME + "</a>" + "}" +
             ", with respective resource shapes {" + "<a href=\"" + "../services/" + OslcConstants.PATH_RESOURCE_SHAPES + "/" + Oslc_cmDomainConstants.DEFECT_PATH + "\">" + Oslc_cmDomainConstants.DEFECT_LOCALNAME + "</a>" + "}",
-        produces = OslcMediaType.APPLICATION_RDF_XML + ", " + OslcMediaType.APPLICATION_XML + ", " + OslcMediaType.APPLICATION_JSON + ", " + OslcMediaType.TEXT_TURTLE + ", " + MediaType.TEXT_HTML
+        responses = { 
+            @ApiResponse(content = {@Content(mediaType = OslcMediaType.APPLICATION_RDF_XML), @Content(mediaType = OslcMediaType.APPLICATION_XML), @Content(mediaType = OslcMediaType.APPLICATION_JSON), @Content(mediaType = OslcMediaType.TEXT_TURTLE), @Content(mediaType = MediaType.TEXT_HTML)})
+        }
     )
     public Defect[] queryDefects(
                                                     
@@ -292,11 +298,13 @@ public class Change_requestsService
     @GET
     @Path("query_defect")
     @Produces({ MediaType.TEXT_HTML })
-    @ApiOperation(
-        value = "Query capability for resources of type {" + Oslc_cmDomainConstants.DEFECT_LOCALNAME + "}",
-        notes = "Query capability for resources of type {" + "<a href=\"" + Oslc_cmDomainConstants.DEFECT_TYPE + "\">" + Oslc_cmDomainConstants.DEFECT_LOCALNAME + "</a>" + "}" +
+    @Operation(
+        summary = "Query capability for resources of type {" + Oslc_cmDomainConstants.DEFECT_LOCALNAME + "}",
+        description = "Query capability for resources of type {" + "<a href=\"" + Oslc_cmDomainConstants.DEFECT_TYPE + "\">" + Oslc_cmDomainConstants.DEFECT_LOCALNAME + "</a>" + "}" +
             ", with respective resource shapes {" + "<a href=\"" + "../services/" + OslcConstants.PATH_RESOURCE_SHAPES + "/" + Oslc_cmDomainConstants.DEFECT_PATH + "\">" + Oslc_cmDomainConstants.DEFECT_LOCALNAME + "</a>" + "}",
-        produces = OslcMediaType.APPLICATION_RDF_XML + ", " + OslcMediaType.APPLICATION_XML + ", " + OslcMediaType.APPLICATION_JSON + ", " + OslcMediaType.TEXT_TURTLE + ", " + MediaType.TEXT_HTML
+        responses = { 
+            @ApiResponse(content = {@Content(mediaType = OslcMediaType.APPLICATION_RDF_XML), @Content(mediaType = OslcMediaType.APPLICATION_XML), @Content(mediaType = OslcMediaType.APPLICATION_JSON), @Content(mediaType = OslcMediaType.TEXT_TURTLE), @Content(mediaType = MediaType.TEXT_HTML)})
+        }
     )
     public void queryDefectsAsHtml(
                                     
@@ -350,11 +358,13 @@ public class Change_requestsService
     @GET
     @Path("query_task")
     @Produces({OslcMediaType.APPLICATION_RDF_XML, OslcMediaType.APPLICATION_JSON_LD, OslcMediaType.TEXT_TURTLE, OslcMediaType.APPLICATION_XML, OslcMediaType.APPLICATION_JSON})
-    @ApiOperation(
-        value = "Query capability for resources of type {" + Oslc_cmDomainConstants.TASK_LOCALNAME + "}",
-        notes = "Query capability for resources of type {" + "<a href=\"" + Oslc_cmDomainConstants.TASK_TYPE + "\">" + Oslc_cmDomainConstants.TASK_LOCALNAME + "</a>" + "}" +
+    @Operation(
+        summary = "Query capability for resources of type {" + Oslc_cmDomainConstants.TASK_LOCALNAME + "}",
+        description = "Query capability for resources of type {" + "<a href=\"" + Oslc_cmDomainConstants.TASK_TYPE + "\">" + Oslc_cmDomainConstants.TASK_LOCALNAME + "</a>" + "}" +
             ", with respective resource shapes {" + "<a href=\"" + "../services/" + OslcConstants.PATH_RESOURCE_SHAPES + "/" + Oslc_cmDomainConstants.TASK_PATH + "\">" + Oslc_cmDomainConstants.TASK_LOCALNAME + "</a>" + "}",
-        produces = OslcMediaType.APPLICATION_RDF_XML + ", " + OslcMediaType.APPLICATION_XML + ", " + OslcMediaType.APPLICATION_JSON + ", " + OslcMediaType.TEXT_TURTLE + ", " + MediaType.TEXT_HTML
+        responses = { 
+            @ApiResponse(content = {@Content(mediaType = OslcMediaType.APPLICATION_RDF_XML), @Content(mediaType = OslcMediaType.APPLICATION_XML), @Content(mediaType = OslcMediaType.APPLICATION_JSON), @Content(mediaType = OslcMediaType.TEXT_TURTLE), @Content(mediaType = MediaType.TEXT_HTML)})
+        }
     )
     public Task[] queryTasks(
                                                     
@@ -390,11 +400,13 @@ public class Change_requestsService
     @GET
     @Path("query_task")
     @Produces({ MediaType.TEXT_HTML })
-    @ApiOperation(
-        value = "Query capability for resources of type {" + Oslc_cmDomainConstants.TASK_LOCALNAME + "}",
-        notes = "Query capability for resources of type {" + "<a href=\"" + Oslc_cmDomainConstants.TASK_TYPE + "\">" + Oslc_cmDomainConstants.TASK_LOCALNAME + "</a>" + "}" +
+    @Operation(
+        summary = "Query capability for resources of type {" + Oslc_cmDomainConstants.TASK_LOCALNAME + "}",
+        description = "Query capability for resources of type {" + "<a href=\"" + Oslc_cmDomainConstants.TASK_TYPE + "\">" + Oslc_cmDomainConstants.TASK_LOCALNAME + "</a>" + "}" +
             ", with respective resource shapes {" + "<a href=\"" + "../services/" + OslcConstants.PATH_RESOURCE_SHAPES + "/" + Oslc_cmDomainConstants.TASK_PATH + "\">" + Oslc_cmDomainConstants.TASK_LOCALNAME + "</a>" + "}",
-        produces = OslcMediaType.APPLICATION_RDF_XML + ", " + OslcMediaType.APPLICATION_XML + ", " + OslcMediaType.APPLICATION_JSON + ", " + OslcMediaType.TEXT_TURTLE + ", " + MediaType.TEXT_HTML
+        responses = { 
+            @ApiResponse(content = {@Content(mediaType = OslcMediaType.APPLICATION_RDF_XML), @Content(mediaType = OslcMediaType.APPLICATION_XML), @Content(mediaType = OslcMediaType.APPLICATION_JSON), @Content(mediaType = OslcMediaType.TEXT_TURTLE), @Content(mediaType = MediaType.TEXT_HTML)})
+        }
     )
     public void queryTasksAsHtml(
                                     
@@ -448,11 +460,13 @@ public class Change_requestsService
     @GET
     @Path("query_enh")
     @Produces({OslcMediaType.APPLICATION_RDF_XML, OslcMediaType.APPLICATION_JSON_LD, OslcMediaType.TEXT_TURTLE, OslcMediaType.APPLICATION_XML, OslcMediaType.APPLICATION_JSON})
-    @ApiOperation(
-        value = "Query capability for resources of type {" + Oslc_cmDomainConstants.ENHANCEMENT_LOCALNAME + "}",
-        notes = "Query capability for resources of type {" + "<a href=\"" + Oslc_cmDomainConstants.ENHANCEMENT_TYPE + "\">" + Oslc_cmDomainConstants.ENHANCEMENT_LOCALNAME + "</a>" + "}" +
+    @Operation(
+        summary = "Query capability for resources of type {" + Oslc_cmDomainConstants.ENHANCEMENT_LOCALNAME + "}",
+        description = "Query capability for resources of type {" + "<a href=\"" + Oslc_cmDomainConstants.ENHANCEMENT_TYPE + "\">" + Oslc_cmDomainConstants.ENHANCEMENT_LOCALNAME + "</a>" + "}" +
             ", with respective resource shapes {" + "<a href=\"" + "../services/" + OslcConstants.PATH_RESOURCE_SHAPES + "/" + Oslc_cmDomainConstants.ENHANCEMENT_PATH + "\">" + Oslc_cmDomainConstants.ENHANCEMENT_LOCALNAME + "</a>" + "}",
-        produces = OslcMediaType.APPLICATION_RDF_XML + ", " + OslcMediaType.APPLICATION_XML + ", " + OslcMediaType.APPLICATION_JSON + ", " + OslcMediaType.TEXT_TURTLE + ", " + MediaType.TEXT_HTML
+        responses = { 
+            @ApiResponse(content = {@Content(mediaType = OslcMediaType.APPLICATION_RDF_XML), @Content(mediaType = OslcMediaType.APPLICATION_XML), @Content(mediaType = OslcMediaType.APPLICATION_JSON), @Content(mediaType = OslcMediaType.TEXT_TURTLE), @Content(mediaType = MediaType.TEXT_HTML)})
+        }
     )
     public Enhancement[] queryEnhancements(
                                                     
@@ -488,11 +502,13 @@ public class Change_requestsService
     @GET
     @Path("query_enh")
     @Produces({ MediaType.TEXT_HTML })
-    @ApiOperation(
-        value = "Query capability for resources of type {" + Oslc_cmDomainConstants.ENHANCEMENT_LOCALNAME + "}",
-        notes = "Query capability for resources of type {" + "<a href=\"" + Oslc_cmDomainConstants.ENHANCEMENT_TYPE + "\">" + Oslc_cmDomainConstants.ENHANCEMENT_LOCALNAME + "</a>" + "}" +
+    @Operation(
+        summary = "Query capability for resources of type {" + Oslc_cmDomainConstants.ENHANCEMENT_LOCALNAME + "}",
+        description = "Query capability for resources of type {" + "<a href=\"" + Oslc_cmDomainConstants.ENHANCEMENT_TYPE + "\">" + Oslc_cmDomainConstants.ENHANCEMENT_LOCALNAME + "</a>" + "}" +
             ", with respective resource shapes {" + "<a href=\"" + "../services/" + OslcConstants.PATH_RESOURCE_SHAPES + "/" + Oslc_cmDomainConstants.ENHANCEMENT_PATH + "\">" + Oslc_cmDomainConstants.ENHANCEMENT_LOCALNAME + "</a>" + "}",
-        produces = OslcMediaType.APPLICATION_RDF_XML + ", " + OslcMediaType.APPLICATION_XML + ", " + OslcMediaType.APPLICATION_JSON + ", " + OslcMediaType.TEXT_TURTLE + ", " + MediaType.TEXT_HTML
+        responses = { 
+            @ApiResponse(content = {@Content(mediaType = OslcMediaType.APPLICATION_RDF_XML), @Content(mediaType = OslcMediaType.APPLICATION_XML), @Content(mediaType = OslcMediaType.APPLICATION_JSON), @Content(mediaType = OslcMediaType.TEXT_TURTLE), @Content(mediaType = MediaType.TEXT_HTML)})
+        }
     )
     public void queryEnhancementsAsHtml(
                                     
@@ -546,11 +562,13 @@ public class Change_requestsService
     @GET
     @Path("query_review")
     @Produces({OslcMediaType.APPLICATION_RDF_XML, OslcMediaType.APPLICATION_JSON_LD, OslcMediaType.TEXT_TURTLE, OslcMediaType.APPLICATION_XML, OslcMediaType.APPLICATION_JSON})
-    @ApiOperation(
-        value = "Query capability for resources of type {" + Oslc_cmDomainConstants.REVIEWTASK_LOCALNAME + "}",
-        notes = "Query capability for resources of type {" + "<a href=\"" + Oslc_cmDomainConstants.REVIEWTASK_TYPE + "\">" + Oslc_cmDomainConstants.REVIEWTASK_LOCALNAME + "</a>" + "}" +
+    @Operation(
+        summary = "Query capability for resources of type {" + Oslc_cmDomainConstants.REVIEWTASK_LOCALNAME + "}",
+        description = "Query capability for resources of type {" + "<a href=\"" + Oslc_cmDomainConstants.REVIEWTASK_TYPE + "\">" + Oslc_cmDomainConstants.REVIEWTASK_LOCALNAME + "</a>" + "}" +
             ", with respective resource shapes {" + "<a href=\"" + "../services/" + OslcConstants.PATH_RESOURCE_SHAPES + "/" + Oslc_cmDomainConstants.REVIEWTASK_PATH + "\">" + Oslc_cmDomainConstants.REVIEWTASK_LOCALNAME + "</a>" + "}",
-        produces = OslcMediaType.APPLICATION_RDF_XML + ", " + OslcMediaType.APPLICATION_XML + ", " + OslcMediaType.APPLICATION_JSON + ", " + OslcMediaType.TEXT_TURTLE + ", " + MediaType.TEXT_HTML
+        responses = { 
+            @ApiResponse(content = {@Content(mediaType = OslcMediaType.APPLICATION_RDF_XML), @Content(mediaType = OslcMediaType.APPLICATION_XML), @Content(mediaType = OslcMediaType.APPLICATION_JSON), @Content(mediaType = OslcMediaType.TEXT_TURTLE), @Content(mediaType = MediaType.TEXT_HTML)})
+        }
     )
     public ReviewTask[] queryReviewTasks(
                                                     
@@ -586,11 +604,13 @@ public class Change_requestsService
     @GET
     @Path("query_review")
     @Produces({ MediaType.TEXT_HTML })
-    @ApiOperation(
-        value = "Query capability for resources of type {" + Oslc_cmDomainConstants.REVIEWTASK_LOCALNAME + "}",
-        notes = "Query capability for resources of type {" + "<a href=\"" + Oslc_cmDomainConstants.REVIEWTASK_TYPE + "\">" + Oslc_cmDomainConstants.REVIEWTASK_LOCALNAME + "</a>" + "}" +
+    @Operation(
+        summary = "Query capability for resources of type {" + Oslc_cmDomainConstants.REVIEWTASK_LOCALNAME + "}",
+        description = "Query capability for resources of type {" + "<a href=\"" + Oslc_cmDomainConstants.REVIEWTASK_TYPE + "\">" + Oslc_cmDomainConstants.REVIEWTASK_LOCALNAME + "</a>" + "}" +
             ", with respective resource shapes {" + "<a href=\"" + "../services/" + OslcConstants.PATH_RESOURCE_SHAPES + "/" + Oslc_cmDomainConstants.REVIEWTASK_PATH + "\">" + Oslc_cmDomainConstants.REVIEWTASK_LOCALNAME + "</a>" + "}",
-        produces = OslcMediaType.APPLICATION_RDF_XML + ", " + OslcMediaType.APPLICATION_XML + ", " + OslcMediaType.APPLICATION_JSON + ", " + OslcMediaType.TEXT_TURTLE + ", " + MediaType.TEXT_HTML
+        responses = { 
+            @ApiResponse(content = {@Content(mediaType = OslcMediaType.APPLICATION_RDF_XML), @Content(mediaType = OslcMediaType.APPLICATION_XML), @Content(mediaType = OslcMediaType.APPLICATION_JSON), @Content(mediaType = OslcMediaType.TEXT_TURTLE), @Content(mediaType = MediaType.TEXT_HTML)})
+        }
     )
     public void queryReviewTasksAsHtml(
                                     
@@ -644,11 +664,13 @@ public class Change_requestsService
     @GET
     @Path("query_cn")
     @Produces({OslcMediaType.APPLICATION_RDF_XML, OslcMediaType.APPLICATION_JSON_LD, OslcMediaType.TEXT_TURTLE, OslcMediaType.APPLICATION_XML, OslcMediaType.APPLICATION_JSON})
-    @ApiOperation(
-        value = "Query capability for resources of type {" + Oslc_cmDomainConstants.CHANGENOTICE_LOCALNAME + "}",
-        notes = "Query capability for resources of type {" + "<a href=\"" + Oslc_cmDomainConstants.CHANGENOTICE_TYPE + "\">" + Oslc_cmDomainConstants.CHANGENOTICE_LOCALNAME + "</a>" + "}" +
+    @Operation(
+        summary = "Query capability for resources of type {" + Oslc_cmDomainConstants.CHANGENOTICE_LOCALNAME + "}",
+        description = "Query capability for resources of type {" + "<a href=\"" + Oslc_cmDomainConstants.CHANGENOTICE_TYPE + "\">" + Oslc_cmDomainConstants.CHANGENOTICE_LOCALNAME + "</a>" + "}" +
             ", with respective resource shapes {" + "<a href=\"" + "../services/" + OslcConstants.PATH_RESOURCE_SHAPES + "/" + Oslc_cmDomainConstants.CHANGENOTICE_PATH + "\">" + Oslc_cmDomainConstants.CHANGENOTICE_LOCALNAME + "</a>" + "}",
-        produces = OslcMediaType.APPLICATION_RDF_XML + ", " + OslcMediaType.APPLICATION_XML + ", " + OslcMediaType.APPLICATION_JSON + ", " + OslcMediaType.TEXT_TURTLE + ", " + MediaType.TEXT_HTML
+        responses = { 
+            @ApiResponse(content = {@Content(mediaType = OslcMediaType.APPLICATION_RDF_XML), @Content(mediaType = OslcMediaType.APPLICATION_XML), @Content(mediaType = OslcMediaType.APPLICATION_JSON), @Content(mediaType = OslcMediaType.TEXT_TURTLE), @Content(mediaType = MediaType.TEXT_HTML)})
+        }
     )
     public ChangeNotice[] queryChangeNotices(
                                                     
@@ -684,11 +706,13 @@ public class Change_requestsService
     @GET
     @Path("query_cn")
     @Produces({ MediaType.TEXT_HTML })
-    @ApiOperation(
-        value = "Query capability for resources of type {" + Oslc_cmDomainConstants.CHANGENOTICE_LOCALNAME + "}",
-        notes = "Query capability for resources of type {" + "<a href=\"" + Oslc_cmDomainConstants.CHANGENOTICE_TYPE + "\">" + Oslc_cmDomainConstants.CHANGENOTICE_LOCALNAME + "</a>" + "}" +
+    @Operation(
+        summary = "Query capability for resources of type {" + Oslc_cmDomainConstants.CHANGENOTICE_LOCALNAME + "}",
+        description = "Query capability for resources of type {" + "<a href=\"" + Oslc_cmDomainConstants.CHANGENOTICE_TYPE + "\">" + Oslc_cmDomainConstants.CHANGENOTICE_LOCALNAME + "</a>" + "}" +
             ", with respective resource shapes {" + "<a href=\"" + "../services/" + OslcConstants.PATH_RESOURCE_SHAPES + "/" + Oslc_cmDomainConstants.CHANGENOTICE_PATH + "\">" + Oslc_cmDomainConstants.CHANGENOTICE_LOCALNAME + "</a>" + "}",
-        produces = OslcMediaType.APPLICATION_RDF_XML + ", " + OslcMediaType.APPLICATION_XML + ", " + OslcMediaType.APPLICATION_JSON + ", " + OslcMediaType.TEXT_TURTLE + ", " + MediaType.TEXT_HTML
+        responses = { 
+            @ApiResponse(content = {@Content(mediaType = OslcMediaType.APPLICATION_RDF_XML), @Content(mediaType = OslcMediaType.APPLICATION_XML), @Content(mediaType = OslcMediaType.APPLICATION_JSON), @Content(mediaType = OslcMediaType.TEXT_TURTLE), @Content(mediaType = MediaType.TEXT_HTML)})
+        }
     )
     public void queryChangeNoticesAsHtml(
                                     
@@ -765,6 +789,7 @@ public class Change_requestsService
                     JSONObject r = new JSONObject();
                     r.put("oslc:label", resource.toString());
                     r.put("rdf:resource", resource.getAbout().toString());
+                    r.put("Label", resource.toString());
                     // Start of user code ChangeRequestSelector_setResponse
                     // End of user code
                     resourceArray.add(r);
@@ -778,6 +803,10 @@ public class Change_requestsService
 
         } else {
             httpServletRequest.setAttribute("resourceTypeLabel", "ChangeRequest");
+            httpServletRequest.setAttribute("fieldsToList", "[\"Label\"]");
+            // Start of user code ChangeRequestSelector_setAttribute_fieldsToList
+            //TODO: set the attribute "fieldsToList" to form the list of properties you want displayed in the search result
+            // End of user code
             RequestDispatcher rd = httpServletRequest.getRequestDispatcher("/co/oslc/refimpl/cm/gen/selectiondialog.jsp");
             rd.forward(httpServletRequest, httpServletResponse);
             return null;
@@ -818,6 +847,7 @@ public class Change_requestsService
                     JSONObject r = new JSONObject();
                     r.put("oslc:label", resource.toString());
                     r.put("rdf:resource", resource.getAbout().toString());
+                    r.put("Label", resource.toString());
                     // Start of user code DefectSelector_setResponse
                     // End of user code
                     resourceArray.add(r);
@@ -831,6 +861,10 @@ public class Change_requestsService
 
         } else {
             httpServletRequest.setAttribute("resourceTypeLabel", "Defect");
+            httpServletRequest.setAttribute("fieldsToList", "[\"Label\"]");
+            // Start of user code DefectSelector_setAttribute_fieldsToList
+            //TODO: set the attribute "fieldsToList" to form the list of properties you want displayed in the search result
+            // End of user code
             RequestDispatcher rd = httpServletRequest.getRequestDispatcher("/co/oslc/refimpl/cm/gen/selectiondialog.jsp");
             rd.forward(httpServletRequest, httpServletResponse);
             return null;
@@ -871,6 +905,7 @@ public class Change_requestsService
                     JSONObject r = new JSONObject();
                     r.put("oslc:label", resource.toString());
                     r.put("rdf:resource", resource.getAbout().toString());
+                    r.put("Label", resource.toString());
                     // Start of user code TaskSelector_setResponse
                     // End of user code
                     resourceArray.add(r);
@@ -884,6 +919,10 @@ public class Change_requestsService
 
         } else {
             httpServletRequest.setAttribute("resourceTypeLabel", "Task");
+            httpServletRequest.setAttribute("fieldsToList", "[\"Label\"]");
+            // Start of user code TaskSelector_setAttribute_fieldsToList
+            //TODO: set the attribute "fieldsToList" to form the list of properties you want displayed in the search result
+            // End of user code
             RequestDispatcher rd = httpServletRequest.getRequestDispatcher("/co/oslc/refimpl/cm/gen/selectiondialog.jsp");
             rd.forward(httpServletRequest, httpServletResponse);
             return null;
@@ -924,6 +963,7 @@ public class Change_requestsService
                     JSONObject r = new JSONObject();
                     r.put("oslc:label", resource.toString());
                     r.put("rdf:resource", resource.getAbout().toString());
+                    r.put("Label", resource.toString());
                     // Start of user code ReviewTaskSelector_setResponse
                     // End of user code
                     resourceArray.add(r);
@@ -937,6 +977,10 @@ public class Change_requestsService
 
         } else {
             httpServletRequest.setAttribute("resourceTypeLabel", "ReviewTask");
+            httpServletRequest.setAttribute("fieldsToList", "[\"Label\"]");
+            // Start of user code ReviewTaskSelector_setAttribute_fieldsToList
+            //TODO: set the attribute "fieldsToList" to form the list of properties you want displayed in the search result
+            // End of user code
             RequestDispatcher rd = httpServletRequest.getRequestDispatcher("/co/oslc/refimpl/cm/gen/selectiondialog.jsp");
             rd.forward(httpServletRequest, httpServletResponse);
             return null;
@@ -977,6 +1021,7 @@ public class Change_requestsService
                     JSONObject r = new JSONObject();
                     r.put("oslc:label", resource.toString());
                     r.put("rdf:resource", resource.getAbout().toString());
+                    r.put("Label", resource.toString());
                     // Start of user code ChangeNoticeSelector_setResponse
                     // End of user code
                     resourceArray.add(r);
@@ -990,6 +1035,10 @@ public class Change_requestsService
 
         } else {
             httpServletRequest.setAttribute("resourceTypeLabel", "ChangeNotice");
+            httpServletRequest.setAttribute("fieldsToList", "[\"Label\"]");
+            // Start of user code ChangeNoticeSelector_setAttribute_fieldsToList
+            //TODO: set the attribute "fieldsToList" to form the list of properties you want displayed in the search result
+            // End of user code
             RequestDispatcher rd = httpServletRequest.getRequestDispatcher("/co/oslc/refimpl/cm/gen/selectiondialog.jsp");
             rd.forward(httpServletRequest, httpServletResponse);
             return null;
@@ -1030,6 +1079,7 @@ public class Change_requestsService
                     JSONObject r = new JSONObject();
                     r.put("oslc:label", resource.toString());
                     r.put("rdf:resource", resource.getAbout().toString());
+                    r.put("Label", resource.toString());
                     // Start of user code EnhancementSelector_setResponse
                     // End of user code
                     resourceArray.add(r);
@@ -1043,6 +1093,10 @@ public class Change_requestsService
 
         } else {
             httpServletRequest.setAttribute("resourceTypeLabel", "Enhancement");
+            httpServletRequest.setAttribute("fieldsToList", "[\"Label\"]");
+            // Start of user code EnhancementSelector_setAttribute_fieldsToList
+            //TODO: set the attribute "fieldsToList" to form the list of properties you want displayed in the search result
+            // End of user code
             RequestDispatcher rd = httpServletRequest.getRequestDispatcher("/co/oslc/refimpl/cm/gen/selectiondialog.jsp");
             rd.forward(httpServletRequest, httpServletResponse);
             return null;
@@ -1067,11 +1121,13 @@ public class Change_requestsService
     @Path("create_change_request")
     @Consumes({OslcMediaType.APPLICATION_RDF_XML, OslcMediaType.APPLICATION_JSON_LD, OslcMediaType.TEXT_TURTLE, OslcMediaType.APPLICATION_XML, OslcMediaType.APPLICATION_JSON })
     @Produces({OslcMediaType.APPLICATION_RDF_XML, OslcMediaType.APPLICATION_JSON_LD, OslcMediaType.TEXT_TURTLE, OslcMediaType.APPLICATION_XML, OslcMediaType.APPLICATION_JSON})
-    @ApiOperation(
-        value = "Creation factory for resources of type {" + Oslc_cmDomainConstants.CHANGEREQUEST_LOCALNAME + "}",
-        notes = "Creation factory for resources of type {" + "<a href=\"" + Oslc_cmDomainConstants.CHANGEREQUEST_TYPE + "\">" + Oslc_cmDomainConstants.CHANGEREQUEST_LOCALNAME + "</a>" + "}" +
+    @Operation(
+        summary = "Creation factory for resources of type {" + Oslc_cmDomainConstants.CHANGEREQUEST_LOCALNAME + "}",
+        description = "Creation factory for resources of type {" + "<a href=\"" + Oslc_cmDomainConstants.CHANGEREQUEST_TYPE + "\">" + Oslc_cmDomainConstants.CHANGEREQUEST_LOCALNAME + "</a>" + "}" +
             ", with respective resource shapes {" + "<a href=\"" + "../services/" + OslcConstants.PATH_RESOURCE_SHAPES + "/" + Oslc_cmDomainConstants.CHANGEREQUEST_PATH + "\">" + Oslc_cmDomainConstants.CHANGEREQUEST_LOCALNAME + "</a>" + "}",
-        produces = OslcMediaType.APPLICATION_RDF_XML + ", " + OslcMediaType.APPLICATION_XML + ", " + OslcMediaType.APPLICATION_JSON + ", " + OslcMediaType.TEXT_TURTLE
+        responses = { 
+            @ApiResponse(content = {@Content(mediaType = OslcMediaType.APPLICATION_RDF_XML), @Content(mediaType = OslcMediaType.APPLICATION_XML), @Content(mediaType = OslcMediaType.APPLICATION_JSON), @Content(mediaType = OslcMediaType.TEXT_TURTLE)})
+        }
     )
     public Response createChangeRequest(
             
