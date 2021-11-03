@@ -3,15 +3,15 @@ image:
 
 tasks:
   - init: mvn -f src/pom.xml clean install  && gp sync-done mvninstall
-    command: mvn -f src/server-rm/pom.xml jetty:run
+    command: mvn -f src/server-rm/pom.xml jetty:run -Dlyo.baseurl=$(gp url 8800)
   - init: gp sync-await mvninstall
-    command: mvn -f src/server-cm/pom.xml jetty:run
+    command: mvn -f src/server-cm/pom.xml jetty:run -Dlyo.baseurl=$(gp url 8801)
     openMode: split-right
   - init: gp sync-await mvninstall
-    command: mvn -f src/server-am/pom.xml jetty:run
+    command: mvn -f src/server-am/pom.xml jetty:run -Dlyo.baseurl=$(gp url 8802)
     openMode: split-right
   - init: gp sync-await mvninstall
-    command: mvn -f src/server-qm/pom.xml jetty:run
+    command: mvn -f src/server-qm/pom.xml jetty:run -Dlyo.baseurl=$(gp url 8803)
     openMode: split-right
 
 ports:
