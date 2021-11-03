@@ -1,0 +1,21 @@
+image:
+  file: .gitpod.Dockerfile
+
+tasks:
+  - init: mvn -f src/pom.xml clean install  && gp sync-done mvninstall
+    command: mvn -f src/server-rm/pom.xml jetty:run
+  - init: gp sync-await mvninstall
+    command: mvn -f src/server-cm/pom.xml jetty:run
+    openMode: split-right
+  - init: gp sync-await mvninstall
+    command: mvn -f src/server-am/pom.xml jetty:run
+    openMode: split-right
+  - init: gp sync-await mvninstall
+    command: mvn -f src/server-qm/pom.xml jetty:run
+    openMode: split-right
+
+ports:
+  - port: 8800
+  - port: 8801
+  - port: 8802
+  - port: 8803
