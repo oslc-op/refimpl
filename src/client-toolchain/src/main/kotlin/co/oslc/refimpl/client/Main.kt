@@ -292,20 +292,28 @@ fun <T : AbstractResource> postResources(client: IOslcClient, cf: CreationFactor
     }
     runBlocking(scope.coroutineContext) {
         val responses: List<Pair<Response?, T>> = responsesAsync.awaitAll()
-        responses.forEach { (response, _) ->
+        responses.forEach { (response, x) ->
             if (response != null) {
                 if (response.status < 400) {
                     val headers = response.headers
                     val location: MutableList<Any>? = headers["Location"]
                     if (location != null) {
                         val url: String = location.single() as String
-                        createdUrls.add(Link(URI.create(url), "TBD"))
+                        createdUrls.add(Link(URI.create(url), shortCode(x)))
                     }
                 }
             }
         }
     }
     return createdUrls
+}
+
+fun shortCode(x: AbstractResource): String = when(x) {
+    is Requirement -> x.shortTitle
+    is RequirementCollection -> x.shortTitle
+    is ChangeRequest -> x.shortTitle
+    is TestPlan -> "TP-${x.identifier}"
+    else -> "External link"
 }
 
 
