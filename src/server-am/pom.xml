@@ -127,7 +127,7 @@
           <webAppConfig>
             <contextPath>/</contextPath>
           </webAppConfig>
-          <reload>automatic</reload>
+          <reload>manual</reload>
           <scanIntervalSeconds>5</scanIntervalSeconds>
           <systemProperties>
             <systemProperty>
