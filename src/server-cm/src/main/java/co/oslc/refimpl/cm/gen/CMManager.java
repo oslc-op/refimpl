@@ -198,7 +198,8 @@ public class CMManager {
 
 
         // Start of user code ChangeRequestSelector
-        // TODO Implement code to return a set of resources, based on search criteria
+//        resources = changeRequestRepository.fetchResourcePageForSP(SP_DEFAULT, 1, 20);
+        resources = changeRequestRepository.findResources(SP_DEFAULT, terms, 20);
         // End of user code
         return resources;
     }

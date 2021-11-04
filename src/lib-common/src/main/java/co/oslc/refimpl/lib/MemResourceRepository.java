@@ -128,7 +128,7 @@ public class MemResourceRepository<R extends AbstractResource> implements Resour
     public List<R> findResources(String serviceProvider, String terms, int limit) {
         return fetchResourcePageForSP(serviceProvider, 0, limit)
                 .stream()
-                .filter(r -> r.toString().contains(terms))
+                .filter(r -> r.toString().toLowerCase(Locale.ROOT).contains(terms.toLowerCase(Locale.ROOT)))
                 .collect(Collectors.toList());
     }
 

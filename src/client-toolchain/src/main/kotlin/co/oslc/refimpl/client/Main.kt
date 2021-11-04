@@ -106,7 +106,8 @@ fun main(args: Array<String>) {
         val qmTraverser = ServiceProviderCatalogTraverser(this.qm, client)
         val amTraverser = ServiceProviderCatalogTraverser(this.am, client)
 
-        val rmRequirements = CreationFactoryPopulator(client, rmTraverser, N_RESOURCES, SimpleResourceGen(::genRequirement),
+        var rmRequirements: List<Link> = emptyList()
+        rmRequirements = CreationFactoryPopulator(client, rmTraverser, N_RESOURCES, SimpleResourceGen(::genRequirement),
             Requirement::class.java).populate()
         val rmRequirementColl = CreationFactoryPopulator(client, rmTraverser, N_RESOURCES,
             SimpleResourceGen(::genRequirementColl), RequirementCollection::class.java).populate()

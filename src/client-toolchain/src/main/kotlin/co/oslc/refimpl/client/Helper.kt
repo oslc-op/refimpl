@@ -25,5 +25,8 @@ fun singleLinkTo(to: String) = setOf(link(to))
 fun singleLinkTo(to: URI) = setOf(link(to))
 
 fun randomLink(links: List<Link>): Set<Link> {
+    if (links.isEmpty()) {
+        return emptySet()
+    }
     return setOf(links[randomId(links.size+1) - 1])
 }
