@@ -24,7 +24,7 @@
     <module>server-qm</module>
     <module>server-am</module>
     <module>client-toolchain</module>
-    <module>refimpl-tests</module>
+<!--    <module>refimpl-tests</module>-->
 </modules>
 
   <dependencyManagement>
