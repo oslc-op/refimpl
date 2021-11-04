@@ -8,11 +8,15 @@ tasks:
     command: mvn -f src/server-cm/pom.xml jetty:run-exploded -Dlyo.baseurl=$(gp url 8801)
     openMode: split-right
   - init: gp sync-await mvninstall
-    command: mvn -f src/server-am/pom.xml jetty:run-exploded -Dlyo.baseurl=$(gp url 8802)
+    command: mvn -f src/server-am/pom.xml jetty:run-exploded -Dlyo.baseurl=$(gp url 8803)
     openMode: split-right
   - init: gp sync-await mvninstall
-    command: mvn -f src/server-qm/pom.xml jetty:run-exploded -Dlyo.baseurl=$(gp url 8803)
+    command: mvn -f src/server-qm/pom.xml jetty:run-exploded -Dlyo.baseurl=$(gp url 8802)
     openMode: split-right
+  - init: gp sync-await mvninstall
+    command: sleep 30; java -jar src/client-toolchain/target/client-toolchain-0.0.1-SNAPSHOT-jar-with-dependencies.jar --rm="$(gp url 8800)/services/catalog/singleton" --cm="$(gp url 8801)/services/catalog/singleton" --am="$(gp url 8803)/services/catalog/singleton" --qm="$(gp url 8802)/services/catalog/singleton"
+    openMode: split-right
+
 
 ports:
   - port: 8800
