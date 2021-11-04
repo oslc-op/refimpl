@@ -1,8 +1,14 @@
 package co.oslc.refimpl.client
 
+import com.xenomachina.argparser.ArgParser
+import com.xenomachina.argparser.default
 import kotlinx.coroutines.*
 import org.apache.commons.lang3.StringUtils
 import org.apache.http.HttpStatus
+import org.apache.http.conn.ssl.DefaultHostnameVerifier
+import org.apache.http.conn.ssl.NoopHostnameVerifier
+import org.apache.http.conn.ssl.TrustSelfSignedStrategy
+import org.apache.http.ssl.SSLContextBuilder
 import org.eclipse.lyo.oslc.domains.am.LinkType
 import org.eclipse.lyo.oslc.domains.am.Resource
 import org.eclipse.lyo.oslc.domains.cm.ChangeRequest
@@ -19,22 +25,37 @@ import org.glassfish.jersey.client.authentication.HttpAuthenticationFeature
 import java.net.ConnectException
 import java.net.URI
 import java.util.*
+import javax.net.ssl.SSLContext
 import javax.ws.rs.client.ClientBuilder
 import javax.ws.rs.core.Response
 import kotlin.collections.HashSet
 import kotlin.system.measureNanoTime
 
 
-private val SPC_RM = "http://localhost:8800/services/catalog/singleton"
-private val SPC_CM = "http://localhost:8801/services/catalog/singleton"
-private val SPC_QM = "http://localhost:8802/services/catalog/singleton"
-private val SPC_AM = "http://localhost:8803/services/catalog/singleton"
+private val SPC_RM_DEFAULT = "http://localhost:8800/services/catalog/singleton"
+private val SPC_CM_DEFAULT = "http://localhost:8801/services/catalog/singleton"
+private val SPC_QM_DEFAULT = "http://localhost:8802/services/catalog/singleton"
+private val SPC_AM_DEFAULT = "http://localhost:8803/services/catalog/singleton"
 
 private const val N_RESOURCES = 50
 
-val client = basicAuthClientBuilder("admin", "admin")
 
-fun basicAuthClientBuilder(username: String, password: String): IOslcClient {
+class RefImplClientArgs(parser: ArgParser) {
+
+//    val v by parser.flagging("enable verbose mode")
+
+    val rm by parser.storing("OSLC RM SPCatalog URI").default(SPC_RM_DEFAULT)
+    val cm by parser.storing("OSLC CM SPCatalog URI").default(SPC_CM_DEFAULT)
+    val qm by parser.storing("OSLC QM SPCatalog URI").default(SPC_QM_DEFAULT)
+    val am by parser.storing("OSLC AM SPCatalog URI").default(SPC_AM_DEFAULT)
+
+    val selfAssignedSSL by parser.flagging("Disable TLS security").default(false)
+
+//    val source by parser.positional("source filename")
+
+}
+
+fun basicAuthClientBuilder(username: String, password: String, selfAssignedSSL: Boolean): IOslcClient {
     val oslcClientBuilder = OslcClientFactory.oslcClientBuilder()
 
     val apacheConnectorProvider = ApacheConnectorProvider()
@@ -51,72 +72,82 @@ fun basicAuthClientBuilder(username: String, password: String): IOslcClient {
     clientBuilder.withConfig(clientConfig)
 
     // Setup SSL support to ignore self-assigned SSL certificates - for testing only!!
-//    if (selfAssignedSSL) {
+    if (selfAssignedSSL) {
+        val sslContextBuilder = SSLContextBuilder()
+        sslContextBuilder.loadTrustMaterial(TrustSelfSignedStrategy.INSTANCE)
+        clientBuilder.sslContext(sslContextBuilder.build())
+        clientBuilder.hostnameVerifier(NoopHostnameVerifier.INSTANCE)
+    } else {
+//        SSLContext sc = SSLContext.getInstance("TLSv1.2")
 //        val sslContextBuilder = SSLContextBuilder()
-//        sslContextBuilder.loadTrustMaterial(TrustSelfSignedStrategy.INSTANCE)
 //        clientBuilder.sslContext(sslContextBuilder.build())
-//        clientBuilder.hostnameVerifier(NoopHostnameVerifier.INSTANCE)
-//    }
+//        clientBuilder.hostnameVerifier(DefaultHostnameVerifier())
+    }
 
     if (!StringUtils.isEmpty(username) && !StringUtils.isEmpty(password)) {
         val authFeature: HttpAuthenticationFeature = HttpAuthenticationFeature.basic(username, password)
         clientBuilder.register(authFeature)
+//        clientBuilder.
     }
 
     oslcClientBuilder.setClientBuilder(clientBuilder)
     return oslcClientBuilder.build()
 }
 
-val rmTraverser = ServiceProviderCatalogTraverser(SPC_RM, client)
-val cmTraverser = ServiceProviderCatalogTraverser(SPC_CM, client)
-val qmTraverser = ServiceProviderCatalogTraverser(SPC_QM, client)
-val amTraverser = ServiceProviderCatalogTraverser(SPC_AM, client)
 
-
-fun main() {
+fun main(args: Array<String>) {
     println("Populating OSLC RefImpl servers with sample data.\n")
 
-    val rmRequirements = CreationFactoryPopulator(client, rmTraverser, N_RESOURCES, SimpleResourceGen(::genRequirement),
+    ArgParser(args).parseInto(::RefImplClientArgs).run {
+        val client = basicAuthClientBuilder("admin", "admin", this.selfAssignedSSL)
+
+        val rmTraverser = ServiceProviderCatalogTraverser(this.rm, client)
+        val cmTraverser = ServiceProviderCatalogTraverser(this.cm, client)
+        val qmTraverser = ServiceProviderCatalogTraverser(this.qm, client)
+        val amTraverser = ServiceProviderCatalogTraverser(this.am, client)
+
+        val rmRequirements = CreationFactoryPopulator(client, rmTraverser, N_RESOURCES, SimpleResourceGen(::genRequirement),
             Requirement::class.java).populate()
-    val rmRequirementColl = CreationFactoryPopulator(client, rmTraverser, N_RESOURCES,
+        val rmRequirementColl = CreationFactoryPopulator(client, rmTraverser, N_RESOURCES,
             SimpleResourceGen(::genRequirementColl), RequirementCollection::class.java).populate()
 
-    val cmChangeReq = CreationFactoryPopulator(client, cmTraverser, N_RESOURCES, ChangeRequestGen(rmRequirements),
+        val cmChangeReq = CreationFactoryPopulator(client, cmTraverser, N_RESOURCES, ChangeRequestGen(rmRequirements),
             ChangeRequest::class.java).populate()
 
 
-    linkChangeRequestsToRequirements(cmChangeReq, rmRequirements)
+        linkChangeRequestsToRequirements(client, cmChangeReq, rmRequirements)
 
-    val qmTestPlans = CreationFactoryPopulator(client, qmTraverser, N_RESOURCES,
+        val qmTestPlans = CreationFactoryPopulator(client, qmTraverser, N_RESOURCES,
             SimpleResourceGen(::genPlan), TestPlan::class.java).populate()
-    val qmTestCases = CreationFactoryPopulator(client, qmTraverser, N_RESOURCES,
+        val qmTestCases = CreationFactoryPopulator(client, qmTraverser, N_RESOURCES,
             SimpleResourceGen(::genTestCase), TestCase::class.java).populate()
-    val qmTestResults = CreationFactoryPopulator(client, qmTraverser, N_RESOURCES,
+        val qmTestResults = CreationFactoryPopulator(client, qmTraverser, N_RESOURCES,
             SimpleResourceGen(::genTestResult), TestResult::class.java).populate()
-    val qmTestExecRecords = CreationFactoryPopulator(client, qmTraverser, N_RESOURCES,
+        val qmTestExecRecords = CreationFactoryPopulator(client, qmTraverser, N_RESOURCES,
             SimpleResourceGen(::genTestExecutionRecord), TestExecutionRecord::class.java).populate()
-    val qmTestScripts = CreationFactoryPopulator(client, qmTraverser, N_RESOURCES,
+        val qmTestScripts = CreationFactoryPopulator(client, qmTraverser, N_RESOURCES,
             SimpleResourceGen(::genTestScript), TestScript::class.java).populate()
 
 
-    val amResources = CreationFactoryPopulator(client, amTraverser, N_RESOURCES,
+        val amResources = CreationFactoryPopulator(client, amTraverser, N_RESOURCES,
             SimpleResourceGen(::genAMResource), Resource::class.java).populate()
-    val amLinks = CreationFactoryPopulator(client, amTraverser, N_RESOURCES,
+        val amLinks = CreationFactoryPopulator(client, amTraverser, N_RESOURCES,
             SimpleResourceGen(::genAMLink), LinkType::class.java).populate()
 
-    linkTestPlanstoChangeRequests(qmTestPlans, cmChangeReq)
+        linkTestPlanstoChangeRequests(client, qmTestPlans, cmChangeReq)
+    }
 }
 
-fun linkChangeRequestsToRequirements(cmChangeReq: List<Link>, rmRequirements: List<Link>) {
+fun linkChangeRequestsToRequirements(client:IOslcClient, cmChangeReq: List<Link>, rmRequirements: List<Link>) {
     assert(cmChangeReq.size == rmRequirements.size)
 
     val changeRequests = cmChangeReq.shuffled()
     changeRequests.zip(rmRequirements).forEach {
-        linkChangeRequestsToRequirementsSingle(it.first, it.second)
+        linkChangeRequestsToRequirementsSingle(client, it.first, it.second)
     }
 }
 
-fun linkChangeRequestsToRequirementsSingle(chgRequestLink: Link, reqLink: Link) {
+fun linkChangeRequestsToRequirementsSingle(client:IOslcClient, chgRequestLink: Link, reqLink: Link) {
     val chgRequest = doGetResource(client, chgRequestLink.value, ChangeRequest::class.java)!!
 
     chgRequest.addImplementsRequirement(reqLink)
@@ -124,16 +155,16 @@ fun linkChangeRequestsToRequirementsSingle(chgRequestLink: Link, reqLink: Link) 
     println("Created a link (${chgRequestLink.value} :ChangeRequest)-[:implementsRequirement]-(${reqLink.value} :Requirement)")
 }
 
-fun linkTestPlanstoChangeRequests(qmTestPlans: List<Link>, cmChangeReq: List<Link>) {
+fun linkTestPlanstoChangeRequests(client:IOslcClient, qmTestPlans: List<Link>, cmChangeReq: List<Link>) {
     assert(qmTestPlans.size == cmChangeReq.size)
 
     val shuffled = qmTestPlans.shuffled()
     shuffled.zip(cmChangeReq).forEach {
-        linkTestPlanstoChangeRequestsSingle(it.first, it.second)
+        linkTestPlanstoChangeRequestsSingle(client, it.first, it.second)
     }
 }
 
-fun linkTestPlanstoChangeRequestsSingle(planLink: Link, chgRequestLink: Link) {
+fun linkTestPlanstoChangeRequestsSingle(client:IOslcClient, planLink: Link, chgRequestLink: Link) {
 //    val chgRequest = client.getResource(chgRequestLink, ChangeRequest::class.java)
     val testPlan = doGetResource(client, planLink.value, TestPlan::class.java)!!
 
