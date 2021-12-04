@@ -12,8 +12,8 @@
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     <maven.compiler.source>1.8</maven.compiler.source>
     <maven.compiler.target>1.8</maven.compiler.target>
-    <version.lyo>4.1.0-SNAPSHOT</version.lyo>
-    <version.lyo.oslc-ui>4.1.0.M1</version.lyo.oslc-ui>
+    <version.lyo>4.1.0.RC</version.lyo>
+    <version.lyo.oslc-ui>4.1.0.RC</version.lyo.oslc-ui>
     <version.jersey>2.25.1</version.jersey>
   </properties>
 
@@ -191,13 +191,13 @@
         <enabled>false</enabled>
       </releases>
     </repository>
-    <repository>
+    <!-- <repository>
       <id>lyo-releases</id>
       <name>Eclipse Lyo Releases</name>
       <url>https://repo.eclipse.org/content/repositories/lyo-releases/</url>
       <snapshots>
         <enabled>false</enabled>
       </snapshots>
-    </repository>
+    </repository> -->
   </repositories>
 </project>
