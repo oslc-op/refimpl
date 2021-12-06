@@ -22,8 +22,7 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
-        <version.lyo>4.1.0-SNAPSHOT</version.lyo>
-        <jersey.version>2.25.1</jersey.version>
+        <jersey.version>${version.jersey}</jersey.version>
         <swagger.version>2.1.2</swagger.version>
         <swagger-ui.version>3.52.3</swagger-ui.version>
         <!-- Start of user code properties
@@ -38,14 +37,14 @@
         <!-- TODO: Add additional repositories here to avoid them be overrriden upon future re-generation -->
         <!-- End of user code
         -->
-        <repository>
+        <!-- <repository>
             <id>lyo-releases</id>
             <name>Eclipse Lyo Releases</name>
             <url>https://repo.eclipse.org/content/repositories/lyo-releases/</url>
             <snapshots>
                 <enabled>false</enabled>
             </snapshots>
-        </repository>
+        </repository> -->
         <repository>
             <id>lyo-snapshots</id>
             <name>Eclipse Lyo Snapshots</name>
