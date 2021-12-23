@@ -15,30 +15,32 @@ on:
 
 jobs:
   build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
     strategy:
       fail-fast: false
       matrix:
-        jdk: ['8', '11', '17']
+        jdk: ['11', '17']
+        distribution: ['temurin', 'zulu', 'liberica', 'adopt-openj9', 'microsoft']
         experimental: [false]
         include:
           - jdk: '18-ea'
+            distribution: zulu
             experimental: true
-    runs-on: ubuntu-latest
     continue-on-error: ${{ matrix.experimental }}
 
     steps:
       - uses: actions/checkout@v2
-      - name: Set up JDK
+      - name: Set up JDK ${{ matrix.jdk }}
         uses: actions/setup-java@v2
         with:
-#           distribution: 'adopt'
-          distribution: 'zulu'
+          distribution: ${{ matrix.distribution }}
           java-version: ${{ matrix.jdk }}
       - uses: actions/cache@v1
         with:
           path: ~/.m2/repository
-          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+          key: ${{ runner.os }}-${{ matrix.jdk }}_${{ matrix.distribution }}-maven-${{ hashFiles('**/pom.xml') }}
           restore-keys: |
-            ${{ runner.os }}-maven-
+            ${{ runner.os }}-${{ matrix.jdk }}_${{ matrix.distribution }}-maven-
       - name: Build with Maven
         run: mvn -B verify --file src/pom.xml
