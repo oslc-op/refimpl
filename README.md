@@ -24,6 +24,8 @@ Follow these steps to start 4 servers:
 ```sh
 cd src/
 mvn clean install
+# if you have Docker runnning, you can run integration and acceptance tests
+# mvn clean verify -Pacceptance
 
 cd server-rm/
 mvn clean jetty:run-exploded
