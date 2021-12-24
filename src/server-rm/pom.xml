@@ -40,10 +40,6 @@
       <artifactId>slf4j-simple</artifactId>
       <scope>runtime</scope>
     </dependency>
-    <!-- <dependency>
-      <groupId>io.swagger</groupId>
-      <artifactId>swagger-jaxrs</artifactId>
-    </dependency> -->
 
     <!-- Lyo dependencies -->
     <dependency>
@@ -115,6 +111,11 @@
       <artifactId>javax.servlet.jsp.jstl-api</artifactId>
       <scope>provided</scope>
     </dependency>
+    <dependency>
+      <groupId>org.glassfish.jersey.inject</groupId>
+      <artifactId>jersey-hk2</artifactId>
+    </dependency>
+
 
 
     <!-- Test dependencies -->

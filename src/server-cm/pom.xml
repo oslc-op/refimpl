@@ -73,83 +73,6 @@
         <artifactId>slf4j-simple</artifactId>
         <scope>runtime</scope>
       </dependency>
-      <!-- <dependency>
-        <groupId>io.swagger</groupId>
-        <artifactId>swagger-jersey2-jaxrs</artifactId>
-      </dependency>
- -->
-      <!-- Lyo dependencies -->
-      <!-- OSLC-UI dependencies -->
-<!--
-      <dependency>
-        <groupId>org.eclipse.lyo.server</groupId>
-        <artifactId>oslc-ui-model</artifactId>
-      </dependency>
--->
-      <!-- <dependency>
-        <groupId>org.eclipse.lyo.oslc4j.core</groupId>
-        <artifactId>oslc4j-core</artifactId>
-      </dependency>
-      <dependency>
-        <groupId>org.eclipse.lyo</groupId>
-        <artifactId>oslc-domains</artifactId>
-      </dependency>
-      <dependency>
-        <groupId>org.eclipse.lyo.oslc4j.core</groupId>
-        <artifactId>oslc4j-jena-provider</artifactId>
-      </dependency>
-      <dependency>
-        <groupId>org.eclipse.lyo.oslc4j.core</groupId>
-        <artifactId>oslc4j-json4j-provider</artifactId>
-      </dependency>
-      <dependency>
-        <groupId>org.eclipse.lyo.clients</groupId>
-        <artifactId>oslc-client</artifactId>
-      </dependency> -->
-
-
-      <!--  OAuth  -->
- <!--     <dependency>
-        <groupId>org.eclipse.lyo.server</groupId>
-        <artifactId>oauth-core</artifactId>
-      </dependency>
-      <dependency>
-        <groupId>org.eclipse.lyo.server</groupId>
-        <artifactId>oauth-consumer-store</artifactId>
-      </dependency>
-      <dependency>
-        <groupId>org.eclipse.lyo.server</groupId>
-        <artifactId>oauth-webapp</artifactId>
-        <type>war</type>
-      </dependency>-->
-
-      <!-- Servlet-related dependencies -->
-      <!-- <dependency>
-        <groupId>org.glassfish.jersey.core</groupId>
-        <artifactId>jersey-server</artifactId>
-      </dependency>
-      <dependency>
-        <groupId>org.glassfish.jersey.containers</groupId>
-        <artifactId>jersey-container-servlet</artifactId>
-      </dependency>
-      <dependency>
-        <groupId>javax.servlet</groupId>
-        <artifactId>javax.servlet-api</artifactId>
-        <scope>provided</scope>
-      </dependency>
-      <dependency>
-        <groupId>javax.servlet.jsp.jstl</groupId>
-        <artifactId>javax.servlet.jsp.jstl-api</artifactId>
-        <scope>provided</scope>
-      </dependency> -->
-
-      <!--
-          <dependency>
-            <groupId>io.swagger</groupId>
-            <artifactId>swagger-jersey2-jaxrs</artifactId>
-          </dependency>
-      -->
-
 
       <!-- Test dependencies -->
       <dependency>
@@ -160,14 +83,7 @@
         <!-- End of user code
         -->
         <!-- General dependencies -->
-<!--
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-simple</artifactId>
-            <version>1.7.21</version>
-            <scope>runtime</scope>
-        </dependency>
--->
+
         <!-- Servlet dependencies -->
         <dependency>
             <groupId>javax.servlet</groupId>
@@ -190,8 +106,13 @@
             <artifactId>jersey-container-servlet</artifactId>
             <version>${jersey.version}</version>
         </dependency>
+        <dependency>
+          <groupId>org.glassfish.jersey.inject</groupId>
+          <artifactId>jersey-hk2</artifactId>
+        </dependency>
 
-        <!-- Lyo dependencies -->
+
+      <!-- Lyo dependencies -->
         <dependency>
             <groupId>org.eclipse.lyo.oslc4j.core</groupId>
             <artifactId>oslc4j-core</artifactId>

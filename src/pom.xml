@@ -12,10 +12,10 @@
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     <maven.compiler.source>1.8</maven.compiler.source>
     <maven.compiler.target>1.8</maven.compiler.target>
-<!--    <version.lyo>5.0.0-SNAPSHOT</version.lyo>-->
-    <version.lyo>5.0.0.alpha2</version.lyo>
+    <version.lyo>5.0.0-SNAPSHOT</version.lyo>
+<!--    <version.lyo>5.0.0.alpha2</version.lyo>-->
     <version.lyo.oslc-ui>${version.lyo}</version.lyo.oslc-ui>
-    <version.jersey>2.25.1</version.jersey>
+    <version.jersey>2.35</version.jersey>
   </properties>
 
   <modules>
@@ -41,12 +41,29 @@
 
   <dependencyManagement>
     <dependencies>
+      <!--Lyo 5.0 migration-->
+      <dependency>
+        <groupId>org.glassfish.jersey.containers</groupId>
+        <artifactId>jersey-container-servlet-core</artifactId>
+        <version>${version.jersey}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.glassfish.jersey.media</groupId>
+        <artifactId>jersey-media-multipart</artifactId>
+        <version>${version.jersey}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.glassfish.jersey.inject</groupId>
+        <artifactId>jersey-hk2</artifactId>
+        <version>${version.jersey}</version>
+      </dependency>
+
+      <!--RefImpl-->
       <dependency>
         <groupId>co.oslc.refimpl</groupId>
         <artifactId>lib-common</artifactId>
         <version>0.0.1-SNAPSHOT</version>
       </dependency>
-      <!-- Adaptor-specific dependencies -->
       <dependency>
         <groupId>org.slf4j</groupId>
         <artifactId>slf4j-simple</artifactId>
@@ -133,7 +150,7 @@
       <dependency>
         <groupId>io.swagger</groupId>
         <artifactId>swagger-jersey2-jaxrs</artifactId>
-        <version>1.5.22</version>
+        <version>1.6.3</version>
       </dependency>
 
 
