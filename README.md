@@ -24,7 +24,7 @@ Follow these steps to start 4 servers:
 ```sh
 cd src/
 mvn clean install
-# if you have Docker runnning, you can run integration and acceptance tests
+# if you have Docker running, you can run integration and acceptance tests
 # mvn clean verify -Pacceptance
 
 cd server-rm/
@@ -149,8 +149,8 @@ Root Services for the RM Server is under: http://localhost:8800/services/rootser
 
 In order to initialise resources in all reference implementation servers, use the client under `src/client-toolchain/src/main/kotlin/co/oslc/refimpl/client/Main.kt`
 
-> Run the client after Maven build using `java -jar client-toolchain/target/client-toolchain-0.0.1-SNAPSHOT-jar-with-dependencies.jar` command in case you don't wish to work with Kotlin code directly.
+> Run the client after Maven build using `java -jar client-toolchain/target/client-toolchain.jar` command in case you don't wish to work with Kotlin code directly.
 
 ## License
 
-The Refernce Implementation code and Lyo Designer model are licensed under the Apache License v2.0. See the LICENSE file for the full text of the license.
+The Reference Implementation code and Lyo Designer model are licensed under the Apache License v2.0. See the LICENSE file for the full text of the license.

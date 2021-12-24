@@ -82,6 +82,7 @@
   </dependencies>
 
   <build>
+    <finalName>${project.artifactId}</finalName>
     <sourceDirectory>src/main/kotlin</sourceDirectory>
     <plugins>
       <plugin>
@@ -96,6 +97,7 @@
               <goal>single</goal>
             </goals>
             <configuration>
+              <appendAssemblyId>false</appendAssemblyId>
               <archive>
                 <manifest>
                   <mainClass>co.oslc.refimpl.client.MainKt</mainClass>
