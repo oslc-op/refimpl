@@ -20,6 +20,7 @@ import java.util.Base64;
 import java.io.IOException;
 import javax.servlet.ServletException;
 import java.io.UnsupportedEncodingException;
+import java.util.Objects;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.eclipse.lyo.server.oauth.core.Application;
@@ -115,8 +116,7 @@ public class AuthenticationApplication implements Application {
 
     /**
      * Login based on the credentials in the <code>Authorization</code> request header
-     * if successful, bind the credentials to the request session. 
-     * @throws UnauthorizedException
+     * if successful, bind the credentials to the request session.
      *      if the request did not contain an <code>Authorization</code> header
      *      or, on problems reading the credentials from the <code>Authorization</code> request header
      */
@@ -125,11 +125,11 @@ public class AuthenticationApplication implements Application {
         if (authorizationHeader == null || "".equals(authorizationHeader)) {
             throw new AuthenticationException("No basic authentication header identified in request.");
         }
-    
+
         if (!authorizationHeader.startsWith(BASIC_AUTHORIZATION_PREFIX)) {
             throw new AuthenticationException("Only basic access authentication is supported.");
         }
-        
+
         String encodedString = authorizationHeader.substring(BASIC_AUTHORIZATION_PREFIX.length());
         try {
             String unencodedString = new String(Base64.getDecoder().decode(encodedString), "UTF-8");
@@ -191,17 +191,36 @@ public class AuthenticationApplication implements Application {
 
     /**
      * Send error response when the request was not authorized
-     * 
+     *
      * @param response      an error response
+     * @param request
      * @param e             Exception with error message
-     * @param authChallenge OAuth challenge
      * @throws IOException
      * @throws ServletException
      */
-    public void sendUnauthorizedResponse(HttpServletResponse response, Exception e) throws IOException, ServletException {
+    public void sendUnauthorizedResponse(HttpServletResponse response, HttpServletRequest request, Exception e) throws IOException, ServletException {
         // Accept basic access or OAuth authentication.
         response.addHeader(WWW_AUTHENTICATE_HEADER, OAUTH_AUTHENTICATION_CHALLENGE);
         response.addHeader(WWW_AUTHENTICATE_HEADER, BASIC_AUTHENTICATION_CHALLENGE);
-        response.sendError(HttpServletResponse.SC_UNAUTHORIZED);
+
+        addCORSHeaders(response, request);
+        if (!Objects.equals(request.getMethod(), "OPTIONS")) {
+            response.sendError(HttpServletResponse.SC_UNAUTHORIZED);
+        } else {
+            response.setStatus(HttpServletResponse.SC_NO_CONTENT);
+        }
+    }
+
+
+    private void addCORSHeaders(HttpServletResponse response, HttpServletRequest request) {
+        response.addHeader("Access-Control-Allow-Origin", request.getHeader("Origin"));
+        response.addHeader("Access-Control-Allow-Credentials", "true");
+        // X-Requested-With is added by JQuery, Dojo etc.
+        response.addHeader(
+            "Access-Control-Allow-Headers",
+            "origin, content-type, accept, authorization, oslc-core-version, Configuration-Context, " +
+                "OSLC-Configuration-Context, X-Requested-With"
+        );
+        response.addHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS, HEAD");
     }
 }

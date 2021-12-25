@@ -62,7 +62,7 @@ public class CredentialsFilter implements Filter {
 
     /**
      * Check if the resource is protected
-     * 
+     *
      * @param requestUri the uri of the resource which will be checked
      * @return true - the resource is protected, otherwise false
      */
@@ -72,7 +72,7 @@ public class CredentialsFilter implements Filter {
         }
         String pathInfo = httpRequest.getPathInfo();
 
-        //'protectedResource' defines the basic set of requests that needs to be protected. 
+        //'protectedResource' defines the basic set of requests that needs to be protected.
         //You can override this defintion in the user protected code block below.
         boolean protectedResource = !pathInfo.startsWith("/rootservices") && !pathInfo.startsWith("/oauth");
         // Start of user code isProtectedResource
@@ -86,7 +86,7 @@ public class CredentialsFilter implements Filter {
 
     /**
      * Check for OAuth or BasicAuth credentials and challenge if not found.
-     * 
+     *
      * Store the application connection in the HttpSession for retrieval in the REST services.
      */
     @Override
@@ -99,7 +99,7 @@ public class CredentialsFilter implements Filter {
 
             if (isProtectedResource(request)) {
                 AuthenticationApplication authenticationApplication = AuthenticationApplication.getApplication();
-                
+
                 //String clientRequestURL = UriBuilder.fromUri(OSLC4JUtils.getServletURI()).path(request.getPathInfo()).build().toString();
                 OAuthMessage message = OAuthServlet.getMessage(request, null);
                 // First check if this is an OAuth request.
@@ -120,7 +120,7 @@ public class CredentialsFilter implements Filter {
                         OAuthServlet.handleException(response, e, AuthenticationApplication.OAUTH_REALM);
                         return;
                     }
-                } 
+                }
                 else {
                     // This is not an OAuth request, so check for basic authentication
                     // Start of user code basicAuth_Init
@@ -136,9 +136,9 @@ public class CredentialsFilter implements Filter {
                                 throw new AuthenticationException();
                             }
                         } catch (AuthenticationException e) {
-                            authenticationApplication.sendUnauthorizedResponse(response, e);
+                            authenticationApplication.sendUnauthorizedResponse(response, request, e);
                             return;
-                        } 
+                        }
                     }
                     // Start of user code basicAuth_final
                     // End of user code
