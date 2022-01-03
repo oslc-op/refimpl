@@ -88,8 +88,9 @@ import org.eclipse.lyo.oslc.domains.rm.Oslc_rmDomainConstants;
 import co.oslc.refimpl.rm.gen.servlet.ServiceProviderCatalogSingleton;
 import org.eclipse.lyo.oslc.domains.Person;
 import org.eclipse.lyo.oslc.domains.rm.Requirement;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 
 // Start of user code imports
 // End of user code
@@ -98,7 +99,6 @@ import io.swagger.annotations.ApiOperation;
 // End of user code
 @OslcService(Oslc_rmDomainConstants.REQUIREMENTS_MANAGEMENT_SHAPES_DOMAIN)
 @Path("serviceProviders/{serviceProviderId}/service1/requirements")
-@Api(value = "OSLC Service for {" + Oslc_rmDomainConstants.REQUIREMENT_LOCALNAME + "}")
 public class RequirementsService
 {
     @Context private HttpServletRequest httpServletRequest;
@@ -138,21 +138,28 @@ public class RequirementsService
     @GET
     @Path("query")
     @Produces({OslcMediaType.APPLICATION_RDF_XML, OslcMediaType.APPLICATION_JSON_LD, OslcMediaType.TEXT_TURTLE, OslcMediaType.APPLICATION_XML, OslcMediaType.APPLICATION_JSON})
-    @ApiOperation(
-        value = "Query capability for resources of type {" + Oslc_rmDomainConstants.REQUIREMENT_LOCALNAME + "}",
-        notes = "Query capability for resources of type {" + "<a href=\"" + Oslc_rmDomainConstants.REQUIREMENT_TYPE + "\">" + Oslc_rmDomainConstants.REQUIREMENT_LOCALNAME + "</a>" + "}" +
+    @Operation(
+        summary = "Query capability for resources of type {" + Oslc_rmDomainConstants.REQUIREMENT_LOCALNAME + "}",
+        description = "Query capability for resources of type {" + "<a href=\"" + Oslc_rmDomainConstants.REQUIREMENT_TYPE + "\">" + Oslc_rmDomainConstants.REQUIREMENT_LOCALNAME + "</a>" + "}" +
             ", with respective resource shapes {" + "<a href=\"" + "../services/" + OslcConstants.PATH_RESOURCE_SHAPES + "/" + Oslc_rmDomainConstants.REQUIREMENT_PATH + "\">" + Oslc_rmDomainConstants.REQUIREMENT_LOCALNAME + "</a>" + "}",
-        produces = OslcMediaType.APPLICATION_RDF_XML + ", " + OslcMediaType.APPLICATION_XML + ", " + OslcMediaType.APPLICATION_JSON + ", " + OslcMediaType.TEXT_TURTLE + ", " + MediaType.TEXT_HTML
+        responses = { 
+            @ApiResponse(description = "default response", content = {@Content(mediaType = OslcMediaType.APPLICATION_RDF_XML), @Content(mediaType = OslcMediaType.APPLICATION_XML), @Content(mediaType = OslcMediaType.APPLICATION_JSON), @Content(mediaType = OslcMediaType.TEXT_TURTLE), @Content(mediaType = MediaType.TEXT_HTML)})
+        }
     )
     public Requirement[] queryRequirements(
                                                     @PathParam("serviceProviderId") final String serviceProviderId ,
                                                      @QueryParam("oslc.where") final String where,
                                                      @QueryParam("oslc.prefix") final String prefix,
+                                                     @QueryParam("oslc.paging") final String pagingString,
                                                      @QueryParam("page") final String pageString,
-                                                    @QueryParam("oslc.pageSize") final String pageSizeString) throws IOException, ServletException
+                                                     @QueryParam("oslc.pageSize") final String pageSizeString) throws IOException, ServletException
     {
+        boolean paging=false;
         int page=0;
         int pageSize=20;
+        if (null != pagingString) {
+            paging = Boolean.parseBoolean(pagingString);
+        }
         if (null != pageString) {
             page = Integer.parseInt(pageString);
         }
@@ -164,13 +171,22 @@ public class RequirementsService
         // Here additional logic can be implemented that complements main action taken in RMManager
         // End of user code
 
-        final List<Requirement> resources = RMManager.queryRequirements(httpServletRequest, serviceProviderId, where, prefix, page, pageSize);
-        httpServletRequest.setAttribute("queryUri",
-                uriInfo.getAbsolutePath().toString() + "?oslc.paging=true");
+        final List<Requirement> resources = RMManager.queryRequirements(httpServletRequest, serviceProviderId, where, prefix, paging, page, pageSize);
+        UriBuilder uriBuilder = UriBuilder.fromUri(uriInfo.getAbsolutePath())
+            .queryParam("oslc.paging", "true")
+            .queryParam("oslc.pageSize", pageSize)
+            .queryParam("page", page);
+        if (null != where) {
+            uriBuilder.queryParam("oslc.where", where);
+        }
+        if (null != prefix) {
+            uriBuilder.queryParam("oslc.prefix", prefix);
+        }
+        httpServletRequest.setAttribute("queryUri", uriBuilder.build().toString());
         if (resources.size() > pageSize) {
             resources.remove(resources.size() - 1);
-            httpServletRequest.setAttribute(OSLC4JConstants.OSLC4J_NEXT_PAGE,
-                    uriInfo.getAbsolutePath().toString() + "?oslc.paging=true&oslc.pageSize=" + pageSize + "&page=" + (page + 1));
+            uriBuilder.replaceQueryParam("page", page + 1);
+            httpServletRequest.setAttribute(OSLC4JConstants.OSLC4J_NEXT_PAGE, uriBuilder.build().toString());
         }
         return resources.toArray(new Requirement [resources.size()]);
     }
@@ -178,21 +194,28 @@ public class RequirementsService
     @GET
     @Path("query")
     @Produces({ MediaType.TEXT_HTML })
-    @ApiOperation(
-        value = "Query capability for resources of type {" + Oslc_rmDomainConstants.REQUIREMENT_LOCALNAME + "}",
-        notes = "Query capability for resources of type {" + "<a href=\"" + Oslc_rmDomainConstants.REQUIREMENT_TYPE + "\">" + Oslc_rmDomainConstants.REQUIREMENT_LOCALNAME + "</a>" + "}" +
+    @Operation(
+        summary = "Query capability for resources of type {" + Oslc_rmDomainConstants.REQUIREMENT_LOCALNAME + "}",
+        description = "Query capability for resources of type {" + "<a href=\"" + Oslc_rmDomainConstants.REQUIREMENT_TYPE + "\">" + Oslc_rmDomainConstants.REQUIREMENT_LOCALNAME + "</a>" + "}" +
             ", with respective resource shapes {" + "<a href=\"" + "../services/" + OslcConstants.PATH_RESOURCE_SHAPES + "/" + Oslc_rmDomainConstants.REQUIREMENT_PATH + "\">" + Oslc_rmDomainConstants.REQUIREMENT_LOCALNAME + "</a>" + "}",
-        produces = OslcMediaType.APPLICATION_RDF_XML + ", " + OslcMediaType.APPLICATION_XML + ", " + OslcMediaType.APPLICATION_JSON + ", " + OslcMediaType.TEXT_TURTLE + ", " + MediaType.TEXT_HTML
+        responses = { 
+            @ApiResponse(description = "default response", content = {@Content(mediaType = OslcMediaType.APPLICATION_RDF_XML), @Content(mediaType = OslcMediaType.APPLICATION_XML), @Content(mediaType = OslcMediaType.APPLICATION_JSON), @Content(mediaType = OslcMediaType.TEXT_TURTLE), @Content(mediaType = MediaType.TEXT_HTML)})
+        }
     )
     public void queryRequirementsAsHtml(
                                     @PathParam("serviceProviderId") final String serviceProviderId ,
                                        @QueryParam("oslc.where") final String where,
                                        @QueryParam("oslc.prefix") final String prefix,
+                                       @QueryParam("oslc.paging") final String pagingString,
                                        @QueryParam("page") final String pageString,
-                                    @QueryParam("oslc.pageSize") final String pageSizeString) throws ServletException, IOException
+                                       @QueryParam("oslc.pageSize") final String pageSizeString) throws ServletException, IOException
     {
+        boolean paging=false;
         int page=0;
         int pageSize=20;
+        if (null != pagingString) {
+            paging = Boolean.parseBoolean(pagingString);
+        }
         if (null != pageString) {
             page = Integer.parseInt(pageString);
         }
@@ -203,25 +226,34 @@ public class RequirementsService
         // Start of user code queryRequirementsAsHtml
         // End of user code
 
-        final List<Requirement> resources = RMManager.queryRequirements(httpServletRequest, serviceProviderId, where, prefix, page, pageSize);
+        final List<Requirement> resources = RMManager.queryRequirements(httpServletRequest, serviceProviderId, where, prefix, paging, page, pageSize);
 
         if (resources!= null) {
             httpServletRequest.setAttribute("resources", resources);
             // Start of user code queryRequirementsAsHtml_setAttributes
             // End of user code
 
-            httpServletRequest.setAttribute("queryUri",
-                    uriInfo.getAbsolutePath().toString() + "?oslc.paging=true");
+            UriBuilder uriBuilder = UriBuilder.fromUri(uriInfo.getAbsolutePath())
+                .queryParam("oslc.paging", "true")
+                .queryParam("oslc.pageSize", pageSize)
+                .queryParam("page", page);
+            if (null != where) {
+                uriBuilder.queryParam("oslc.where", where);
+            }
+            if (null != prefix) {
+                uriBuilder.queryParam("oslc.prefix", prefix);
+            }
+            httpServletRequest.setAttribute("queryUri", uriBuilder.build().toString());
             if (resources.size() > pageSize) {
                 resources.remove(resources.size() - 1);
-                httpServletRequest.setAttribute(OSLC4JConstants.OSLC4J_NEXT_PAGE,
-                        uriInfo.getAbsolutePath().toString() + "?oslc.paging=true&oslc.pageSize=" + pageSize + "&page=" + (page + 1));
+
+                uriBuilder.replaceQueryParam("page", page + 1);
+                httpServletRequest.setAttribute(OSLC4JConstants.OSLC4J_NEXT_PAGE, uriBuilder.build().toString());
             }
             RequestDispatcher rd = httpServletRequest.getRequestDispatcher("/co/oslc/refimpl/rm/gen/requirementscollection.jsp");
             rd.forward(httpServletRequest,httpServletResponse);
             return;
         }
-
         throw new WebApplicationException(Status.NOT_FOUND);
     }
 
@@ -259,6 +291,7 @@ public class RequirementsService
                     JSONObject r = new JSONObject();
                     r.put("oslc:label", resource.toString());
                     r.put("rdf:resource", resource.getAbout().toString());
+                    r.put("Label", resource.toString());
                     // Start of user code RequirementSelector_setResponse
                     // End of user code
                     resourceArray.add(r);
@@ -295,11 +328,13 @@ public class RequirementsService
     @Path("create")
     @Consumes({OslcMediaType.APPLICATION_RDF_XML, OslcMediaType.APPLICATION_JSON_LD, OslcMediaType.TEXT_TURTLE, OslcMediaType.APPLICATION_XML, OslcMediaType.APPLICATION_JSON })
     @Produces({OslcMediaType.APPLICATION_RDF_XML, OslcMediaType.APPLICATION_JSON_LD, OslcMediaType.TEXT_TURTLE, OslcMediaType.APPLICATION_XML, OslcMediaType.APPLICATION_JSON})
-    @ApiOperation(
-        value = "Creation factory for resources of type {" + Oslc_rmDomainConstants.REQUIREMENT_LOCALNAME + "}",
-        notes = "Creation factory for resources of type {" + "<a href=\"" + Oslc_rmDomainConstants.REQUIREMENT_TYPE + "\">" + Oslc_rmDomainConstants.REQUIREMENT_LOCALNAME + "</a>" + "}" +
+    @Operation(
+        summary = "Creation factory for resources of type {" + Oslc_rmDomainConstants.REQUIREMENT_LOCALNAME + "}",
+        description = "Creation factory for resources of type {" + "<a href=\"" + Oslc_rmDomainConstants.REQUIREMENT_TYPE + "\">" + Oslc_rmDomainConstants.REQUIREMENT_LOCALNAME + "</a>" + "}" +
             ", with respective resource shapes {" + "<a href=\"" + "../services/" + OslcConstants.PATH_RESOURCE_SHAPES + "/" + Oslc_rmDomainConstants.REQUIREMENT_PATH + "\">" + Oslc_rmDomainConstants.REQUIREMENT_LOCALNAME + "</a>" + "}",
-        produces = OslcMediaType.APPLICATION_RDF_XML + ", " + OslcMediaType.APPLICATION_XML + ", " + OslcMediaType.APPLICATION_JSON + ", " + OslcMediaType.TEXT_TURTLE
+        responses = { 
+            @ApiResponse(description = "default response", content = {@Content(mediaType = OslcMediaType.APPLICATION_RDF_XML), @Content(mediaType = OslcMediaType.APPLICATION_XML), @Content(mediaType = OslcMediaType.APPLICATION_JSON), @Content(mediaType = OslcMediaType.TEXT_TURTLE)})
+        }
     )
     public Response createRequirement(
             @PathParam("serviceProviderId") final String serviceProviderId ,

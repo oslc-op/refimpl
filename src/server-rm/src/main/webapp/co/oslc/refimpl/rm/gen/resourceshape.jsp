@@ -35,7 +35,7 @@
     <head>
         <meta name="viewport" content="width=device-width, initial-scale=1"/>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-        <title><%= aResourceShape.getTitle() %></title>
+        <title><%= aResourceShape.getName() %></title>
 
         <link href="<c:url value="/static/css/bootstrap-4.0.0-beta.min.css"/>" rel="stylesheet">
         <link href="<c:url value="/static/css/adaptor.css"/>" rel="stylesheet">
@@ -63,22 +63,34 @@
     <div class="container">
             <div class="row">
                 <div class="col-md-12" id="page-index">
-                    <h1>Shape "<%=aResourceShape.getTitle()%>"</h1>
-                    
+                    <h1><%=aResourceShape.getName()%></h1>
                     <p class="lead">
-                      About URI:
-                      <code><%=aResourceShape.getAbout()%></code>
-                    </p>
-
-                    <h2>Describes</h2>
-                    <ul>
-                        <%for(URI next : aResourceShape.getDescribes()) {
+                      Describes:
+                      <%if(aResourceShape.getDescribes().length == 1) {%>
+                          <code><%=aResourceShape.getDescribes()[0]%></code>
+                      <%} else {%>
+                            <ul>
+                                <%for(URI next : aResourceShape.getDescribes()) {
                             String[] split = next.toString().split("[#/]+");
                             String shortName = (split.length > 1) ? split[split.length -1] : next.toString();
-                        %>
-                            <li><a href="<%=next%>"><%=shortName%></a></li>
-                        <%}%>
-                    </ul>
+                                %>
+                                    <li><a href="<%=next%>"><%=shortName%></a></li>
+                                <%}%>
+                            </ul>
+                      <%}%>
+                    </p>
+                    <%if(null != aResourceShape.getTitle()) {%>
+                    <p>
+                      <strong>Summary:</strong>
+                      <%=aResourceShape.getTitle()%>
+                    </p>
+                    <%}%>
+                    <%if(null != aResourceShape.getDescription()) {%>
+                    <p>
+                      <strong>Description:</strong>
+                      <%=aResourceShape.getDescription()%>
+                    </p>
+                    <%}%>
                     <h2>Properties</h2>
                     <table class="table">
                         <tr>

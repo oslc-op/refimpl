@@ -191,7 +191,7 @@ public class RMManager {
         return serviceProviderInfos;
     }
 
-    public static List<Requirement> queryRequirements(HttpServletRequest httpServletRequest, final String serviceProviderId, String where, String prefix, int page, int limit)
+    public static List<Requirement> queryRequirements(HttpServletRequest httpServletRequest, final String serviceProviderId, String where, String prefix, boolean paging, int page, int limit)
     {
         List<Requirement> resources = null;
         
@@ -268,7 +268,7 @@ public class RMManager {
     }
 
 
-    public static List<RequirementCollection> queryRequirementCollections(HttpServletRequest httpServletRequest, final String serviceProviderId, String where, String prefix, int page, int limit)
+    public static List<RequirementCollection> queryRequirementCollections(HttpServletRequest httpServletRequest, final String serviceProviderId, String where, String prefix, boolean paging, int page, int limit)
     {
         List<RequirementCollection> resources = null;
         
