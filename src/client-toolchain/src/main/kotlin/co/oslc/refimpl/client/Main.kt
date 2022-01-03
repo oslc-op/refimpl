@@ -2,6 +2,7 @@ package co.oslc.refimpl.client
 
 import com.xenomachina.argparser.ArgParser
 import com.xenomachina.argparser.default
+import com.xenomachina.argparser.mainBody
 import kotlinx.coroutines.*
 import org.apache.commons.lang3.StringUtils
 import org.apache.http.HttpStatus
@@ -34,8 +35,9 @@ import kotlin.system.measureNanoTime
 
 private val SPC_RM_DEFAULT = "http://localhost:8800/services/catalog/singleton"
 private val SPC_CM_DEFAULT = "http://localhost:8801/services/catalog/singleton"
-private val SPC_QM_DEFAULT = "http://localhost:8802/services/catalog/singleton"
 private val SPC_AM_DEFAULT = "http://localhost:8803/services/catalog/singleton"
+private val SPC_QM_DEFAULT = "http://localhost:8802/services/catalog/singleton"
+private val INIT_DEFAULT = "am,cm,rm,qm"
 
 private const val N_RESOURCES = 50
 
@@ -48,8 +50,10 @@ class RefImplClientArgs(parser: ArgParser) {
     val cm by parser.storing("OSLC CM SPCatalog URI").default(SPC_CM_DEFAULT)
     val qm by parser.storing("OSLC QM SPCatalog URI").default(SPC_QM_DEFAULT)
     val am by parser.storing("OSLC AM SPCatalog URI").default(SPC_AM_DEFAULT)
+    val initServers by parser.storing("Only initialize a subset of the OSLC Servers (comma-separated, e.g. am,rm)")
+        .default(INIT_DEFAULT)
 
-    val selfAssignedSSL by parser.flagging("Disable TLS security").default(false)
+    val selfAssignedCert by parser.flagging("Disable TLS security").default(false)
 
 //    val source by parser.positional("source filename")
 
@@ -95,47 +99,81 @@ fun basicAuthClientBuilder(username: String, password: String, selfAssignedSSL: 
 }
 
 
-fun main(args: Array<String>) {
-    println("Populating OSLC RefImpl servers with sample data.\n")
-
+fun main(args: Array<String>) = mainBody {
     ArgParser(args).parseInto(::RefImplClientArgs).run {
-        val client = basicAuthClientBuilder("admin", "admin", this.selfAssignedSSL)
+        println("Populating OSLC RefImpl servers with sample data.\n")
+        val client = basicAuthClientBuilder("admin", "admin", this.selfAssignedCert)
 
         val rmTraverser = ServiceProviderCatalogTraverser(this.rm, client)
         val cmTraverser = ServiceProviderCatalogTraverser(this.cm, client)
         val qmTraverser = ServiceProviderCatalogTraverser(this.qm, client)
         val amTraverser = ServiceProviderCatalogTraverser(this.am, client)
 
+        val initList = this.initServers.split(",").map { s -> s.trim().lowercase() }
+        val initAM = initList.contains("am")
+        val initCM = initList.contains("cm")
+        val initRM = initList.contains("rm")
+        val initQM = initList.contains("qm")
+
         var rmRequirements: List<Link> = emptyList()
-        rmRequirements = CreationFactoryPopulator(client, rmTraverser, N_RESOURCES, SimpleResourceGen(::genRequirement),
-            Requirement::class.java).populate()
-        val rmRequirementColl = CreationFactoryPopulator(client, rmTraverser, N_RESOURCES,
-            SimpleResourceGen(::genRequirementColl), RequirementCollection::class.java).populate()
+        var cmChangeReq: List<Link> = emptyList()
+        if (initRM) {
+            rmRequirements = CreationFactoryPopulator(
+                client, rmTraverser, N_RESOURCES, SimpleResourceGen(::genRequirement),
+                Requirement::class.java
+            ).populate()
+            val rmRequirementColl = CreationFactoryPopulator(
+                client, rmTraverser, N_RESOURCES,
+                SimpleResourceGen(::genRequirementColl), RequirementCollection::class.java
+            ).populate()
+        }
+        if (initCM) {
+            cmChangeReq = CreationFactoryPopulator(
+                client, cmTraverser, N_RESOURCES, ChangeRequestGen(rmRequirements),
+                ChangeRequest::class.java
+            ).populate()
+            if (initRM) {
+                linkChangeRequestsToRequirements(client, cmChangeReq, rmRequirements)
+            }
+        }
 
-        val cmChangeReq = CreationFactoryPopulator(client, cmTraverser, N_RESOURCES, ChangeRequestGen(rmRequirements),
-            ChangeRequest::class.java).populate()
+        var qmTestPlans: List<Link> = emptyList()
+        if (initQM) {
+            qmTestPlans = CreationFactoryPopulator(
+                client, qmTraverser, N_RESOURCES,
+                SimpleResourceGen(::genPlan), TestPlan::class.java
+            ).populate()
+            val qmTestCases = CreationFactoryPopulator(
+                client, qmTraverser, N_RESOURCES,
+                SimpleResourceGen(::genTestCase), TestCase::class.java
+            ).populate()
+            val qmTestResults = CreationFactoryPopulator(
+                client, qmTraverser, N_RESOURCES,
+                SimpleResourceGen(::genTestResult), TestResult::class.java
+            ).populate()
+            val qmTestExecRecords = CreationFactoryPopulator(
+                client, qmTraverser, N_RESOURCES,
+                SimpleResourceGen(::genTestExecutionRecord), TestExecutionRecord::class.java
+            ).populate()
+            val qmTestScripts = CreationFactoryPopulator(
+                client, qmTraverser, N_RESOURCES,
+                SimpleResourceGen(::genTestScript), TestScript::class.java
+            ).populate()
+        }
 
-
-        linkChangeRequestsToRequirements(client, cmChangeReq, rmRequirements)
-
-        val qmTestPlans = CreationFactoryPopulator(client, qmTraverser, N_RESOURCES,
-            SimpleResourceGen(::genPlan), TestPlan::class.java).populate()
-        val qmTestCases = CreationFactoryPopulator(client, qmTraverser, N_RESOURCES,
-            SimpleResourceGen(::genTestCase), TestCase::class.java).populate()
-        val qmTestResults = CreationFactoryPopulator(client, qmTraverser, N_RESOURCES,
-            SimpleResourceGen(::genTestResult), TestResult::class.java).populate()
-        val qmTestExecRecords = CreationFactoryPopulator(client, qmTraverser, N_RESOURCES,
-            SimpleResourceGen(::genTestExecutionRecord), TestExecutionRecord::class.java).populate()
-        val qmTestScripts = CreationFactoryPopulator(client, qmTraverser, N_RESOURCES,
-            SimpleResourceGen(::genTestScript), TestScript::class.java).populate()
-
-
-        val amResources = CreationFactoryPopulator(client, amTraverser, N_RESOURCES,
-            SimpleResourceGen(::genAMResource), Resource::class.java).populate()
-        val amLinks = CreationFactoryPopulator(client, amTraverser, N_RESOURCES,
-            SimpleResourceGen(::genAMLink), LinkType::class.java).populate()
-
-        linkTestPlanstoChangeRequests(client, qmTestPlans, cmChangeReq)
+        if (initAM) {
+            val amResources = CreationFactoryPopulator(
+                client, amTraverser, N_RESOURCES,
+                SimpleResourceGen(::genAMResource), Resource::class.java
+            ).populate()
+            val amLinks = CreationFactoryPopulator(
+                client, amTraverser, N_RESOURCES,
+                SimpleResourceGen(::genAMLink), LinkType::class.java
+            ).populate()
+        }
+        if (initCM && initQM) {
+            linkTestPlanstoChangeRequests(client, qmTestPlans, cmChangeReq)
+        }
     }
 }
 
