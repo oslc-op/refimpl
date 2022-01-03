@@ -23,6 +23,17 @@
     <v.kotlin.coroutines>1.6.0</v.kotlin.coroutines>
   </properties>
 
+  <repositories>
+    <repository>
+      <id>lyo-snapshots</id>
+      <name>Eclipse Lyo Snapshots</name>
+      <url>https://repo.eclipse.org/content/repositories/lyo-snapshots/</url>
+      <releases>
+        <enabled>false</enabled>
+      </releases>
+    </repository>
+  </repositories>
+
   <dependencies>
     <dependency>
       <groupId>com.github.javafaker</groupId>

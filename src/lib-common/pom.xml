@@ -12,9 +12,25 @@
   <packaging>jar</packaging>
 
   <properties>
-    <version.lyo>5.0.0.alpha2</version.lyo>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+    <maven.compiler.source>11</maven.compiler.source>
+    <maven.compiler.target>11</maven.compiler.target>
+
+    <version.lyo>5.0.0-SNAPSHOT</version.lyo>
     <version.jersey>2.25.1</version.jersey>
   </properties>
+
+  <repositories>
+    <repository>
+      <id>lyo-snapshots</id>
+      <name>Eclipse Lyo Snapshots</name>
+      <url>https://repo.eclipse.org/content/repositories/lyo-snapshots/</url>
+      <releases>
+        <enabled>false</enabled>
+      </releases>
+    </repository>
+  </repositories>
 
   <dependencies>
     <dependency>
@@ -102,9 +118,4 @@
       <scope>test</scope>
     </dependency>
   </dependencies>
-
-  <build>
-    <plugins>
-    </plugins>
-  </build>
 </project>
