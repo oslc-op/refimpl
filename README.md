@@ -37,7 +37,7 @@ cd ../server-qm/
 mvn clean jetty:run-exploded
 
 cd ../server-am/
-mvn clean jetty:run-exploded
+mvn clean jetty:run-war
 ```
 
 After following these steps, proceed to the steps listed in the next section _Navigating OSLC servers_.
