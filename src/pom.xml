@@ -1,7 +1,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <name>OSLC 2020 RefImpl (parent)</name>
+  <name>OSLC 2020 RefImpl (aggregator)</name>
   <groupId>co.oslc.refimpl</groupId>
   <artifactId>parent</artifactId>
   <version>0.0.1-SNAPSHOT</version>
@@ -11,11 +11,7 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     <maven.compiler.source>1.8</maven.compiler.source>
-    <maven.compiler.target>1.8</maven.compiler.target>
-<!--    <version.lyo>5.0.0-SNAPSHOT</version.lyo>-->
-    <version.lyo>5.0.0.alpha2</version.lyo>
-    <version.lyo.oslc-ui>${version.lyo}</version.lyo.oslc-ui>
-    <version.jersey>2.25.1</version.jersey>
+    <maven.compiler.target>11</maven.compiler.target>
   </properties>
 
   <modules>
@@ -39,113 +35,6 @@
     </profile>
   </profiles>
 
-  <dependencyManagement>
-    <dependencies>
-      <dependency>
-        <groupId>co.oslc.refimpl</groupId>
-        <artifactId>lib-common</artifactId>
-        <version>0.0.1-SNAPSHOT</version>
-      </dependency>
-      <!-- Adaptor-specific dependencies -->
-      <dependency>
-        <groupId>org.slf4j</groupId>
-        <artifactId>slf4j-simple</artifactId>
-        <version>1.7.32</version><!--Make sure to match the API used by Lyo-->
-      </dependency>
-
-      <!-- Lyo dependencies -->
-	    <dependency>
-	        <groupId>org.eclipse.lyo.server</groupId>
-	        <artifactId>oslc-ui-model</artifactId>
-	        <version>${version.lyo.oslc-ui}</version>
-	    </dependency>
-      <dependency>
-        <groupId>org.eclipse.lyo.oslc4j.core</groupId>
-        <artifactId>oslc4j-core</artifactId>
-        <version>${version.lyo}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.eclipse.lyo.oslc4j.core</groupId>
-        <artifactId>oslc4j-jena-provider</artifactId>
-        <version>${version.lyo}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.eclipse.lyo.oslc4j.core</groupId>
-        <artifactId>oslc4j-json4j-provider</artifactId>
-        <version>${version.lyo}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.eclipse.lyo</groupId>
-        <artifactId>oslc-domains</artifactId>
-        <version>${version.lyo}</version>
-      </dependency>
-
-      <dependency>
-        <groupId>org.eclipse.lyo.clients</groupId>
-        <artifactId>oslc-client</artifactId>
-        <version>${version.lyo}</version>
-      </dependency>
-
-
-      <!-- OAuth -->
-      <dependency>
-        <groupId>org.eclipse.lyo.server</groupId>
-        <artifactId>oauth-core</artifactId>
-        <version>${version.lyo}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.eclipse.lyo.server</groupId>
-        <artifactId>oauth-consumer-store</artifactId>
-        <version>${version.lyo}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.eclipse.lyo.server</groupId>
-        <artifactId>oauth-webapp</artifactId>
-        <version>${version.lyo}</version>
-        <type>war</type>
-      </dependency>
-
-
-      <!-- Servlet-related dependencies -->
-      <dependency>
-        <groupId>org.glassfish.jersey.core</groupId>
-        <artifactId>jersey-server</artifactId>
-        <version>${version.jersey}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.glassfish.jersey.containers</groupId>
-        <artifactId>jersey-container-servlet</artifactId>
-        <version>${version.jersey}</version>
-      </dependency>
-      <dependency>
-        <groupId>javax.servlet</groupId>
-        <artifactId>javax.servlet-api</artifactId>
-        <version>3.1.0</version>
-        <!--TODO provided-->
-      </dependency>
-      <dependency>
-        <groupId>javax.servlet.jsp.jstl</groupId>
-        <artifactId>javax.servlet.jsp.jstl-api</artifactId>
-        <version>1.2.2</version>
-        <!--TODO provided-->
-      </dependency>
-
-      <dependency>
-        <groupId>io.swagger</groupId>
-        <artifactId>swagger-jersey2-jaxrs</artifactId>
-        <version>1.5.22</version>
-      </dependency>
-
-
-      <!-- Test dependencies -->
-      <dependency>
-        <groupId>junit</groupId>
-        <artifactId>junit</artifactId>
-        <version>4.13.1</version>
-        <scope>test</scope>
-      </dependency>
-    </dependencies>
-  </dependencyManagement>
 
   <build>
     <plugins>
@@ -158,58 +47,5 @@
         </configuration>
       </plugin>
     </plugins>
-    <pluginManagement>
-      <plugins>
-        <plugin>
-          <!-- Download Swagger UI webjar. -->
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-dependency-plugin</artifactId>
-          <version>3.1.2</version>
-          <executions>
-            <execution>
-              <phase>prepare-package</phase>
-              <goals>
-                <goal>unpack</goal>
-              </goals>
-              <configuration>
-                <artifactItems>
-                  <artifactItem>
-                    <groupId>org.webjars</groupId>
-                    <artifactId>swagger-ui</artifactId>
-                    <version>3.25.0</version>
-                  </artifactItem>
-                </artifactItems>
-                <outputDirectory>${project.build.directory}/swagger-ui</outputDirectory>
-              </configuration>
-            </execution>
-          </executions>
-        </plugin>
-        <plugin>
-          <!-- Add Swagger UI resources to the war file. -->
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-war-plugin</artifactId>
-          <version>3.2.3</version>
-        </plugin>
-      </plugins>
-    </pluginManagement>
   </build>
-
-  <repositories>
-    <repository>
-      <id>lyo-snapshots</id>
-      <name>Eclipse Lyo Snapshots</name>
-      <url>https://repo.eclipse.org/content/repositories/lyo-snapshots/</url>
-      <releases>
-        <enabled>false</enabled>
-      </releases>
-    </repository>
-    <!-- <repository>
-      <id>lyo-releases</id>
-      <name>Eclipse Lyo Releases</name>
-      <url>https://repo.eclipse.org/content/repositories/lyo-releases/</url>
-      <snapshots>
-        <enabled>false</enabled>
-      </snapshots>
-    </repository> -->
-  </repositories>
 </project>
