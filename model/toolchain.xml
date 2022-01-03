@@ -209,11 +209,11 @@
     <requiredAdaptors xsi:type="oslc4j_ai:GenericRequiredAdaptor" serviceProviderCatalogURI="http://your.host.com/adaptor/services/catalog/singleton" name="GenericRequiredAdaptor"/>
     <configuration xsi:type="oslc4j_ai:MavenServerConfiguration" rootServerBaseUrl="http://localhost:8802/" applicationContextPath="/" servletUrlPattern="/services/*" jettyPort="8802">
       <generalConfiguration filesBasePath="../src/server-qm/" javaBasePackageName="co.oslc.refimpl.qm.gen"/>
-      <projectConfiguration xsi:type="oslc4j_ai:MavenProjectConfiguration" doNotGenerateProjectConfigurationFiles="true" lyoVersion="4.0.0-SNAPSHOT" groupId="co.oslc.refimpl.qm.gen" artifactId="qm" version="0.0.1-SNAPSHOT"/>
+      <projectConfiguration xsi:type="oslc4j_ai:MavenProjectConfiguration" lyoVersion="5.0.0-SNAPSHOT" groupId="co.oslc.refimpl" artifactId="server-qm" version="0.2.0-SNAPSHOT"/>
       <authenticationConfiguration applicationName="QM" oauthRealm="QM"/>
     </configuration>
   </adaptorInterfaces>
-  <adaptorInterfaces name="OSLC Architecture Management Server (2020 RefImpl)">
+  <adaptorInterfaces name="AM">
     <serviceProviderCatalog title="Service Provider Catalog" description="Service Provider Catalog">
       <serviceProviders title="Service Provider" description="Service Provider">
         <services>

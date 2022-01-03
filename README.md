@@ -34,7 +34,7 @@ cd ../server-cm/
 mvn clean jetty:run-exploded
 
 cd ../server-qm/
-mvn clean jetty:run-exploded
+mvn clean jetty:run-war
 
 cd ../server-am/
 mvn clean jetty:run-war
