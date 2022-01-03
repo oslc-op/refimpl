@@ -70,30 +70,30 @@ public class CMManager {
 
     private static final Logger log = LoggerFactory.getLogger(CMManager.class);
 
-
+    
     // Start of user code class_attributes
     public static final String SP_DEFAULT = "sp_single";
     private static final Logger LOG = LoggerFactory.getLogger(CMManager.class);
 
     private static final ResourceRepository<ChangeRequest> changeRequestRepository = new MemResourceRepository<>();
     // End of user code
-
-
+    
+    
     // Start of user code class_methods
     // End of user code
 
     public static void contextInitializeServletListener(final ServletContextEvent servletContextEvent)
     {
-
+        
         // Start of user code contextInitializeServletListener
         // TODO Implement code to establish connection to data backbone etc ...
         // End of user code
-
+        
     }
 
-    public static void contextDestroyServletListener(ServletContextEvent servletContextEvent)
+    public static void contextDestroyServletListener(ServletContextEvent servletContextEvent) 
     {
-
+        
         // Start of user code contextDestroyed
         // TODO Implement code to shutdown connections to data backbone etc...
         // End of user code
@@ -102,7 +102,7 @@ public class CMManager {
     public static ServiceProviderInfo[] getServiceProviderInfos(HttpServletRequest httpServletRequest)
     {
         ServiceProviderInfo[] serviceProviderInfos = {};
-
+        
         // Start of user code "ServiceProviderInfo[] getServiceProviderInfos(...)"
         ServiceProviderInfo spInfo = new ServiceProviderInfo();
         spInfo.serviceProviderId = SP_DEFAULT;
@@ -112,21 +112,21 @@ public class CMManager {
         return serviceProviderInfos;
     }
 
-    public static List<ChangeRequest> queryChangeRequests(HttpServletRequest httpServletRequest, String where, String prefix, int page, int limit)
+    public static List<ChangeRequest> queryChangeRequests(HttpServletRequest httpServletRequest, String where, String prefix, boolean paging, int page, int limit)
     {
         List<ChangeRequest> resources = null;
-
-
+        
+        
         // Start of user code queryChangeRequests
         resources = changeRequestRepository.fetchResourcePageForSP(SP_DEFAULT, page, limit);
         // End of user code
         return resources;
     }
-    public static List<Defect> queryDefects(HttpServletRequest httpServletRequest, String where, String prefix, int page, int limit)
+    public static List<Defect> queryDefects(HttpServletRequest httpServletRequest, String where, String prefix, boolean paging, int page, int limit)
     {
         List<Defect> resources = null;
-
-
+        
+        
         // Start of user code queryDefects
         // TODO Implement code to return a set of resources.
         // An empty List should imply that no resources where found.
@@ -136,11 +136,11 @@ public class CMManager {
         // End of user code
         return resources;
     }
-    public static List<Task> queryTasks(HttpServletRequest httpServletRequest, String where, String prefix, int page, int limit)
+    public static List<Task> queryTasks(HttpServletRequest httpServletRequest, String where, String prefix, boolean paging, int page, int limit)
     {
         List<Task> resources = null;
-
-
+        
+        
         // Start of user code queryTasks
         // TODO Implement code to return a set of resources.
         // An empty List should imply that no resources where found.
@@ -150,11 +150,11 @@ public class CMManager {
         // End of user code
         return resources;
     }
-    public static List<Enhancement> queryEnhancements(HttpServletRequest httpServletRequest, String where, String prefix, int page, int limit)
+    public static List<Enhancement> queryEnhancements(HttpServletRequest httpServletRequest, String where, String prefix, boolean paging, int page, int limit)
     {
         List<Enhancement> resources = null;
-
-
+        
+        
         // Start of user code queryEnhancements
         // TODO Implement code to return a set of resources.
         // An empty List should imply that no resources where found.
@@ -164,11 +164,11 @@ public class CMManager {
         // End of user code
         return resources;
     }
-    public static List<ReviewTask> queryReviewTasks(HttpServletRequest httpServletRequest, String where, String prefix, int page, int limit)
+    public static List<ReviewTask> queryReviewTasks(HttpServletRequest httpServletRequest, String where, String prefix, boolean paging, int page, int limit)
     {
         List<ReviewTask> resources = null;
-
-
+        
+        
         // Start of user code queryReviewTasks
         // TODO Implement code to return a set of resources.
         // An empty List should imply that no resources where found.
@@ -178,11 +178,11 @@ public class CMManager {
         // End of user code
         return resources;
     }
-    public static List<ChangeNotice> queryChangeNotices(HttpServletRequest httpServletRequest, String where, String prefix, int page, int limit)
+    public static List<ChangeNotice> queryChangeNotices(HttpServletRequest httpServletRequest, String where, String prefix, boolean paging, int page, int limit)
     {
         List<ChangeNotice> resources = null;
-
-
+        
+        
         // Start of user code queryChangeNotices
         // TODO Implement code to return a set of resources.
         // An empty List should imply that no resources where found.
@@ -192,62 +192,62 @@ public class CMManager {
         // End of user code
         return resources;
     }
-    public static List<ChangeRequest> ChangeRequestSelector(HttpServletRequest httpServletRequest, String terms)
+    public static List<ChangeRequest> ChangeRequestSelector(HttpServletRequest httpServletRequest, String terms)   
     {
         List<ChangeRequest> resources = null;
-
-
+        
+        
         // Start of user code ChangeRequestSelector
 //        resources = changeRequestRepository.fetchResourcePageForSP(SP_DEFAULT, 1, 20);
         resources = changeRequestRepository.findResources(SP_DEFAULT, terms, 20);
         // End of user code
         return resources;
     }
-    public static List<Defect> DefectSelector(HttpServletRequest httpServletRequest, String terms)
+    public static List<Defect> DefectSelector(HttpServletRequest httpServletRequest, String terms)   
     {
         List<Defect> resources = null;
-
-
+        
+        
         // Start of user code DefectSelector
         // TODO Implement code to return a set of resources, based on search criteria
         // End of user code
         return resources;
     }
-    public static List<Task> TaskSelector(HttpServletRequest httpServletRequest, String terms)
+    public static List<Task> TaskSelector(HttpServletRequest httpServletRequest, String terms)   
     {
         List<Task> resources = null;
-
-
+        
+        
         // Start of user code TaskSelector
         // TODO Implement code to return a set of resources, based on search criteria
         // End of user code
         return resources;
     }
-    public static List<ReviewTask> ReviewTaskSelector(HttpServletRequest httpServletRequest, String terms)
+    public static List<ReviewTask> ReviewTaskSelector(HttpServletRequest httpServletRequest, String terms)   
     {
         List<ReviewTask> resources = null;
-
-
+        
+        
         // Start of user code ReviewTaskSelector
         // TODO Implement code to return a set of resources, based on search criteria
         // End of user code
         return resources;
     }
-    public static List<ChangeNotice> ChangeNoticeSelector(HttpServletRequest httpServletRequest, String terms)
+    public static List<ChangeNotice> ChangeNoticeSelector(HttpServletRequest httpServletRequest, String terms)   
     {
         List<ChangeNotice> resources = null;
-
-
+        
+        
         // Start of user code ChangeNoticeSelector
         // TODO Implement code to return a set of resources, based on search criteria
         // End of user code
         return resources;
     }
-    public static List<Enhancement> EnhancementSelector(HttpServletRequest httpServletRequest, String terms)
+    public static List<Enhancement> EnhancementSelector(HttpServletRequest httpServletRequest, String terms)   
     {
         List<Enhancement> resources = null;
-
-
+        
+        
         // Start of user code EnhancementSelector
         // TODO Implement code to return a set of resources, based on search criteria
         // End of user code
@@ -256,8 +256,8 @@ public class CMManager {
     public static ChangeRequest createChangeRequest(HttpServletRequest httpServletRequest, final ChangeRequest aResource)
     {
         ChangeRequest newResource = null;
-
-
+        
+        
         // Start of user code createChangeRequest
         String id = aResource.getIdentifier();
         if(id == null) {
@@ -276,8 +276,8 @@ public class CMManager {
     public static Defect createDefectFromDialog(HttpServletRequest httpServletRequest, final Defect aResource)
     {
         Defect newResource = null;
-
-
+        
+        
         // Start of user code createDefectFromDialog
         // TODO Implement code to create a resource
         // End of user code
@@ -286,8 +286,8 @@ public class CMManager {
     public static Task createTaskFromDialog(HttpServletRequest httpServletRequest, final Task aResource)
     {
         Task newResource = null;
-
-
+        
+        
         // Start of user code createTaskFromDialog
         // TODO Implement code to create a resource
         // End of user code
@@ -296,8 +296,8 @@ public class CMManager {
     public static ReviewTask createReviewTaskFromDialog(HttpServletRequest httpServletRequest, final ReviewTask aResource)
     {
         ReviewTask newResource = null;
-
-
+        
+        
         // Start of user code createReviewTaskFromDialog
         // TODO Implement code to create a resource
         // End of user code
@@ -306,8 +306,8 @@ public class CMManager {
     public static ChangeNotice createChangeNoticeFromDialog(HttpServletRequest httpServletRequest, final ChangeNotice aResource)
     {
         ChangeNotice newResource = null;
-
-
+        
+        
         // Start of user code createChangeNoticeFromDialog
         // TODO Implement code to create a resource
         // End of user code
@@ -316,8 +316,8 @@ public class CMManager {
     public static Enhancement createEnhancementFromDialog(HttpServletRequest httpServletRequest, final Enhancement aResource)
     {
         Enhancement newResource = null;
-
-
+        
+        
         // Start of user code createEnhancementFromDialog
         // TODO Implement code to create a resource
         // End of user code
@@ -329,8 +329,8 @@ public class CMManager {
     public static ChangeRequest getChangeRequest(HttpServletRequest httpServletRequest, final String id)
     {
         ChangeRequest aResource = null;
-
-
+        
+        
         // Start of user code getChangeRequest
         aResource = changeRequestRepository.getResource(SP_DEFAULT, id);
         // End of user code
@@ -340,7 +340,7 @@ public class CMManager {
     public static Boolean deleteChangeRequest(HttpServletRequest httpServletRequest, final String id)
     {
         Boolean deleted = false;
-
+        
         // Start of user code deleteChangeRequest
         changeRequestRepository.deleteResource(SP_DEFAULT, id);
         deleted = true;
@@ -350,7 +350,7 @@ public class CMManager {
 
     public static ChangeRequest updateChangeRequest(HttpServletRequest httpServletRequest, final ChangeRequest aResource, final String id) {
         ChangeRequest updatedResource = null;
-
+        
         // Start of user code updateChangeRequest
         if(!CMResourcesFactory.constructURIForChangeRequest(id).equals(aResource.getAbout())) {
             throw new WebApplicationException("Subject URI shall match the endpoint", Response.Status.BAD_REQUEST);

@@ -8,21 +8,18 @@
     <!-- TODO: Add additional header properties here to avoid them be overrriden upon future re-generation -->
     <!-- End of user code
     -->
-  <parent>
     <groupId>co.oslc.refimpl</groupId>
-    <artifactId>parent</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
-  </parent>
-  <name>OSLC Change Management Server (2020 RefImpl)</name>
-  <artifactId>server-cm</artifactId>
-  <packaging>war</packaging>
-
-  <properties>
+    <artifactId>server-cm</artifactId>
+    <version>0.2.0-SNAPSHOT</version>
+    <packaging>war</packaging>
+    <name>CM</name>
+    <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
-        <jersey.version>${version.jersey}</jersey.version>
+        <version.lyo>5.0.0-SNAPSHOT</version.lyo>
+        <jersey.version>2.25.1</jersey.version>
         <swagger.version>2.1.2</swagger.version>
         <swagger-ui.version>3.52.3</swagger-ui.version>
         <!-- Start of user code properties
@@ -37,14 +34,14 @@
         <!-- TODO: Add additional repositories here to avoid them be overrriden upon future re-generation -->
         <!-- End of user code
         -->
-        <!-- <repository>
+        <repository>
             <id>lyo-releases</id>
             <name>Eclipse Lyo Releases</name>
             <url>https://repo.eclipse.org/content/repositories/lyo-releases/</url>
             <snapshots>
                 <enabled>false</enabled>
             </snapshots>
-        </repository> -->
+        </repository>
         <repository>
             <id>lyo-snapshots</id>
             <name>Eclipse Lyo Snapshots</name>
@@ -62,112 +59,20 @@
         <!-- Specific dependencies -->
         <!-- Start of user code dependencies
         -->
-        <!-- TODO: Add additional dependencies here to avoid them be overrriden upon future re-generation -->
-      <dependency>
-        <groupId>co.oslc.refimpl</groupId>
-        <artifactId>lib-common</artifactId>
-      </dependency>
-      <!-- Adaptor-specific dependencies -->
-      <dependency>
-        <groupId>org.slf4j</groupId>
-        <artifactId>slf4j-simple</artifactId>
-        <scope>runtime</scope>
-      </dependency>
-      <!-- <dependency>
-        <groupId>io.swagger</groupId>
-        <artifactId>swagger-jersey2-jaxrs</artifactId>
-      </dependency>
- -->
-      <!-- Lyo dependencies -->
-      <!-- OSLC-UI dependencies -->
-<!--
-      <dependency>
-        <groupId>org.eclipse.lyo.server</groupId>
-        <artifactId>oslc-ui-model</artifactId>
-      </dependency>
--->
-      <!-- <dependency>
-        <groupId>org.eclipse.lyo.oslc4j.core</groupId>
-        <artifactId>oslc4j-core</artifactId>
-      </dependency>
-      <dependency>
-        <groupId>org.eclipse.lyo</groupId>
-        <artifactId>oslc-domains</artifactId>
-      </dependency>
-      <dependency>
-        <groupId>org.eclipse.lyo.oslc4j.core</groupId>
-        <artifactId>oslc4j-jena-provider</artifactId>
-      </dependency>
-      <dependency>
-        <groupId>org.eclipse.lyo.oslc4j.core</groupId>
-        <artifactId>oslc4j-json4j-provider</artifactId>
-      </dependency>
-      <dependency>
-        <groupId>org.eclipse.lyo.clients</groupId>
-        <artifactId>oslc-client</artifactId>
-      </dependency> -->
-
-
-      <!--  OAuth  -->
- <!--     <dependency>
-        <groupId>org.eclipse.lyo.server</groupId>
-        <artifactId>oauth-core</artifactId>
-      </dependency>
-      <dependency>
-        <groupId>org.eclipse.lyo.server</groupId>
-        <artifactId>oauth-consumer-store</artifactId>
-      </dependency>
-      <dependency>
-        <groupId>org.eclipse.lyo.server</groupId>
-        <artifactId>oauth-webapp</artifactId>
-        <type>war</type>
-      </dependency>-->
-
-      <!-- Servlet-related dependencies -->
-      <!-- <dependency>
-        <groupId>org.glassfish.jersey.core</groupId>
-        <artifactId>jersey-server</artifactId>
-      </dependency>
-      <dependency>
-        <groupId>org.glassfish.jersey.containers</groupId>
-        <artifactId>jersey-container-servlet</artifactId>
-      </dependency>
-      <dependency>
-        <groupId>javax.servlet</groupId>
-        <artifactId>javax.servlet-api</artifactId>
-        <scope>provided</scope>
-      </dependency>
-      <dependency>
-        <groupId>javax.servlet.jsp.jstl</groupId>
-        <artifactId>javax.servlet.jsp.jstl-api</artifactId>
-        <scope>provided</scope>
-      </dependency> -->
-
-      <!--
-          <dependency>
-            <groupId>io.swagger</groupId>
-            <artifactId>swagger-jersey2-jaxrs</artifactId>
-          </dependency>
-      -->
-
-
-      <!-- Test dependencies -->
-      <dependency>
-        <groupId>junit</groupId>
-        <artifactId>junit</artifactId>
-        <scope>test</scope>
-      </dependency>
+        <dependency>
+          <groupId>co.oslc.refimpl</groupId>
+          <artifactId>lib-common</artifactId>
+          <version>0.0.1-SNAPSHOT</version>
+        </dependency>
         <!-- End of user code
         -->
         <!-- General dependencies -->
-<!--
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-simple</artifactId>
             <version>1.7.21</version>
             <scope>runtime</scope>
         </dependency>
--->
         <!-- Servlet dependencies -->
         <dependency>
             <groupId>javax.servlet</groupId>
@@ -190,7 +95,6 @@
             <artifactId>jersey-container-servlet</artifactId>
             <version>${jersey.version}</version>
         </dependency>
-
         <!-- Lyo dependencies -->
         <dependency>
             <groupId>org.eclipse.lyo.oslc4j.core</groupId>
@@ -261,26 +165,15 @@
             <plugin>
                 <groupId>org.eclipse.jetty</groupId>
                 <artifactId>jetty-maven-plugin</artifactId>
-                <version>9.4.44.v20210927</version>
+                <version>10.0.7</version>
                 <configuration>
-                    <webAppConfig>
-                        <contextPath>/</contextPath>
-                    </webAppConfig>
-                    <!-- <reload>automatic</reload> -->
-                    <reload>manual</reload>
-                    <scanIntervalSeconds>5</scanIntervalSeconds>
-                    <systemProperties>
-                        <systemProperty>
-                            <name>jetty.port</name>
-                            <value>8801</value>
-                        </systemProperty>
-                        <systemProperty>
-                            <name>co.oslc.refimpl.cm.gen.servlet.baseurl</name>
-                            <value>${lyo.baseurl}</value>
-                        </systemProperty>
-                    </systemProperties>
-                    <stopKey />
-                    <stopPort />
+                  <webApp>
+                    <contextPath>/</contextPath>
+                  </webApp>
+                  <httpConnector>
+                    <port>8801</port>
+                  </httpConnector>
+                  <scan>5</scan>
                 </configuration>
             </plugin>
             <!-- Swagger-ui -->

@@ -159,18 +159,23 @@ public class Change_requestsService
         description = "Query capability for resources of type {" + "<a href=\"" + Oslc_cmDomainConstants.CHANGEREQUEST_TYPE + "\">" + Oslc_cmDomainConstants.CHANGEREQUEST_LOCALNAME + "</a>" + "}" +
             ", with respective resource shapes {" + "<a href=\"" + "../services/" + OslcConstants.PATH_RESOURCE_SHAPES + "/" + Oslc_cmDomainConstants.CHANGEREQUEST_PATH + "\">" + Oslc_cmDomainConstants.CHANGEREQUEST_LOCALNAME + "</a>" + "}",
         responses = { 
-            @ApiResponse(content = {@Content(mediaType = OslcMediaType.APPLICATION_RDF_XML), @Content(mediaType = OslcMediaType.APPLICATION_XML), @Content(mediaType = OslcMediaType.APPLICATION_JSON), @Content(mediaType = OslcMediaType.TEXT_TURTLE), @Content(mediaType = MediaType.TEXT_HTML)})
+            @ApiResponse(description = "default response", content = {@Content(mediaType = OslcMediaType.APPLICATION_RDF_XML), @Content(mediaType = OslcMediaType.APPLICATION_XML), @Content(mediaType = OslcMediaType.APPLICATION_JSON), @Content(mediaType = OslcMediaType.TEXT_TURTLE), @Content(mediaType = MediaType.TEXT_HTML)})
         }
     )
     public ChangeRequest[] queryChangeRequests(
                                                     
                                                      @QueryParam("oslc.where") final String where,
                                                      @QueryParam("oslc.prefix") final String prefix,
+                                                     @QueryParam("oslc.paging") final String pagingString,
                                                      @QueryParam("page") final String pageString,
-                                                    @QueryParam("oslc.pageSize") final String pageSizeString) throws IOException, ServletException
+                                                     @QueryParam("oslc.pageSize") final String pageSizeString) throws IOException, ServletException
     {
+        boolean paging=false;
         int page=0;
         int pageSize=20;
+        if (null != pagingString) {
+            paging = Boolean.parseBoolean(pagingString);
+        }
         if (null != pageString) {
             page = Integer.parseInt(pageString);
         }
@@ -182,13 +187,22 @@ public class Change_requestsService
         // Here additional logic can be implemented that complements main action taken in CMManager
         // End of user code
 
-        final List<ChangeRequest> resources = CMManager.queryChangeRequests(httpServletRequest, where, prefix, page, pageSize);
-        httpServletRequest.setAttribute("queryUri",
-                uriInfo.getAbsolutePath().toString() + "?oslc.paging=true");
+        final List<ChangeRequest> resources = CMManager.queryChangeRequests(httpServletRequest, where, prefix, paging, page, pageSize);
+        UriBuilder uriBuilder = UriBuilder.fromUri(uriInfo.getAbsolutePath())
+            .queryParam("oslc.paging", "true")
+            .queryParam("oslc.pageSize", pageSize)
+            .queryParam("page", page);
+        if (null != where) {
+            uriBuilder.queryParam("oslc.where", where);
+        }
+        if (null != prefix) {
+            uriBuilder.queryParam("oslc.prefix", prefix);
+        }
+        httpServletRequest.setAttribute("queryUri", uriBuilder.build().toString());
         if (resources.size() > pageSize) {
             resources.remove(resources.size() - 1);
-            httpServletRequest.setAttribute(OSLC4JConstants.OSLC4J_NEXT_PAGE,
-                    uriInfo.getAbsolutePath().toString() + "?oslc.paging=true&oslc.pageSize=" + pageSize + "&page=" + (page + 1));
+            uriBuilder.replaceQueryParam("page", page + 1);
+            httpServletRequest.setAttribute(OSLC4JConstants.OSLC4J_NEXT_PAGE, uriBuilder.build().toString());
         }
         return resources.toArray(new ChangeRequest [resources.size()]);
     }
@@ -201,18 +215,23 @@ public class Change_requestsService
         description = "Query capability for resources of type {" + "<a href=\"" + Oslc_cmDomainConstants.CHANGEREQUEST_TYPE + "\">" + Oslc_cmDomainConstants.CHANGEREQUEST_LOCALNAME + "</a>" + "}" +
             ", with respective resource shapes {" + "<a href=\"" + "../services/" + OslcConstants.PATH_RESOURCE_SHAPES + "/" + Oslc_cmDomainConstants.CHANGEREQUEST_PATH + "\">" + Oslc_cmDomainConstants.CHANGEREQUEST_LOCALNAME + "</a>" + "}",
         responses = { 
-            @ApiResponse(content = {@Content(mediaType = OslcMediaType.APPLICATION_RDF_XML), @Content(mediaType = OslcMediaType.APPLICATION_XML), @Content(mediaType = OslcMediaType.APPLICATION_JSON), @Content(mediaType = OslcMediaType.TEXT_TURTLE), @Content(mediaType = MediaType.TEXT_HTML)})
+            @ApiResponse(description = "default response", content = {@Content(mediaType = OslcMediaType.APPLICATION_RDF_XML), @Content(mediaType = OslcMediaType.APPLICATION_XML), @Content(mediaType = OslcMediaType.APPLICATION_JSON), @Content(mediaType = OslcMediaType.TEXT_TURTLE), @Content(mediaType = MediaType.TEXT_HTML)})
         }
     )
     public void queryChangeRequestsAsHtml(
                                     
                                        @QueryParam("oslc.where") final String where,
                                        @QueryParam("oslc.prefix") final String prefix,
+                                       @QueryParam("oslc.paging") final String pagingString,
                                        @QueryParam("page") final String pageString,
-                                    @QueryParam("oslc.pageSize") final String pageSizeString) throws ServletException, IOException
+                                       @QueryParam("oslc.pageSize") final String pageSizeString) throws ServletException, IOException
     {
+        boolean paging=false;
         int page=0;
         int pageSize=20;
+        if (null != pagingString) {
+            paging = Boolean.parseBoolean(pagingString);
+        }
         if (null != pageString) {
             page = Integer.parseInt(pageString);
         }
@@ -223,25 +242,34 @@ public class Change_requestsService
         // Start of user code queryChangeRequestsAsHtml
         // End of user code
 
-        final List<ChangeRequest> resources = CMManager.queryChangeRequests(httpServletRequest, where, prefix, page, pageSize);
+        final List<ChangeRequest> resources = CMManager.queryChangeRequests(httpServletRequest, where, prefix, paging, page, pageSize);
 
         if (resources!= null) {
             httpServletRequest.setAttribute("resources", resources);
             // Start of user code queryChangeRequestsAsHtml_setAttributes
             // End of user code
 
-            httpServletRequest.setAttribute("queryUri",
-                    uriInfo.getAbsolutePath().toString() + "?oslc.paging=true");
+            UriBuilder uriBuilder = UriBuilder.fromUri(uriInfo.getAbsolutePath())
+                .queryParam("oslc.paging", "true")
+                .queryParam("oslc.pageSize", pageSize)
+                .queryParam("page", page);
+            if (null != where) {
+                uriBuilder.queryParam("oslc.where", where);
+            }
+            if (null != prefix) {
+                uriBuilder.queryParam("oslc.prefix", prefix);
+            }
+            httpServletRequest.setAttribute("queryUri", uriBuilder.build().toString());
             if (resources.size() > pageSize) {
                 resources.remove(resources.size() - 1);
-                httpServletRequest.setAttribute(OSLC4JConstants.OSLC4J_NEXT_PAGE,
-                        uriInfo.getAbsolutePath().toString() + "?oslc.paging=true&oslc.pageSize=" + pageSize + "&page=" + (page + 1));
+
+                uriBuilder.replaceQueryParam("page", page + 1);
+                httpServletRequest.setAttribute(OSLC4JConstants.OSLC4J_NEXT_PAGE, uriBuilder.build().toString());
             }
             RequestDispatcher rd = httpServletRequest.getRequestDispatcher("/co/oslc/refimpl/cm/gen/changerequestscollection.jsp");
             rd.forward(httpServletRequest,httpServletResponse);
             return;
         }
-
         throw new WebApplicationException(Status.NOT_FOUND);
     }
 
@@ -261,18 +289,23 @@ public class Change_requestsService
         description = "Query capability for resources of type {" + "<a href=\"" + Oslc_cmDomainConstants.DEFECT_TYPE + "\">" + Oslc_cmDomainConstants.DEFECT_LOCALNAME + "</a>" + "}" +
             ", with respective resource shapes {" + "<a href=\"" + "../services/" + OslcConstants.PATH_RESOURCE_SHAPES + "/" + Oslc_cmDomainConstants.DEFECT_PATH + "\">" + Oslc_cmDomainConstants.DEFECT_LOCALNAME + "</a>" + "}",
         responses = { 
-            @ApiResponse(content = {@Content(mediaType = OslcMediaType.APPLICATION_RDF_XML), @Content(mediaType = OslcMediaType.APPLICATION_XML), @Content(mediaType = OslcMediaType.APPLICATION_JSON), @Content(mediaType = OslcMediaType.TEXT_TURTLE), @Content(mediaType = MediaType.TEXT_HTML)})
+            @ApiResponse(description = "default response", content = {@Content(mediaType = OslcMediaType.APPLICATION_RDF_XML), @Content(mediaType = OslcMediaType.APPLICATION_XML), @Content(mediaType = OslcMediaType.APPLICATION_JSON), @Content(mediaType = OslcMediaType.TEXT_TURTLE), @Content(mediaType = MediaType.TEXT_HTML)})
         }
     )
     public Defect[] queryDefects(
                                                     
                                                      @QueryParam("oslc.where") final String where,
                                                      @QueryParam("oslc.prefix") final String prefix,
+                                                     @QueryParam("oslc.paging") final String pagingString,
                                                      @QueryParam("page") final String pageString,
-                                                    @QueryParam("oslc.pageSize") final String pageSizeString) throws IOException, ServletException
+                                                     @QueryParam("oslc.pageSize") final String pageSizeString) throws IOException, ServletException
     {
+        boolean paging=false;
         int page=0;
         int pageSize=20;
+        if (null != pagingString) {
+            paging = Boolean.parseBoolean(pagingString);
+        }
         if (null != pageString) {
             page = Integer.parseInt(pageString);
         }
@@ -284,13 +317,22 @@ public class Change_requestsService
         // Here additional logic can be implemented that complements main action taken in CMManager
         // End of user code
 
-        final List<Defect> resources = CMManager.queryDefects(httpServletRequest, where, prefix, page, pageSize);
-        httpServletRequest.setAttribute("queryUri",
-                uriInfo.getAbsolutePath().toString() + "?oslc.paging=true");
+        final List<Defect> resources = CMManager.queryDefects(httpServletRequest, where, prefix, paging, page, pageSize);
+        UriBuilder uriBuilder = UriBuilder.fromUri(uriInfo.getAbsolutePath())
+            .queryParam("oslc.paging", "true")
+            .queryParam("oslc.pageSize", pageSize)
+            .queryParam("page", page);
+        if (null != where) {
+            uriBuilder.queryParam("oslc.where", where);
+        }
+        if (null != prefix) {
+            uriBuilder.queryParam("oslc.prefix", prefix);
+        }
+        httpServletRequest.setAttribute("queryUri", uriBuilder.build().toString());
         if (resources.size() > pageSize) {
             resources.remove(resources.size() - 1);
-            httpServletRequest.setAttribute(OSLC4JConstants.OSLC4J_NEXT_PAGE,
-                    uriInfo.getAbsolutePath().toString() + "?oslc.paging=true&oslc.pageSize=" + pageSize + "&page=" + (page + 1));
+            uriBuilder.replaceQueryParam("page", page + 1);
+            httpServletRequest.setAttribute(OSLC4JConstants.OSLC4J_NEXT_PAGE, uriBuilder.build().toString());
         }
         return resources.toArray(new Defect [resources.size()]);
     }
@@ -303,18 +345,23 @@ public class Change_requestsService
         description = "Query capability for resources of type {" + "<a href=\"" + Oslc_cmDomainConstants.DEFECT_TYPE + "\">" + Oslc_cmDomainConstants.DEFECT_LOCALNAME + "</a>" + "}" +
             ", with respective resource shapes {" + "<a href=\"" + "../services/" + OslcConstants.PATH_RESOURCE_SHAPES + "/" + Oslc_cmDomainConstants.DEFECT_PATH + "\">" + Oslc_cmDomainConstants.DEFECT_LOCALNAME + "</a>" + "}",
         responses = { 
-            @ApiResponse(content = {@Content(mediaType = OslcMediaType.APPLICATION_RDF_XML), @Content(mediaType = OslcMediaType.APPLICATION_XML), @Content(mediaType = OslcMediaType.APPLICATION_JSON), @Content(mediaType = OslcMediaType.TEXT_TURTLE), @Content(mediaType = MediaType.TEXT_HTML)})
+            @ApiResponse(description = "default response", content = {@Content(mediaType = OslcMediaType.APPLICATION_RDF_XML), @Content(mediaType = OslcMediaType.APPLICATION_XML), @Content(mediaType = OslcMediaType.APPLICATION_JSON), @Content(mediaType = OslcMediaType.TEXT_TURTLE), @Content(mediaType = MediaType.TEXT_HTML)})
         }
     )
     public void queryDefectsAsHtml(
                                     
                                        @QueryParam("oslc.where") final String where,
                                        @QueryParam("oslc.prefix") final String prefix,
+                                       @QueryParam("oslc.paging") final String pagingString,
                                        @QueryParam("page") final String pageString,
-                                    @QueryParam("oslc.pageSize") final String pageSizeString) throws ServletException, IOException
+                                       @QueryParam("oslc.pageSize") final String pageSizeString) throws ServletException, IOException
     {
+        boolean paging=false;
         int page=0;
         int pageSize=20;
+        if (null != pagingString) {
+            paging = Boolean.parseBoolean(pagingString);
+        }
         if (null != pageString) {
             page = Integer.parseInt(pageString);
         }
@@ -325,25 +372,34 @@ public class Change_requestsService
         // Start of user code queryDefectsAsHtml
         // End of user code
 
-        final List<Defect> resources = CMManager.queryDefects(httpServletRequest, where, prefix, page, pageSize);
+        final List<Defect> resources = CMManager.queryDefects(httpServletRequest, where, prefix, paging, page, pageSize);
 
         if (resources!= null) {
             httpServletRequest.setAttribute("resources", resources);
             // Start of user code queryDefectsAsHtml_setAttributes
             // End of user code
 
-            httpServletRequest.setAttribute("queryUri",
-                    uriInfo.getAbsolutePath().toString() + "?oslc.paging=true");
+            UriBuilder uriBuilder = UriBuilder.fromUri(uriInfo.getAbsolutePath())
+                .queryParam("oslc.paging", "true")
+                .queryParam("oslc.pageSize", pageSize)
+                .queryParam("page", page);
+            if (null != where) {
+                uriBuilder.queryParam("oslc.where", where);
+            }
+            if (null != prefix) {
+                uriBuilder.queryParam("oslc.prefix", prefix);
+            }
+            httpServletRequest.setAttribute("queryUri", uriBuilder.build().toString());
             if (resources.size() > pageSize) {
                 resources.remove(resources.size() - 1);
-                httpServletRequest.setAttribute(OSLC4JConstants.OSLC4J_NEXT_PAGE,
-                        uriInfo.getAbsolutePath().toString() + "?oslc.paging=true&oslc.pageSize=" + pageSize + "&page=" + (page + 1));
+
+                uriBuilder.replaceQueryParam("page", page + 1);
+                httpServletRequest.setAttribute(OSLC4JConstants.OSLC4J_NEXT_PAGE, uriBuilder.build().toString());
             }
             RequestDispatcher rd = httpServletRequest.getRequestDispatcher("/co/oslc/refimpl/cm/gen/defectscollection.jsp");
             rd.forward(httpServletRequest,httpServletResponse);
             return;
         }
-
         throw new WebApplicationException(Status.NOT_FOUND);
     }
 
@@ -363,18 +419,23 @@ public class Change_requestsService
         description = "Query capability for resources of type {" + "<a href=\"" + Oslc_cmDomainConstants.TASK_TYPE + "\">" + Oslc_cmDomainConstants.TASK_LOCALNAME + "</a>" + "}" +
             ", with respective resource shapes {" + "<a href=\"" + "../services/" + OslcConstants.PATH_RESOURCE_SHAPES + "/" + Oslc_cmDomainConstants.TASK_PATH + "\">" + Oslc_cmDomainConstants.TASK_LOCALNAME + "</a>" + "}",
         responses = { 
-            @ApiResponse(content = {@Content(mediaType = OslcMediaType.APPLICATION_RDF_XML), @Content(mediaType = OslcMediaType.APPLICATION_XML), @Content(mediaType = OslcMediaType.APPLICATION_JSON), @Content(mediaType = OslcMediaType.TEXT_TURTLE), @Content(mediaType = MediaType.TEXT_HTML)})
+            @ApiResponse(description = "default response", content = {@Content(mediaType = OslcMediaType.APPLICATION_RDF_XML), @Content(mediaType = OslcMediaType.APPLICATION_XML), @Content(mediaType = OslcMediaType.APPLICATION_JSON), @Content(mediaType = OslcMediaType.TEXT_TURTLE), @Content(mediaType = MediaType.TEXT_HTML)})
         }
     )
     public Task[] queryTasks(
                                                     
                                                      @QueryParam("oslc.where") final String where,
                                                      @QueryParam("oslc.prefix") final String prefix,
+                                                     @QueryParam("oslc.paging") final String pagingString,
                                                      @QueryParam("page") final String pageString,
-                                                    @QueryParam("oslc.pageSize") final String pageSizeString) throws IOException, ServletException
+                                                     @QueryParam("oslc.pageSize") final String pageSizeString) throws IOException, ServletException
     {
+        boolean paging=false;
         int page=0;
         int pageSize=20;
+        if (null != pagingString) {
+            paging = Boolean.parseBoolean(pagingString);
+        }
         if (null != pageString) {
             page = Integer.parseInt(pageString);
         }
@@ -386,13 +447,22 @@ public class Change_requestsService
         // Here additional logic can be implemented that complements main action taken in CMManager
         // End of user code
 
-        final List<Task> resources = CMManager.queryTasks(httpServletRequest, where, prefix, page, pageSize);
-        httpServletRequest.setAttribute("queryUri",
-                uriInfo.getAbsolutePath().toString() + "?oslc.paging=true");
+        final List<Task> resources = CMManager.queryTasks(httpServletRequest, where, prefix, paging, page, pageSize);
+        UriBuilder uriBuilder = UriBuilder.fromUri(uriInfo.getAbsolutePath())
+            .queryParam("oslc.paging", "true")
+            .queryParam("oslc.pageSize", pageSize)
+            .queryParam("page", page);
+        if (null != where) {
+            uriBuilder.queryParam("oslc.where", where);
+        }
+        if (null != prefix) {
+            uriBuilder.queryParam("oslc.prefix", prefix);
+        }
+        httpServletRequest.setAttribute("queryUri", uriBuilder.build().toString());
         if (resources.size() > pageSize) {
             resources.remove(resources.size() - 1);
-            httpServletRequest.setAttribute(OSLC4JConstants.OSLC4J_NEXT_PAGE,
-                    uriInfo.getAbsolutePath().toString() + "?oslc.paging=true&oslc.pageSize=" + pageSize + "&page=" + (page + 1));
+            uriBuilder.replaceQueryParam("page", page + 1);
+            httpServletRequest.setAttribute(OSLC4JConstants.OSLC4J_NEXT_PAGE, uriBuilder.build().toString());
         }
         return resources.toArray(new Task [resources.size()]);
     }
@@ -405,18 +475,23 @@ public class Change_requestsService
         description = "Query capability for resources of type {" + "<a href=\"" + Oslc_cmDomainConstants.TASK_TYPE + "\">" + Oslc_cmDomainConstants.TASK_LOCALNAME + "</a>" + "}" +
             ", with respective resource shapes {" + "<a href=\"" + "../services/" + OslcConstants.PATH_RESOURCE_SHAPES + "/" + Oslc_cmDomainConstants.TASK_PATH + "\">" + Oslc_cmDomainConstants.TASK_LOCALNAME + "</a>" + "}",
         responses = { 
-            @ApiResponse(content = {@Content(mediaType = OslcMediaType.APPLICATION_RDF_XML), @Content(mediaType = OslcMediaType.APPLICATION_XML), @Content(mediaType = OslcMediaType.APPLICATION_JSON), @Content(mediaType = OslcMediaType.TEXT_TURTLE), @Content(mediaType = MediaType.TEXT_HTML)})
+            @ApiResponse(description = "default response", content = {@Content(mediaType = OslcMediaType.APPLICATION_RDF_XML), @Content(mediaType = OslcMediaType.APPLICATION_XML), @Content(mediaType = OslcMediaType.APPLICATION_JSON), @Content(mediaType = OslcMediaType.TEXT_TURTLE), @Content(mediaType = MediaType.TEXT_HTML)})
         }
     )
     public void queryTasksAsHtml(
                                     
                                        @QueryParam("oslc.where") final String where,
                                        @QueryParam("oslc.prefix") final String prefix,
+                                       @QueryParam("oslc.paging") final String pagingString,
                                        @QueryParam("page") final String pageString,
-                                    @QueryParam("oslc.pageSize") final String pageSizeString) throws ServletException, IOException
+                                       @QueryParam("oslc.pageSize") final String pageSizeString) throws ServletException, IOException
     {
+        boolean paging=false;
         int page=0;
         int pageSize=20;
+        if (null != pagingString) {
+            paging = Boolean.parseBoolean(pagingString);
+        }
         if (null != pageString) {
             page = Integer.parseInt(pageString);
         }
@@ -427,25 +502,34 @@ public class Change_requestsService
         // Start of user code queryTasksAsHtml
         // End of user code
 
-        final List<Task> resources = CMManager.queryTasks(httpServletRequest, where, prefix, page, pageSize);
+        final List<Task> resources = CMManager.queryTasks(httpServletRequest, where, prefix, paging, page, pageSize);
 
         if (resources!= null) {
             httpServletRequest.setAttribute("resources", resources);
             // Start of user code queryTasksAsHtml_setAttributes
             // End of user code
 
-            httpServletRequest.setAttribute("queryUri",
-                    uriInfo.getAbsolutePath().toString() + "?oslc.paging=true");
+            UriBuilder uriBuilder = UriBuilder.fromUri(uriInfo.getAbsolutePath())
+                .queryParam("oslc.paging", "true")
+                .queryParam("oslc.pageSize", pageSize)
+                .queryParam("page", page);
+            if (null != where) {
+                uriBuilder.queryParam("oslc.where", where);
+            }
+            if (null != prefix) {
+                uriBuilder.queryParam("oslc.prefix", prefix);
+            }
+            httpServletRequest.setAttribute("queryUri", uriBuilder.build().toString());
             if (resources.size() > pageSize) {
                 resources.remove(resources.size() - 1);
-                httpServletRequest.setAttribute(OSLC4JConstants.OSLC4J_NEXT_PAGE,
-                        uriInfo.getAbsolutePath().toString() + "?oslc.paging=true&oslc.pageSize=" + pageSize + "&page=" + (page + 1));
+
+                uriBuilder.replaceQueryParam("page", page + 1);
+                httpServletRequest.setAttribute(OSLC4JConstants.OSLC4J_NEXT_PAGE, uriBuilder.build().toString());
             }
             RequestDispatcher rd = httpServletRequest.getRequestDispatcher("/co/oslc/refimpl/cm/gen/taskscollection.jsp");
             rd.forward(httpServletRequest,httpServletResponse);
             return;
         }
-
         throw new WebApplicationException(Status.NOT_FOUND);
     }
 
@@ -465,18 +549,23 @@ public class Change_requestsService
         description = "Query capability for resources of type {" + "<a href=\"" + Oslc_cmDomainConstants.ENHANCEMENT_TYPE + "\">" + Oslc_cmDomainConstants.ENHANCEMENT_LOCALNAME + "</a>" + "}" +
             ", with respective resource shapes {" + "<a href=\"" + "../services/" + OslcConstants.PATH_RESOURCE_SHAPES + "/" + Oslc_cmDomainConstants.ENHANCEMENT_PATH + "\">" + Oslc_cmDomainConstants.ENHANCEMENT_LOCALNAME + "</a>" + "}",
         responses = { 
-            @ApiResponse(content = {@Content(mediaType = OslcMediaType.APPLICATION_RDF_XML), @Content(mediaType = OslcMediaType.APPLICATION_XML), @Content(mediaType = OslcMediaType.APPLICATION_JSON), @Content(mediaType = OslcMediaType.TEXT_TURTLE), @Content(mediaType = MediaType.TEXT_HTML)})
+            @ApiResponse(description = "default response", content = {@Content(mediaType = OslcMediaType.APPLICATION_RDF_XML), @Content(mediaType = OslcMediaType.APPLICATION_XML), @Content(mediaType = OslcMediaType.APPLICATION_JSON), @Content(mediaType = OslcMediaType.TEXT_TURTLE), @Content(mediaType = MediaType.TEXT_HTML)})
         }
     )
     public Enhancement[] queryEnhancements(
                                                     
                                                      @QueryParam("oslc.where") final String where,
                                                      @QueryParam("oslc.prefix") final String prefix,
+                                                     @QueryParam("oslc.paging") final String pagingString,
                                                      @QueryParam("page") final String pageString,
-                                                    @QueryParam("oslc.pageSize") final String pageSizeString) throws IOException, ServletException
+                                                     @QueryParam("oslc.pageSize") final String pageSizeString) throws IOException, ServletException
     {
+        boolean paging=false;
         int page=0;
         int pageSize=20;
+        if (null != pagingString) {
+            paging = Boolean.parseBoolean(pagingString);
+        }
         if (null != pageString) {
             page = Integer.parseInt(pageString);
         }
@@ -488,13 +577,22 @@ public class Change_requestsService
         // Here additional logic can be implemented that complements main action taken in CMManager
         // End of user code
 
-        final List<Enhancement> resources = CMManager.queryEnhancements(httpServletRequest, where, prefix, page, pageSize);
-        httpServletRequest.setAttribute("queryUri",
-                uriInfo.getAbsolutePath().toString() + "?oslc.paging=true");
+        final List<Enhancement> resources = CMManager.queryEnhancements(httpServletRequest, where, prefix, paging, page, pageSize);
+        UriBuilder uriBuilder = UriBuilder.fromUri(uriInfo.getAbsolutePath())
+            .queryParam("oslc.paging", "true")
+            .queryParam("oslc.pageSize", pageSize)
+            .queryParam("page", page);
+        if (null != where) {
+            uriBuilder.queryParam("oslc.where", where);
+        }
+        if (null != prefix) {
+            uriBuilder.queryParam("oslc.prefix", prefix);
+        }
+        httpServletRequest.setAttribute("queryUri", uriBuilder.build().toString());
         if (resources.size() > pageSize) {
             resources.remove(resources.size() - 1);
-            httpServletRequest.setAttribute(OSLC4JConstants.OSLC4J_NEXT_PAGE,
-                    uriInfo.getAbsolutePath().toString() + "?oslc.paging=true&oslc.pageSize=" + pageSize + "&page=" + (page + 1));
+            uriBuilder.replaceQueryParam("page", page + 1);
+            httpServletRequest.setAttribute(OSLC4JConstants.OSLC4J_NEXT_PAGE, uriBuilder.build().toString());
         }
         return resources.toArray(new Enhancement [resources.size()]);
     }
@@ -507,18 +605,23 @@ public class Change_requestsService
         description = "Query capability for resources of type {" + "<a href=\"" + Oslc_cmDomainConstants.ENHANCEMENT_TYPE + "\">" + Oslc_cmDomainConstants.ENHANCEMENT_LOCALNAME + "</a>" + "}" +
             ", with respective resource shapes {" + "<a href=\"" + "../services/" + OslcConstants.PATH_RESOURCE_SHAPES + "/" + Oslc_cmDomainConstants.ENHANCEMENT_PATH + "\">" + Oslc_cmDomainConstants.ENHANCEMENT_LOCALNAME + "</a>" + "}",
         responses = { 
-            @ApiResponse(content = {@Content(mediaType = OslcMediaType.APPLICATION_RDF_XML), @Content(mediaType = OslcMediaType.APPLICATION_XML), @Content(mediaType = OslcMediaType.APPLICATION_JSON), @Content(mediaType = OslcMediaType.TEXT_TURTLE), @Content(mediaType = MediaType.TEXT_HTML)})
+            @ApiResponse(description = "default response", content = {@Content(mediaType = OslcMediaType.APPLICATION_RDF_XML), @Content(mediaType = OslcMediaType.APPLICATION_XML), @Content(mediaType = OslcMediaType.APPLICATION_JSON), @Content(mediaType = OslcMediaType.TEXT_TURTLE), @Content(mediaType = MediaType.TEXT_HTML)})
         }
     )
     public void queryEnhancementsAsHtml(
                                     
                                        @QueryParam("oslc.where") final String where,
                                        @QueryParam("oslc.prefix") final String prefix,
+                                       @QueryParam("oslc.paging") final String pagingString,
                                        @QueryParam("page") final String pageString,
-                                    @QueryParam("oslc.pageSize") final String pageSizeString) throws ServletException, IOException
+                                       @QueryParam("oslc.pageSize") final String pageSizeString) throws ServletException, IOException
     {
+        boolean paging=false;
         int page=0;
         int pageSize=20;
+        if (null != pagingString) {
+            paging = Boolean.parseBoolean(pagingString);
+        }
         if (null != pageString) {
             page = Integer.parseInt(pageString);
         }
@@ -529,25 +632,34 @@ public class Change_requestsService
         // Start of user code queryEnhancementsAsHtml
         // End of user code
 
-        final List<Enhancement> resources = CMManager.queryEnhancements(httpServletRequest, where, prefix, page, pageSize);
+        final List<Enhancement> resources = CMManager.queryEnhancements(httpServletRequest, where, prefix, paging, page, pageSize);
 
         if (resources!= null) {
             httpServletRequest.setAttribute("resources", resources);
             // Start of user code queryEnhancementsAsHtml_setAttributes
             // End of user code
 
-            httpServletRequest.setAttribute("queryUri",
-                    uriInfo.getAbsolutePath().toString() + "?oslc.paging=true");
+            UriBuilder uriBuilder = UriBuilder.fromUri(uriInfo.getAbsolutePath())
+                .queryParam("oslc.paging", "true")
+                .queryParam("oslc.pageSize", pageSize)
+                .queryParam("page", page);
+            if (null != where) {
+                uriBuilder.queryParam("oslc.where", where);
+            }
+            if (null != prefix) {
+                uriBuilder.queryParam("oslc.prefix", prefix);
+            }
+            httpServletRequest.setAttribute("queryUri", uriBuilder.build().toString());
             if (resources.size() > pageSize) {
                 resources.remove(resources.size() - 1);
-                httpServletRequest.setAttribute(OSLC4JConstants.OSLC4J_NEXT_PAGE,
-                        uriInfo.getAbsolutePath().toString() + "?oslc.paging=true&oslc.pageSize=" + pageSize + "&page=" + (page + 1));
+
+                uriBuilder.replaceQueryParam("page", page + 1);
+                httpServletRequest.setAttribute(OSLC4JConstants.OSLC4J_NEXT_PAGE, uriBuilder.build().toString());
             }
             RequestDispatcher rd = httpServletRequest.getRequestDispatcher("/co/oslc/refimpl/cm/gen/enhancementscollection.jsp");
             rd.forward(httpServletRequest,httpServletResponse);
             return;
         }
-
         throw new WebApplicationException(Status.NOT_FOUND);
     }
 
@@ -567,18 +679,23 @@ public class Change_requestsService
         description = "Query capability for resources of type {" + "<a href=\"" + Oslc_cmDomainConstants.REVIEWTASK_TYPE + "\">" + Oslc_cmDomainConstants.REVIEWTASK_LOCALNAME + "</a>" + "}" +
             ", with respective resource shapes {" + "<a href=\"" + "../services/" + OslcConstants.PATH_RESOURCE_SHAPES + "/" + Oslc_cmDomainConstants.REVIEWTASK_PATH + "\">" + Oslc_cmDomainConstants.REVIEWTASK_LOCALNAME + "</a>" + "}",
         responses = { 
-            @ApiResponse(content = {@Content(mediaType = OslcMediaType.APPLICATION_RDF_XML), @Content(mediaType = OslcMediaType.APPLICATION_XML), @Content(mediaType = OslcMediaType.APPLICATION_JSON), @Content(mediaType = OslcMediaType.TEXT_TURTLE), @Content(mediaType = MediaType.TEXT_HTML)})
+            @ApiResponse(description = "default response", content = {@Content(mediaType = OslcMediaType.APPLICATION_RDF_XML), @Content(mediaType = OslcMediaType.APPLICATION_XML), @Content(mediaType = OslcMediaType.APPLICATION_JSON), @Content(mediaType = OslcMediaType.TEXT_TURTLE), @Content(mediaType = MediaType.TEXT_HTML)})
         }
     )
     public ReviewTask[] queryReviewTasks(
                                                     
                                                      @QueryParam("oslc.where") final String where,
                                                      @QueryParam("oslc.prefix") final String prefix,
+                                                     @QueryParam("oslc.paging") final String pagingString,
                                                      @QueryParam("page") final String pageString,
-                                                    @QueryParam("oslc.pageSize") final String pageSizeString) throws IOException, ServletException
+                                                     @QueryParam("oslc.pageSize") final String pageSizeString) throws IOException, ServletException
     {
+        boolean paging=false;
         int page=0;
         int pageSize=20;
+        if (null != pagingString) {
+            paging = Boolean.parseBoolean(pagingString);
+        }
         if (null != pageString) {
             page = Integer.parseInt(pageString);
         }
@@ -590,13 +707,22 @@ public class Change_requestsService
         // Here additional logic can be implemented that complements main action taken in CMManager
         // End of user code
 
-        final List<ReviewTask> resources = CMManager.queryReviewTasks(httpServletRequest, where, prefix, page, pageSize);
-        httpServletRequest.setAttribute("queryUri",
-                uriInfo.getAbsolutePath().toString() + "?oslc.paging=true");
+        final List<ReviewTask> resources = CMManager.queryReviewTasks(httpServletRequest, where, prefix, paging, page, pageSize);
+        UriBuilder uriBuilder = UriBuilder.fromUri(uriInfo.getAbsolutePath())
+            .queryParam("oslc.paging", "true")
+            .queryParam("oslc.pageSize", pageSize)
+            .queryParam("page", page);
+        if (null != where) {
+            uriBuilder.queryParam("oslc.where", where);
+        }
+        if (null != prefix) {
+            uriBuilder.queryParam("oslc.prefix", prefix);
+        }
+        httpServletRequest.setAttribute("queryUri", uriBuilder.build().toString());
         if (resources.size() > pageSize) {
             resources.remove(resources.size() - 1);
-            httpServletRequest.setAttribute(OSLC4JConstants.OSLC4J_NEXT_PAGE,
-                    uriInfo.getAbsolutePath().toString() + "?oslc.paging=true&oslc.pageSize=" + pageSize + "&page=" + (page + 1));
+            uriBuilder.replaceQueryParam("page", page + 1);
+            httpServletRequest.setAttribute(OSLC4JConstants.OSLC4J_NEXT_PAGE, uriBuilder.build().toString());
         }
         return resources.toArray(new ReviewTask [resources.size()]);
     }
@@ -609,18 +735,23 @@ public class Change_requestsService
         description = "Query capability for resources of type {" + "<a href=\"" + Oslc_cmDomainConstants.REVIEWTASK_TYPE + "\">" + Oslc_cmDomainConstants.REVIEWTASK_LOCALNAME + "</a>" + "}" +
             ", with respective resource shapes {" + "<a href=\"" + "../services/" + OslcConstants.PATH_RESOURCE_SHAPES + "/" + Oslc_cmDomainConstants.REVIEWTASK_PATH + "\">" + Oslc_cmDomainConstants.REVIEWTASK_LOCALNAME + "</a>" + "}",
         responses = { 
-            @ApiResponse(content = {@Content(mediaType = OslcMediaType.APPLICATION_RDF_XML), @Content(mediaType = OslcMediaType.APPLICATION_XML), @Content(mediaType = OslcMediaType.APPLICATION_JSON), @Content(mediaType = OslcMediaType.TEXT_TURTLE), @Content(mediaType = MediaType.TEXT_HTML)})
+            @ApiResponse(description = "default response", content = {@Content(mediaType = OslcMediaType.APPLICATION_RDF_XML), @Content(mediaType = OslcMediaType.APPLICATION_XML), @Content(mediaType = OslcMediaType.APPLICATION_JSON), @Content(mediaType = OslcMediaType.TEXT_TURTLE), @Content(mediaType = MediaType.TEXT_HTML)})
         }
     )
     public void queryReviewTasksAsHtml(
                                     
                                        @QueryParam("oslc.where") final String where,
                                        @QueryParam("oslc.prefix") final String prefix,
+                                       @QueryParam("oslc.paging") final String pagingString,
                                        @QueryParam("page") final String pageString,
-                                    @QueryParam("oslc.pageSize") final String pageSizeString) throws ServletException, IOException
+                                       @QueryParam("oslc.pageSize") final String pageSizeString) throws ServletException, IOException
     {
+        boolean paging=false;
         int page=0;
         int pageSize=20;
+        if (null != pagingString) {
+            paging = Boolean.parseBoolean(pagingString);
+        }
         if (null != pageString) {
             page = Integer.parseInt(pageString);
         }
@@ -631,25 +762,34 @@ public class Change_requestsService
         // Start of user code queryReviewTasksAsHtml
         // End of user code
 
-        final List<ReviewTask> resources = CMManager.queryReviewTasks(httpServletRequest, where, prefix, page, pageSize);
+        final List<ReviewTask> resources = CMManager.queryReviewTasks(httpServletRequest, where, prefix, paging, page, pageSize);
 
         if (resources!= null) {
             httpServletRequest.setAttribute("resources", resources);
             // Start of user code queryReviewTasksAsHtml_setAttributes
             // End of user code
 
-            httpServletRequest.setAttribute("queryUri",
-                    uriInfo.getAbsolutePath().toString() + "?oslc.paging=true");
+            UriBuilder uriBuilder = UriBuilder.fromUri(uriInfo.getAbsolutePath())
+                .queryParam("oslc.paging", "true")
+                .queryParam("oslc.pageSize", pageSize)
+                .queryParam("page", page);
+            if (null != where) {
+                uriBuilder.queryParam("oslc.where", where);
+            }
+            if (null != prefix) {
+                uriBuilder.queryParam("oslc.prefix", prefix);
+            }
+            httpServletRequest.setAttribute("queryUri", uriBuilder.build().toString());
             if (resources.size() > pageSize) {
                 resources.remove(resources.size() - 1);
-                httpServletRequest.setAttribute(OSLC4JConstants.OSLC4J_NEXT_PAGE,
-                        uriInfo.getAbsolutePath().toString() + "?oslc.paging=true&oslc.pageSize=" + pageSize + "&page=" + (page + 1));
+
+                uriBuilder.replaceQueryParam("page", page + 1);
+                httpServletRequest.setAttribute(OSLC4JConstants.OSLC4J_NEXT_PAGE, uriBuilder.build().toString());
             }
             RequestDispatcher rd = httpServletRequest.getRequestDispatcher("/co/oslc/refimpl/cm/gen/reviewtaskscollection.jsp");
             rd.forward(httpServletRequest,httpServletResponse);
             return;
         }
-
         throw new WebApplicationException(Status.NOT_FOUND);
     }
 
@@ -669,18 +809,23 @@ public class Change_requestsService
         description = "Query capability for resources of type {" + "<a href=\"" + Oslc_cmDomainConstants.CHANGENOTICE_TYPE + "\">" + Oslc_cmDomainConstants.CHANGENOTICE_LOCALNAME + "</a>" + "}" +
             ", with respective resource shapes {" + "<a href=\"" + "../services/" + OslcConstants.PATH_RESOURCE_SHAPES + "/" + Oslc_cmDomainConstants.CHANGENOTICE_PATH + "\">" + Oslc_cmDomainConstants.CHANGENOTICE_LOCALNAME + "</a>" + "}",
         responses = { 
-            @ApiResponse(content = {@Content(mediaType = OslcMediaType.APPLICATION_RDF_XML), @Content(mediaType = OslcMediaType.APPLICATION_XML), @Content(mediaType = OslcMediaType.APPLICATION_JSON), @Content(mediaType = OslcMediaType.TEXT_TURTLE), @Content(mediaType = MediaType.TEXT_HTML)})
+            @ApiResponse(description = "default response", content = {@Content(mediaType = OslcMediaType.APPLICATION_RDF_XML), @Content(mediaType = OslcMediaType.APPLICATION_XML), @Content(mediaType = OslcMediaType.APPLICATION_JSON), @Content(mediaType = OslcMediaType.TEXT_TURTLE), @Content(mediaType = MediaType.TEXT_HTML)})
         }
     )
     public ChangeNotice[] queryChangeNotices(
                                                     
                                                      @QueryParam("oslc.where") final String where,
                                                      @QueryParam("oslc.prefix") final String prefix,
+                                                     @QueryParam("oslc.paging") final String pagingString,
                                                      @QueryParam("page") final String pageString,
-                                                    @QueryParam("oslc.pageSize") final String pageSizeString) throws IOException, ServletException
+                                                     @QueryParam("oslc.pageSize") final String pageSizeString) throws IOException, ServletException
     {
+        boolean paging=false;
         int page=0;
         int pageSize=20;
+        if (null != pagingString) {
+            paging = Boolean.parseBoolean(pagingString);
+        }
         if (null != pageString) {
             page = Integer.parseInt(pageString);
         }
@@ -692,13 +837,22 @@ public class Change_requestsService
         // Here additional logic can be implemented that complements main action taken in CMManager
         // End of user code
 
-        final List<ChangeNotice> resources = CMManager.queryChangeNotices(httpServletRequest, where, prefix, page, pageSize);
-        httpServletRequest.setAttribute("queryUri",
-                uriInfo.getAbsolutePath().toString() + "?oslc.paging=true");
+        final List<ChangeNotice> resources = CMManager.queryChangeNotices(httpServletRequest, where, prefix, paging, page, pageSize);
+        UriBuilder uriBuilder = UriBuilder.fromUri(uriInfo.getAbsolutePath())
+            .queryParam("oslc.paging", "true")
+            .queryParam("oslc.pageSize", pageSize)
+            .queryParam("page", page);
+        if (null != where) {
+            uriBuilder.queryParam("oslc.where", where);
+        }
+        if (null != prefix) {
+            uriBuilder.queryParam("oslc.prefix", prefix);
+        }
+        httpServletRequest.setAttribute("queryUri", uriBuilder.build().toString());
         if (resources.size() > pageSize) {
             resources.remove(resources.size() - 1);
-            httpServletRequest.setAttribute(OSLC4JConstants.OSLC4J_NEXT_PAGE,
-                    uriInfo.getAbsolutePath().toString() + "?oslc.paging=true&oslc.pageSize=" + pageSize + "&page=" + (page + 1));
+            uriBuilder.replaceQueryParam("page", page + 1);
+            httpServletRequest.setAttribute(OSLC4JConstants.OSLC4J_NEXT_PAGE, uriBuilder.build().toString());
         }
         return resources.toArray(new ChangeNotice [resources.size()]);
     }
@@ -711,18 +865,23 @@ public class Change_requestsService
         description = "Query capability for resources of type {" + "<a href=\"" + Oslc_cmDomainConstants.CHANGENOTICE_TYPE + "\">" + Oslc_cmDomainConstants.CHANGENOTICE_LOCALNAME + "</a>" + "}" +
             ", with respective resource shapes {" + "<a href=\"" + "../services/" + OslcConstants.PATH_RESOURCE_SHAPES + "/" + Oslc_cmDomainConstants.CHANGENOTICE_PATH + "\">" + Oslc_cmDomainConstants.CHANGENOTICE_LOCALNAME + "</a>" + "}",
         responses = { 
-            @ApiResponse(content = {@Content(mediaType = OslcMediaType.APPLICATION_RDF_XML), @Content(mediaType = OslcMediaType.APPLICATION_XML), @Content(mediaType = OslcMediaType.APPLICATION_JSON), @Content(mediaType = OslcMediaType.TEXT_TURTLE), @Content(mediaType = MediaType.TEXT_HTML)})
+            @ApiResponse(description = "default response", content = {@Content(mediaType = OslcMediaType.APPLICATION_RDF_XML), @Content(mediaType = OslcMediaType.APPLICATION_XML), @Content(mediaType = OslcMediaType.APPLICATION_JSON), @Content(mediaType = OslcMediaType.TEXT_TURTLE), @Content(mediaType = MediaType.TEXT_HTML)})
         }
     )
     public void queryChangeNoticesAsHtml(
                                     
                                        @QueryParam("oslc.where") final String where,
                                        @QueryParam("oslc.prefix") final String prefix,
+                                       @QueryParam("oslc.paging") final String pagingString,
                                        @QueryParam("page") final String pageString,
-                                    @QueryParam("oslc.pageSize") final String pageSizeString) throws ServletException, IOException
+                                       @QueryParam("oslc.pageSize") final String pageSizeString) throws ServletException, IOException
     {
+        boolean paging=false;
         int page=0;
         int pageSize=20;
+        if (null != pagingString) {
+            paging = Boolean.parseBoolean(pagingString);
+        }
         if (null != pageString) {
             page = Integer.parseInt(pageString);
         }
@@ -733,25 +892,34 @@ public class Change_requestsService
         // Start of user code queryChangeNoticesAsHtml
         // End of user code
 
-        final List<ChangeNotice> resources = CMManager.queryChangeNotices(httpServletRequest, where, prefix, page, pageSize);
+        final List<ChangeNotice> resources = CMManager.queryChangeNotices(httpServletRequest, where, prefix, paging, page, pageSize);
 
         if (resources!= null) {
             httpServletRequest.setAttribute("resources", resources);
             // Start of user code queryChangeNoticesAsHtml_setAttributes
             // End of user code
 
-            httpServletRequest.setAttribute("queryUri",
-                    uriInfo.getAbsolutePath().toString() + "?oslc.paging=true");
+            UriBuilder uriBuilder = UriBuilder.fromUri(uriInfo.getAbsolutePath())
+                .queryParam("oslc.paging", "true")
+                .queryParam("oslc.pageSize", pageSize)
+                .queryParam("page", page);
+            if (null != where) {
+                uriBuilder.queryParam("oslc.where", where);
+            }
+            if (null != prefix) {
+                uriBuilder.queryParam("oslc.prefix", prefix);
+            }
+            httpServletRequest.setAttribute("queryUri", uriBuilder.build().toString());
             if (resources.size() > pageSize) {
                 resources.remove(resources.size() - 1);
-                httpServletRequest.setAttribute(OSLC4JConstants.OSLC4J_NEXT_PAGE,
-                        uriInfo.getAbsolutePath().toString() + "?oslc.paging=true&oslc.pageSize=" + pageSize + "&page=" + (page + 1));
+
+                uriBuilder.replaceQueryParam("page", page + 1);
+                httpServletRequest.setAttribute(OSLC4JConstants.OSLC4J_NEXT_PAGE, uriBuilder.build().toString());
             }
             RequestDispatcher rd = httpServletRequest.getRequestDispatcher("/co/oslc/refimpl/cm/gen/changenoticescollection.jsp");
             rd.forward(httpServletRequest,httpServletResponse);
             return;
         }
-
         throw new WebApplicationException(Status.NOT_FOUND);
     }
 
@@ -1126,7 +1294,7 @@ public class Change_requestsService
         description = "Creation factory for resources of type {" + "<a href=\"" + Oslc_cmDomainConstants.CHANGEREQUEST_TYPE + "\">" + Oslc_cmDomainConstants.CHANGEREQUEST_LOCALNAME + "</a>" + "}" +
             ", with respective resource shapes {" + "<a href=\"" + "../services/" + OslcConstants.PATH_RESOURCE_SHAPES + "/" + Oslc_cmDomainConstants.CHANGEREQUEST_PATH + "\">" + Oslc_cmDomainConstants.CHANGEREQUEST_LOCALNAME + "</a>" + "}",
         responses = { 
-            @ApiResponse(content = {@Content(mediaType = OslcMediaType.APPLICATION_RDF_XML), @Content(mediaType = OslcMediaType.APPLICATION_XML), @Content(mediaType = OslcMediaType.APPLICATION_JSON), @Content(mediaType = OslcMediaType.TEXT_TURTLE)})
+            @ApiResponse(description = "default response", content = {@Content(mediaType = OslcMediaType.APPLICATION_RDF_XML), @Content(mediaType = OslcMediaType.APPLICATION_XML), @Content(mediaType = OslcMediaType.APPLICATION_JSON), @Content(mediaType = OslcMediaType.TEXT_TURTLE)})
         }
     )
     public Response createChangeRequest(

@@ -116,7 +116,7 @@
     <requiredAdaptors xsi:type="oslc4j_ai:GenericRequiredAdaptor" serviceProviderCatalogURI="http://your.host.com/adaptor/services/catalog/singleton" name="GenericRequiredAdaptor"/>
     <configuration xsi:type="oslc4j_ai:MavenServerConfiguration" rootServerBaseUrl="http://localhost:8801/" applicationContextPath="/" servletUrlPattern="/services/*" generateJspFilesForOslcUI="true" jettyPort="8801">
       <generalConfiguration doNotGenerateFromImportedModels="true" filesBasePath="../src/server-cm/" javaBasePackageName="co.oslc.refimpl.cm.gen"/>
-      <projectConfiguration xsi:type="oslc4j_ai:MavenProjectConfiguration" lyoVersion="4.0.0" groupId="co.oslc.refimpl.cm.gen" artifactId="cm" version="0.0.1-SNAPSHOT"/>
+      <projectConfiguration xsi:type="oslc4j_ai:MavenProjectConfiguration" lyoVersion="5.0.0-SNAPSHOT" groupId="co.oslc.refimpl" artifactId="server-cm" version="0.2.0-SNAPSHOT"/>
       <authenticationConfiguration applicationName="CM" oauthRealm="CM"/>
     </configuration>
   </adaptorInterfaces>
