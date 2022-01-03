@@ -25,6 +25,7 @@ package co.oslc.refimpl.am.gen.servlet;
 
 import java.net.MalformedURLException;
 import java.util.NoSuchElementException;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
 import org.slf4j.Logger;
@@ -46,12 +47,7 @@ import co.oslc.refimpl.am.gen.AMManager;
 /**
  * During the initialization of this ServletListener, the base URI for the OSLC resources produced by this server is configured through the OSLC4J method setPublicURI().
  * <p>
- * A number of approaches can be used to set this base URI:
- * <ol>
- * <li>Set a system environment property of name "LYO_BASE".</li>
- * <li>In the web.xml file, set a {@code context-param} property, with name "co.oslc.refimpl.am.gen.servlet.baseurl}</li>
- * <li>Override the value of the DEFAULT_BASE constant.</li>
- * </ol>
+ * See getConfigurationProperty() for the different alternatives to set this base URI. 
  */
 public class ServletListener implements ServletContextListener  {
     private static final Logger logger = LoggerFactory.getLogger(ServletListener.class);
@@ -67,15 +63,17 @@ public class ServletListener implements ServletContextListener  {
     public void contextInitialized(final ServletContextEvent servletContextEvent)
     {
         //These are default values. You can modify any of them early in this method.
-        String basePathEnvKey = "LYO_BASE";
-        String basePathContextPropertyKey = String.format("%s.%s", ServletListener.class.getPackage().getName(), "baseurl");
+        String basePathKey = "baseurl";
         String fallbackBase = "http://localhost:8080";
         String servletName = "JAX-RS Servlet";
 
         // Start of user code contextInitialized_init
         // End of user code
 
-        String baseUrl = generateBasePath(servletContextEvent, basePathEnvKey, basePathContextPropertyKey, fallbackBase);
+        ServletContext servletContext = servletContextEvent.getServletContext();
+        String basePathProperty = getConfigurationProperty(basePathKey, fallbackBase, servletContext, ServletListener.class);
+        UriBuilder builder = UriBuilder.fromUri(basePathProperty);
+        String baseUrl = builder.path(servletContext.getContextPath()).build().toString();
         String servletUrlPattern = "services/";
         try {
             servletUrlPattern = getServletUrlPattern(servletContextEvent, servletName);
@@ -97,7 +95,7 @@ public class ServletListener implements ServletContextListener  {
 
         // Establish connection to data backbone etc ...
         AMManager.contextInitializeServletListener(servletContextEvent);
-
+        
         // Start of user code contextInitialized_final
         // End of user code
     }
@@ -125,32 +123,69 @@ public class ServletListener implements ServletContextListener  {
     }
     // End of user code
 
-    private static String generateBasePath(final ServletContextEvent servletContextEvent, String basePathEnvKey, String basePathContextPropertyKey, String fallbackBase) {
-        String base = getBasePathFromEnvironment(basePathEnvKey)
-        .orElseGet(() -> getBasePathFromSystemProperties(basePathContextPropertyKey)
-            .orElseGet(() -> getBasePathFromContext(servletContextEvent, basePathContextPropertyKey)
-                .orElse(fallbackBase)));
-        UriBuilder builder = UriBuilder.fromUri(base);
-        return builder.path(servletContextEvent.getServletContext().getContextPath()).build().toString();
+    /**
+     * For a property 'scheme', this is the lookup priority:
+     * <p>
+     * <ol>
+     *     <li>LYO_SCHEME env variable</li>
+     *     <li>%pkg_name%.scheme JVM property, e.g. org.eclipse.lyo.oslc4j.core.servlet.scheme</li>
+     *     <li>%pkg_name%.scheme Servlet Context parameter, e.g. org.eclipse.lyo.oslc4j.core.servlet.scheme</li>
+     * </ol>
+     * @param key property key name
+     * @param defaultValue default String value
+     * @param klass Class of the ServletListener
+     * @return value, if found, from ENV, JVM, or Servlet Context (in this order)
+     */
+    private static String getConfigurationProperty(String key, String defaultValue, final ServletContext servletContext, Class klass) {
+        String value = getConfigurationPropertyFromEnvironment(generateEnvironmentKey(key))
+            .orElseGet(() -> getConfigurationPropertyFromSystemProperties(generateFullyQualifiedKey(klass, key))
+                .orElseGet(() -> getConfigurationPropertyFromContext(servletContext, generateFullyQualifiedKey(klass, key))
+                    .orElse(defaultValue)));
+        return value;
     }
 
+    /**
+     * property name 'scheme' would become "org.eclipse.lyo.oslc4j.core.servlet.scheme"
+     */
+    private static String generateFullyQualifiedKey(Class klass, String key) {
+        return klass.getPackage().getName() + '.' + key;
+    }
 
-    private static Optional<String> getBasePathFromEnvironment(String basePathEnvKey) {
+    /**
+     * web.xml property ending in '.scheme' would become "LYO_SCHEME"
+     */
+    private static String generateEnvironmentKey(String key) {
+        return "LYO_" + key.toUpperCase(Locale.ROOT).replace('.', '_');
+    }
+
+    private static Optional<String> getConfigurationPropertyFromEnvironment(String basePathEnvKey) {
         final Map<String, String> env = System.getenv();
-        if(env.containsKey(basePathEnvKey)) {
-            logger.info("Found {} env variable", basePathEnvKey);
-            return Optional.of(env.get(basePathEnvKey));
-        }
-        return Optional.empty();
-    }
-
-    private static Optional<String> getBasePathFromContext(final ServletContextEvent servletContextEvent, String basePathContextPropertyKey) {
-        final ServletContext servletContext = servletContextEvent.getServletContext();
-        String base = servletContext.getInitParameter(basePathContextPropertyKey);
-        if (base == null || base.trim().isEmpty()) {
+        if (!env.containsKey(basePathEnvKey)) {
+            logger.debug("ENV variable '{}' not defined", basePathEnvKey);
             return Optional.empty();
         }
-        return Optional.of(base);
+        logger.info("Found {} env variable", basePathEnvKey);
+        return Optional.of(env.get(basePathEnvKey));
+    }
+
+    private static Optional<String> getConfigurationPropertyFromSystemProperties(String basePathContextPropertyKey) {
+        String value = System.getProperty(basePathContextPropertyKey);
+        if (value == null || value.trim().isEmpty()) {
+            logger.debug("System (JVM) property '{}' not defined", basePathContextPropertyKey);
+            return Optional.empty();
+        }
+        logger.info("Found {} System (JVM) property", basePathContextPropertyKey);
+        return Optional.of(value);
+    }
+
+    private static Optional<String> getConfigurationPropertyFromContext(final ServletContext servletContext, String basePathContextPropertyKey) {
+        String value = servletContext.getInitParameter(basePathContextPropertyKey);
+        if (value == null || value.trim().isEmpty()) {
+            logger.debug("Servlet Context parameter '{}' not defined", basePathContextPropertyKey);
+            return Optional.empty();
+        }
+        logger.info("Found {} context parameter", basePathContextPropertyKey);
+        return Optional.of(value);
     }
 
     private static String getServletUrlPattern(final ServletContextEvent servletContextEvent, String servletName) throws Exception {

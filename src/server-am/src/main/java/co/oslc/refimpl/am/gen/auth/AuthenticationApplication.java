@@ -168,6 +168,10 @@ public class AuthenticationApplication implements Application {
         return (String) request.getSession().getAttribute(APPLICATION_CONNECTOR_SESSION_ATTRIBUTE);
     }
 
+    public void removeApplicationConnectorFromSession(HttpServletRequest request) {
+        request.getSession().removeAttribute(APPLICATION_CONNECTOR_SESSION_ATTRIBUTE);
+    }
+
     public String getApplicationConnector(String oauth1Token) {
         return oauth1TokenToApplicationConnector.get(oauth1Token);
     }
