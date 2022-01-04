@@ -118,7 +118,7 @@ public class QMManager {
         return serviceProviderInfos;
     }
 
-    public static List<TestCase> queryTestCases(HttpServletRequest httpServletRequest, String where, String prefix, int page, int limit)
+    public static List<TestCase> queryTestCases(HttpServletRequest httpServletRequest, String where, String prefix, boolean paging, int page, int limit)
     {
         List<TestCase> resources = null;
         
@@ -160,7 +160,7 @@ public class QMManager {
 
 
 
-    public static List<TestPlan> queryTestPlans(HttpServletRequest httpServletRequest, String where, String prefix, int page, int limit)
+    public static List<TestPlan> queryTestPlans(HttpServletRequest httpServletRequest, String where, String prefix, boolean paging, int page, int limit)
     {
         List<TestPlan> resources = null;
         
@@ -202,7 +202,7 @@ public class QMManager {
 
 
 
-    public static List<TestScript> queryTestScripts(HttpServletRequest httpServletRequest, String where, String prefix, int page, int limit)
+    public static List<TestScript> queryTestScripts(HttpServletRequest httpServletRequest, String where, String prefix, boolean paging, int page, int limit)
     {
         List<TestScript> resources = null;
         
@@ -244,7 +244,7 @@ public class QMManager {
 
 
 
-    public static List<TestResult> queryTestResults(HttpServletRequest httpServletRequest, String where, String prefix, int page, int limit)
+    public static List<TestResult> queryTestResults(HttpServletRequest httpServletRequest, String where, String prefix, boolean paging, int page, int limit)
     {
         List<TestResult> resources = null;
         
@@ -286,7 +286,7 @@ public class QMManager {
 
 
 
-    public static List<TestExecutionRecord> queryTestExecutionRecords(HttpServletRequest httpServletRequest, String where, String prefix, int page, int limit)
+    public static List<TestExecutionRecord> queryTestExecutionRecords(HttpServletRequest httpServletRequest, String where, String prefix, boolean paging, int page, int limit)
     {
         List<TestExecutionRecord> resources = null;
         

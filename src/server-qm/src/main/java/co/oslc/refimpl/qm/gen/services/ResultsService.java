@@ -62,6 +62,7 @@ import javax.ws.rs.core.UriBuilder;
 
 import org.apache.wink.json4j.JSONException;
 import org.apache.wink.json4j.JSONObject;
+import org.apache.wink.json4j.JSONArray;
 import org.eclipse.lyo.oslc4j.provider.json4j.JsonHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -100,8 +101,9 @@ import org.eclipse.lyo.oslc.domains.qm.TestExecutionRecord;
 import org.eclipse.lyo.oslc.domains.qm.TestPlan;
 import org.eclipse.lyo.oslc.domains.qm.TestResult;
 import org.eclipse.lyo.oslc.domains.qm.TestScript;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 
 // Start of user code imports
 // End of user code
@@ -110,7 +112,6 @@ import io.swagger.annotations.ApiOperation;
 // End of user code
 @OslcService(Oslc_qmDomainConstants.QUALITY_MANAGEMENT_DOMAIN)
 @Path("service4/testResults")
-@Api(value = "OSLC Service for {" + Oslc_qmDomainConstants.TESTRESULT_LOCALNAME + "}")
 public class ResultsService
 {
     @Context private HttpServletRequest httpServletRequest;
@@ -150,21 +151,28 @@ public class ResultsService
     @GET
     @Path("query")
     @Produces({OslcMediaType.APPLICATION_RDF_XML, OslcMediaType.APPLICATION_JSON_LD, OslcMediaType.TEXT_TURTLE, OslcMediaType.APPLICATION_XML, OslcMediaType.APPLICATION_JSON})
-    @ApiOperation(
-        value = "Query capability for resources of type {" + Oslc_qmDomainConstants.TESTRESULT_LOCALNAME + "}",
-        notes = "Query capability for resources of type {" + "<a href=\"" + Oslc_qmDomainConstants.TESTRESULT_TYPE + "\">" + Oslc_qmDomainConstants.TESTRESULT_LOCALNAME + "</a>" + "}" +
+    @Operation(
+        summary = "Query capability for resources of type {" + Oslc_qmDomainConstants.TESTRESULT_LOCALNAME + "}",
+        description = "Query capability for resources of type {" + "<a href=\"" + Oslc_qmDomainConstants.TESTRESULT_TYPE + "\">" + Oslc_qmDomainConstants.TESTRESULT_LOCALNAME + "</a>" + "}" +
             ", with respective resource shapes {" + "<a href=\"" + "../services/" + OslcConstants.PATH_RESOURCE_SHAPES + "/" + Oslc_qmDomainConstants.TESTRESULT_PATH + "\">" + Oslc_qmDomainConstants.TESTRESULT_LOCALNAME + "</a>" + "}",
-        produces = OslcMediaType.APPLICATION_RDF_XML + ", " + OslcMediaType.APPLICATION_XML + ", " + OslcMediaType.APPLICATION_JSON + ", " + OslcMediaType.TEXT_TURTLE + ", " + MediaType.TEXT_HTML
+        responses = { 
+            @ApiResponse(description = "default response", content = {@Content(mediaType = OslcMediaType.APPLICATION_RDF_XML), @Content(mediaType = OslcMediaType.APPLICATION_XML), @Content(mediaType = OslcMediaType.APPLICATION_JSON), @Content(mediaType = OslcMediaType.TEXT_TURTLE), @Content(mediaType = MediaType.TEXT_HTML)})
+        }
     )
     public TestResult[] queryTestResults(
                                                     
                                                      @QueryParam("oslc.where") final String where,
                                                      @QueryParam("oslc.prefix") final String prefix,
+                                                     @QueryParam("oslc.paging") final String pagingString,
                                                      @QueryParam("page") final String pageString,
-                                                    @QueryParam("oslc.pageSize") final String pageSizeString) throws IOException, ServletException
+                                                     @QueryParam("oslc.pageSize") final String pageSizeString) throws IOException, ServletException
     {
+        boolean paging=false;
         int page=0;
         int pageSize=20;
+        if (null != pagingString) {
+            paging = Boolean.parseBoolean(pagingString);
+        }
         if (null != pageString) {
             page = Integer.parseInt(pageString);
         }
@@ -176,13 +184,22 @@ public class ResultsService
         // Here additional logic can be implemented that complements main action taken in QMManager
         // End of user code
 
-        final List<TestResult> resources = QMManager.queryTestResults(httpServletRequest, where, prefix, page, pageSize);
-        httpServletRequest.setAttribute("queryUri",
-                uriInfo.getAbsolutePath().toString() + "?oslc.paging=true");
+        final List<TestResult> resources = QMManager.queryTestResults(httpServletRequest, where, prefix, paging, page, pageSize);
+        UriBuilder uriBuilder = UriBuilder.fromUri(uriInfo.getAbsolutePath())
+            .queryParam("oslc.paging", "true")
+            .queryParam("oslc.pageSize", pageSize)
+            .queryParam("page", page);
+        if (null != where) {
+            uriBuilder.queryParam("oslc.where", where);
+        }
+        if (null != prefix) {
+            uriBuilder.queryParam("oslc.prefix", prefix);
+        }
+        httpServletRequest.setAttribute("queryUri", uriBuilder.build().toString());
         if (resources.size() > pageSize) {
             resources.remove(resources.size() - 1);
-            httpServletRequest.setAttribute(OSLC4JConstants.OSLC4J_NEXT_PAGE,
-                    uriInfo.getAbsolutePath().toString() + "?oslc.paging=true&oslc.pageSize=" + pageSize + "&page=" + (page + 1));
+            uriBuilder.replaceQueryParam("page", page + 1);
+            httpServletRequest.setAttribute(OSLC4JConstants.OSLC4J_NEXT_PAGE, uriBuilder.build().toString());
         }
         return resources.toArray(new TestResult [resources.size()]);
     }
@@ -190,21 +207,28 @@ public class ResultsService
     @GET
     @Path("query")
     @Produces({ MediaType.TEXT_HTML })
-    @ApiOperation(
-        value = "Query capability for resources of type {" + Oslc_qmDomainConstants.TESTRESULT_LOCALNAME + "}",
-        notes = "Query capability for resources of type {" + "<a href=\"" + Oslc_qmDomainConstants.TESTRESULT_TYPE + "\">" + Oslc_qmDomainConstants.TESTRESULT_LOCALNAME + "</a>" + "}" +
+    @Operation(
+        summary = "Query capability for resources of type {" + Oslc_qmDomainConstants.TESTRESULT_LOCALNAME + "}",
+        description = "Query capability for resources of type {" + "<a href=\"" + Oslc_qmDomainConstants.TESTRESULT_TYPE + "\">" + Oslc_qmDomainConstants.TESTRESULT_LOCALNAME + "</a>" + "}" +
             ", with respective resource shapes {" + "<a href=\"" + "../services/" + OslcConstants.PATH_RESOURCE_SHAPES + "/" + Oslc_qmDomainConstants.TESTRESULT_PATH + "\">" + Oslc_qmDomainConstants.TESTRESULT_LOCALNAME + "</a>" + "}",
-        produces = OslcMediaType.APPLICATION_RDF_XML + ", " + OslcMediaType.APPLICATION_XML + ", " + OslcMediaType.APPLICATION_JSON + ", " + OslcMediaType.TEXT_TURTLE + ", " + MediaType.TEXT_HTML
+        responses = { 
+            @ApiResponse(description = "default response", content = {@Content(mediaType = OslcMediaType.APPLICATION_RDF_XML), @Content(mediaType = OslcMediaType.APPLICATION_XML), @Content(mediaType = OslcMediaType.APPLICATION_JSON), @Content(mediaType = OslcMediaType.TEXT_TURTLE), @Content(mediaType = MediaType.TEXT_HTML)})
+        }
     )
     public void queryTestResultsAsHtml(
                                     
                                        @QueryParam("oslc.where") final String where,
                                        @QueryParam("oslc.prefix") final String prefix,
+                                       @QueryParam("oslc.paging") final String pagingString,
                                        @QueryParam("page") final String pageString,
-                                    @QueryParam("oslc.pageSize") final String pageSizeString) throws ServletException, IOException
+                                       @QueryParam("oslc.pageSize") final String pageSizeString) throws ServletException, IOException
     {
+        boolean paging=false;
         int page=0;
         int pageSize=20;
+        if (null != pagingString) {
+            paging = Boolean.parseBoolean(pagingString);
+        }
         if (null != pageString) {
             page = Integer.parseInt(pageString);
         }
@@ -215,25 +239,34 @@ public class ResultsService
         // Start of user code queryTestResultsAsHtml
         // End of user code
 
-        final List<TestResult> resources = QMManager.queryTestResults(httpServletRequest, where, prefix, page, pageSize);
+        final List<TestResult> resources = QMManager.queryTestResults(httpServletRequest, where, prefix, paging, page, pageSize);
 
         if (resources!= null) {
             httpServletRequest.setAttribute("resources", resources);
             // Start of user code queryTestResultsAsHtml_setAttributes
             // End of user code
 
-            httpServletRequest.setAttribute("queryUri",
-                    uriInfo.getAbsolutePath().toString() + "?oslc.paging=true");
+            UriBuilder uriBuilder = UriBuilder.fromUri(uriInfo.getAbsolutePath())
+                .queryParam("oslc.paging", "true")
+                .queryParam("oslc.pageSize", pageSize)
+                .queryParam("page", page);
+            if (null != where) {
+                uriBuilder.queryParam("oslc.where", where);
+            }
+            if (null != prefix) {
+                uriBuilder.queryParam("oslc.prefix", prefix);
+            }
+            httpServletRequest.setAttribute("queryUri", uriBuilder.build().toString());
             if (resources.size() > pageSize) {
                 resources.remove(resources.size() - 1);
-                httpServletRequest.setAttribute(OSLC4JConstants.OSLC4J_NEXT_PAGE,
-                        uriInfo.getAbsolutePath().toString() + "?oslc.paging=true&oslc.pageSize=" + pageSize + "&page=" + (page + 1));
+
+                uriBuilder.replaceQueryParam("page", page + 1);
+                httpServletRequest.setAttribute(OSLC4JConstants.OSLC4J_NEXT_PAGE, uriBuilder.build().toString());
             }
             RequestDispatcher rd = httpServletRequest.getRequestDispatcher("/co/oslc/refimpl/qm/gen/testresultscollection.jsp");
             rd.forward(httpServletRequest,httpServletResponse);
             return;
         }
-
         throw new WebApplicationException(Status.NOT_FOUND);
     }
 
@@ -250,10 +283,10 @@ public class ResultsService
     @GET
     @Path("selector")
     @Consumes({ MediaType.TEXT_HTML, MediaType.WILDCARD })
-    public void TestResultSelector(
+    public Response TestResultSelector(
         @QueryParam("terms") final String terms
         
-        ) throws ServletException, IOException
+        ) throws ServletException, IOException, JSONException
     {
         // Start of user code TestResultSelector_init
             // End of user code
@@ -266,10 +299,20 @@ public class ResultsService
             httpServletRequest.setAttribute("terms", terms);
             final List<TestResult> resources = QMManager.TestResultSelector(httpServletRequest, terms);
             if (resources!= null) {
-                        httpServletRequest.setAttribute("resources", resources);
-                        RequestDispatcher rd = httpServletRequest.getRequestDispatcher("/co/oslc/refimpl/qm/gen/testresultselectorresults.jsp");
-                        rd.forward(httpServletRequest, httpServletResponse);
-                        return;
+                JSONArray resourceArray = new JSONArray();
+                for (TestResult resource : resources) {
+                    JSONObject r = new JSONObject();
+                    r.put("oslc:label", resource.toString());
+                    r.put("rdf:resource", resource.getAbout().toString());
+                    r.put("Label", resource.toString());
+                    // Start of user code TestResultSelector_setResponse
+                    //TODO: Add any other attributes that are to be displayed in the search result
+                    // End of user code
+                    resourceArray.add(r);
+                }
+                JSONObject response = new JSONObject();
+                response.put("oslc:results", resourceArray);
+                return Response.ok(response.write()).build();
             }
             log.error("A empty search should return an empty list and not NULL!");
             throw new WebApplicationException(Status.INTERNAL_SERVER_ERROR);
@@ -277,7 +320,7 @@ public class ResultsService
         } else {
             RequestDispatcher rd = httpServletRequest.getRequestDispatcher("/co/oslc/refimpl/qm/gen/testresultselector.jsp");
             rd.forward(httpServletRequest, httpServletResponse);
-            return;
+            return null;
         }
     }
 
@@ -299,11 +342,13 @@ public class ResultsService
     @Path("create")
     @Consumes({OslcMediaType.APPLICATION_RDF_XML, OslcMediaType.APPLICATION_JSON_LD, OslcMediaType.TEXT_TURTLE, OslcMediaType.APPLICATION_XML, OslcMediaType.APPLICATION_JSON })
     @Produces({OslcMediaType.APPLICATION_RDF_XML, OslcMediaType.APPLICATION_JSON_LD, OslcMediaType.TEXT_TURTLE, OslcMediaType.APPLICATION_XML, OslcMediaType.APPLICATION_JSON})
-    @ApiOperation(
-        value = "Creation factory for resources of type {" + Oslc_qmDomainConstants.TESTRESULT_LOCALNAME + "}",
-        notes = "Creation factory for resources of type {" + "<a href=\"" + Oslc_qmDomainConstants.TESTRESULT_TYPE + "\">" + Oslc_qmDomainConstants.TESTRESULT_LOCALNAME + "</a>" + "}" +
+    @Operation(
+        summary = "Creation factory for resources of type {" + Oslc_qmDomainConstants.TESTRESULT_LOCALNAME + "}",
+        description = "Creation factory for resources of type {" + "<a href=\"" + Oslc_qmDomainConstants.TESTRESULT_TYPE + "\">" + Oslc_qmDomainConstants.TESTRESULT_LOCALNAME + "</a>" + "}" +
             ", with respective resource shapes {" + "<a href=\"" + "../services/" + OslcConstants.PATH_RESOURCE_SHAPES + "/" + Oslc_qmDomainConstants.TESTRESULT_PATH + "\">" + Oslc_qmDomainConstants.TESTRESULT_LOCALNAME + "</a>" + "}",
-        produces = OslcMediaType.APPLICATION_RDF_XML + ", " + OslcMediaType.APPLICATION_XML + ", " + OslcMediaType.APPLICATION_JSON + ", " + OslcMediaType.TEXT_TURTLE
+        responses = { 
+            @ApiResponse(description = "default response", content = {@Content(mediaType = OslcMediaType.APPLICATION_RDF_XML), @Content(mediaType = OslcMediaType.APPLICATION_XML), @Content(mediaType = OslcMediaType.APPLICATION_JSON), @Content(mediaType = OslcMediaType.TEXT_TURTLE)})
+        }
     )
     public Response createTestResult(
             

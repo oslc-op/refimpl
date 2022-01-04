@@ -25,6 +25,8 @@ import javax.servlet.http.HttpServletResponse;
 import org.eclipse.lyo.server.oauth.core.Application;
 import org.eclipse.lyo.server.oauth.core.token.LRUCache;
 import org.eclipse.lyo.server.oauth.core.AuthenticationException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 // Start of user code imports
 // End of user code
@@ -34,6 +36,7 @@ import org.eclipse.lyo.server.oauth.core.AuthenticationException;
 
 public class AuthenticationApplication implements Application {
     // Start of user code class_attributes
+    private final static Logger log = LoggerFactory.getLogger(AuthenticationApplication.class);
     // End of user code
 
     // Start of user code class_methods
@@ -96,7 +99,7 @@ public class AuthenticationApplication implements Application {
     public void login(HttpServletRequest request, String username, String password) throws AuthenticationException {
         // Start of user code login
         //TODO: replace with code with real logic to login. You should also decide whether the login is admin or not.
-        System.out.println("Warning! You are using fake login checks, which ought to be changed!");
+        log.warn("CAUTION! You are using fake login checks, which ought to be changed!");
         if ((username.equals("user") && password.equals("user")) || (username.equals("admin") && password.equals("admin"))) {
             bindApplicationConnectorToSession(request, username);
         }
@@ -115,7 +118,7 @@ public class AuthenticationApplication implements Application {
 
     /**
      * Login based on the credentials in the <code>Authorization</code> request header
-     * if successful, bind the credentials to the request session. 
+     * if successful, bind the credentials to the request session.
      * @throws UnauthorizedException
      *      if the request did not contain an <code>Authorization</code> header
      *      or, on problems reading the credentials from the <code>Authorization</code> request header
@@ -125,11 +128,11 @@ public class AuthenticationApplication implements Application {
         if (authorizationHeader == null || "".equals(authorizationHeader)) {
             throw new AuthenticationException("No basic authentication header identified in request.");
         }
-    
+
         if (!authorizationHeader.startsWith(BASIC_AUTHORIZATION_PREFIX)) {
             throw new AuthenticationException("Only basic access authentication is supported.");
         }
-        
+
         String encodedString = authorizationHeader.substring(BASIC_AUTHORIZATION_PREFIX.length());
         try {
             String unencodedString = new String(Base64.getDecoder().decode(encodedString), "UTF-8");
@@ -168,6 +171,10 @@ public class AuthenticationApplication implements Application {
         return (String) request.getSession().getAttribute(APPLICATION_CONNECTOR_SESSION_ATTRIBUTE);
     }
 
+    public void removeApplicationConnectorFromSession(HttpServletRequest request) {
+        request.getSession().removeAttribute(APPLICATION_CONNECTOR_SESSION_ATTRIBUTE);
+    }
+
     public String getApplicationConnector(String oauth1Token) {
         return oauth1TokenToApplicationConnector.get(oauth1Token);
     }
@@ -187,7 +194,7 @@ public class AuthenticationApplication implements Application {
 
     /**
      * Send error response when the request was not authorized
-     * 
+     *
      * @param response      an error response
      * @param e             Exception with error message
      * @param authChallenge OAuth challenge
