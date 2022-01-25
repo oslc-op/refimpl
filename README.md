@@ -28,7 +28,7 @@ mvn clean install
 # mvn clean verify -Pacceptance
 
 cd server-rm/
-mvn clean jetty:run-exploded
+mvn clean jetty:run-war
 
 cd ../server-cm/
 mvn clean jetty:run-war
@@ -54,6 +54,10 @@ If you wish to run 4 OSLC servers as 4 containers similar to how one would deplo
 cd src/
 mvn clean install
 
+# Using Docker Compose
+docker-compose up --build
+
+# or, only using Docker
 cd server-rm/
 mvn clean package
 docker build -t refimpl-server-rm .
