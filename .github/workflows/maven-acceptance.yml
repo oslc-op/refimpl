@@ -1,13 +1,14 @@
 # This workflow will build a Java project with Maven
 # For more information see: https://help.github.com/actions/language-and-framework-guides/building-and-testing-java-with-maven
 
-name: CI build
+name: CI acceptance tests
 
 on:
   push:
     branches: [master]
-  pull_request:
-    branches: [master]
+  schedule:
+    # run integration tests every Thursday
+    - cron: "50 12 * * 4"
   workflow_dispatch:
 
 jobs:
@@ -27,9 +28,10 @@ jobs:
           - jdk: '18-ea'
             distribution: zulu
             experimental: true
-          - jdk: '19-ea'
-            distribution: zulu
-            experimental: true
+          # no groovy support for JDK 19 bytecode yet
+          # - jdk: '19-ea'
+          #   distribution: zulu
+          #   experimental: true
     continue-on-error: ${{ matrix.experimental }}
 
     steps:
@@ -46,4 +48,4 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-${{ matrix.jdk }}_${{ matrix.distribution }}-maven-
       - name: Build with Maven
-        run: mvn -B verify --file src/pom.xml
+        run: mvn -B -Pacceptance verify --file src/pom.xml
