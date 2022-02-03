@@ -60,30 +60,30 @@ public class AMManager {
 
     private static final Logger log = LoggerFactory.getLogger(AMManager.class);
 
-
+    
     // Start of user code class_attributes
     public static final String SP_DEFAULT = "sp_single";
 
     private static final ResourceRepository<Resource> resourceRepository = new MemResourceRepository<>();
     private static final ResourceRepository<LinkType> linkRepository = new MemResourceRepository<>();
     // End of user code
-
-
+    
+    
     // Start of user code class_methods
     // End of user code
 
     public static void contextInitializeServletListener(final ServletContextEvent servletContextEvent)
     {
-
+        
         // Start of user code contextInitializeServletListener
         // TODO Implement code to establish connection to data backbone etc ...
         // End of user code
-
+        
     }
 
-    public static void contextDestroyServletListener(ServletContextEvent servletContextEvent)
+    public static void contextDestroyServletListener(ServletContextEvent servletContextEvent) 
     {
-
+        
         // Start of user code contextDestroyed
         // TODO Implement code to shutdown connections to data backbone etc...
         // End of user code
@@ -92,7 +92,7 @@ public class AMManager {
     public static ServiceProviderInfo[] getServiceProviderInfos(HttpServletRequest httpServletRequest)
     {
         ServiceProviderInfo[] serviceProviderInfos = {};
-
+        
         // Start of user code "ServiceProviderInfo[] getServiceProviderInfos(...)"
         ServiceProviderInfo spInfo = new ServiceProviderInfo();
         spInfo.serviceProviderId = SP_DEFAULT;
@@ -105,18 +105,18 @@ public class AMManager {
     public static List<Resource> queryResources(HttpServletRequest httpServletRequest, String where, String prefix, boolean paging, int page, int limit)
     {
         List<Resource> resources = null;
-
-
+        
+        
         // Start of user code queryResources
         resources = resourceRepository.fetchResourcePageForSP(SP_DEFAULT, 1, limit);
         // End of user code
         return resources;
     }
-    public static List<Resource> ResourceSelector(HttpServletRequest httpServletRequest, String terms)
+    public static List<Resource> ResourceSelector(HttpServletRequest httpServletRequest, String terms)   
     {
         List<Resource> resources = null;
-
-
+        
+        
         // Start of user code ResourceSelector
         // TODO Implement code to return a set of resources, based on search criteria
         // End of user code
@@ -125,8 +125,8 @@ public class AMManager {
     public static Resource createResource(HttpServletRequest httpServletRequest, final Resource aResource)
     {
         Resource newResource = null;
-
-
+        
+        
         // Start of user code createResource
         String id = aResource.getIdentifier();
         if(id == null) {
@@ -147,18 +147,18 @@ public class AMManager {
     public static List<LinkType> queryLinkTypes(HttpServletRequest httpServletRequest, String where, String prefix, boolean paging, int page, int limit)
     {
         List<LinkType> resources = null;
-
-
+        
+        
         // Start of user code queryLinkTypes
         resources = linkRepository.fetchResourcePageForSP(SP_DEFAULT, 1, limit);
         // End of user code
         return resources;
     }
-    public static List<LinkType> LinkTypeSelector(HttpServletRequest httpServletRequest, String terms)
+    public static List<LinkType> LinkTypeSelector(HttpServletRequest httpServletRequest, String terms)   
     {
         List<LinkType> resources = null;
-
-
+        
+        
         // Start of user code LinkTypeSelector
         // TODO Implement code to return a set of resources, based on search criteria
         // End of user code
@@ -167,8 +167,8 @@ public class AMManager {
     public static LinkType createLinkType(HttpServletRequest httpServletRequest, final LinkType aResource)
     {
         LinkType newResource = null;
-
-
+        
+        
         // Start of user code createLinkType
         String id = aResource.getIdentifier();
         if(id == null) {
@@ -190,8 +190,8 @@ public class AMManager {
     public static Resource getResource(HttpServletRequest httpServletRequest, final String id)
     {
         Resource aResource = null;
-
-
+        
+        
         // Start of user code getResource
         if(resourceRepository.hasResource(SP_DEFAULT, id)) {
             aResource = resourceRepository.getResource(SP_DEFAULT, id);
@@ -203,7 +203,7 @@ public class AMManager {
     public static Boolean deleteResource(HttpServletRequest httpServletRequest, final String id)
     {
         Boolean deleted = false;
-
+        
         // Start of user code deleteResource
         resourceRepository.deleteResource(SP_DEFAULT, id);
         deleted = true;
@@ -214,7 +214,7 @@ public class AMManager {
 
     public static Resource updateResource(HttpServletRequest httpServletRequest, final Resource aResource, final String id) {
         Resource updatedResource = null;
-
+        
         // Start of user code updateResource
         if(!AMResourcesFactory.constructURIForResource(id).equals(aResource.getAbout())) {
             throw new WebApplicationException("Subject URI shall match the endpoint", Response.Status.BAD_REQUEST);
@@ -228,8 +228,8 @@ public class AMManager {
     public static LinkType getLinkType(HttpServletRequest httpServletRequest, final String id)
     {
         LinkType aResource = null;
-
-
+        
+        
         // Start of user code getLinkType
         if(linkRepository.hasResource(SP_DEFAULT, id)) {
             aResource = linkRepository.getResource(SP_DEFAULT, id);
@@ -240,7 +240,7 @@ public class AMManager {
     public static Boolean deleteLinkType(HttpServletRequest httpServletRequest, final String id)
     {
         Boolean deleted = false;
-
+        
         // Start of user code deleteLinkType
         linkRepository.deleteResource(SP_DEFAULT, id);
         deleted = true;
@@ -251,7 +251,7 @@ public class AMManager {
 
     public static LinkType updateLinkType(HttpServletRequest httpServletRequest, final LinkType aResource, final String id) {
         LinkType updatedResource = null;
-
+        
         // Start of user code updateLinkType
         if(!AMResourcesFactory.constructURIForLinkType(id).equals(aResource.getAbout())) {
             throw new WebApplicationException("Subject URI shall match the endpoint", Response.Status.BAD_REQUEST);

@@ -18,15 +18,18 @@ package co.oslc.refimpl.am.gen.auth;
 
 import java.util.Base64;
 import java.io.IOException;
-import javax.servlet.ServletException;
 import java.io.UnsupportedEncodingException;
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import org.eclipse.lyo.server.oauth.core.Application;
 import org.eclipse.lyo.server.oauth.core.token.LRUCache;
 import org.eclipse.lyo.server.oauth.core.AuthenticationException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+
 
 // Start of user code imports
 // End of user code
@@ -36,7 +39,6 @@ import org.slf4j.LoggerFactory;
 
 public class AuthenticationApplication implements Application {
     // Start of user code class_attributes
-    private final static Logger log = LoggerFactory.getLogger(AuthenticationApplication.class);
     // End of user code
 
     // Start of user code class_methods
@@ -46,6 +48,7 @@ public class AuthenticationApplication implements Application {
     public final static String OAUTH_REALM = "AM";
     protected final static String APPLICATION_CONNECTOR_SESSION_ATTRIBUTE = "co.oslc.refimpl.am.gen.auth.ApplicationConnector";
     protected final static String APPLICATION_CONNECTOR_ADMIN_SESSION_ATTRIBUTE = "co.oslc.refimpl.am.gen.auth.AdminSession";
+    private final static Logger log = LoggerFactory.getLogger(AuthenticationApplication.class);
 
     public static final String AUTHORIZATION_HEADER = "Authorization";
     public static final String WWW_AUTHENTICATE_HEADER = "WWW-Authenticate";

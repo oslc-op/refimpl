@@ -18,13 +18,18 @@ package co.oslc.refimpl.qm.gen.auth;
 
 import java.util.Base64;
 import java.io.IOException;
-import javax.servlet.ServletException;
 import java.io.UnsupportedEncodingException;
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import org.eclipse.lyo.server.oauth.core.Application;
 import org.eclipse.lyo.server.oauth.core.token.LRUCache;
 import org.eclipse.lyo.server.oauth.core.AuthenticationException;
+
 
 // Start of user code imports
 // End of user code
@@ -43,6 +48,7 @@ public class AuthenticationApplication implements Application {
     public final static String OAUTH_REALM = "QM";
     protected final static String APPLICATION_CONNECTOR_SESSION_ATTRIBUTE = "co.oslc.refimpl.qm.gen.auth.ApplicationConnector";
     protected final static String APPLICATION_CONNECTOR_ADMIN_SESSION_ATTRIBUTE = "co.oslc.refimpl.qm.gen.auth.AdminSession";
+    private final static Logger log = LoggerFactory.getLogger(AuthenticationApplication.class);
 
     public static final String AUTHORIZATION_HEADER = "Authorization";
     public static final String WWW_AUTHENTICATE_HEADER = "WWW-Authenticate";
@@ -96,7 +102,7 @@ public class AuthenticationApplication implements Application {
     public void login(HttpServletRequest request, String username, String password) throws AuthenticationException {
         // Start of user code login
         //TODO: replace with code with real logic to login. You should also decide whether the login is admin or not.
-        System.out.println("Warning! You are using fake login checks, which ought to be changed!");
+        log.warn("Warning! You are using fake login checks, which ought to be changed!");
         if ((username.equals("user") && password.equals("user")) || (username.equals("admin") && password.equals("admin"))) {
             bindApplicationConnectorToSession(request, username);
         }
@@ -115,7 +121,7 @@ public class AuthenticationApplication implements Application {
 
     /**
      * Login based on the credentials in the <code>Authorization</code> request header
-     * if successful, bind the credentials to the request session. 
+     * if successful, bind the credentials to the request session.
      * @throws UnauthorizedException
      *      if the request did not contain an <code>Authorization</code> header
      *      or, on problems reading the credentials from the <code>Authorization</code> request header
@@ -125,11 +131,11 @@ public class AuthenticationApplication implements Application {
         if (authorizationHeader == null || "".equals(authorizationHeader)) {
             throw new AuthenticationException("No basic authentication header identified in request.");
         }
-    
+
         if (!authorizationHeader.startsWith(BASIC_AUTHORIZATION_PREFIX)) {
             throw new AuthenticationException("Only basic access authentication is supported.");
         }
-        
+
         String encodedString = authorizationHeader.substring(BASIC_AUTHORIZATION_PREFIX.length());
         try {
             String unencodedString = new String(Base64.getDecoder().decode(encodedString), "UTF-8");
@@ -191,7 +197,7 @@ public class AuthenticationApplication implements Application {
 
     /**
      * Send error response when the request was not authorized
-     * 
+     *
      * @param response      an error response
      * @param e             Exception with error message
      * @param authChallenge OAuth challenge

@@ -207,7 +207,7 @@
 
     function showPreview(previewToShow) {
         var divForUiPreviewIframe = document.getElementById("uiPreviewIframe");
-        var previewIframe = createIframe(previewToShow);        
+        var previewIframe = createIframe(previewToShow);
         if (divForUiPreviewIframe.childElementCount == 0) {
             divForUiPreviewIframe.appendChild(previewIframe);
         }
@@ -221,8 +221,8 @@
         var h = previewToShow.height ? previewToShow.height : "11em";
         var previewIframe = document.createElement("iframe");
         previewIframe.src = previewToShow.uri;
-        previewIframe.width = w;
-        previewIframe.height = h;
+        previewIframe.style.width = w;
+        previewIframe.style.height = h;
         previewIframe.frameBorder ="0";
         previewIframe.scrolling = "0";
         previewIframe.style.border= "none";
