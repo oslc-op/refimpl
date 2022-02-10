@@ -10,18 +10,19 @@
     -->
     <groupId>co.oslc.refimpl</groupId>
     <artifactId>server-am</artifactId>
-    <version>0.2.0-SNAPSHOT</version>
+    <version>0.3.0-SNAPSHOT</version>
     <packaging>war</packaging>
     <name>AM</name>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <maven.compiler.source>1.8</maven.compiler.source>
-        <maven.compiler.target>1.8</maven.compiler.target>
+        <maven.compiler.source>11</maven.compiler.source>
+        <maven.compiler.target>11</maven.compiler.target>
+        <maven.compiler.release>11</maven.compiler.release>
         <version.lyo>5.0.0-SNAPSHOT</version.lyo>
-        <jersey.version>2.25.1</jersey.version>
-        <swagger.version>2.1.2</swagger.version>
-        <swagger-ui.version>3.52.3</swagger-ui.version>
+        <jersey.version>2.35</jersey.version>
+        <swagger.version>2.1.4</swagger.version>
+        <swagger-ui.version>3.52.5</swagger-ui.version>
         <!-- Start of user code properties
         -->
         <!-- TODO: Add additional properties here to avoid them be overrriden upon future re-generation -->
@@ -34,14 +35,6 @@
         <!-- TODO: Add additional repositories here to avoid them be overrriden upon future re-generation -->
         <!-- End of user code
         -->
-        <repository>
-            <id>lyo-releases</id>
-            <name>Eclipse Lyo Releases</name>
-            <url>https://repo.eclipse.org/content/repositories/lyo-releases/</url>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
-        </repository>
         <repository>
             <id>lyo-snapshots</id>
             <name>Eclipse Lyo Snapshots</name>
@@ -70,7 +63,7 @@
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-simple</artifactId>
-            <version>1.7.21</version>
+            <version>1.7.32</version>
             <scope>runtime</scope>
         </dependency>
         <!-- Servlet dependencies -->
@@ -84,13 +77,13 @@
             <groupId>javax.servlet</groupId>
             <artifactId>jstl</artifactId>
             <version>1.2</version>
-            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>javax.inject</groupId>
             <artifactId>javax.inject</artifactId>
             <version>1</version>
         </dependency>
+        
         <dependency>
             <groupId>org.glassfish.jersey.core</groupId>
             <artifactId>jersey-server</artifactId>
@@ -115,6 +108,23 @@
                     <artifactId>javax.inject</artifactId>
                 </exclusion>
             </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish.jersey.media</groupId>
+            <artifactId>jersey-media-multipart</artifactId>
+            <version>${jersey.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish.jersey.inject</groupId>
+            <artifactId>jersey-hk2</artifactId>
+            <version>${jersey.version}</version>
+        </dependency>
+        
+        <dependency>
+            <groupId>com.sun.xml.bind</groupId>
+            <artifactId>jaxb-impl</artifactId>
+            <version>2.3.5</version>
+            <scope>runtime</scope>
         </dependency>
         <!-- Lyo dependencies -->
         <dependency>
@@ -159,12 +169,24 @@
             <groupId>io.swagger.core.v3</groupId>
             <artifactId>swagger-jaxrs2</artifactId>
             <version>${swagger.version}</version>
+            <exclusions>
+                <exclusion>
+                    <!--should be <provided>-->
+                    <groupId>jakarta.activation</groupId>
+                    <artifactId>jakarta.activation-api</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
-          <groupId>io.swagger.core.v3</groupId>
-          <artifactId>swagger-jaxrs2-servlet-initializer-v2</artifactId>
-          <version>${swagger.version}</version>
+            <groupId>io.swagger.core.v3</groupId>
+            <artifactId>swagger-jaxrs2-servlet-initializer-v2</artifactId>
+            <version>${swagger.version}</version>
         </dependency>
+        <!-- Start of user code dependencies_final
+        -->
+        <!-- TODO: Add additional dependencies here to avoid them be overridden upon future re-generation -->
+        <!-- End of user code
+        -->
     </dependencies>
     <!-- Start of user code post_dependencies
     -->
