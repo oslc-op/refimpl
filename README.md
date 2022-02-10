@@ -49,6 +49,9 @@ If you wish to run 4 OSLC servers as 4 containers similar to how one would deplo
 - JDK 8
 - Maven 3
 - Docker CE 19 or equivalent
+- (Optional) Docker Compose
+
+Docker Compose setup was also tested with Rancher Desktop 1.0.1.
 
 ```
 cd src/

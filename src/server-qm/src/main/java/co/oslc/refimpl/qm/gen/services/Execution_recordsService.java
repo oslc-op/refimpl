@@ -183,7 +183,7 @@ public class Execution_recordsService
         // Here additional logic can be implemented that complements main action taken in QMManager
         // End of user code
 
-        final List<TestExecutionRecord> resources = QMManager.queryTestExecutionRecords(httpServletRequest, where, prefix, paging, page, pageSize);
+        List<TestExecutionRecord> resources = QMManager.queryTestExecutionRecords(httpServletRequest, where, prefix, paging, page, pageSize);
         UriBuilder uriBuilder = UriBuilder.fromUri(uriInfo.getAbsolutePath())
             .queryParam("oslc.paging", "true")
             .queryParam("oslc.pageSize", pageSize)
@@ -196,7 +196,7 @@ public class Execution_recordsService
         }
         httpServletRequest.setAttribute("queryUri", uriBuilder.build().toString());
         if (resources.size() > pageSize) {
-            resources.remove(resources.size() - 1);
+            resources = resources.subList(0, pageSize);
             uriBuilder.replaceQueryParam("page", page + 1);
             httpServletRequest.setAttribute(OSLC4JConstants.OSLC4J_NEXT_PAGE, uriBuilder.build().toString());
         }
@@ -238,10 +238,9 @@ public class Execution_recordsService
         // Start of user code queryTestExecutionRecordsAsHtml
         // End of user code
 
-        final List<TestExecutionRecord> resources = QMManager.queryTestExecutionRecords(httpServletRequest, where, prefix, paging, page, pageSize);
+        List<TestExecutionRecord> resources = QMManager.queryTestExecutionRecords(httpServletRequest, where, prefix, paging, page, pageSize);
 
         if (resources!= null) {
-            httpServletRequest.setAttribute("resources", resources);
             // Start of user code queryTestExecutionRecordsAsHtml_setAttributes
             // End of user code
 
@@ -257,11 +256,12 @@ public class Execution_recordsService
             }
             httpServletRequest.setAttribute("queryUri", uriBuilder.build().toString());
             if (resources.size() > pageSize) {
-                resources.remove(resources.size() - 1);
+                resources = resources.subList(0, pageSize);
 
                 uriBuilder.replaceQueryParam("page", page + 1);
                 httpServletRequest.setAttribute(OSLC4JConstants.OSLC4J_NEXT_PAGE, uriBuilder.build().toString());
             }
+            httpServletRequest.setAttribute("resources", resources);
             RequestDispatcher rd = httpServletRequest.getRequestDispatcher("/co/oslc/refimpl/qm/gen/testexecutionrecordscollection.jsp");
             rd.forward(httpServletRequest,httpServletResponse);
             return;

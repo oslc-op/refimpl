@@ -180,7 +180,7 @@ public class CasesService
         // Here additional logic can be implemented that complements main action taken in QMManager
         // End of user code
 
-        final List<TestCase> resources = QMManager.queryTestCases(httpServletRequest, where, prefix, paging, page, pageSize);
+        List<TestCase> resources = QMManager.queryTestCases(httpServletRequest, where, prefix, paging, page, pageSize);
         UriBuilder uriBuilder = UriBuilder.fromUri(uriInfo.getAbsolutePath())
             .queryParam("oslc.paging", "true")
             .queryParam("oslc.pageSize", pageSize)
@@ -193,7 +193,7 @@ public class CasesService
         }
         httpServletRequest.setAttribute("queryUri", uriBuilder.build().toString());
         if (resources.size() > pageSize) {
-            resources.remove(resources.size() - 1);
+            resources = resources.subList(0, pageSize);
             uriBuilder.replaceQueryParam("page", page + 1);
             httpServletRequest.setAttribute(OSLC4JConstants.OSLC4J_NEXT_PAGE, uriBuilder.build().toString());
         }
@@ -235,10 +235,9 @@ public class CasesService
         // Start of user code queryTestCasesAsHtml
         // End of user code
 
-        final List<TestCase> resources = QMManager.queryTestCases(httpServletRequest, where, prefix, paging, page, pageSize);
+        List<TestCase> resources = QMManager.queryTestCases(httpServletRequest, where, prefix, paging, page, pageSize);
 
         if (resources!= null) {
-            httpServletRequest.setAttribute("resources", resources);
             // Start of user code queryTestCasesAsHtml_setAttributes
             // End of user code
 
@@ -254,11 +253,12 @@ public class CasesService
             }
             httpServletRequest.setAttribute("queryUri", uriBuilder.build().toString());
             if (resources.size() > pageSize) {
-                resources.remove(resources.size() - 1);
+                resources = resources.subList(0, pageSize);
 
                 uriBuilder.replaceQueryParam("page", page + 1);
                 httpServletRequest.setAttribute(OSLC4JConstants.OSLC4J_NEXT_PAGE, uriBuilder.build().toString());
             }
+            httpServletRequest.setAttribute("resources", resources);
             RequestDispatcher rd = httpServletRequest.getRequestDispatcher("/co/oslc/refimpl/qm/gen/testcasescollection.jsp");
             rd.forward(httpServletRequest,httpServletResponse);
             return;
