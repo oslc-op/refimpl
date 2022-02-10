@@ -10,7 +10,7 @@
     -->
     <groupId>co.oslc.refimpl</groupId>
     <artifactId>server-rm</artifactId>
-    <version>0.2.0-SNAPSHOT</version>
+    <version>0.3.0-SNAPSHOT</version>
     <packaging>war</packaging>
     <name>RM</name>
     <properties>
@@ -18,10 +18,11 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
-        <version.lyo>5.0.0.alpha3</version.lyo>
+        <maven.compiler.release>11</maven.compiler.release>
+        <version.lyo>5.0.0-SNAPSHOT</version.lyo>
         <jersey.version>2.35</jersey.version>
-        <swagger.version>2.1.2</swagger.version>
-        <swagger-ui.version>3.52.3</swagger-ui.version>
+        <swagger.version>2.1.4</swagger.version>
+        <swagger-ui.version>3.52.5</swagger-ui.version>
         <!-- Start of user code properties
         -->
         <v.lucene>7.7.3</v.lucene>
@@ -69,7 +70,7 @@
           </dependency>
 
       <!-- End of user code
-      -->
+        -->
         <!-- General dependencies -->
         <dependency>
             <groupId>org.slf4j</groupId>
@@ -88,23 +89,37 @@
             <groupId>javax.servlet</groupId>
             <artifactId>jstl</artifactId>
             <version>1.2</version>
-            <scope>provided</scope>
         </dependency>
         <dependency>
-          <groupId>com.sun.xml.bind</groupId>
-          <artifactId>jaxb-impl</artifactId>
-          <version>2.3.5</version>
-          <scope>runtime</scope>
+            <groupId>javax.inject</groupId>
+            <artifactId>javax.inject</artifactId>
+            <version>1</version>
         </dependency>
+
         <dependency>
             <groupId>org.glassfish.jersey.core</groupId>
             <artifactId>jersey-server</artifactId>
             <version>${jersey.version}</version>
+            <exclusions>
+                <exclusion>
+                    <!--we have a proper javax.inject:javax.inject dependency-->
+                    <!--also see https://stackoverflow.com/questions/25212944/why-does-hk2-repackage-everything-->
+                    <groupId>org.glassfish.hk2.external</groupId>
+                    <artifactId>javax.inject</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.glassfish.jersey.containers</groupId>
             <artifactId>jersey-container-servlet</artifactId>
             <version>${jersey.version}</version>
+            <exclusions>
+                <exclusion>
+                    <!--we have a proper javax.inject:javax.inject dependency-->
+                    <groupId>org.glassfish.hk2.external</groupId>
+                    <artifactId>javax.inject</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.glassfish.jersey.media</groupId>
@@ -115,6 +130,13 @@
             <groupId>org.glassfish.jersey.inject</groupId>
             <artifactId>jersey-hk2</artifactId>
             <version>${jersey.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.sun.xml.bind</groupId>
+            <artifactId>jaxb-impl</artifactId>
+            <version>2.3.5</version>
+            <scope>runtime</scope>
         </dependency>
         <!-- Lyo dependencies -->
         <dependency>
@@ -156,37 +178,41 @@
 
         <!-- Swagger dependencies -->
         <dependency>
-          <groupId>io.swagger.core.v3</groupId>
-          <artifactId>swagger-jaxrs2</artifactId>
-          <version>${swagger.version}</version>
-          <exclusions>
-            <exclusion>
-              <!--should be <provided>-->
-              <groupId>jakarta.activation</groupId>
-              <artifactId>jakarta.activation-api</artifactId>
-            </exclusion>
-          </exclusions>
+            <groupId>io.swagger.core.v3</groupId>
+            <artifactId>swagger-jaxrs2</artifactId>
+            <version>${swagger.version}</version>
+            <exclusions>
+                <exclusion>
+                    <!--should be <provided>-->
+                    <groupId>jakarta.activation</groupId>
+                    <artifactId>jakarta.activation-api</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
-          <groupId>io.swagger.core.v3</groupId>
-          <artifactId>swagger-jaxrs2-servlet-initializer-v2</artifactId>
-          <version>${swagger.version}</version>
+            <groupId>io.swagger.core.v3</groupId>
+            <artifactId>swagger-jaxrs2-servlet-initializer-v2</artifactId>
+            <version>${swagger.version}</version>
         </dependency>
-      <!--TEST-->
-      <dependency>
-        <!--MUST BE AT THE BOTTOM due to commons-logging overrides before-->
-        <groupId>io.rest-assured</groupId>
-        <artifactId>rest-assured</artifactId>
-        <version>${v.rest-assured}</version>
-        <scope>test</scope>
-      </dependency>
-      <dependency>
-        <!--MUST BE BELOW REST-ASSURED-->
-        <groupId>junit</groupId>
-        <artifactId>junit</artifactId>
-        <version>4.13.2</version>
-        <scope>test</scope>
-      </dependency>
+        <!-- Start of user code dependencies_final
+        -->
+        <!--TEST-->
+        <dependency>
+            <!--MUST BE AT THE BOTTOM due to commons-logging overrides before-->
+            <groupId>io.rest-assured</groupId>
+            <artifactId>rest-assured</artifactId>
+            <version>${v.rest-assured}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <!--MUST BE BELOW REST-ASSURED-->
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.13.2</version>
+            <scope>test</scope>
+        </dependency>
+        <!-- End of user code
+        -->
     </dependencies>
     <!-- Start of user code post_dependencies
     -->
@@ -204,7 +230,6 @@
                 <artifactId>jetty-maven-plugin</artifactId>
                 <version>10.0.7</version>
                 <configuration>
-                  <useTestScope>false</useTestScope>
                   <webApp>
                     <contextPath>/</contextPath>
                   </webApp>
@@ -254,19 +279,6 @@
                             <targetPath>/swagger-ui/dist</targetPath>
                         </resource>
                     </webResources>
-                  <overlays>
-                    <overlay>
-                      <groupId>org.eclipse.lyo.server</groupId>
-                      <artifactId>oauth-webapp</artifactId>
-                      <excludes>
-                        <exclude>WEB-INF/lib/slf4j-api-*.jar</exclude>
-                        <exclude>WEB-INF/lib/wink-*.jar</exclude>
-                        <!-- TODO: update tutorial, maybe we can simplify the POM and remove oauth-*
-                          exclusion -->
-                        <exclude>WEB-INF/lib/oauth-*.jar</exclude>
-                      </excludes>
-                    </overlay>
-                  </overlays>
                 </configuration>
             </plugin>
         </plugins>

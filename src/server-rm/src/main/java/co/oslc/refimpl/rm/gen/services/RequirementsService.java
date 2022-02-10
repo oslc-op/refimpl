@@ -171,7 +171,7 @@ public class RequirementsService
         // Here additional logic can be implemented that complements main action taken in RMManager
         // End of user code
 
-        final List<Requirement> resources = RMManager.queryRequirements(httpServletRequest, serviceProviderId, where, prefix, paging, page, pageSize);
+        List<Requirement> resources = RMManager.queryRequirements(httpServletRequest, serviceProviderId, where, prefix, paging, page, pageSize);
         UriBuilder uriBuilder = UriBuilder.fromUri(uriInfo.getAbsolutePath())
             .queryParam("oslc.paging", "true")
             .queryParam("oslc.pageSize", pageSize)
@@ -184,7 +184,7 @@ public class RequirementsService
         }
         httpServletRequest.setAttribute("queryUri", uriBuilder.build().toString());
         if (resources.size() > pageSize) {
-            resources.remove(resources.size() - 1);
+            resources = resources.subList(0, pageSize);
             uriBuilder.replaceQueryParam("page", page + 1);
             httpServletRequest.setAttribute(OSLC4JConstants.OSLC4J_NEXT_PAGE, uriBuilder.build().toString());
         }
@@ -226,10 +226,9 @@ public class RequirementsService
         // Start of user code queryRequirementsAsHtml
         // End of user code
 
-        final List<Requirement> resources = RMManager.queryRequirements(httpServletRequest, serviceProviderId, where, prefix, paging, page, pageSize);
+        List<Requirement> resources = RMManager.queryRequirements(httpServletRequest, serviceProviderId, where, prefix, paging, page, pageSize);
 
         if (resources!= null) {
-            httpServletRequest.setAttribute("resources", resources);
             // Start of user code queryRequirementsAsHtml_setAttributes
             // End of user code
 
@@ -245,11 +244,12 @@ public class RequirementsService
             }
             httpServletRequest.setAttribute("queryUri", uriBuilder.build().toString());
             if (resources.size() > pageSize) {
-                resources.remove(resources.size() - 1);
+                resources = resources.subList(0, pageSize);
 
                 uriBuilder.replaceQueryParam("page", page + 1);
                 httpServletRequest.setAttribute(OSLC4JConstants.OSLC4J_NEXT_PAGE, uriBuilder.build().toString());
             }
+            httpServletRequest.setAttribute("resources", resources);
             RequestDispatcher rd = httpServletRequest.getRequestDispatcher("/co/oslc/refimpl/rm/gen/requirementscollection.jsp");
             rd.forward(httpServletRequest,httpServletResponse);
             return;
