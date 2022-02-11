@@ -156,42 +156,62 @@ public class AuthenticationApplication implements Application {
 
     @Override
     public boolean isAuthenticated(HttpServletRequest request) {
-        return (null != getApplicationConnectorFromSession(request));
+        boolean auth = (null != getApplicationConnectorFromSession(request));
+        // Start of user code isAuthenticated
+        // End of user code
+        return auth;
     }
 
     @Override
     public boolean isAdminSession(HttpServletRequest request) {
-        return Boolean.TRUE.equals(request.getSession().getAttribute(APPLICATION_CONNECTOR_ADMIN_SESSION_ATTRIBUTE));
+        boolean admin = Boolean.TRUE.equals(request.getSession().getAttribute(APPLICATION_CONNECTOR_ADMIN_SESSION_ATTRIBUTE));
+        // Start of user code isAdminSession
+        // End of user code
+        return admin;
     }
 
     // TODO: instead of saving to a session, consider saving to a cookie, so that
     // the login survives longer than a single web session.
     public void bindApplicationConnectorToSession(HttpServletRequest request, String applicationConnector) {
+        // Start of user code bindApplicationConnectorToSession
+        // End of user code
         request.getSession().setAttribute(APPLICATION_CONNECTOR_SESSION_ATTRIBUTE, applicationConnector);
     }
 
     public String getApplicationConnectorFromSession(HttpServletRequest request) {
+        // Start of user code getApplicationConnectorFromSession
+        // End of user code
         return (String) request.getSession().getAttribute(APPLICATION_CONNECTOR_SESSION_ATTRIBUTE);
     }
 
     public void removeApplicationConnectorFromSession(HttpServletRequest request) {
+        // Start of user code removeApplicationConnectorFromSession
+        // End of user code
         request.getSession().removeAttribute(APPLICATION_CONNECTOR_SESSION_ATTRIBUTE);
     }
 
     public String getApplicationConnector(String oauth1Token) {
+        // Start of user code getApplicationConnector
+        // End of user code
         return oauth1TokenToApplicationConnector.get(oauth1Token);
     }
 
     public void putApplicationConnector(String oauth1Token, String applicationConnector) {
+        // Start of user code putApplicationConnector
+        // End of user code
         oauth1TokenToApplicationConnector.put(oauth1Token, applicationConnector);
     }
 
     public void moveApplicationConnector(String oldOauth1Token, String newOauth1Token) {
+        // Start of user code moveApplicationConnector
+        // End of user code
         String applicationConnector = oauth1TokenToApplicationConnector.remove(oldOauth1Token);
         oauth1TokenToApplicationConnector.put(newOauth1Token, applicationConnector);
     }
 
     public void removeForOauth1Token(String oauth1Token) {
+        // Start of user code removeForOauth1Token
+        // End of user code
         oauth1TokenToApplicationConnector.remove(oauth1Token);
     }
 
@@ -205,9 +225,13 @@ public class AuthenticationApplication implements Application {
      * @throws ServletException
      */
     public void sendUnauthorizedResponse(HttpServletResponse response, Exception e) throws IOException, ServletException {
+        // Start of user code sendUnauthorizedResponse_init
+        // End of user code
         // Accept basic access or OAuth authentication.
         response.addHeader(WWW_AUTHENTICATE_HEADER, OAUTH_AUTHENTICATION_CHALLENGE);
         response.addHeader(WWW_AUTHENTICATE_HEADER, BASIC_AUTHENTICATION_CHALLENGE);
         response.sendError(HttpServletResponse.SC_UNAUTHORIZED);
+        // Start of user code sendUnauthorizedResponse_final
+        // End of user code
     }
 }
