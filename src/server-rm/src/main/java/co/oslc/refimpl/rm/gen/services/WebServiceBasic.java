@@ -131,8 +131,13 @@ public class WebServiceBasic
         summary = "GET for resources of type {'" + Oslc_rmDomainConstants.REQUIREMENT_LOCALNAME + "'}",
         description = "GET for resources of type {'" + "<a href=\"" + Oslc_rmDomainConstants.REQUIREMENT_TYPE + "\">" + Oslc_rmDomainConstants.REQUIREMENT_LOCALNAME + "</a>" + "'}" +
             ", with respective resource shapes {'" + "<a href=\"" + "../services/" + OslcConstants.PATH_RESOURCE_SHAPES + "/" + Oslc_rmDomainConstants.REQUIREMENT_PATH + "\">" + Oslc_rmDomainConstants.REQUIREMENT_LOCALNAME + "</a>" + "'}",
-        responses = {
-            @ApiResponse(description = "default response", content = {@Content(mediaType = OslcMediaType.APPLICATION_RDF_XML), @Content(mediaType = OslcMediaType.APPLICATION_XML), @Content(mediaType = OslcMediaType.APPLICATION_JSON), @Content(mediaType = OslcMediaType.TEXT_TURTLE), @Content(mediaType = MediaType.TEXT_HTML), @Content(mediaType = OslcMediaType.APPLICATION_X_OSLC_COMPACT_XML)})
+        responses = {@ApiResponse(description = "default response",
+            content = {@Content(mediaType = OslcMediaType.APPLICATION_RDF_XML), @Content(
+                mediaType = OslcMediaType.APPLICATION_XML), @Content(
+                mediaType = OslcMediaType.APPLICATION_JSON), @Content(
+                mediaType = OslcMediaType.TEXT_TURTLE), @Content(
+                mediaType = MediaType.TEXT_HTML), @Content(
+                mediaType = OslcMediaType.APPLICATION_X_OSLC_COMPACT_XML)})
         }
     )
     public Requirement getRequirement(
@@ -162,8 +167,13 @@ public class WebServiceBasic
         summary = "GET for resources of type {'" + Oslc_rmDomainConstants.REQUIREMENT_LOCALNAME + "'}",
         description = "GET for resources of type {'" + "<a href=\"" + Oslc_rmDomainConstants.REQUIREMENT_TYPE + "\">" + Oslc_rmDomainConstants.REQUIREMENT_LOCALNAME + "</a>" + "'}" +
             ", with respective resource shapes {'" + "<a href=\"" + "../services/" + OslcConstants.PATH_RESOURCE_SHAPES + "/" + Oslc_rmDomainConstants.REQUIREMENT_PATH + "\">" + Oslc_rmDomainConstants.REQUIREMENT_LOCALNAME + "</a>" + "'}",
-        responses = {
-            @ApiResponse(description = "default response", content = {@Content(mediaType = OslcMediaType.APPLICATION_RDF_XML), @Content(mediaType = OslcMediaType.APPLICATION_XML), @Content(mediaType = OslcMediaType.APPLICATION_JSON), @Content(mediaType = OslcMediaType.TEXT_TURTLE), @Content(mediaType = MediaType.TEXT_HTML), @Content(mediaType = OslcMediaType.APPLICATION_X_OSLC_COMPACT_XML)})
+        responses = {@ApiResponse(description = "default response",
+            content = {@Content(mediaType = OslcMediaType.APPLICATION_RDF_XML), @Content(
+                mediaType = OslcMediaType.APPLICATION_XML), @Content(
+                mediaType = OslcMediaType.APPLICATION_JSON), @Content(
+                mediaType = OslcMediaType.TEXT_TURTLE), @Content(
+                mediaType = MediaType.TEXT_HTML), @Content(
+                mediaType = OslcMediaType.APPLICATION_X_OSLC_COMPACT_XML)})
         }
     )
     public void getRequirementAsHtml(
@@ -195,8 +205,13 @@ public class WebServiceBasic
         summary = "GET for resources of type {'" + Oslc_rmDomainConstants.REQUIREMENT_LOCALNAME + "'}",
         description = "GET for resources of type {'" + "<a href=\"" + Oslc_rmDomainConstants.REQUIREMENT_TYPE + "\">" + Oslc_rmDomainConstants.REQUIREMENT_LOCALNAME + "</a>" + "'}" +
             ", with respective resource shapes {'" + "<a href=\"" + "../services/" + OslcConstants.PATH_RESOURCE_SHAPES + "/" + Oslc_rmDomainConstants.REQUIREMENT_PATH + "\">" + Oslc_rmDomainConstants.REQUIREMENT_LOCALNAME + "</a>" + "'}",
-        responses = {
-            @ApiResponse(description = "default response", content = {@Content(mediaType = OslcMediaType.APPLICATION_RDF_XML), @Content(mediaType = OslcMediaType.APPLICATION_XML), @Content(mediaType = OslcMediaType.APPLICATION_JSON), @Content(mediaType = OslcMediaType.TEXT_TURTLE), @Content(mediaType = MediaType.TEXT_HTML), @Content(mediaType = OslcMediaType.APPLICATION_X_OSLC_COMPACT_XML)})
+        responses = {@ApiResponse(description = "default response",
+            content = {@Content(mediaType = OslcMediaType.APPLICATION_RDF_XML), @Content(
+                mediaType = OslcMediaType.APPLICATION_XML), @Content(
+                mediaType = OslcMediaType.APPLICATION_JSON), @Content(
+                mediaType = OslcMediaType.TEXT_TURTLE), @Content(
+                mediaType = MediaType.TEXT_HTML), @Content(
+                mediaType = OslcMediaType.APPLICATION_X_OSLC_COMPACT_XML)})
         }
     )
     public Compact getRequirementCompact(
@@ -303,8 +318,13 @@ public class WebServiceBasic
         summary = "GET for resources of type {'" + Oslc_rmDomainConstants.REQUIREMENTCOLLECTION_LOCALNAME + "'}",
         description = "GET for resources of type {'" + "<a href=\"" + Oslc_rmDomainConstants.REQUIREMENTCOLLECTION_TYPE + "\">" + Oslc_rmDomainConstants.REQUIREMENTCOLLECTION_LOCALNAME + "</a>" + "'}" +
             ", with respective resource shapes {'" + "<a href=\"" + "../services/" + OslcConstants.PATH_RESOURCE_SHAPES + "/" + Oslc_rmDomainConstants.REQUIREMENTCOLLECTION_PATH + "\">" + Oslc_rmDomainConstants.REQUIREMENTCOLLECTION_LOCALNAME + "</a>" + "'}",
-        responses = {
-            @ApiResponse(description = "default response", content = {@Content(mediaType = OslcMediaType.APPLICATION_RDF_XML), @Content(mediaType = OslcMediaType.APPLICATION_XML), @Content(mediaType = OslcMediaType.APPLICATION_JSON), @Content(mediaType = OslcMediaType.TEXT_TURTLE), @Content(mediaType = MediaType.TEXT_HTML), @Content(mediaType = OslcMediaType.APPLICATION_X_OSLC_COMPACT_XML)})
+        responses = {@ApiResponse(description = "default response",
+            content = {@Content(mediaType = OslcMediaType.APPLICATION_RDF_XML), @Content(
+                mediaType = OslcMediaType.APPLICATION_XML), @Content(
+                mediaType = OslcMediaType.APPLICATION_JSON), @Content(
+                mediaType = OslcMediaType.TEXT_TURTLE), @Content(
+                mediaType = MediaType.TEXT_HTML), @Content(
+                mediaType = OslcMediaType.APPLICATION_X_OSLC_COMPACT_XML)})
         }
     )
     public RequirementCollection getRequirementCollection(
@@ -334,8 +354,13 @@ public class WebServiceBasic
         summary = "GET for resources of type {'" + Oslc_rmDomainConstants.REQUIREMENTCOLLECTION_LOCALNAME + "'}",
         description = "GET for resources of type {'" + "<a href=\"" + Oslc_rmDomainConstants.REQUIREMENTCOLLECTION_TYPE + "\">" + Oslc_rmDomainConstants.REQUIREMENTCOLLECTION_LOCALNAME + "</a>" + "'}" +
             ", with respective resource shapes {'" + "<a href=\"" + "../services/" + OslcConstants.PATH_RESOURCE_SHAPES + "/" + Oslc_rmDomainConstants.REQUIREMENTCOLLECTION_PATH + "\">" + Oslc_rmDomainConstants.REQUIREMENTCOLLECTION_LOCALNAME + "</a>" + "'}",
-        responses = {
-            @ApiResponse(description = "default response", content = {@Content(mediaType = OslcMediaType.APPLICATION_RDF_XML), @Content(mediaType = OslcMediaType.APPLICATION_XML), @Content(mediaType = OslcMediaType.APPLICATION_JSON), @Content(mediaType = OslcMediaType.TEXT_TURTLE), @Content(mediaType = MediaType.TEXT_HTML), @Content(mediaType = OslcMediaType.APPLICATION_X_OSLC_COMPACT_XML)})
+        responses = {@ApiResponse(description = "default response",
+            content = {@Content(mediaType = OslcMediaType.APPLICATION_RDF_XML), @Content(
+                mediaType = OslcMediaType.APPLICATION_XML), @Content(
+                mediaType = OslcMediaType.APPLICATION_JSON), @Content(
+                mediaType = OslcMediaType.TEXT_TURTLE), @Content(
+                mediaType = MediaType.TEXT_HTML), @Content(
+                mediaType = OslcMediaType.APPLICATION_X_OSLC_COMPACT_XML)})
         }
     )
     public void getRequirementCollectionAsHtml(
@@ -367,8 +392,13 @@ public class WebServiceBasic
         summary = "GET for resources of type {'" + Oslc_rmDomainConstants.REQUIREMENTCOLLECTION_LOCALNAME + "'}",
         description = "GET for resources of type {'" + "<a href=\"" + Oslc_rmDomainConstants.REQUIREMENTCOLLECTION_TYPE + "\">" + Oslc_rmDomainConstants.REQUIREMENTCOLLECTION_LOCALNAME + "</a>" + "'}" +
             ", with respective resource shapes {'" + "<a href=\"" + "../services/" + OslcConstants.PATH_RESOURCE_SHAPES + "/" + Oslc_rmDomainConstants.REQUIREMENTCOLLECTION_PATH + "\">" + Oslc_rmDomainConstants.REQUIREMENTCOLLECTION_LOCALNAME + "</a>" + "'}",
-        responses = {
-            @ApiResponse(description = "default response", content = {@Content(mediaType = OslcMediaType.APPLICATION_RDF_XML), @Content(mediaType = OslcMediaType.APPLICATION_XML), @Content(mediaType = OslcMediaType.APPLICATION_JSON), @Content(mediaType = OslcMediaType.TEXT_TURTLE), @Content(mediaType = MediaType.TEXT_HTML), @Content(mediaType = OslcMediaType.APPLICATION_X_OSLC_COMPACT_XML)})
+        responses = {@ApiResponse(description = "default response",
+            content = {@Content(mediaType = OslcMediaType.APPLICATION_RDF_XML), @Content(
+                mediaType = OslcMediaType.APPLICATION_XML), @Content(
+                mediaType = OslcMediaType.APPLICATION_JSON), @Content(
+                mediaType = OslcMediaType.TEXT_TURTLE), @Content(
+                mediaType = MediaType.TEXT_HTML), @Content(
+                mediaType = OslcMediaType.APPLICATION_X_OSLC_COMPACT_XML)})
         }
     )
     public Compact getRequirementCollectionCompact(
@@ -474,8 +504,13 @@ public class WebServiceBasic
         summary = "DELETE for resources of type {'" + Oslc_rmDomainConstants.REQUIREMENT_LOCALNAME + "'}",
         description = "DELETE for resources of type {'" + "<a href=\"" + Oslc_rmDomainConstants.REQUIREMENT_TYPE + "\">" + Oslc_rmDomainConstants.REQUIREMENT_LOCALNAME + "</a>" + "'}" +
             ", with respective resource shapes {'" + "<a href=\"" + "../services/" + OslcConstants.PATH_RESOURCE_SHAPES + "/" + Oslc_rmDomainConstants.REQUIREMENT_PATH + "\">" + Oslc_rmDomainConstants.REQUIREMENT_LOCALNAME + "</a>" + "'}",
-        responses = {
-            @ApiResponse(description = "default response", content = {@Content(mediaType = OslcMediaType.APPLICATION_RDF_XML), @Content(mediaType = OslcMediaType.APPLICATION_XML), @Content(mediaType = OslcMediaType.APPLICATION_JSON), @Content(mediaType = OslcMediaType.TEXT_TURTLE), @Content(mediaType = MediaType.TEXT_HTML), @Content(mediaType = OslcMediaType.APPLICATION_X_OSLC_COMPACT_XML)})
+        responses = {@ApiResponse(description = "default response",
+            content = {@Content(mediaType = OslcMediaType.APPLICATION_RDF_XML), @Content(
+                mediaType = OslcMediaType.APPLICATION_XML), @Content(
+                mediaType = OslcMediaType.APPLICATION_JSON), @Content(
+                mediaType = OslcMediaType.TEXT_TURTLE), @Content(
+                mediaType = MediaType.TEXT_HTML), @Content(
+                mediaType = OslcMediaType.APPLICATION_X_OSLC_COMPACT_XML)})
         }
     )
     public Response deleteRequirement(
@@ -504,8 +539,13 @@ public class WebServiceBasic
         summary = "DELETE for resources of type {'" + Oslc_rmDomainConstants.REQUIREMENTCOLLECTION_LOCALNAME + "'}",
         description = "DELETE for resources of type {'" + "<a href=\"" + Oslc_rmDomainConstants.REQUIREMENTCOLLECTION_TYPE + "\">" + Oslc_rmDomainConstants.REQUIREMENTCOLLECTION_LOCALNAME + "</a>" + "'}" +
             ", with respective resource shapes {'" + "<a href=\"" + "../services/" + OslcConstants.PATH_RESOURCE_SHAPES + "/" + Oslc_rmDomainConstants.REQUIREMENTCOLLECTION_PATH + "\">" + Oslc_rmDomainConstants.REQUIREMENTCOLLECTION_LOCALNAME + "</a>" + "'}",
-        responses = {
-            @ApiResponse(description = "default response", content = {@Content(mediaType = OslcMediaType.APPLICATION_RDF_XML), @Content(mediaType = OslcMediaType.APPLICATION_XML), @Content(mediaType = OslcMediaType.APPLICATION_JSON), @Content(mediaType = OslcMediaType.TEXT_TURTLE), @Content(mediaType = MediaType.TEXT_HTML), @Content(mediaType = OslcMediaType.APPLICATION_X_OSLC_COMPACT_XML)})
+        responses = {@ApiResponse(description = "default response",
+            content = {@Content(mediaType = OslcMediaType.APPLICATION_RDF_XML), @Content(
+                mediaType = OslcMediaType.APPLICATION_XML), @Content(
+                mediaType = OslcMediaType.APPLICATION_JSON), @Content(
+                mediaType = OslcMediaType.TEXT_TURTLE), @Content(
+                mediaType = MediaType.TEXT_HTML), @Content(
+                mediaType = OslcMediaType.APPLICATION_X_OSLC_COMPACT_XML)})
         }
     )
     public Response deleteRequirementCollection(
@@ -535,8 +575,13 @@ public class WebServiceBasic
         summary = "PUT for resources of type {'" + Oslc_rmDomainConstants.REQUIREMENT_LOCALNAME + "'}",
         description = "PUT for resources of type {'" + "<a href=\"" + Oslc_rmDomainConstants.REQUIREMENT_TYPE + "\">" + Oslc_rmDomainConstants.REQUIREMENT_LOCALNAME + "</a>" + "'}" +
             ", with respective resource shapes {'" + "<a href=\"" + "../services/" + OslcConstants.PATH_RESOURCE_SHAPES + "/" + Oslc_rmDomainConstants.REQUIREMENT_PATH + "\">" + Oslc_rmDomainConstants.REQUIREMENT_LOCALNAME + "</a>" + "'}",
-        responses = {
-            @ApiResponse(description = "default response", content = {@Content(mediaType = OslcMediaType.APPLICATION_RDF_XML), @Content(mediaType = OslcMediaType.APPLICATION_XML), @Content(mediaType = OslcMediaType.APPLICATION_JSON), @Content(mediaType = OslcMediaType.TEXT_TURTLE), @Content(mediaType = MediaType.TEXT_HTML), @Content(mediaType = OslcMediaType.APPLICATION_X_OSLC_COMPACT_XML)})
+        responses = {@ApiResponse(description = "default response",
+            content = {@Content(mediaType = OslcMediaType.APPLICATION_RDF_XML), @Content(
+                mediaType = OslcMediaType.APPLICATION_XML), @Content(
+                mediaType = OslcMediaType.APPLICATION_JSON), @Content(
+                mediaType = OslcMediaType.TEXT_TURTLE), @Content(
+                mediaType = MediaType.TEXT_HTML), @Content(
+                mediaType = OslcMediaType.APPLICATION_X_OSLC_COMPACT_XML)})
         }
     )
     public Response updateRequirement(
@@ -575,8 +620,13 @@ public class WebServiceBasic
         summary = "PUT for resources of type {'" + Oslc_rmDomainConstants.REQUIREMENTCOLLECTION_LOCALNAME + "'}",
         description = "PUT for resources of type {'" + "<a href=\"" + Oslc_rmDomainConstants.REQUIREMENTCOLLECTION_TYPE + "\">" + Oslc_rmDomainConstants.REQUIREMENTCOLLECTION_LOCALNAME + "</a>" + "'}" +
             ", with respective resource shapes {'" + "<a href=\"" + "../services/" + OslcConstants.PATH_RESOURCE_SHAPES + "/" + Oslc_rmDomainConstants.REQUIREMENTCOLLECTION_PATH + "\">" + Oslc_rmDomainConstants.REQUIREMENTCOLLECTION_LOCALNAME + "</a>" + "'}",
-        responses = {
-            @ApiResponse(description = "default response", content = {@Content(mediaType = OslcMediaType.APPLICATION_RDF_XML), @Content(mediaType = OslcMediaType.APPLICATION_XML), @Content(mediaType = OslcMediaType.APPLICATION_JSON), @Content(mediaType = OslcMediaType.TEXT_TURTLE), @Content(mediaType = MediaType.TEXT_HTML), @Content(mediaType = OslcMediaType.APPLICATION_X_OSLC_COMPACT_XML)})
+        responses = {@ApiResponse(description = "default response",
+            content = {@Content(mediaType = OslcMediaType.APPLICATION_RDF_XML), @Content(
+                mediaType = OslcMediaType.APPLICATION_XML), @Content(
+                mediaType = OslcMediaType.APPLICATION_JSON), @Content(
+                mediaType = OslcMediaType.TEXT_TURTLE), @Content(
+                mediaType = MediaType.TEXT_HTML), @Content(
+                mediaType = OslcMediaType.APPLICATION_X_OSLC_COMPACT_XML)})
         }
     )
     public Response updateRequirementCollection(

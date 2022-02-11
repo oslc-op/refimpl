@@ -136,6 +136,8 @@ public class CredentialsFilter implements Filter {
                                 throw new AuthenticationException();
                             }
                         } catch (AuthenticationException e) {
+                            // Start of user code basicAuth_authenticationException
+                            // End of user code
                             authenticationApplication.sendUnauthorizedResponse(response, e);
                             return;
                         } 

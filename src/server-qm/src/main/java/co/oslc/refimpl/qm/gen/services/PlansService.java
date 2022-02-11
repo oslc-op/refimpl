@@ -182,7 +182,7 @@ public class PlansService
         // Here additional logic can be implemented that complements main action taken in QMManager
         // End of user code
 
-        final List<TestPlan> resources = QMManager.queryTestPlans(httpServletRequest, where, prefix, paging, page, pageSize);
+        List<TestPlan> resources = QMManager.queryTestPlans(httpServletRequest, where, prefix, paging, page, pageSize);
         UriBuilder uriBuilder = UriBuilder.fromUri(uriInfo.getAbsolutePath())
             .queryParam("oslc.paging", "true")
             .queryParam("oslc.pageSize", pageSize)
@@ -194,8 +194,9 @@ public class PlansService
             uriBuilder.queryParam("oslc.prefix", prefix);
         }
         httpServletRequest.setAttribute("queryUri", uriBuilder.build().toString());
-        if (resources.size() > pageSize) {
-            resources.remove(resources.size() - 1);
+        if ((OSLC4JUtils.hasLyoStorePagingPreciseLimit() && resources.size() >= pageSize) 
+            || (!OSLC4JUtils.hasLyoStorePagingPreciseLimit() && resources.size() > pageSize)) {
+            resources = resources.subList(0, pageSize);
             uriBuilder.replaceQueryParam("page", page + 1);
             httpServletRequest.setAttribute(OSLC4JConstants.OSLC4J_NEXT_PAGE, uriBuilder.build().toString());
         }
@@ -237,10 +238,9 @@ public class PlansService
         // Start of user code queryTestPlansAsHtml
         // End of user code
 
-        final List<TestPlan> resources = QMManager.queryTestPlans(httpServletRequest, where, prefix, paging, page, pageSize);
+        List<TestPlan> resources = QMManager.queryTestPlans(httpServletRequest, where, prefix, paging, page, pageSize);
 
         if (resources!= null) {
-            httpServletRequest.setAttribute("resources", resources);
             // Start of user code queryTestPlansAsHtml_setAttributes
             // End of user code
 
@@ -255,12 +255,14 @@ public class PlansService
                 uriBuilder.queryParam("oslc.prefix", prefix);
             }
             httpServletRequest.setAttribute("queryUri", uriBuilder.build().toString());
-            if (resources.size() > pageSize) {
-                resources.remove(resources.size() - 1);
 
+        if ((OSLC4JUtils.hasLyoStorePagingPreciseLimit() && resources.size() >= pageSize) 
+            || (!OSLC4JUtils.hasLyoStorePagingPreciseLimit() && resources.size() > pageSize)) {
+                resources = resources.subList(0, pageSize);
                 uriBuilder.replaceQueryParam("page", page + 1);
                 httpServletRequest.setAttribute(OSLC4JConstants.OSLC4J_NEXT_PAGE, uriBuilder.build().toString());
             }
+            httpServletRequest.setAttribute("resources", resources);
             RequestDispatcher rd = httpServletRequest.getRequestDispatcher("/co/oslc/refimpl/qm/gen/testplanscollection.jsp");
             rd.forward(httpServletRequest,httpServletResponse);
             return;

@@ -187,7 +187,7 @@ public class Change_requestsService
         // Here additional logic can be implemented that complements main action taken in CMManager
         // End of user code
 
-        final List<ChangeRequest> resources = CMManager.queryChangeRequests(httpServletRequest, where, prefix, paging, page, pageSize);
+        List<ChangeRequest> resources = CMManager.queryChangeRequests(httpServletRequest, where, prefix, paging, page, pageSize);
         UriBuilder uriBuilder = UriBuilder.fromUri(uriInfo.getAbsolutePath())
             .queryParam("oslc.paging", "true")
             .queryParam("oslc.pageSize", pageSize)
@@ -199,8 +199,9 @@ public class Change_requestsService
             uriBuilder.queryParam("oslc.prefix", prefix);
         }
         httpServletRequest.setAttribute("queryUri", uriBuilder.build().toString());
-        if (resources.size() > pageSize) {
-            resources.remove(resources.size() - 1);
+        if ((OSLC4JUtils.hasLyoStorePagingPreciseLimit() && resources.size() >= pageSize) 
+            || (!OSLC4JUtils.hasLyoStorePagingPreciseLimit() && resources.size() > pageSize)) {
+            resources = resources.subList(0, pageSize);
             uriBuilder.replaceQueryParam("page", page + 1);
             httpServletRequest.setAttribute(OSLC4JConstants.OSLC4J_NEXT_PAGE, uriBuilder.build().toString());
         }
@@ -242,10 +243,9 @@ public class Change_requestsService
         // Start of user code queryChangeRequestsAsHtml
         // End of user code
 
-        final List<ChangeRequest> resources = CMManager.queryChangeRequests(httpServletRequest, where, prefix, paging, page, pageSize);
+        List<ChangeRequest> resources = CMManager.queryChangeRequests(httpServletRequest, where, prefix, paging, page, pageSize);
 
         if (resources!= null) {
-            httpServletRequest.setAttribute("resources", resources);
             // Start of user code queryChangeRequestsAsHtml_setAttributes
             // End of user code
 
@@ -260,12 +260,14 @@ public class Change_requestsService
                 uriBuilder.queryParam("oslc.prefix", prefix);
             }
             httpServletRequest.setAttribute("queryUri", uriBuilder.build().toString());
-            if (resources.size() > pageSize) {
-                resources.remove(resources.size() - 1);
 
+        if ((OSLC4JUtils.hasLyoStorePagingPreciseLimit() && resources.size() >= pageSize) 
+            || (!OSLC4JUtils.hasLyoStorePagingPreciseLimit() && resources.size() > pageSize)) {
+                resources = resources.subList(0, pageSize);
                 uriBuilder.replaceQueryParam("page", page + 1);
                 httpServletRequest.setAttribute(OSLC4JConstants.OSLC4J_NEXT_PAGE, uriBuilder.build().toString());
             }
+            httpServletRequest.setAttribute("resources", resources);
             RequestDispatcher rd = httpServletRequest.getRequestDispatcher("/co/oslc/refimpl/cm/gen/changerequestscollection.jsp");
             rd.forward(httpServletRequest,httpServletResponse);
             return;
@@ -317,7 +319,7 @@ public class Change_requestsService
         // Here additional logic can be implemented that complements main action taken in CMManager
         // End of user code
 
-        final List<Defect> resources = CMManager.queryDefects(httpServletRequest, where, prefix, paging, page, pageSize);
+        List<Defect> resources = CMManager.queryDefects(httpServletRequest, where, prefix, paging, page, pageSize);
         UriBuilder uriBuilder = UriBuilder.fromUri(uriInfo.getAbsolutePath())
             .queryParam("oslc.paging", "true")
             .queryParam("oslc.pageSize", pageSize)
@@ -329,8 +331,9 @@ public class Change_requestsService
             uriBuilder.queryParam("oslc.prefix", prefix);
         }
         httpServletRequest.setAttribute("queryUri", uriBuilder.build().toString());
-        if (resources.size() > pageSize) {
-            resources.remove(resources.size() - 1);
+        if ((OSLC4JUtils.hasLyoStorePagingPreciseLimit() && resources.size() >= pageSize) 
+            || (!OSLC4JUtils.hasLyoStorePagingPreciseLimit() && resources.size() > pageSize)) {
+            resources = resources.subList(0, pageSize);
             uriBuilder.replaceQueryParam("page", page + 1);
             httpServletRequest.setAttribute(OSLC4JConstants.OSLC4J_NEXT_PAGE, uriBuilder.build().toString());
         }
@@ -372,10 +375,9 @@ public class Change_requestsService
         // Start of user code queryDefectsAsHtml
         // End of user code
 
-        final List<Defect> resources = CMManager.queryDefects(httpServletRequest, where, prefix, paging, page, pageSize);
+        List<Defect> resources = CMManager.queryDefects(httpServletRequest, where, prefix, paging, page, pageSize);
 
         if (resources!= null) {
-            httpServletRequest.setAttribute("resources", resources);
             // Start of user code queryDefectsAsHtml_setAttributes
             // End of user code
 
@@ -390,12 +392,14 @@ public class Change_requestsService
                 uriBuilder.queryParam("oslc.prefix", prefix);
             }
             httpServletRequest.setAttribute("queryUri", uriBuilder.build().toString());
-            if (resources.size() > pageSize) {
-                resources.remove(resources.size() - 1);
 
+        if ((OSLC4JUtils.hasLyoStorePagingPreciseLimit() && resources.size() >= pageSize) 
+            || (!OSLC4JUtils.hasLyoStorePagingPreciseLimit() && resources.size() > pageSize)) {
+                resources = resources.subList(0, pageSize);
                 uriBuilder.replaceQueryParam("page", page + 1);
                 httpServletRequest.setAttribute(OSLC4JConstants.OSLC4J_NEXT_PAGE, uriBuilder.build().toString());
             }
+            httpServletRequest.setAttribute("resources", resources);
             RequestDispatcher rd = httpServletRequest.getRequestDispatcher("/co/oslc/refimpl/cm/gen/defectscollection.jsp");
             rd.forward(httpServletRequest,httpServletResponse);
             return;
@@ -447,7 +451,7 @@ public class Change_requestsService
         // Here additional logic can be implemented that complements main action taken in CMManager
         // End of user code
 
-        final List<Task> resources = CMManager.queryTasks(httpServletRequest, where, prefix, paging, page, pageSize);
+        List<Task> resources = CMManager.queryTasks(httpServletRequest, where, prefix, paging, page, pageSize);
         UriBuilder uriBuilder = UriBuilder.fromUri(uriInfo.getAbsolutePath())
             .queryParam("oslc.paging", "true")
             .queryParam("oslc.pageSize", pageSize)
@@ -459,8 +463,9 @@ public class Change_requestsService
             uriBuilder.queryParam("oslc.prefix", prefix);
         }
         httpServletRequest.setAttribute("queryUri", uriBuilder.build().toString());
-        if (resources.size() > pageSize) {
-            resources.remove(resources.size() - 1);
+        if ((OSLC4JUtils.hasLyoStorePagingPreciseLimit() && resources.size() >= pageSize) 
+            || (!OSLC4JUtils.hasLyoStorePagingPreciseLimit() && resources.size() > pageSize)) {
+            resources = resources.subList(0, pageSize);
             uriBuilder.replaceQueryParam("page", page + 1);
             httpServletRequest.setAttribute(OSLC4JConstants.OSLC4J_NEXT_PAGE, uriBuilder.build().toString());
         }
@@ -502,10 +507,9 @@ public class Change_requestsService
         // Start of user code queryTasksAsHtml
         // End of user code
 
-        final List<Task> resources = CMManager.queryTasks(httpServletRequest, where, prefix, paging, page, pageSize);
+        List<Task> resources = CMManager.queryTasks(httpServletRequest, where, prefix, paging, page, pageSize);
 
         if (resources!= null) {
-            httpServletRequest.setAttribute("resources", resources);
             // Start of user code queryTasksAsHtml_setAttributes
             // End of user code
 
@@ -520,12 +524,14 @@ public class Change_requestsService
                 uriBuilder.queryParam("oslc.prefix", prefix);
             }
             httpServletRequest.setAttribute("queryUri", uriBuilder.build().toString());
-            if (resources.size() > pageSize) {
-                resources.remove(resources.size() - 1);
 
+        if ((OSLC4JUtils.hasLyoStorePagingPreciseLimit() && resources.size() >= pageSize) 
+            || (!OSLC4JUtils.hasLyoStorePagingPreciseLimit() && resources.size() > pageSize)) {
+                resources = resources.subList(0, pageSize);
                 uriBuilder.replaceQueryParam("page", page + 1);
                 httpServletRequest.setAttribute(OSLC4JConstants.OSLC4J_NEXT_PAGE, uriBuilder.build().toString());
             }
+            httpServletRequest.setAttribute("resources", resources);
             RequestDispatcher rd = httpServletRequest.getRequestDispatcher("/co/oslc/refimpl/cm/gen/taskscollection.jsp");
             rd.forward(httpServletRequest,httpServletResponse);
             return;
@@ -577,7 +583,7 @@ public class Change_requestsService
         // Here additional logic can be implemented that complements main action taken in CMManager
         // End of user code
 
-        final List<Enhancement> resources = CMManager.queryEnhancements(httpServletRequest, where, prefix, paging, page, pageSize);
+        List<Enhancement> resources = CMManager.queryEnhancements(httpServletRequest, where, prefix, paging, page, pageSize);
         UriBuilder uriBuilder = UriBuilder.fromUri(uriInfo.getAbsolutePath())
             .queryParam("oslc.paging", "true")
             .queryParam("oslc.pageSize", pageSize)
@@ -589,8 +595,9 @@ public class Change_requestsService
             uriBuilder.queryParam("oslc.prefix", prefix);
         }
         httpServletRequest.setAttribute("queryUri", uriBuilder.build().toString());
-        if (resources.size() > pageSize) {
-            resources.remove(resources.size() - 1);
+        if ((OSLC4JUtils.hasLyoStorePagingPreciseLimit() && resources.size() >= pageSize) 
+            || (!OSLC4JUtils.hasLyoStorePagingPreciseLimit() && resources.size() > pageSize)) {
+            resources = resources.subList(0, pageSize);
             uriBuilder.replaceQueryParam("page", page + 1);
             httpServletRequest.setAttribute(OSLC4JConstants.OSLC4J_NEXT_PAGE, uriBuilder.build().toString());
         }
@@ -632,10 +639,9 @@ public class Change_requestsService
         // Start of user code queryEnhancementsAsHtml
         // End of user code
 
-        final List<Enhancement> resources = CMManager.queryEnhancements(httpServletRequest, where, prefix, paging, page, pageSize);
+        List<Enhancement> resources = CMManager.queryEnhancements(httpServletRequest, where, prefix, paging, page, pageSize);
 
         if (resources!= null) {
-            httpServletRequest.setAttribute("resources", resources);
             // Start of user code queryEnhancementsAsHtml_setAttributes
             // End of user code
 
@@ -650,12 +656,14 @@ public class Change_requestsService
                 uriBuilder.queryParam("oslc.prefix", prefix);
             }
             httpServletRequest.setAttribute("queryUri", uriBuilder.build().toString());
-            if (resources.size() > pageSize) {
-                resources.remove(resources.size() - 1);
 
+        if ((OSLC4JUtils.hasLyoStorePagingPreciseLimit() && resources.size() >= pageSize) 
+            || (!OSLC4JUtils.hasLyoStorePagingPreciseLimit() && resources.size() > pageSize)) {
+                resources = resources.subList(0, pageSize);
                 uriBuilder.replaceQueryParam("page", page + 1);
                 httpServletRequest.setAttribute(OSLC4JConstants.OSLC4J_NEXT_PAGE, uriBuilder.build().toString());
             }
+            httpServletRequest.setAttribute("resources", resources);
             RequestDispatcher rd = httpServletRequest.getRequestDispatcher("/co/oslc/refimpl/cm/gen/enhancementscollection.jsp");
             rd.forward(httpServletRequest,httpServletResponse);
             return;
@@ -707,7 +715,7 @@ public class Change_requestsService
         // Here additional logic can be implemented that complements main action taken in CMManager
         // End of user code
 
-        final List<ReviewTask> resources = CMManager.queryReviewTasks(httpServletRequest, where, prefix, paging, page, pageSize);
+        List<ReviewTask> resources = CMManager.queryReviewTasks(httpServletRequest, where, prefix, paging, page, pageSize);
         UriBuilder uriBuilder = UriBuilder.fromUri(uriInfo.getAbsolutePath())
             .queryParam("oslc.paging", "true")
             .queryParam("oslc.pageSize", pageSize)
@@ -719,8 +727,9 @@ public class Change_requestsService
             uriBuilder.queryParam("oslc.prefix", prefix);
         }
         httpServletRequest.setAttribute("queryUri", uriBuilder.build().toString());
-        if (resources.size() > pageSize) {
-            resources.remove(resources.size() - 1);
+        if ((OSLC4JUtils.hasLyoStorePagingPreciseLimit() && resources.size() >= pageSize) 
+            || (!OSLC4JUtils.hasLyoStorePagingPreciseLimit() && resources.size() > pageSize)) {
+            resources = resources.subList(0, pageSize);
             uriBuilder.replaceQueryParam("page", page + 1);
             httpServletRequest.setAttribute(OSLC4JConstants.OSLC4J_NEXT_PAGE, uriBuilder.build().toString());
         }
@@ -762,10 +771,9 @@ public class Change_requestsService
         // Start of user code queryReviewTasksAsHtml
         // End of user code
 
-        final List<ReviewTask> resources = CMManager.queryReviewTasks(httpServletRequest, where, prefix, paging, page, pageSize);
+        List<ReviewTask> resources = CMManager.queryReviewTasks(httpServletRequest, where, prefix, paging, page, pageSize);
 
         if (resources!= null) {
-            httpServletRequest.setAttribute("resources", resources);
             // Start of user code queryReviewTasksAsHtml_setAttributes
             // End of user code
 
@@ -780,12 +788,14 @@ public class Change_requestsService
                 uriBuilder.queryParam("oslc.prefix", prefix);
             }
             httpServletRequest.setAttribute("queryUri", uriBuilder.build().toString());
-            if (resources.size() > pageSize) {
-                resources.remove(resources.size() - 1);
 
+        if ((OSLC4JUtils.hasLyoStorePagingPreciseLimit() && resources.size() >= pageSize) 
+            || (!OSLC4JUtils.hasLyoStorePagingPreciseLimit() && resources.size() > pageSize)) {
+                resources = resources.subList(0, pageSize);
                 uriBuilder.replaceQueryParam("page", page + 1);
                 httpServletRequest.setAttribute(OSLC4JConstants.OSLC4J_NEXT_PAGE, uriBuilder.build().toString());
             }
+            httpServletRequest.setAttribute("resources", resources);
             RequestDispatcher rd = httpServletRequest.getRequestDispatcher("/co/oslc/refimpl/cm/gen/reviewtaskscollection.jsp");
             rd.forward(httpServletRequest,httpServletResponse);
             return;
@@ -837,7 +847,7 @@ public class Change_requestsService
         // Here additional logic can be implemented that complements main action taken in CMManager
         // End of user code
 
-        final List<ChangeNotice> resources = CMManager.queryChangeNotices(httpServletRequest, where, prefix, paging, page, pageSize);
+        List<ChangeNotice> resources = CMManager.queryChangeNotices(httpServletRequest, where, prefix, paging, page, pageSize);
         UriBuilder uriBuilder = UriBuilder.fromUri(uriInfo.getAbsolutePath())
             .queryParam("oslc.paging", "true")
             .queryParam("oslc.pageSize", pageSize)
@@ -849,8 +859,9 @@ public class Change_requestsService
             uriBuilder.queryParam("oslc.prefix", prefix);
         }
         httpServletRequest.setAttribute("queryUri", uriBuilder.build().toString());
-        if (resources.size() > pageSize) {
-            resources.remove(resources.size() - 1);
+        if ((OSLC4JUtils.hasLyoStorePagingPreciseLimit() && resources.size() >= pageSize) 
+            || (!OSLC4JUtils.hasLyoStorePagingPreciseLimit() && resources.size() > pageSize)) {
+            resources = resources.subList(0, pageSize);
             uriBuilder.replaceQueryParam("page", page + 1);
             httpServletRequest.setAttribute(OSLC4JConstants.OSLC4J_NEXT_PAGE, uriBuilder.build().toString());
         }
@@ -892,10 +903,9 @@ public class Change_requestsService
         // Start of user code queryChangeNoticesAsHtml
         // End of user code
 
-        final List<ChangeNotice> resources = CMManager.queryChangeNotices(httpServletRequest, where, prefix, paging, page, pageSize);
+        List<ChangeNotice> resources = CMManager.queryChangeNotices(httpServletRequest, where, prefix, paging, page, pageSize);
 
         if (resources!= null) {
-            httpServletRequest.setAttribute("resources", resources);
             // Start of user code queryChangeNoticesAsHtml_setAttributes
             // End of user code
 
@@ -910,12 +920,14 @@ public class Change_requestsService
                 uriBuilder.queryParam("oslc.prefix", prefix);
             }
             httpServletRequest.setAttribute("queryUri", uriBuilder.build().toString());
-            if (resources.size() > pageSize) {
-                resources.remove(resources.size() - 1);
 
+        if ((OSLC4JUtils.hasLyoStorePagingPreciseLimit() && resources.size() >= pageSize) 
+            || (!OSLC4JUtils.hasLyoStorePagingPreciseLimit() && resources.size() > pageSize)) {
+                resources = resources.subList(0, pageSize);
                 uriBuilder.replaceQueryParam("page", page + 1);
                 httpServletRequest.setAttribute(OSLC4JConstants.OSLC4J_NEXT_PAGE, uriBuilder.build().toString());
             }
+            httpServletRequest.setAttribute("resources", resources);
             RequestDispatcher rd = httpServletRequest.getRequestDispatcher("/co/oslc/refimpl/cm/gen/changenoticescollection.jsp");
             rd.forward(httpServletRequest,httpServletResponse);
             return;
