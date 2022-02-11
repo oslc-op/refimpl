@@ -16,7 +16,7 @@ RM/CM/QM/AM domains are covered.
 
 This is the simplest option if you don't want to use anything except JDK and a Maven installation. Prerequisites:
 
-- JDK 8
+- JDK 11
 - Maven 3
 
 Follow these steps to start 4 servers:
@@ -46,7 +46,7 @@ After following these steps, proceed to the steps listed in the next section _Na
 
 If you wish to run 4 OSLC servers as 4 containers similar to how one would deploy them in the cloud, you could follow steps listed in this subsection. Prerequisites:
 
-- JDK 8
+- JDK 11
 - Maven 3
 - Docker CE 19 or equivalent
 - (Optional) Docker Compose
