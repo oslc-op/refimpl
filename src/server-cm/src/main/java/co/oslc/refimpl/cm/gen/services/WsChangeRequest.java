@@ -130,8 +130,13 @@ public class WsChangeRequest
         summary = "GET for resources of type {'" + Oslc_cmDomainConstants.CHANGEREQUEST_LOCALNAME + "'}",
         description = "GET for resources of type {'" + "<a href=\"" + Oslc_cmDomainConstants.CHANGEREQUEST_TYPE + "\">" + Oslc_cmDomainConstants.CHANGEREQUEST_LOCALNAME + "</a>" + "'}" +
             ", with respective resource shapes {'" + "<a href=\"" + "../services/" + OslcConstants.PATH_RESOURCE_SHAPES + "/" + Oslc_cmDomainConstants.CHANGEREQUEST_PATH + "\">" + Oslc_cmDomainConstants.CHANGEREQUEST_LOCALNAME + "</a>" + "'}",
-        responses = {
-            @ApiResponse(description = "default response", content = {@Content(mediaType = OslcMediaType.APPLICATION_RDF_XML), @Content(mediaType = OslcMediaType.APPLICATION_XML), @Content(mediaType = OslcMediaType.APPLICATION_JSON), @Content(mediaType = OslcMediaType.TEXT_TURTLE), @Content(mediaType = MediaType.TEXT_HTML), @Content(mediaType = OslcMediaType.APPLICATION_X_OSLC_COMPACT_XML)})
+        responses = {@ApiResponse(description = "default response",
+            content = {@Content(mediaType = OslcMediaType.APPLICATION_RDF_XML), @Content(
+                mediaType = OslcMediaType.APPLICATION_XML), @Content(
+                mediaType = OslcMediaType.APPLICATION_JSON), @Content(
+                mediaType = OslcMediaType.TEXT_TURTLE), @Content(
+                mediaType = MediaType.TEXT_HTML), @Content(
+                mediaType = OslcMediaType.APPLICATION_X_OSLC_COMPACT_XML)})
         }
     )
     public ChangeRequest getChangeRequest(
@@ -161,8 +166,13 @@ public class WsChangeRequest
         summary = "GET for resources of type {'" + Oslc_cmDomainConstants.CHANGEREQUEST_LOCALNAME + "'}",
         description = "GET for resources of type {'" + "<a href=\"" + Oslc_cmDomainConstants.CHANGEREQUEST_TYPE + "\">" + Oslc_cmDomainConstants.CHANGEREQUEST_LOCALNAME + "</a>" + "'}" +
             ", with respective resource shapes {'" + "<a href=\"" + "../services/" + OslcConstants.PATH_RESOURCE_SHAPES + "/" + Oslc_cmDomainConstants.CHANGEREQUEST_PATH + "\">" + Oslc_cmDomainConstants.CHANGEREQUEST_LOCALNAME + "</a>" + "'}",
-        responses = {
-            @ApiResponse(description = "default response", content = {@Content(mediaType = OslcMediaType.APPLICATION_RDF_XML), @Content(mediaType = OslcMediaType.APPLICATION_XML), @Content(mediaType = OslcMediaType.APPLICATION_JSON), @Content(mediaType = OslcMediaType.TEXT_TURTLE), @Content(mediaType = MediaType.TEXT_HTML), @Content(mediaType = OslcMediaType.APPLICATION_X_OSLC_COMPACT_XML)})
+        responses = {@ApiResponse(description = "default response",
+            content = {@Content(mediaType = OslcMediaType.APPLICATION_RDF_XML), @Content(
+                mediaType = OslcMediaType.APPLICATION_XML), @Content(
+                mediaType = OslcMediaType.APPLICATION_JSON), @Content(
+                mediaType = OslcMediaType.TEXT_TURTLE), @Content(
+                mediaType = MediaType.TEXT_HTML), @Content(
+                mediaType = OslcMediaType.APPLICATION_X_OSLC_COMPACT_XML)})
         }
     )
     public void getChangeRequestAsHtml(
@@ -197,8 +207,13 @@ public class WsChangeRequest
         summary = "GET for resources of type {'" + Oslc_cmDomainConstants.CHANGEREQUEST_LOCALNAME + "'}",
         description = "GET for resources of type {'" + "<a href=\"" + Oslc_cmDomainConstants.CHANGEREQUEST_TYPE + "\">" + Oslc_cmDomainConstants.CHANGEREQUEST_LOCALNAME + "</a>" + "'}" +
             ", with respective resource shapes {'" + "<a href=\"" + "../services/" + OslcConstants.PATH_RESOURCE_SHAPES + "/" + Oslc_cmDomainConstants.CHANGEREQUEST_PATH + "\">" + Oslc_cmDomainConstants.CHANGEREQUEST_LOCALNAME + "</a>" + "'}",
-        responses = {
-            @ApiResponse(description = "default response", content = {@Content(mediaType = OslcMediaType.APPLICATION_RDF_XML), @Content(mediaType = OslcMediaType.APPLICATION_XML), @Content(mediaType = OslcMediaType.APPLICATION_JSON), @Content(mediaType = OslcMediaType.TEXT_TURTLE), @Content(mediaType = MediaType.TEXT_HTML), @Content(mediaType = OslcMediaType.APPLICATION_X_OSLC_COMPACT_XML)})
+        responses = {@ApiResponse(description = "default response",
+            content = {@Content(mediaType = OslcMediaType.APPLICATION_RDF_XML), @Content(
+                mediaType = OslcMediaType.APPLICATION_XML), @Content(
+                mediaType = OslcMediaType.APPLICATION_JSON), @Content(
+                mediaType = OslcMediaType.TEXT_TURTLE), @Content(
+                mediaType = MediaType.TEXT_HTML), @Content(
+                mediaType = OslcMediaType.APPLICATION_X_OSLC_COMPACT_XML)})
         }
     )
     public Compact getChangeRequestCompact(
@@ -328,8 +343,13 @@ public class WsChangeRequest
         summary = "DELETE for resources of type {'" + Oslc_cmDomainConstants.CHANGEREQUEST_LOCALNAME + "'}",
         description = "DELETE for resources of type {'" + "<a href=\"" + Oslc_cmDomainConstants.CHANGEREQUEST_TYPE + "\">" + Oslc_cmDomainConstants.CHANGEREQUEST_LOCALNAME + "</a>" + "'}" +
             ", with respective resource shapes {'" + "<a href=\"" + "../services/" + OslcConstants.PATH_RESOURCE_SHAPES + "/" + Oslc_cmDomainConstants.CHANGEREQUEST_PATH + "\">" + Oslc_cmDomainConstants.CHANGEREQUEST_LOCALNAME + "</a>" + "'}",
-        responses = {
-            @ApiResponse(description = "default response", content = {@Content(mediaType = OslcMediaType.APPLICATION_RDF_XML), @Content(mediaType = OslcMediaType.APPLICATION_XML), @Content(mediaType = OslcMediaType.APPLICATION_JSON), @Content(mediaType = OslcMediaType.TEXT_TURTLE), @Content(mediaType = MediaType.TEXT_HTML), @Content(mediaType = OslcMediaType.APPLICATION_X_OSLC_COMPACT_XML)})
+        responses = {@ApiResponse(description = "default response",
+            content = {@Content(mediaType = OslcMediaType.APPLICATION_RDF_XML), @Content(
+                mediaType = OslcMediaType.APPLICATION_XML), @Content(
+                mediaType = OslcMediaType.APPLICATION_JSON), @Content(
+                mediaType = OslcMediaType.TEXT_TURTLE), @Content(
+                mediaType = MediaType.TEXT_HTML), @Content(
+                mediaType = OslcMediaType.APPLICATION_X_OSLC_COMPACT_XML)})
         }
     )
     public Response deleteChangeRequest(
@@ -359,8 +379,13 @@ public class WsChangeRequest
         summary = "PUT for resources of type {'" + Oslc_cmDomainConstants.CHANGEREQUEST_LOCALNAME + "'}",
         description = "PUT for resources of type {'" + "<a href=\"" + Oslc_cmDomainConstants.CHANGEREQUEST_TYPE + "\">" + Oslc_cmDomainConstants.CHANGEREQUEST_LOCALNAME + "</a>" + "'}" +
             ", with respective resource shapes {'" + "<a href=\"" + "../services/" + OslcConstants.PATH_RESOURCE_SHAPES + "/" + Oslc_cmDomainConstants.CHANGEREQUEST_PATH + "\">" + Oslc_cmDomainConstants.CHANGEREQUEST_LOCALNAME + "</a>" + "'}",
-        responses = {
-            @ApiResponse(description = "default response", content = {@Content(mediaType = OslcMediaType.APPLICATION_RDF_XML), @Content(mediaType = OslcMediaType.APPLICATION_XML), @Content(mediaType = OslcMediaType.APPLICATION_JSON), @Content(mediaType = OslcMediaType.TEXT_TURTLE), @Content(mediaType = MediaType.TEXT_HTML), @Content(mediaType = OslcMediaType.APPLICATION_X_OSLC_COMPACT_XML)})
+        responses = {@ApiResponse(description = "default response",
+            content = {@Content(mediaType = OslcMediaType.APPLICATION_RDF_XML), @Content(
+                mediaType = OslcMediaType.APPLICATION_XML), @Content(
+                mediaType = OslcMediaType.APPLICATION_JSON), @Content(
+                mediaType = OslcMediaType.TEXT_TURTLE), @Content(
+                mediaType = MediaType.TEXT_HTML), @Content(
+                mediaType = OslcMediaType.APPLICATION_X_OSLC_COMPACT_XML)})
         }
     )
     public Response updateChangeRequest(

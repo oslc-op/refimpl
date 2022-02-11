@@ -2,13 +2,15 @@
   xmlns="http://maven.apache.org/POM/4.0.0"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <parent>
+<!--  <parent>
     <groupId>co.oslc.refimpl</groupId>
     <artifactId>parent</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-  </parent>
-  <name>OSLC RefImpl common library</name>
+  </parent>-->
+  <groupId>co.oslc.refimpl</groupId>
   <artifactId>lib-common</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <name>OSLC RefImpl common library</name>
   <packaging>jar</packaging>
 
   <properties>
@@ -18,7 +20,7 @@
     <maven.compiler.target>11</maven.compiler.target>
 
     <version.lyo>5.0.0-SNAPSHOT</version.lyo>
-    <version.jersey>2.25.1</version.jersey>
+    <version.jersey>2.35</version.jersey>
   </properties>
 
   <repositories>
@@ -36,7 +38,7 @@
     <dependency>
       <groupId>org.slf4j</groupId>
       <artifactId>slf4j-simple</artifactId>
-      <version>1.7.32</version>
+      <version>1.7.33</version>
       <scope>runtime</scope>
     </dependency>
 

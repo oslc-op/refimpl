@@ -43,7 +43,6 @@ import co.oslc.refimpl.rm.gen.RMManager;
 // Start of user code imports
 // End of user code
 
-
 /**
  * During the initialization of this ServletListener, the base URI for the OSLC resources produced by this server is configured through the OSLC4J method setPublicURI().
  * <p>
@@ -109,6 +108,7 @@ public class ServletListener implements ServletContextListener  {
         // Shutdown connections to data backbone etc...
         RMManager.contextDestroyServletListener(servletContextEvent);
 
+        
         // Start of user code contextDestroyed_final
         // End of user code
     }

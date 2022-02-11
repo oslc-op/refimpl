@@ -32,6 +32,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import org.eclipse.lyo.oslc4j.core.model.ServiceProvider;
+import org.eclipse.lyo.oslc4j.core.OSLC4JUtils;
 import org.eclipse.lyo.oslc4j.core.model.AbstractResource;
 import co.oslc.refimpl.rm.gen.servlet.ServiceProviderCatalogSingleton;
 import co.oslc.refimpl.rm.gen.ServiceProviderInfo;
@@ -87,7 +88,7 @@ public class RMManager {
 
     private static final Logger log = LoggerFactory.getLogger(RMManager.class);
 
-    
+
     // Start of user code class_attributes
     public static final String SP_DEFAULT = "sp_single";
 
@@ -97,8 +98,8 @@ public class RMManager {
     private static final StandardAnalyzer indexAnalyser = new StandardAnalyzer();
     private static final Executor indexer = Executors.newSingleThreadExecutor();
     // End of user code
-    
-    
+
+
     // Start of user code class_methods
     public static Map<String, Requirement> requirementsForSP(String serviceProvider) {
         if (!requirements.containsKey(serviceProvider)) {
@@ -164,15 +165,16 @@ public class RMManager {
 
     public static void contextInitializeServletListener(final ServletContextEvent servletContextEvent)
     {
-        
+
         // Start of user code contextInitializeServletListener
+        OSLC4JUtils.setLyoStorePagingPreciseLimit(false);
         // End of user code
-        
+
     }
 
-    public static void contextDestroyServletListener(ServletContextEvent servletContextEvent) 
+    public static void contextDestroyServletListener(ServletContextEvent servletContextEvent)
     {
-        
+
         // Start of user code contextDestroyed
         // TODO Implement code to shutdown connections to data backbone etc...
         // End of user code
@@ -181,7 +183,7 @@ public class RMManager {
     public static ServiceProviderInfo[] getServiceProviderInfos(HttpServletRequest httpServletRequest)
     {
         ServiceProviderInfo[] serviceProviderInfos = {};
-        
+
         // Start of user code "ServiceProviderInfo[] getServiceProviderInfos(...)"
         ServiceProviderInfo spInfo = new ServiceProviderInfo();
         spInfo.serviceProviderId = SP_DEFAULT;
@@ -194,8 +196,8 @@ public class RMManager {
     public static List<Requirement> queryRequirements(HttpServletRequest httpServletRequest, final String serviceProviderId, String where, String prefix, boolean paging, int page, int limit)
     {
         List<Requirement> resources = null;
-        
-        
+
+
         // Start of user code queryRequirements
         final Map<String, Requirement> requirements = requirementsForSP(serviceProviderId);
         // page starts from 0
@@ -207,11 +209,11 @@ public class RMManager {
         // End of user code
         return resources;
     }
-    public static List<Requirement> RequirementSelector(HttpServletRequest httpServletRequest, final String serviceProviderId, String terms)   
+    public static List<Requirement> RequirementSelector(HttpServletRequest httpServletRequest, final String serviceProviderId, String terms)
     {
         List<Requirement> resources = null;
-        
-        
+
+
         // Start of user code RequirementSelector
         final Map<String, Requirement> requirements = requirementsForSP(serviceProviderId);
         try {
@@ -242,8 +244,8 @@ public class RMManager {
     public static Requirement createRequirement(HttpServletRequest httpServletRequest, final Requirement aResource, final String serviceProviderId)
     {
         Requirement newResource = null;
-        
-        
+
+
         // Start of user code createRequirement
         final Map<String, Requirement> requirements = requirementsForSP(serviceProviderId);
         aResource.setAbout(RMResourcesFactory.constructURIForRequirement(serviceProviderId, aResource.getIdentifier()));
@@ -259,8 +261,8 @@ public class RMManager {
     public static Requirement createRequirementFromDialog(HttpServletRequest httpServletRequest, final Requirement aResource, final String serviceProviderId)
     {
         Requirement newResource = null;
-        
-        
+
+
         // Start of user code createRequirementFromDialog
         // TODO Implement code to create a resource
         // End of user code
@@ -271,8 +273,8 @@ public class RMManager {
     public static List<RequirementCollection> queryRequirementCollections(HttpServletRequest httpServletRequest, final String serviceProviderId, String where, String prefix, boolean paging, int page, int limit)
     {
         List<RequirementCollection> resources = null;
-        
-        
+
+
         // Start of user code queryRequirementCollections
         final Map<String, RequirementCollection> repository = requirementCollectionsForSP(serviceProviderId);
         // page starts from 0
@@ -284,11 +286,11 @@ public class RMManager {
         // End of user code
         return resources;
     }
-    public static List<RequirementCollection> RequirementCollectionSelector(HttpServletRequest httpServletRequest, final String serviceProviderId, String terms)   
+    public static List<RequirementCollection> RequirementCollectionSelector(HttpServletRequest httpServletRequest, final String serviceProviderId, String terms)
     {
         List<RequirementCollection> resources = null;
-        
-        
+
+
         // Start of user code RequirementCollectionSelector
         final Map<String, RequirementCollection> repository = requirementCollectionsForSP(serviceProviderId);
         resources = repository.values()
@@ -301,8 +303,8 @@ public class RMManager {
     public static RequirementCollection createRequirementCollection(HttpServletRequest httpServletRequest, final RequirementCollection aResource, final String serviceProviderId)
     {
         RequirementCollection newResource = null;
-        
-        
+
+
         // Start of user code createRequirementCollection
         if(aResource == null) {
             throw new WebApplicationException(Response.Status.BAD_REQUEST);
@@ -325,8 +327,8 @@ public class RMManager {
     public static Requirement getRequirement(HttpServletRequest httpServletRequest, final String serviceProviderId, final String resourceId)
     {
         Requirement aResource = null;
-        
-        
+
+
         // Start of user code getRequirement
         final Map<String, Requirement> requirements = requirementsForSP(serviceProviderId);
         aResource = requirements.get(resourceId);
@@ -336,8 +338,8 @@ public class RMManager {
     public static RequirementCollection getRequirementCollection(HttpServletRequest httpServletRequest, final String serviceProviderId, final String resourceId)
     {
         RequirementCollection aResource = null;
-        
-        
+
+
         // Start of user code getRequirementCollection
         // TODO Andrew@2019-09-24: add delete/update capability
         final Map<String, RequirementCollection> resources = requirementCollectionsForSP(serviceProviderId);
@@ -349,7 +351,7 @@ public class RMManager {
     public static Boolean deleteRequirement(HttpServletRequest httpServletRequest, final String serviceProviderId, final String resourceId)
     {
         Boolean deleted = false;
-        
+
         // Start of user code deleteRequirement
         final Map<String, Requirement> requirements = requirementsForSP(serviceProviderId);
         deleted = requirements.remove(resourceId) != null;
@@ -359,7 +361,7 @@ public class RMManager {
     public static Boolean deleteRequirementCollection(HttpServletRequest httpServletRequest, final String serviceProviderId, final String resourceId)
     {
         Boolean deleted = false;
-        
+
         // Start of user code deleteRequirementCollection
         final Map<String, RequirementCollection> repository = requirementCollectionsForSP(serviceProviderId);
         deleted = repository.remove(resourceId) != null;
@@ -369,7 +371,7 @@ public class RMManager {
 
     public static Requirement updateRequirement(HttpServletRequest httpServletRequest, final Requirement aResource, final String serviceProviderId, final String resourceId) {
         Requirement updatedResource = null;
-        
+
         // Start of user code updateRequirement
         if(!RMResourcesFactory.constructURIForRequirement(serviceProviderId, resourceId).equals(aResource.getAbout())) {
             throw new WebApplicationException("Subject URI shall match the endpoint", Response.Status.BAD_REQUEST);
@@ -383,7 +385,7 @@ public class RMManager {
     }
     public static RequirementCollection updateRequirementCollection(HttpServletRequest httpServletRequest, final RequirementCollection aResource, final String serviceProviderId, final String resourceId) {
         RequirementCollection updatedResource = null;
-        
+
         // Start of user code updateRequirementCollection
         if(!RMResourcesFactory.constructURIForRequirementCollection(serviceProviderId, resourceId).equals(aResource.getAbout())) {
             throw new WebApplicationException("Subject URI shall match the endpoint", Response.Status.BAD_REQUEST);
