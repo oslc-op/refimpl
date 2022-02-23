@@ -81,7 +81,7 @@ import org.eclipse.lyo.oslc4j.core.model.ServiceProvider;
 import org.eclipse.lyo.oslc4j.core.model.Link;
 import org.eclipse.lyo.oslc4j.core.model.AbstractResource;
 
-import co.oslc.refimpl.qm.gen.QMManager;
+import co.oslc.refimpl.qm.gen.RestDelegate;
 import co.oslc.refimpl.qm.gen.QMConstants;
 import org.eclipse.lyo.oslc.domains.qm.Oslc_qmDomainConstants;
 import org.eclipse.lyo.oslc.domains.qm.Oslc_qmDomainConstants;
@@ -176,10 +176,10 @@ public class ScriptsService
         }
 
         // Start of user code queryTestScripts
-        // Here additional logic can be implemented that complements main action taken in QMManager
+        // Here additional logic can be implemented that complements main action taken in RestDelegate
         // End of user code
 
-        List<TestScript> resources = QMManager.queryTestScripts(httpServletRequest, where, prefix, paging, page, pageSize);
+        List<TestScript> resources = RestDelegate.queryTestScripts(httpServletRequest, where, prefix, paging, page, pageSize);
         UriBuilder uriBuilder = UriBuilder.fromUri(uriInfo.getAbsolutePath())
             .queryParam("oslc.paging", "true")
             .queryParam("oslc.pageSize", pageSize)
@@ -235,7 +235,7 @@ public class ScriptsService
         // Start of user code queryTestScriptsAsHtml
         // End of user code
 
-        List<TestScript> resources = QMManager.queryTestScripts(httpServletRequest, where, prefix, paging, page, pageSize);
+        List<TestScript> resources = RestDelegate.queryTestScripts(httpServletRequest, where, prefix, paging, page, pageSize);
 
         if (resources!= null) {
             // Start of user code queryTestScriptsAsHtml_setAttributes
@@ -294,7 +294,7 @@ public class ScriptsService
 
         if (terms != null ) {
             httpServletRequest.setAttribute("terms", terms);
-            final List<TestScript> resources = QMManager.TestScriptSelector(httpServletRequest, terms);
+            final List<TestScript> resources = RestDelegate.TestScriptSelector(httpServletRequest, terms);
             if (resources!= null) {
                 JSONArray resourceArray = new JSONArray();
                 for (TestScript resource : resources) {
@@ -352,8 +352,8 @@ public class ScriptsService
             final TestScript aResource
         ) throws IOException, ServletException
     {
-        TestScript newResource = QMManager.createTestScript(httpServletRequest, aResource);
-        httpServletResponse.setHeader("ETag", QMManager.getETagFromTestScript(newResource));
+        TestScript newResource = RestDelegate.createTestScript(httpServletRequest, aResource);
+        httpServletResponse.setHeader("ETag", RestDelegate.getETagFromTestScript(newResource));
         return Response.created(newResource.getAbout()).entity(newResource).header(QMConstants.HDR_OSLC_VERSION, QMConstants.OSLC_VERSION_V2).build();
     }
 

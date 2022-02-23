@@ -81,7 +81,7 @@ import org.eclipse.lyo.oslc4j.core.model.ServiceProvider;
 import org.eclipse.lyo.oslc4j.core.model.Link;
 import org.eclipse.lyo.oslc4j.core.model.AbstractResource;
 
-import co.oslc.refimpl.cm.gen.CMManager;
+import co.oslc.refimpl.cm.gen.RestDelegate;
 import co.oslc.refimpl.cm.gen.CMConstants;
 import org.eclipse.lyo.oslc.domains.cm.Oslc_cmDomainConstants;
 import org.eclipse.lyo.oslc.domains.cm.Oslc_cmDomainConstants;
@@ -184,10 +184,10 @@ public class Change_requestsService
         }
 
         // Start of user code queryChangeRequests
-        // Here additional logic can be implemented that complements main action taken in CMManager
+        // Here additional logic can be implemented that complements main action taken in RestDelegate
         // End of user code
 
-        List<ChangeRequest> resources = CMManager.queryChangeRequests(httpServletRequest, where, prefix, paging, page, pageSize);
+        List<ChangeRequest> resources = RestDelegate.queryChangeRequests(httpServletRequest, where, prefix, paging, page, pageSize);
         UriBuilder uriBuilder = UriBuilder.fromUri(uriInfo.getAbsolutePath())
             .queryParam("oslc.paging", "true")
             .queryParam("oslc.pageSize", pageSize)
@@ -243,7 +243,7 @@ public class Change_requestsService
         // Start of user code queryChangeRequestsAsHtml
         // End of user code
 
-        List<ChangeRequest> resources = CMManager.queryChangeRequests(httpServletRequest, where, prefix, paging, page, pageSize);
+        List<ChangeRequest> resources = RestDelegate.queryChangeRequests(httpServletRequest, where, prefix, paging, page, pageSize);
 
         if (resources!= null) {
             // Start of user code queryChangeRequestsAsHtml_setAttributes
@@ -316,10 +316,10 @@ public class Change_requestsService
         }
 
         // Start of user code queryDefects
-        // Here additional logic can be implemented that complements main action taken in CMManager
+        // Here additional logic can be implemented that complements main action taken in RestDelegate
         // End of user code
 
-        List<Defect> resources = CMManager.queryDefects(httpServletRequest, where, prefix, paging, page, pageSize);
+        List<Defect> resources = RestDelegate.queryDefects(httpServletRequest, where, prefix, paging, page, pageSize);
         UriBuilder uriBuilder = UriBuilder.fromUri(uriInfo.getAbsolutePath())
             .queryParam("oslc.paging", "true")
             .queryParam("oslc.pageSize", pageSize)
@@ -375,7 +375,7 @@ public class Change_requestsService
         // Start of user code queryDefectsAsHtml
         // End of user code
 
-        List<Defect> resources = CMManager.queryDefects(httpServletRequest, where, prefix, paging, page, pageSize);
+        List<Defect> resources = RestDelegate.queryDefects(httpServletRequest, where, prefix, paging, page, pageSize);
 
         if (resources!= null) {
             // Start of user code queryDefectsAsHtml_setAttributes
@@ -448,10 +448,10 @@ public class Change_requestsService
         }
 
         // Start of user code queryTasks
-        // Here additional logic can be implemented that complements main action taken in CMManager
+        // Here additional logic can be implemented that complements main action taken in RestDelegate
         // End of user code
 
-        List<Task> resources = CMManager.queryTasks(httpServletRequest, where, prefix, paging, page, pageSize);
+        List<Task> resources = RestDelegate.queryTasks(httpServletRequest, where, prefix, paging, page, pageSize);
         UriBuilder uriBuilder = UriBuilder.fromUri(uriInfo.getAbsolutePath())
             .queryParam("oslc.paging", "true")
             .queryParam("oslc.pageSize", pageSize)
@@ -507,7 +507,7 @@ public class Change_requestsService
         // Start of user code queryTasksAsHtml
         // End of user code
 
-        List<Task> resources = CMManager.queryTasks(httpServletRequest, where, prefix, paging, page, pageSize);
+        List<Task> resources = RestDelegate.queryTasks(httpServletRequest, where, prefix, paging, page, pageSize);
 
         if (resources!= null) {
             // Start of user code queryTasksAsHtml_setAttributes
@@ -580,10 +580,10 @@ public class Change_requestsService
         }
 
         // Start of user code queryEnhancements
-        // Here additional logic can be implemented that complements main action taken in CMManager
+        // Here additional logic can be implemented that complements main action taken in RestDelegate
         // End of user code
 
-        List<Enhancement> resources = CMManager.queryEnhancements(httpServletRequest, where, prefix, paging, page, pageSize);
+        List<Enhancement> resources = RestDelegate.queryEnhancements(httpServletRequest, where, prefix, paging, page, pageSize);
         UriBuilder uriBuilder = UriBuilder.fromUri(uriInfo.getAbsolutePath())
             .queryParam("oslc.paging", "true")
             .queryParam("oslc.pageSize", pageSize)
@@ -639,7 +639,7 @@ public class Change_requestsService
         // Start of user code queryEnhancementsAsHtml
         // End of user code
 
-        List<Enhancement> resources = CMManager.queryEnhancements(httpServletRequest, where, prefix, paging, page, pageSize);
+        List<Enhancement> resources = RestDelegate.queryEnhancements(httpServletRequest, where, prefix, paging, page, pageSize);
 
         if (resources!= null) {
             // Start of user code queryEnhancementsAsHtml_setAttributes
@@ -712,10 +712,10 @@ public class Change_requestsService
         }
 
         // Start of user code queryReviewTasks
-        // Here additional logic can be implemented that complements main action taken in CMManager
+        // Here additional logic can be implemented that complements main action taken in RestDelegate
         // End of user code
 
-        List<ReviewTask> resources = CMManager.queryReviewTasks(httpServletRequest, where, prefix, paging, page, pageSize);
+        List<ReviewTask> resources = RestDelegate.queryReviewTasks(httpServletRequest, where, prefix, paging, page, pageSize);
         UriBuilder uriBuilder = UriBuilder.fromUri(uriInfo.getAbsolutePath())
             .queryParam("oslc.paging", "true")
             .queryParam("oslc.pageSize", pageSize)
@@ -771,7 +771,7 @@ public class Change_requestsService
         // Start of user code queryReviewTasksAsHtml
         // End of user code
 
-        List<ReviewTask> resources = CMManager.queryReviewTasks(httpServletRequest, where, prefix, paging, page, pageSize);
+        List<ReviewTask> resources = RestDelegate.queryReviewTasks(httpServletRequest, where, prefix, paging, page, pageSize);
 
         if (resources!= null) {
             // Start of user code queryReviewTasksAsHtml_setAttributes
@@ -844,10 +844,10 @@ public class Change_requestsService
         }
 
         // Start of user code queryChangeNotices
-        // Here additional logic can be implemented that complements main action taken in CMManager
+        // Here additional logic can be implemented that complements main action taken in RestDelegate
         // End of user code
 
-        List<ChangeNotice> resources = CMManager.queryChangeNotices(httpServletRequest, where, prefix, paging, page, pageSize);
+        List<ChangeNotice> resources = RestDelegate.queryChangeNotices(httpServletRequest, where, prefix, paging, page, pageSize);
         UriBuilder uriBuilder = UriBuilder.fromUri(uriInfo.getAbsolutePath())
             .queryParam("oslc.paging", "true")
             .queryParam("oslc.pageSize", pageSize)
@@ -903,7 +903,7 @@ public class Change_requestsService
         // Start of user code queryChangeNoticesAsHtml
         // End of user code
 
-        List<ChangeNotice> resources = CMManager.queryChangeNotices(httpServletRequest, where, prefix, paging, page, pageSize);
+        List<ChangeNotice> resources = RestDelegate.queryChangeNotices(httpServletRequest, where, prefix, paging, page, pageSize);
 
         if (resources!= null) {
             // Start of user code queryChangeNoticesAsHtml_setAttributes
@@ -962,7 +962,7 @@ public class Change_requestsService
 
         if (terms != null ) {
             httpServletRequest.setAttribute("terms", terms);
-            final List<ChangeRequest> resources = CMManager.ChangeRequestSelector(httpServletRequest, terms);
+            final List<ChangeRequest> resources = RestDelegate.ChangeRequestSelector(httpServletRequest, terms);
             if (resources!= null) {
                 JSONArray resourceArray = new JSONArray();
                 for (ChangeRequest resource : resources) {
@@ -1020,7 +1020,7 @@ public class Change_requestsService
 
         if (terms != null ) {
             httpServletRequest.setAttribute("terms", terms);
-            final List<Defect> resources = CMManager.DefectSelector(httpServletRequest, terms);
+            final List<Defect> resources = RestDelegate.DefectSelector(httpServletRequest, terms);
             if (resources!= null) {
                 JSONArray resourceArray = new JSONArray();
                 for (Defect resource : resources) {
@@ -1078,7 +1078,7 @@ public class Change_requestsService
 
         if (terms != null ) {
             httpServletRequest.setAttribute("terms", terms);
-            final List<Task> resources = CMManager.TaskSelector(httpServletRequest, terms);
+            final List<Task> resources = RestDelegate.TaskSelector(httpServletRequest, terms);
             if (resources!= null) {
                 JSONArray resourceArray = new JSONArray();
                 for (Task resource : resources) {
@@ -1136,7 +1136,7 @@ public class Change_requestsService
 
         if (terms != null ) {
             httpServletRequest.setAttribute("terms", terms);
-            final List<ReviewTask> resources = CMManager.ReviewTaskSelector(httpServletRequest, terms);
+            final List<ReviewTask> resources = RestDelegate.ReviewTaskSelector(httpServletRequest, terms);
             if (resources!= null) {
                 JSONArray resourceArray = new JSONArray();
                 for (ReviewTask resource : resources) {
@@ -1194,7 +1194,7 @@ public class Change_requestsService
 
         if (terms != null ) {
             httpServletRequest.setAttribute("terms", terms);
-            final List<ChangeNotice> resources = CMManager.ChangeNoticeSelector(httpServletRequest, terms);
+            final List<ChangeNotice> resources = RestDelegate.ChangeNoticeSelector(httpServletRequest, terms);
             if (resources!= null) {
                 JSONArray resourceArray = new JSONArray();
                 for (ChangeNotice resource : resources) {
@@ -1252,7 +1252,7 @@ public class Change_requestsService
 
         if (terms != null ) {
             httpServletRequest.setAttribute("terms", terms);
-            final List<Enhancement> resources = CMManager.EnhancementSelector(httpServletRequest, terms);
+            final List<Enhancement> resources = RestDelegate.EnhancementSelector(httpServletRequest, terms);
             if (resources!= null) {
                 JSONArray resourceArray = new JSONArray();
                 for (Enhancement resource : resources) {
@@ -1314,8 +1314,8 @@ public class Change_requestsService
             final ChangeRequest aResource
         ) throws IOException, ServletException
     {
-        ChangeRequest newResource = CMManager.createChangeRequest(httpServletRequest, aResource);
-        httpServletResponse.setHeader("ETag", CMManager.getETagFromChangeRequest(newResource));
+        ChangeRequest newResource = RestDelegate.createChangeRequest(httpServletRequest, aResource);
+        httpServletResponse.setHeader("ETag", RestDelegate.getETagFromChangeRequest(newResource));
         return Response.created(newResource.getAbout()).entity(newResource).header(CMConstants.HDR_OSLC_VERSION, CMConstants.OSLC_VERSION_V2).build();
     }
 
@@ -1604,7 +1604,7 @@ public class Change_requestsService
                 }
         }
 
-        newResource = CMManager.createDefectFromDialog(httpServletRequest, aResource);
+        newResource = RestDelegate.createDefectFromDialog(httpServletRequest, aResource);
 
         if (newResource != null) {
             httpServletRequest.setAttribute("newResource", newResource);
@@ -1917,7 +1917,7 @@ public class Change_requestsService
                 }
         }
 
-        newResource = CMManager.createTaskFromDialog(httpServletRequest, aResource);
+        newResource = RestDelegate.createTaskFromDialog(httpServletRequest, aResource);
 
         if (newResource != null) {
             httpServletRequest.setAttribute("newResource", newResource);
@@ -2230,7 +2230,7 @@ public class Change_requestsService
                 }
         }
 
-        newResource = CMManager.createReviewTaskFromDialog(httpServletRequest, aResource);
+        newResource = RestDelegate.createReviewTaskFromDialog(httpServletRequest, aResource);
 
         if (newResource != null) {
             httpServletRequest.setAttribute("newResource", newResource);
@@ -2543,7 +2543,7 @@ public class Change_requestsService
                 }
         }
 
-        newResource = CMManager.createChangeNoticeFromDialog(httpServletRequest, aResource);
+        newResource = RestDelegate.createChangeNoticeFromDialog(httpServletRequest, aResource);
 
         if (newResource != null) {
             httpServletRequest.setAttribute("newResource", newResource);
@@ -2856,7 +2856,7 @@ public class Change_requestsService
                 }
         }
 
-        newResource = CMManager.createEnhancementFromDialog(httpServletRequest, aResource);
+        newResource = RestDelegate.createEnhancementFromDialog(httpServletRequest, aResource);
 
         if (newResource != null) {
             httpServletRequest.setAttribute("newResource", newResource);

@@ -79,7 +79,7 @@ import org.eclipse.lyo.oslc4j.core.model.ServiceProvider;
 import org.eclipse.lyo.oslc4j.core.model.Link;
 import org.eclipse.lyo.oslc4j.core.model.AbstractResource;
 
-import co.oslc.refimpl.qm.gen.QMManager;
+import co.oslc.refimpl.qm.gen.RestDelegate;
 import co.oslc.refimpl.qm.gen.QMConstants;
 import org.eclipse.lyo.oslc.domains.qm.Oslc_qmDomainConstants;
 import co.oslc.refimpl.qm.gen.servlet.ServiceProviderCatalogSingleton;
@@ -145,12 +145,12 @@ public class WsCases
         // Start of user code getResource_init
         // End of user code
 
-        final TestCase aTestCase = QMManager.getTestCase(httpServletRequest, spSlug, id);
+        final TestCase aTestCase = RestDelegate.getTestCase(httpServletRequest, spSlug, id);
 
         if (aTestCase != null) {
             // Start of user code getTestCase
             // End of user code
-            httpServletResponse.setHeader("ETag", QMManager.getETagFromTestCase(aTestCase));
+            httpServletResponse.setHeader("ETag", RestDelegate.getETagFromTestCase(aTestCase));
             httpServletResponse.addHeader(QMConstants.HDR_OSLC_VERSION, QMConstants.OSLC_VERSION_V2);
             return aTestCase;
         }
@@ -181,7 +181,7 @@ public class WsCases
         // Start of user code getTestCaseAsHtml_init
         // End of user code
 
-        final TestCase aTestCase = QMManager.getTestCase(httpServletRequest, spSlug, id);
+        final TestCase aTestCase = RestDelegate.getTestCase(httpServletRequest, spSlug, id);
 
         if (aTestCase != null) {
             httpServletRequest.setAttribute("aTestCase", aTestCase);
@@ -226,7 +226,7 @@ public class WsCases
         //TODO: adjust the preview height & width values from the default values provided above.
         // End of user code
 
-        final TestCase aTestCase = QMManager.getTestCase(httpServletRequest, spSlug, id);
+        final TestCase aTestCase = RestDelegate.getTestCase(httpServletRequest, spSlug, id);
 
         if (aTestCase != null) {
             final Compact compact = new Compact();
@@ -266,7 +266,7 @@ public class WsCases
         // Start of user code getTestCaseAsHtmlSmallPreview_init
         // End of user code
 
-        final TestCase aTestCase = QMManager.getTestCase(httpServletRequest, spSlug, id);
+        final TestCase aTestCase = RestDelegate.getTestCase(httpServletRequest, spSlug, id);
 
         if (aTestCase != null) {
             httpServletRequest.setAttribute("aTestCase", aTestCase);
@@ -293,7 +293,7 @@ public class WsCases
         // Start of user code getTestCaseAsHtmlLargePreview_init
         // End of user code
 
-        final TestCase aTestCase = QMManager.getTestCase(httpServletRequest, spSlug, id);
+        final TestCase aTestCase = RestDelegate.getTestCase(httpServletRequest, spSlug, id);
 
         if (aTestCase != null) {
             httpServletRequest.setAttribute("aTestCase", aTestCase);
@@ -330,12 +330,12 @@ public class WsCases
     {
         // Start of user code deleteTestCase_init
         // End of user code
-        final TestCase aResource = QMManager.getTestCase(httpServletRequest, spSlug, id);
+        final TestCase aResource = RestDelegate.getTestCase(httpServletRequest, spSlug, id);
 
         if (aResource != null) {
             // Start of user code deleteTestCase
             // End of user code
-            boolean deleted = QMManager.deleteTestCase(httpServletRequest, spSlug, id);
+            boolean deleted = RestDelegate.deleteTestCase(httpServletRequest, spSlug, id);
             if (deleted)
                 return Response.ok().header(QMConstants.HDR_OSLC_VERSION, QMConstants.OSLC_VERSION_V2).build();
             else
@@ -368,16 +368,16 @@ public class WsCases
     {
         // Start of user code updateTestCase_init
         // End of user code
-        final TestCase originalResource = QMManager.getTestCase(httpServletRequest, spSlug, id);
+        final TestCase originalResource = RestDelegate.getTestCase(httpServletRequest, spSlug, id);
 
         if (originalResource != null) {
-            final String originalETag = QMManager.getETagFromTestCase(originalResource);
+            final String originalETag = RestDelegate.getETagFromTestCase(originalResource);
 
             if ((eTagHeader == null) || (originalETag.equals(eTagHeader))) {
                 // Start of user code updateTestCase
                 // End of user code
-                final TestCase updatedResource = QMManager.updateTestCase(httpServletRequest, aResource, spSlug, id);
-                httpServletResponse.setHeader("ETag", QMManager.getETagFromTestCase(updatedResource));
+                final TestCase updatedResource = RestDelegate.updateTestCase(httpServletRequest, aResource, spSlug, id);
+                httpServletResponse.setHeader("ETag", RestDelegate.getETagFromTestCase(updatedResource));
                 return Response.ok().header(QMConstants.HDR_OSLC_VERSION, QMConstants.OSLC_VERSION_V2).build();
             }
             else {

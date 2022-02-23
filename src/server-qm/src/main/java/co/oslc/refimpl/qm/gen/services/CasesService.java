@@ -81,7 +81,7 @@ import org.eclipse.lyo.oslc4j.core.model.ServiceProvider;
 import org.eclipse.lyo.oslc4j.core.model.Link;
 import org.eclipse.lyo.oslc4j.core.model.AbstractResource;
 
-import co.oslc.refimpl.qm.gen.QMManager;
+import co.oslc.refimpl.qm.gen.RestDelegate;
 import co.oslc.refimpl.qm.gen.QMConstants;
 import org.eclipse.lyo.oslc.domains.qm.Oslc_qmDomainConstants;
 import org.eclipse.lyo.oslc.domains.qm.Oslc_qmDomainConstants;
@@ -177,10 +177,10 @@ public class CasesService
         }
 
         // Start of user code queryTestCases
-        // Here additional logic can be implemented that complements main action taken in QMManager
+        // Here additional logic can be implemented that complements main action taken in RestDelegate
         // End of user code
 
-        List<TestCase> resources = QMManager.queryTestCases(httpServletRequest, where, prefix, paging, page, pageSize);
+        List<TestCase> resources = RestDelegate.queryTestCases(httpServletRequest, where, prefix, paging, page, pageSize);
         UriBuilder uriBuilder = UriBuilder.fromUri(uriInfo.getAbsolutePath())
             .queryParam("oslc.paging", "true")
             .queryParam("oslc.pageSize", pageSize)
@@ -236,7 +236,7 @@ public class CasesService
         // Start of user code queryTestCasesAsHtml
         // End of user code
 
-        List<TestCase> resources = QMManager.queryTestCases(httpServletRequest, where, prefix, paging, page, pageSize);
+        List<TestCase> resources = RestDelegate.queryTestCases(httpServletRequest, where, prefix, paging, page, pageSize);
 
         if (resources!= null) {
             // Start of user code queryTestCasesAsHtml_setAttributes
@@ -295,7 +295,7 @@ public class CasesService
 
         if (terms != null ) {
             httpServletRequest.setAttribute("terms", terms);
-            final List<TestCase> resources = QMManager.TestCaseSelector(httpServletRequest, terms);
+            final List<TestCase> resources = RestDelegate.TestCaseSelector(httpServletRequest, terms);
             if (resources!= null) {
                 JSONArray resourceArray = new JSONArray();
                 for (TestCase resource : resources) {
@@ -353,8 +353,8 @@ public class CasesService
             final TestCase aResource
         ) throws IOException, ServletException
     {
-        TestCase newResource = QMManager.createTestCase(httpServletRequest, aResource);
-        httpServletResponse.setHeader("ETag", QMManager.getETagFromTestCase(newResource));
+        TestCase newResource = RestDelegate.createTestCase(httpServletRequest, aResource);
+        httpServletResponse.setHeader("ETag", RestDelegate.getETagFromTestCase(newResource));
         return Response.created(newResource.getAbout()).entity(newResource).header(QMConstants.HDR_OSLC_VERSION, QMConstants.OSLC_VERSION_V2).build();
     }
 

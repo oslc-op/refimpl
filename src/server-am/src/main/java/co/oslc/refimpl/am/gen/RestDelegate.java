@@ -24,18 +24,6 @@
 
 package co.oslc.refimpl.am.gen;
 
-// Start of user code Notice
-//Note: The Lyo code generator is migrating the name of this class from 'AMManager' to the new shorter name 'RestDelegate'.
-//You are still using the old name. The generator will continue to use this old name until you actively trigger the change.
-//To migrate to the new class name:
-//1. Rename your class to RestDelegate 
-//    * Please rename and do not simply create a copy of the file. The generator needs to detect the file deletion in order to activate the name change.
-//2. Regenerate the code. 
-//    * The generator will generate this class with the new name.
-//    * Besides the class name, the code - including the user clode blocks - remain intact.
-//    * All other class references to the new class name are updated.
-//3. Delete this notice
-// End of user code
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.ServletContextEvent;
@@ -70,9 +58,9 @@ import co.oslc.refimpl.lib.ResourceRepository;
 // Start of user code pre_class_code
 // End of user code
 
-public class AMManager {
+public class RestDelegate {
 
-    private static final Logger log = LoggerFactory.getLogger(AMManager.class);
+    private static final Logger log = LoggerFactory.getLogger(RestDelegate.class);
 
     
     // Start of user code class_attributes
@@ -148,7 +136,7 @@ public class AMManager {
             id = UUID.randomUUID().toString();
             aResource.setIdentifier(id);
         }
-        URI uri = AMResourcesFactory.constructURIForResource(id);
+        URI uri = ResourcesFactory.constructURIForResource(id);
         aResource.setAbout(uri);
         aResource.setCreated(new Date());
         resourceRepository.addResource(SP_DEFAULT, id, aResource);
@@ -190,7 +178,7 @@ public class AMManager {
             id = UUID.randomUUID().toString();
             aResource.setIdentifier(id);
         }
-        URI uri = AMResourcesFactory.constructURIForLinkType(id);
+        URI uri = ResourcesFactory.constructURIForLinkType(id);
         aResource.setAbout(uri);
         aResource.setCreated(new Date());
         linkRepository.addResource(SP_DEFAULT, id, aResource);
@@ -231,7 +219,7 @@ public class AMManager {
         Resource updatedResource = null;
         
         // Start of user code updateResource
-        if(!AMResourcesFactory.constructURIForResource(id).equals(aResource.getAbout())) {
+        if(!ResourcesFactory.constructURIForResource(id).equals(aResource.getAbout())) {
             throw new WebApplicationException("Subject URI shall match the endpoint", Response.Status.BAD_REQUEST);
         }
         aResource.setModified(new Date());
@@ -268,7 +256,7 @@ public class AMManager {
         LinkType updatedResource = null;
         
         // Start of user code updateLinkType
-        if(!AMResourcesFactory.constructURIForLinkType(id).equals(aResource.getAbout())) {
+        if(!ResourcesFactory.constructURIForLinkType(id).equals(aResource.getAbout())) {
             throw new WebApplicationException("Subject URI shall match the endpoint", Response.Status.BAD_REQUEST);
         }
         aResource.setModified(new Date());

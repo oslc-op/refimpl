@@ -53,7 +53,7 @@ import org.eclipse.lyo.oslc4j.core.model.OslcMediaType;
 import org.eclipse.lyo.oslc4j.core.model.ServiceProviderCatalog;
 
 import co.oslc.refimpl.am.gen.AMConstants;
-import co.oslc.refimpl.am.gen.AMManager;
+import co.oslc.refimpl.am.gen.RestDelegate;
 import co.oslc.refimpl.am.gen.servlet.ServiceProviderCatalogSingleton;
 
 // Start of user code imports

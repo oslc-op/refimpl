@@ -79,7 +79,7 @@ import org.eclipse.lyo.oslc4j.core.model.ServiceProvider;
 import org.eclipse.lyo.oslc4j.core.model.Link;
 import org.eclipse.lyo.oslc4j.core.model.AbstractResource;
 
-import co.oslc.refimpl.qm.gen.QMManager;
+import co.oslc.refimpl.qm.gen.RestDelegate;
 import co.oslc.refimpl.qm.gen.QMConstants;
 import org.eclipse.lyo.oslc.domains.qm.Oslc_qmDomainConstants;
 import co.oslc.refimpl.qm.gen.servlet.ServiceProviderCatalogSingleton;
@@ -145,12 +145,12 @@ public class WsPlans
         // Start of user code getResource_init
         // End of user code
 
-        final TestPlan aTestPlan = QMManager.getTestPlan(httpServletRequest, spSlug, id);
+        final TestPlan aTestPlan = RestDelegate.getTestPlan(httpServletRequest, spSlug, id);
 
         if (aTestPlan != null) {
             // Start of user code getTestPlan
             // End of user code
-            httpServletResponse.setHeader("ETag", QMManager.getETagFromTestPlan(aTestPlan));
+            httpServletResponse.setHeader("ETag", RestDelegate.getETagFromTestPlan(aTestPlan));
             httpServletResponse.addHeader(QMConstants.HDR_OSLC_VERSION, QMConstants.OSLC_VERSION_V2);
             return aTestPlan;
         }
@@ -181,7 +181,7 @@ public class WsPlans
         // Start of user code getTestPlanAsHtml_init
         // End of user code
 
-        final TestPlan aTestPlan = QMManager.getTestPlan(httpServletRequest, spSlug, id);
+        final TestPlan aTestPlan = RestDelegate.getTestPlan(httpServletRequest, spSlug, id);
 
         if (aTestPlan != null) {
             httpServletRequest.setAttribute("aTestPlan", aTestPlan);
@@ -226,7 +226,7 @@ public class WsPlans
         //TODO: adjust the preview height & width values from the default values provided above.
         // End of user code
 
-        final TestPlan aTestPlan = QMManager.getTestPlan(httpServletRequest, spSlug, id);
+        final TestPlan aTestPlan = RestDelegate.getTestPlan(httpServletRequest, spSlug, id);
 
         if (aTestPlan != null) {
             final Compact compact = new Compact();
@@ -266,7 +266,7 @@ public class WsPlans
         // Start of user code getTestPlanAsHtmlSmallPreview_init
         // End of user code
 
-        final TestPlan aTestPlan = QMManager.getTestPlan(httpServletRequest, spSlug, id);
+        final TestPlan aTestPlan = RestDelegate.getTestPlan(httpServletRequest, spSlug, id);
 
         if (aTestPlan != null) {
             httpServletRequest.setAttribute("aTestPlan", aTestPlan);
@@ -293,7 +293,7 @@ public class WsPlans
         // Start of user code getTestPlanAsHtmlLargePreview_init
         // End of user code
 
-        final TestPlan aTestPlan = QMManager.getTestPlan(httpServletRequest, spSlug, id);
+        final TestPlan aTestPlan = RestDelegate.getTestPlan(httpServletRequest, spSlug, id);
 
         if (aTestPlan != null) {
             httpServletRequest.setAttribute("aTestPlan", aTestPlan);
@@ -330,12 +330,12 @@ public class WsPlans
     {
         // Start of user code deleteTestPlan_init
         // End of user code
-        final TestPlan aResource = QMManager.getTestPlan(httpServletRequest, spSlug, id);
+        final TestPlan aResource = RestDelegate.getTestPlan(httpServletRequest, spSlug, id);
 
         if (aResource != null) {
             // Start of user code deleteTestPlan
             // End of user code
-            boolean deleted = QMManager.deleteTestPlan(httpServletRequest, spSlug, id);
+            boolean deleted = RestDelegate.deleteTestPlan(httpServletRequest, spSlug, id);
             if (deleted)
                 return Response.ok().header(QMConstants.HDR_OSLC_VERSION, QMConstants.OSLC_VERSION_V2).build();
             else
@@ -368,16 +368,16 @@ public class WsPlans
     {
         // Start of user code updateTestPlan_init
         // End of user code
-        final TestPlan originalResource = QMManager.getTestPlan(httpServletRequest, spSlug, id);
+        final TestPlan originalResource = RestDelegate.getTestPlan(httpServletRequest, spSlug, id);
 
         if (originalResource != null) {
-            final String originalETag = QMManager.getETagFromTestPlan(originalResource);
+            final String originalETag = RestDelegate.getETagFromTestPlan(originalResource);
 
             if ((eTagHeader == null) || (originalETag.equals(eTagHeader))) {
                 // Start of user code updateTestPlan
                 // End of user code
-                final TestPlan updatedResource = QMManager.updateTestPlan(httpServletRequest, aResource, spSlug, id);
-                httpServletResponse.setHeader("ETag", QMManager.getETagFromTestPlan(updatedResource));
+                final TestPlan updatedResource = RestDelegate.updateTestPlan(httpServletRequest, aResource, spSlug, id);
+                httpServletResponse.setHeader("ETag", RestDelegate.getETagFromTestPlan(updatedResource));
                 return Response.ok().header(QMConstants.HDR_OSLC_VERSION, QMConstants.OSLC_VERSION_V2).build();
             }
             else {

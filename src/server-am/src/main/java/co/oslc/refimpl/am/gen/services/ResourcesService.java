@@ -81,7 +81,7 @@ import org.eclipse.lyo.oslc4j.core.model.ServiceProvider;
 import org.eclipse.lyo.oslc4j.core.model.Link;
 import org.eclipse.lyo.oslc4j.core.model.AbstractResource;
 
-import co.oslc.refimpl.am.gen.AMManager;
+import co.oslc.refimpl.am.gen.RestDelegate;
 import co.oslc.refimpl.am.gen.AMConstants;
 import org.eclipse.lyo.oslc.domains.am.Oslc_amDomainConstants;
 import org.eclipse.lyo.oslc.domains.am.Oslc_amDomainConstants;
@@ -168,10 +168,10 @@ public class ResourcesService
         }
 
         // Start of user code queryResources
-        // Here additional logic can be implemented that complements main action taken in AMManager
+        // Here additional logic can be implemented that complements main action taken in RestDelegate
         // End of user code
 
-        List<Resource> resources = AMManager.queryResources(httpServletRequest, where, prefix, paging, page, pageSize);
+        List<Resource> resources = RestDelegate.queryResources(httpServletRequest, where, prefix, paging, page, pageSize);
         UriBuilder uriBuilder = UriBuilder.fromUri(uriInfo.getAbsolutePath())
             .queryParam("oslc.paging", "true")
             .queryParam("oslc.pageSize", pageSize)
@@ -227,7 +227,7 @@ public class ResourcesService
         // Start of user code queryResourcesAsHtml
         // End of user code
 
-        List<Resource> resources = AMManager.queryResources(httpServletRequest, where, prefix, paging, page, pageSize);
+        List<Resource> resources = RestDelegate.queryResources(httpServletRequest, where, prefix, paging, page, pageSize);
 
         if (resources!= null) {
             // Start of user code queryResourcesAsHtml_setAttributes
@@ -286,7 +286,7 @@ public class ResourcesService
 
         if (terms != null ) {
             httpServletRequest.setAttribute("terms", terms);
-            final List<Resource> resources = AMManager.ResourceSelector(httpServletRequest, terms);
+            final List<Resource> resources = RestDelegate.ResourceSelector(httpServletRequest, terms);
             if (resources!= null) {
                 JSONArray resourceArray = new JSONArray();
                 for (Resource resource : resources) {
@@ -344,8 +344,8 @@ public class ResourcesService
             final Resource aResource
         ) throws IOException, ServletException
     {
-        Resource newResource = AMManager.createResource(httpServletRequest, aResource);
-        httpServletResponse.setHeader("ETag", AMManager.getETagFromResource(newResource));
+        Resource newResource = RestDelegate.createResource(httpServletRequest, aResource);
+        httpServletResponse.setHeader("ETag", RestDelegate.getETagFromResource(newResource));
         return Response.created(newResource.getAbout()).entity(newResource).header(AMConstants.HDR_OSLC_VERSION, AMConstants.OSLC_VERSION_V2).build();
     }
 

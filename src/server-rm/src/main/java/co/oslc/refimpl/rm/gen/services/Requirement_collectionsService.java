@@ -81,7 +81,7 @@ import org.eclipse.lyo.oslc4j.core.model.ServiceProvider;
 import org.eclipse.lyo.oslc4j.core.model.Link;
 import org.eclipse.lyo.oslc4j.core.model.AbstractResource;
 
-import co.oslc.refimpl.rm.gen.RMManager;
+import co.oslc.refimpl.rm.gen.RestDelegate;
 import co.oslc.refimpl.rm.gen.RMConstants;
 import org.eclipse.lyo.oslc.domains.rm.Oslc_rmDomainConstants;
 import org.eclipse.lyo.oslc.domains.rm.Oslc_rmDomainConstants;
@@ -171,7 +171,7 @@ public class Requirement_collectionsService
         // Here additional logic can be implemented that complements main action taken in RMManager
         // End of user code
 
-        List<RequirementCollection> resources = RMManager.queryRequirementCollections(httpServletRequest, serviceProviderId, where, prefix, paging, page, pageSize);
+        List<RequirementCollection> resources = RestDelegate.queryRequirementCollections(httpServletRequest, serviceProviderId, where, prefix, paging, page, pageSize);
         UriBuilder uriBuilder = UriBuilder.fromUri(uriInfo.getAbsolutePath())
             .queryParam("oslc.paging", "true")
             .queryParam("oslc.pageSize", pageSize)
@@ -227,7 +227,7 @@ public class Requirement_collectionsService
         // Start of user code queryRequirementCollectionsAsHtml
         // End of user code
 
-        List<RequirementCollection> resources = RMManager.queryRequirementCollections(httpServletRequest, serviceProviderId, where, prefix, paging, page, pageSize);
+        List<RequirementCollection> resources = RestDelegate.queryRequirementCollections(httpServletRequest, serviceProviderId, where, prefix, paging, page, pageSize);
 
         if (resources!= null) {
             // Start of user code queryRequirementCollectionsAsHtml_setAttributes
@@ -286,7 +286,7 @@ public class Requirement_collectionsService
 
         if (terms != null ) {
             httpServletRequest.setAttribute("terms", terms);
-            final List<RequirementCollection> resources = RMManager.RequirementCollectionSelector(httpServletRequest, serviceProviderId, terms);
+            final List<RequirementCollection> resources = RestDelegate.RequirementCollectionSelector(httpServletRequest, serviceProviderId, terms);
             if (resources!= null) {
                 JSONArray resourceArray = new JSONArray();
                 for (RequirementCollection resource : resources) {
@@ -343,8 +343,8 @@ public class Requirement_collectionsService
             final RequirementCollection aResource
         ) throws IOException, ServletException
     {
-        RequirementCollection newResource = RMManager.createRequirementCollection(httpServletRequest, aResource, serviceProviderId);
-        httpServletResponse.setHeader("ETag", RMManager.getETagFromRequirementCollection(newResource));
+        RequirementCollection newResource = RestDelegate.createRequirementCollection(httpServletRequest, aResource, serviceProviderId);
+        httpServletResponse.setHeader("ETag", RestDelegate.getETagFromRequirementCollection(newResource));
         return Response.created(newResource.getAbout()).entity(newResource).header(RMConstants.HDR_OSLC_VERSION, RMConstants.OSLC_VERSION_V2).build();
     }
 

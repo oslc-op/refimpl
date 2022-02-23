@@ -81,7 +81,7 @@ import org.eclipse.lyo.oslc4j.core.model.ServiceProvider;
 import org.eclipse.lyo.oslc4j.core.model.Link;
 import org.eclipse.lyo.oslc4j.core.model.AbstractResource;
 
-import co.oslc.refimpl.am.gen.AMManager;
+import co.oslc.refimpl.am.gen.RestDelegate;
 import co.oslc.refimpl.am.gen.AMConstants;
 import org.eclipse.lyo.oslc.domains.am.Oslc_amDomainConstants;
 import org.eclipse.lyo.oslc.domains.am.Oslc_amDomainConstants;
@@ -168,10 +168,10 @@ public class LinksService
         }
 
         // Start of user code queryLinkTypes
-        // Here additional logic can be implemented that complements main action taken in AMManager
+        // Here additional logic can be implemented that complements main action taken in RestDelegate
         // End of user code
 
-        List<LinkType> resources = AMManager.queryLinkTypes(httpServletRequest, where, prefix, paging, page, pageSize);
+        List<LinkType> resources = RestDelegate.queryLinkTypes(httpServletRequest, where, prefix, paging, page, pageSize);
         UriBuilder uriBuilder = UriBuilder.fromUri(uriInfo.getAbsolutePath())
             .queryParam("oslc.paging", "true")
             .queryParam("oslc.pageSize", pageSize)
@@ -227,7 +227,7 @@ public class LinksService
         // Start of user code queryLinkTypesAsHtml
         // End of user code
 
-        List<LinkType> resources = AMManager.queryLinkTypes(httpServletRequest, where, prefix, paging, page, pageSize);
+        List<LinkType> resources = RestDelegate.queryLinkTypes(httpServletRequest, where, prefix, paging, page, pageSize);
 
         if (resources!= null) {
             // Start of user code queryLinkTypesAsHtml_setAttributes
@@ -286,7 +286,7 @@ public class LinksService
 
         if (terms != null ) {
             httpServletRequest.setAttribute("terms", terms);
-            final List<LinkType> resources = AMManager.LinkTypeSelector(httpServletRequest, terms);
+            final List<LinkType> resources = RestDelegate.LinkTypeSelector(httpServletRequest, terms);
             if (resources!= null) {
                 JSONArray resourceArray = new JSONArray();
                 for (LinkType resource : resources) {
@@ -344,8 +344,8 @@ public class LinksService
             final LinkType aResource
         ) throws IOException, ServletException
     {
-        LinkType newResource = AMManager.createLinkType(httpServletRequest, aResource);
-        httpServletResponse.setHeader("ETag", AMManager.getETagFromLinkType(newResource));
+        LinkType newResource = RestDelegate.createLinkType(httpServletRequest, aResource);
+        httpServletResponse.setHeader("ETag", RestDelegate.getETagFromLinkType(newResource));
         return Response.created(newResource.getAbout()).entity(newResource).header(AMConstants.HDR_OSLC_VERSION, AMConstants.OSLC_VERSION_V2).build();
     }
 

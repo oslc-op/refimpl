@@ -79,7 +79,7 @@ import org.eclipse.lyo.oslc4j.core.model.ServiceProvider;
 import org.eclipse.lyo.oslc4j.core.model.Link;
 import org.eclipse.lyo.oslc4j.core.model.AbstractResource;
 
-import co.oslc.refimpl.qm.gen.QMManager;
+import co.oslc.refimpl.qm.gen.RestDelegate;
 import co.oslc.refimpl.qm.gen.QMConstants;
 import org.eclipse.lyo.oslc.domains.qm.Oslc_qmDomainConstants;
 import co.oslc.refimpl.qm.gen.servlet.ServiceProviderCatalogSingleton;
@@ -145,12 +145,12 @@ public class WsExecRecords
         // Start of user code getResource_init
         // End of user code
 
-        final TestExecutionRecord aTestExecutionRecord = QMManager.getTestExecutionRecord(httpServletRequest, spSlug, id);
+        final TestExecutionRecord aTestExecutionRecord = RestDelegate.getTestExecutionRecord(httpServletRequest, spSlug, id);
 
         if (aTestExecutionRecord != null) {
             // Start of user code getTestExecutionRecord
             // End of user code
-            httpServletResponse.setHeader("ETag", QMManager.getETagFromTestExecutionRecord(aTestExecutionRecord));
+            httpServletResponse.setHeader("ETag", RestDelegate.getETagFromTestExecutionRecord(aTestExecutionRecord));
             httpServletResponse.addHeader(QMConstants.HDR_OSLC_VERSION, QMConstants.OSLC_VERSION_V2);
             return aTestExecutionRecord;
         }
@@ -181,7 +181,7 @@ public class WsExecRecords
         // Start of user code getTestExecutionRecordAsHtml_init
         // End of user code
 
-        final TestExecutionRecord aTestExecutionRecord = QMManager.getTestExecutionRecord(httpServletRequest, spSlug, id);
+        final TestExecutionRecord aTestExecutionRecord = RestDelegate.getTestExecutionRecord(httpServletRequest, spSlug, id);
 
         if (aTestExecutionRecord != null) {
             httpServletRequest.setAttribute("aTestExecutionRecord", aTestExecutionRecord);
@@ -226,7 +226,7 @@ public class WsExecRecords
         //TODO: adjust the preview height & width values from the default values provided above.
         // End of user code
 
-        final TestExecutionRecord aTestExecutionRecord = QMManager.getTestExecutionRecord(httpServletRequest, spSlug, id);
+        final TestExecutionRecord aTestExecutionRecord = RestDelegate.getTestExecutionRecord(httpServletRequest, spSlug, id);
 
         if (aTestExecutionRecord != null) {
             final Compact compact = new Compact();
@@ -266,7 +266,7 @@ public class WsExecRecords
         // Start of user code getTestExecutionRecordAsHtmlSmallPreview_init
         // End of user code
 
-        final TestExecutionRecord aTestExecutionRecord = QMManager.getTestExecutionRecord(httpServletRequest, spSlug, id);
+        final TestExecutionRecord aTestExecutionRecord = RestDelegate.getTestExecutionRecord(httpServletRequest, spSlug, id);
 
         if (aTestExecutionRecord != null) {
             httpServletRequest.setAttribute("aTestExecutionRecord", aTestExecutionRecord);
@@ -293,7 +293,7 @@ public class WsExecRecords
         // Start of user code getTestExecutionRecordAsHtmlLargePreview_init
         // End of user code
 
-        final TestExecutionRecord aTestExecutionRecord = QMManager.getTestExecutionRecord(httpServletRequest, spSlug, id);
+        final TestExecutionRecord aTestExecutionRecord = RestDelegate.getTestExecutionRecord(httpServletRequest, spSlug, id);
 
         if (aTestExecutionRecord != null) {
             httpServletRequest.setAttribute("aTestExecutionRecord", aTestExecutionRecord);
@@ -330,12 +330,12 @@ public class WsExecRecords
     {
         // Start of user code deleteTestExecutionRecord_init
         // End of user code
-        final TestExecutionRecord aResource = QMManager.getTestExecutionRecord(httpServletRequest, spSlug, id);
+        final TestExecutionRecord aResource = RestDelegate.getTestExecutionRecord(httpServletRequest, spSlug, id);
 
         if (aResource != null) {
             // Start of user code deleteTestExecutionRecord
             // End of user code
-            boolean deleted = QMManager.deleteTestExecutionRecord(httpServletRequest, spSlug, id);
+            boolean deleted = RestDelegate.deleteTestExecutionRecord(httpServletRequest, spSlug, id);
             if (deleted)
                 return Response.ok().header(QMConstants.HDR_OSLC_VERSION, QMConstants.OSLC_VERSION_V2).build();
             else
@@ -368,16 +368,16 @@ public class WsExecRecords
     {
         // Start of user code updateTestExecutionRecord_init
         // End of user code
-        final TestExecutionRecord originalResource = QMManager.getTestExecutionRecord(httpServletRequest, spSlug, id);
+        final TestExecutionRecord originalResource = RestDelegate.getTestExecutionRecord(httpServletRequest, spSlug, id);
 
         if (originalResource != null) {
-            final String originalETag = QMManager.getETagFromTestExecutionRecord(originalResource);
+            final String originalETag = RestDelegate.getETagFromTestExecutionRecord(originalResource);
 
             if ((eTagHeader == null) || (originalETag.equals(eTagHeader))) {
                 // Start of user code updateTestExecutionRecord
                 // End of user code
-                final TestExecutionRecord updatedResource = QMManager.updateTestExecutionRecord(httpServletRequest, aResource, spSlug, id);
-                httpServletResponse.setHeader("ETag", QMManager.getETagFromTestExecutionRecord(updatedResource));
+                final TestExecutionRecord updatedResource = RestDelegate.updateTestExecutionRecord(httpServletRequest, aResource, spSlug, id);
+                httpServletResponse.setHeader("ETag", RestDelegate.getETagFromTestExecutionRecord(updatedResource));
                 return Response.ok().header(QMConstants.HDR_OSLC_VERSION, QMConstants.OSLC_VERSION_V2).build();
             }
             else {
