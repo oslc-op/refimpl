@@ -24,18 +24,6 @@
 
 package co.oslc.refimpl.cm.gen;
 
-// Start of user code Notice
-//Note: The Lyo code generator is migrating the name of this class from 'CMManager' to the new shorter name 'RestDelegate'.
-//You are still using the old name. The generator will continue to use this old name until you actively trigger the change.
-//To migrate to the new class name:
-//1. Rename your class to RestDelegate 
-//    * Please rename and do not simply create a copy of the file. The generator needs to detect the file deletion in order to activate the name change.
-//2. Regenerate the code. 
-//    * The generator will generate this class with the new name.
-//    * Besides the class name, the code - including the user clode blocks - remain intact.
-//    * All other class references to the new class name are updated.
-//3. Delete this notice
-// End of user code
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.ServletContextEvent;
@@ -80,14 +68,14 @@ import co.oslc.refimpl.lib.ResourceRepository;
 // Start of user code pre_class_code
 // End of user code
 
-public class CMManager {
+public class RestDelegate {
 
-    private static final Logger log = LoggerFactory.getLogger(CMManager.class);
+    private static final Logger log = LoggerFactory.getLogger(RestDelegate.class);
 
     
     // Start of user code class_attributes
     public static final String SP_DEFAULT = "sp_single";
-    private static final Logger LOG = LoggerFactory.getLogger(CMManager.class);
+    private static final Logger LOG = LoggerFactory.getLogger(RestDelegate.class);
 
     private static final ResourceRepository<ChangeRequest> changeRequestRepository = new MemResourceRepository<>();
     // End of user code
@@ -278,7 +266,7 @@ public class CMManager {
             id = UUID.randomUUID().toString();
             aResource.setIdentifier(id);
         }
-        URI uri = CMResourcesFactory.constructURIForChangeRequest(id);
+        URI uri = ResourcesFactory.constructURIForChangeRequest(id);
         aResource.setAbout(uri);
         aResource.setCreated(new Date());
         changeRequestRepository.addResource(SP_DEFAULT, id, aResource);
@@ -366,7 +354,7 @@ public class CMManager {
         ChangeRequest updatedResource = null;
         
         // Start of user code updateChangeRequest
-        if(!CMResourcesFactory.constructURIForChangeRequest(id).equals(aResource.getAbout())) {
+        if(!ResourcesFactory.constructURIForChangeRequest(id).equals(aResource.getAbout())) {
             throw new WebApplicationException("Subject URI shall match the endpoint", Response.Status.BAD_REQUEST);
         }
         aResource.setModified(new Date());

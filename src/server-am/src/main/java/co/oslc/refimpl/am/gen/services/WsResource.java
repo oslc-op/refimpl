@@ -79,7 +79,7 @@ import org.eclipse.lyo.oslc4j.core.model.ServiceProvider;
 import org.eclipse.lyo.oslc4j.core.model.Link;
 import org.eclipse.lyo.oslc4j.core.model.AbstractResource;
 
-import co.oslc.refimpl.am.gen.AMManager;
+import co.oslc.refimpl.am.gen.RestDelegate;
 import co.oslc.refimpl.am.gen.AMConstants;
 import org.eclipse.lyo.oslc.domains.am.Oslc_amDomainConstants;
 import co.oslc.refimpl.am.gen.servlet.ServiceProviderCatalogSingleton;
@@ -145,12 +145,12 @@ public class WsResource
         // Start of user code getResource_init
         // End of user code
 
-        final Resource aResource = AMManager.getResource(httpServletRequest, id);
+        final Resource aResource = RestDelegate.getResource(httpServletRequest, id);
 
         if (aResource != null) {
             // Start of user code getResource
             // End of user code
-            httpServletResponse.setHeader("ETag", AMManager.getETagFromResource(aResource));
+            httpServletResponse.setHeader("ETag", RestDelegate.getETagFromResource(aResource));
             httpServletResponse.addHeader(AMConstants.HDR_OSLC_VERSION, AMConstants.OSLC_VERSION_V2);
             return aResource;
         }
@@ -181,7 +181,7 @@ public class WsResource
         // Start of user code getResourceAsHtml_init
         // End of user code
 
-        final Resource aResource = AMManager.getResource(httpServletRequest, id);
+        final Resource aResource = RestDelegate.getResource(httpServletRequest, id);
 
         if (aResource != null) {
             httpServletRequest.setAttribute("aResource", aResource);
@@ -226,7 +226,7 @@ public class WsResource
         //TODO: adjust the preview height & width values from the default values provided above.
         // End of user code
 
-        final Resource aResource = AMManager.getResource(httpServletRequest, id);
+        final Resource aResource = RestDelegate.getResource(httpServletRequest, id);
 
         if (aResource != null) {
             final Compact compact = new Compact();
@@ -266,7 +266,7 @@ public class WsResource
         // Start of user code getResourceAsHtmlSmallPreview_init
         // End of user code
 
-        final Resource aResource = AMManager.getResource(httpServletRequest, id);
+        final Resource aResource = RestDelegate.getResource(httpServletRequest, id);
 
         if (aResource != null) {
             httpServletRequest.setAttribute("aResource", aResource);
@@ -293,7 +293,7 @@ public class WsResource
         // Start of user code getResourceAsHtmlLargePreview_init
         // End of user code
 
-        final Resource aResource = AMManager.getResource(httpServletRequest, id);
+        final Resource aResource = RestDelegate.getResource(httpServletRequest, id);
 
         if (aResource != null) {
             httpServletRequest.setAttribute("aResource", aResource);
@@ -330,12 +330,12 @@ public class WsResource
     {
         // Start of user code deleteResource_init
         // End of user code
-        final Resource aResource = AMManager.getResource(httpServletRequest, id);
+        final Resource aResource = RestDelegate.getResource(httpServletRequest, id);
 
         if (aResource != null) {
             // Start of user code deleteResource
             // End of user code
-            boolean deleted = AMManager.deleteResource(httpServletRequest, id);
+            boolean deleted = RestDelegate.deleteResource(httpServletRequest, id);
             if (deleted)
                 return Response.ok().header(AMConstants.HDR_OSLC_VERSION, AMConstants.OSLC_VERSION_V2).build();
             else
@@ -368,16 +368,16 @@ public class WsResource
     {
         // Start of user code updateResource_init
         // End of user code
-        final Resource originalResource = AMManager.getResource(httpServletRequest, id);
+        final Resource originalResource = RestDelegate.getResource(httpServletRequest, id);
 
         if (originalResource != null) {
-            final String originalETag = AMManager.getETagFromResource(originalResource);
+            final String originalETag = RestDelegate.getETagFromResource(originalResource);
 
             if ((eTagHeader == null) || (originalETag.equals(eTagHeader))) {
                 // Start of user code updateResource
                 // End of user code
-                final Resource updatedResource = AMManager.updateResource(httpServletRequest, aResource, id);
-                httpServletResponse.setHeader("ETag", AMManager.getETagFromResource(updatedResource));
+                final Resource updatedResource = RestDelegate.updateResource(httpServletRequest, aResource, id);
+                httpServletResponse.setHeader("ETag", RestDelegate.getETagFromResource(updatedResource));
                 return Response.ok().header(AMConstants.HDR_OSLC_VERSION, AMConstants.OSLC_VERSION_V2).build();
             }
             else {

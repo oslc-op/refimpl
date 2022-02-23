@@ -45,7 +45,7 @@ import org.eclipse.lyo.oslc4j.core.model.ServiceProvider;
 import org.eclipse.lyo.oslc4j.core.model.ServiceProviderCatalog;
 import org.eclipse.lyo.oslc4j.core.OSLC4JUtils;
 
-import co.oslc.refimpl.qm.gen.QMManager;
+import co.oslc.refimpl.qm.gen.RestDelegate;
 import co.oslc.refimpl.qm.gen.ServiceProviderInfo;
 
 // Start of user code imports
@@ -228,7 +228,7 @@ public class ServiceProviderCatalogSingleton
             // Start of user code initServiceProviders
             // End of user code
 
-            ServiceProviderInfo [] serviceProviderInfos = QMManager.getServiceProviderInfos(httpServletRequest);
+            ServiceProviderInfo [] serviceProviderInfos = RestDelegate.getServiceProviderInfos(httpServletRequest);
             //Register each service provider
             for (ServiceProviderInfo serviceProviderInfo : serviceProviderInfos) {
                 if (!containsServiceProvider(ServiceProvidersFactory.constructIdentifier(serviceProviderInfo))) {

@@ -65,7 +65,7 @@ String catalogUrl = UriBuilder.fromUri(OSLC4JUtils.getServletURI()).path("/catal
             <hr>
             <p>
                 Modify the method <code>getServiceProviderInfos()</code>
-                in the class <code>co.oslc.refimpl.am.gen.AMManager</code>, to return the expected set of Service Provider resources.
+                in the class <code>co.oslc.refimpl.am.gen.RestDelegate</code>, to return the expected set of Service Provider resources.
             </p>
         </div>
     <% } %>

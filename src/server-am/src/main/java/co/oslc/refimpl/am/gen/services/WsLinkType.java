@@ -79,7 +79,7 @@ import org.eclipse.lyo.oslc4j.core.model.ServiceProvider;
 import org.eclipse.lyo.oslc4j.core.model.Link;
 import org.eclipse.lyo.oslc4j.core.model.AbstractResource;
 
-import co.oslc.refimpl.am.gen.AMManager;
+import co.oslc.refimpl.am.gen.RestDelegate;
 import co.oslc.refimpl.am.gen.AMConstants;
 import org.eclipse.lyo.oslc.domains.am.Oslc_amDomainConstants;
 import co.oslc.refimpl.am.gen.servlet.ServiceProviderCatalogSingleton;
@@ -145,12 +145,12 @@ public class WsLinkType
         // Start of user code getResource_init
         // End of user code
 
-        final LinkType aLinkType = AMManager.getLinkType(httpServletRequest, id);
+        final LinkType aLinkType = RestDelegate.getLinkType(httpServletRequest, id);
 
         if (aLinkType != null) {
             // Start of user code getLinkType
             // End of user code
-            httpServletResponse.setHeader("ETag", AMManager.getETagFromLinkType(aLinkType));
+            httpServletResponse.setHeader("ETag", RestDelegate.getETagFromLinkType(aLinkType));
             httpServletResponse.addHeader(AMConstants.HDR_OSLC_VERSION, AMConstants.OSLC_VERSION_V2);
             return aLinkType;
         }
@@ -181,7 +181,7 @@ public class WsLinkType
         // Start of user code getLinkTypeAsHtml_init
         // End of user code
 
-        final LinkType aLinkType = AMManager.getLinkType(httpServletRequest, id);
+        final LinkType aLinkType = RestDelegate.getLinkType(httpServletRequest, id);
 
         if (aLinkType != null) {
             httpServletRequest.setAttribute("aLinkType", aLinkType);
@@ -226,7 +226,7 @@ public class WsLinkType
         //TODO: adjust the preview height & width values from the default values provided above.
         // End of user code
 
-        final LinkType aLinkType = AMManager.getLinkType(httpServletRequest, id);
+        final LinkType aLinkType = RestDelegate.getLinkType(httpServletRequest, id);
 
         if (aLinkType != null) {
             final Compact compact = new Compact();
@@ -266,7 +266,7 @@ public class WsLinkType
         // Start of user code getLinkTypeAsHtmlSmallPreview_init
         // End of user code
 
-        final LinkType aLinkType = AMManager.getLinkType(httpServletRequest, id);
+        final LinkType aLinkType = RestDelegate.getLinkType(httpServletRequest, id);
 
         if (aLinkType != null) {
             httpServletRequest.setAttribute("aLinkType", aLinkType);
@@ -293,7 +293,7 @@ public class WsLinkType
         // Start of user code getLinkTypeAsHtmlLargePreview_init
         // End of user code
 
-        final LinkType aLinkType = AMManager.getLinkType(httpServletRequest, id);
+        final LinkType aLinkType = RestDelegate.getLinkType(httpServletRequest, id);
 
         if (aLinkType != null) {
             httpServletRequest.setAttribute("aLinkType", aLinkType);
@@ -330,12 +330,12 @@ public class WsLinkType
     {
         // Start of user code deleteLinkType_init
         // End of user code
-        final LinkType aResource = AMManager.getLinkType(httpServletRequest, id);
+        final LinkType aResource = RestDelegate.getLinkType(httpServletRequest, id);
 
         if (aResource != null) {
             // Start of user code deleteLinkType
             // End of user code
-            boolean deleted = AMManager.deleteLinkType(httpServletRequest, id);
+            boolean deleted = RestDelegate.deleteLinkType(httpServletRequest, id);
             if (deleted)
                 return Response.ok().header(AMConstants.HDR_OSLC_VERSION, AMConstants.OSLC_VERSION_V2).build();
             else
@@ -368,16 +368,16 @@ public class WsLinkType
     {
         // Start of user code updateLinkType_init
         // End of user code
-        final LinkType originalResource = AMManager.getLinkType(httpServletRequest, id);
+        final LinkType originalResource = RestDelegate.getLinkType(httpServletRequest, id);
 
         if (originalResource != null) {
-            final String originalETag = AMManager.getETagFromLinkType(originalResource);
+            final String originalETag = RestDelegate.getETagFromLinkType(originalResource);
 
             if ((eTagHeader == null) || (originalETag.equals(eTagHeader))) {
                 // Start of user code updateLinkType
                 // End of user code
-                final LinkType updatedResource = AMManager.updateLinkType(httpServletRequest, aResource, id);
-                httpServletResponse.setHeader("ETag", AMManager.getETagFromLinkType(updatedResource));
+                final LinkType updatedResource = RestDelegate.updateLinkType(httpServletRequest, aResource, id);
+                httpServletResponse.setHeader("ETag", RestDelegate.getETagFromLinkType(updatedResource));
                 return Response.ok().header(AMConstants.HDR_OSLC_VERSION, AMConstants.OSLC_VERSION_V2).build();
             }
             else {

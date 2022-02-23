@@ -79,7 +79,7 @@ import org.eclipse.lyo.oslc4j.core.model.ServiceProvider;
 import org.eclipse.lyo.oslc4j.core.model.Link;
 import org.eclipse.lyo.oslc4j.core.model.AbstractResource;
 
-import co.oslc.refimpl.rm.gen.RMManager;
+import co.oslc.refimpl.rm.gen.RestDelegate;
 import co.oslc.refimpl.rm.gen.RMConstants;
 import org.eclipse.lyo.oslc.domains.rm.Oslc_rmDomainConstants;
 import org.eclipse.lyo.oslc.domains.rm.Oslc_rmDomainConstants;
@@ -147,12 +147,12 @@ public class WebServiceBasic
         // Start of user code getResource_init
         // End of user code
 
-        final Requirement aRequirement = RMManager.getRequirement(httpServletRequest, serviceProviderId, resourceId);
+        final Requirement aRequirement = RestDelegate.getRequirement(httpServletRequest, serviceProviderId, resourceId);
 
         if (aRequirement != null) {
             // Start of user code getRequirement
             // End of user code
-            httpServletResponse.setHeader("ETag", RMManager.getETagFromRequirement(aRequirement));
+            httpServletResponse.setHeader("ETag", RestDelegate.getETagFromRequirement(aRequirement));
             httpServletResponse.addHeader(RMConstants.HDR_OSLC_VERSION, RMConstants.OSLC_VERSION_V2);
             return aRequirement;
         }
@@ -183,7 +183,7 @@ public class WebServiceBasic
         // Start of user code getRequirementAsHtml_init
         // End of user code
 
-        final Requirement aRequirement = RMManager.getRequirement(httpServletRequest, serviceProviderId, resourceId);
+        final Requirement aRequirement = RestDelegate.getRequirement(httpServletRequest, serviceProviderId, resourceId);
 
         if (aRequirement != null) {
             httpServletRequest.setAttribute("aRequirement", aRequirement);
@@ -228,7 +228,7 @@ public class WebServiceBasic
         //TODO: adjust the preview height & width values from the default values provided above.
         // End of user code
 
-        final Requirement aRequirement = RMManager.getRequirement(httpServletRequest, serviceProviderId, resourceId);
+        final Requirement aRequirement = RestDelegate.getRequirement(httpServletRequest, serviceProviderId, resourceId);
 
         if (aRequirement != null) {
             final Compact compact = new Compact();
@@ -268,7 +268,7 @@ public class WebServiceBasic
         // Start of user code getRequirementAsHtmlSmallPreview_init
         // End of user code
 
-        final Requirement aRequirement = RMManager.getRequirement(httpServletRequest, serviceProviderId, resourceId);
+        final Requirement aRequirement = RestDelegate.getRequirement(httpServletRequest, serviceProviderId, resourceId);
 
         if (aRequirement != null) {
             httpServletRequest.setAttribute("aRequirement", aRequirement);
@@ -295,7 +295,7 @@ public class WebServiceBasic
         // Start of user code getRequirementAsHtmlLargePreview_init
         // End of user code
 
-        final Requirement aRequirement = RMManager.getRequirement(httpServletRequest, serviceProviderId, resourceId);
+        final Requirement aRequirement = RestDelegate.getRequirement(httpServletRequest, serviceProviderId, resourceId);
 
         if (aRequirement != null) {
             httpServletRequest.setAttribute("aRequirement", aRequirement);
@@ -334,12 +334,12 @@ public class WebServiceBasic
         // Start of user code getResource_init
         // End of user code
 
-        final RequirementCollection aRequirementCollection = RMManager.getRequirementCollection(httpServletRequest, serviceProviderId, resourceId);
+        final RequirementCollection aRequirementCollection = RestDelegate.getRequirementCollection(httpServletRequest, serviceProviderId, resourceId);
 
         if (aRequirementCollection != null) {
             // Start of user code getRequirementCollection
             // End of user code
-            httpServletResponse.setHeader("ETag", RMManager.getETagFromRequirementCollection(aRequirementCollection));
+            httpServletResponse.setHeader("ETag", RestDelegate.getETagFromRequirementCollection(aRequirementCollection));
             httpServletResponse.addHeader(RMConstants.HDR_OSLC_VERSION, RMConstants.OSLC_VERSION_V2);
             return aRequirementCollection;
         }
@@ -370,7 +370,7 @@ public class WebServiceBasic
         // Start of user code getRequirementCollectionAsHtml_init
         // End of user code
 
-        final RequirementCollection aRequirementCollection = RMManager.getRequirementCollection(httpServletRequest, serviceProviderId, resourceId);
+        final RequirementCollection aRequirementCollection = RestDelegate.getRequirementCollection(httpServletRequest, serviceProviderId, resourceId);
 
         if (aRequirementCollection != null) {
             httpServletRequest.setAttribute("aRequirementCollection", aRequirementCollection);
@@ -415,7 +415,7 @@ public class WebServiceBasic
         //TODO: adjust the preview height & width values from the default values provided above.
         // End of user code
 
-        final RequirementCollection aRequirementCollection = RMManager.getRequirementCollection(httpServletRequest, serviceProviderId, resourceId);
+        final RequirementCollection aRequirementCollection = RestDelegate.getRequirementCollection(httpServletRequest, serviceProviderId, resourceId);
 
         if (aRequirementCollection != null) {
             final Compact compact = new Compact();
@@ -455,7 +455,7 @@ public class WebServiceBasic
         // Start of user code getRequirementCollectionAsHtmlSmallPreview_init
         // End of user code
 
-        final RequirementCollection aRequirementCollection = RMManager.getRequirementCollection(httpServletRequest, serviceProviderId, resourceId);
+        final RequirementCollection aRequirementCollection = RestDelegate.getRequirementCollection(httpServletRequest, serviceProviderId, resourceId);
 
         if (aRequirementCollection != null) {
             httpServletRequest.setAttribute("aRequirementCollection", aRequirementCollection);
@@ -482,7 +482,7 @@ public class WebServiceBasic
         // Start of user code getRequirementCollectionAsHtmlLargePreview_init
         // End of user code
 
-        final RequirementCollection aRequirementCollection = RMManager.getRequirementCollection(httpServletRequest, serviceProviderId, resourceId);
+        final RequirementCollection aRequirementCollection = RestDelegate.getRequirementCollection(httpServletRequest, serviceProviderId, resourceId);
 
         if (aRequirementCollection != null) {
             httpServletRequest.setAttribute("aRequirementCollection", aRequirementCollection);
@@ -519,12 +519,12 @@ public class WebServiceBasic
     {
         // Start of user code deleteRequirement_init
         // End of user code
-        final Requirement aResource = RMManager.getRequirement(httpServletRequest, serviceProviderId, resourceId);
+        final Requirement aResource = RestDelegate.getRequirement(httpServletRequest, serviceProviderId, resourceId);
 
         if (aResource != null) {
             // Start of user code deleteRequirement
             // End of user code
-            boolean deleted = RMManager.deleteRequirement(httpServletRequest, serviceProviderId, resourceId);
+            boolean deleted = RestDelegate.deleteRequirement(httpServletRequest, serviceProviderId, resourceId);
             if (deleted)
                 return Response.ok().header(RMConstants.HDR_OSLC_VERSION, RMConstants.OSLC_VERSION_V2).build();
             else
@@ -554,12 +554,12 @@ public class WebServiceBasic
     {
         // Start of user code deleteRequirementCollection_init
         // End of user code
-        final RequirementCollection aResource = RMManager.getRequirementCollection(httpServletRequest, serviceProviderId, resourceId);
+        final RequirementCollection aResource = RestDelegate.getRequirementCollection(httpServletRequest, serviceProviderId, resourceId);
 
         if (aResource != null) {
             // Start of user code deleteRequirementCollection
             // End of user code
-            boolean deleted = RMManager.deleteRequirementCollection(httpServletRequest, serviceProviderId, resourceId);
+            boolean deleted = RestDelegate.deleteRequirementCollection(httpServletRequest, serviceProviderId, resourceId);
             if (deleted)
                 return Response.ok().header(RMConstants.HDR_OSLC_VERSION, RMConstants.OSLC_VERSION_V2).build();
             else
@@ -592,16 +592,16 @@ public class WebServiceBasic
     {
         // Start of user code updateRequirement_init
         // End of user code
-        final Requirement originalResource = RMManager.getRequirement(httpServletRequest, serviceProviderId, resourceId);
+        final Requirement originalResource = RestDelegate.getRequirement(httpServletRequest, serviceProviderId, resourceId);
 
         if (originalResource != null) {
-            final String originalETag = RMManager.getETagFromRequirement(originalResource);
+            final String originalETag = RestDelegate.getETagFromRequirement(originalResource);
 
             if ((eTagHeader == null) || (originalETag.equals(eTagHeader))) {
                 // Start of user code updateRequirement
                 // End of user code
-                final Requirement updatedResource = RMManager.updateRequirement(httpServletRequest, aResource, serviceProviderId, resourceId);
-                httpServletResponse.setHeader("ETag", RMManager.getETagFromRequirement(updatedResource));
+                final Requirement updatedResource = RestDelegate.updateRequirement(httpServletRequest, aResource, serviceProviderId, resourceId);
+                httpServletResponse.setHeader("ETag", RestDelegate.getETagFromRequirement(updatedResource));
                 return Response.ok().header(RMConstants.HDR_OSLC_VERSION, RMConstants.OSLC_VERSION_V2).build();
             }
             else {
@@ -637,16 +637,16 @@ public class WebServiceBasic
     {
         // Start of user code updateRequirementCollection_init
         // End of user code
-        final RequirementCollection originalResource = RMManager.getRequirementCollection(httpServletRequest, serviceProviderId, resourceId);
+        final RequirementCollection originalResource = RestDelegate.getRequirementCollection(httpServletRequest, serviceProviderId, resourceId);
 
         if (originalResource != null) {
-            final String originalETag = RMManager.getETagFromRequirementCollection(originalResource);
+            final String originalETag = RestDelegate.getETagFromRequirementCollection(originalResource);
 
             if ((eTagHeader == null) || (originalETag.equals(eTagHeader))) {
                 // Start of user code updateRequirementCollection
                 // End of user code
-                final RequirementCollection updatedResource = RMManager.updateRequirementCollection(httpServletRequest, aResource, serviceProviderId, resourceId);
-                httpServletResponse.setHeader("ETag", RMManager.getETagFromRequirementCollection(updatedResource));
+                final RequirementCollection updatedResource = RestDelegate.updateRequirementCollection(httpServletRequest, aResource, serviceProviderId, resourceId);
+                httpServletResponse.setHeader("ETag", RestDelegate.getETagFromRequirementCollection(updatedResource));
                 return Response.ok().header(RMConstants.HDR_OSLC_VERSION, RMConstants.OSLC_VERSION_V2).build();
             }
             else {

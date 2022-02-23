@@ -24,18 +24,6 @@
 
 package co.oslc.refimpl.rm.gen;
 
-// Start of user code Notice
-//Note: The Lyo code generator is migrating the name of this class from 'RMManager' to the new shorter name 'RestDelegate'.
-//You are still using the old name. The generator will continue to use this old name until you actively trigger the change.
-//To migrate to the new class name:
-//1. Rename your class to RestDelegate 
-//    * Please rename and do not simply create a copy of the file. The generator needs to detect the file deletion in order to activate the name change.
-//2. Regenerate the code. 
-//    * The generator will generate this class with the new name.
-//    * Besides the class name, the code - including the user clode blocks - remain intact.
-//    * All other class references to the new class name are updated.
-//3. Delete this notice
-// End of user code
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.ServletContextEvent;
@@ -97,9 +85,9 @@ import org.slf4j.LoggerFactory;
 // Start of user code pre_class_code
 // End of user code
 
-public class RMManager {
+public class RestDelegate {
 
-    private static final Logger log = LoggerFactory.getLogger(RMManager.class);
+    private static final Logger log = LoggerFactory.getLogger(RestDelegate.class);
 
     
     // Start of user code class_attributes
@@ -261,7 +249,7 @@ public class RMManager {
         
         // Start of user code createRequirement
         final Map<String, Requirement> requirements = requirementsForSP(serviceProviderId);
-        aResource.setAbout(RMResourcesFactory.constructURIForRequirement(serviceProviderId, aResource.getIdentifier()));
+        aResource.setAbout(ResourcesFactory.constructURIForRequirement(serviceProviderId, aResource.getIdentifier()));
         aResource.setCreated(new Date());
         requirements.put(aResource.getIdentifier(), aResource);
         log.info("Created {}", aResource.getShortTitle());
@@ -323,7 +311,7 @@ public class RMManager {
             throw new WebApplicationException(Response.Status.BAD_REQUEST);
         }
         final Map<String, RequirementCollection> resources = requirementCollectionsForSP(serviceProviderId);
-        aResource.setAbout(RMResourcesFactory.constructURIForRequirementCollection(serviceProviderId, aResource.getIdentifier()));
+        aResource.setAbout(ResourcesFactory.constructURIForRequirementCollection(serviceProviderId, aResource.getIdentifier()));
         aResource.setCreated(new Date());
         resources.put(aResource.getIdentifier(), aResource);
         log.info("Created {}", aResource.getShortTitle());
@@ -386,7 +374,7 @@ public class RMManager {
         Requirement updatedResource = null;
         
         // Start of user code updateRequirement
-        if(!RMResourcesFactory.constructURIForRequirement(serviceProviderId, resourceId).equals(aResource.getAbout())) {
+        if(!ResourcesFactory.constructURIForRequirement(serviceProviderId, resourceId).equals(aResource.getAbout())) {
             throw new WebApplicationException("Subject URI shall match the endpoint", Response.Status.BAD_REQUEST);
         }
         aResource.setModified(new Date());
@@ -400,7 +388,7 @@ public class RMManager {
         RequirementCollection updatedResource = null;
         
         // Start of user code updateRequirementCollection
-        if(!RMResourcesFactory.constructURIForRequirementCollection(serviceProviderId, resourceId).equals(aResource.getAbout())) {
+        if(!ResourcesFactory.constructURIForRequirementCollection(serviceProviderId, resourceId).equals(aResource.getAbout())) {
             throw new WebApplicationException("Subject URI shall match the endpoint", Response.Status.BAD_REQUEST);
         }
         aResource.setModified(new Date());

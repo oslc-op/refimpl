@@ -79,7 +79,7 @@ import org.eclipse.lyo.oslc4j.core.model.ServiceProvider;
 import org.eclipse.lyo.oslc4j.core.model.Link;
 import org.eclipse.lyo.oslc4j.core.model.AbstractResource;
 
-import co.oslc.refimpl.qm.gen.QMManager;
+import co.oslc.refimpl.qm.gen.RestDelegate;
 import co.oslc.refimpl.qm.gen.QMConstants;
 import org.eclipse.lyo.oslc.domains.qm.Oslc_qmDomainConstants;
 import co.oslc.refimpl.qm.gen.servlet.ServiceProviderCatalogSingleton;
@@ -145,12 +145,12 @@ public class WsResults
         // Start of user code getResource_init
         // End of user code
 
-        final TestResult aTestResult = QMManager.getTestResult(httpServletRequest, spSlug, id);
+        final TestResult aTestResult = RestDelegate.getTestResult(httpServletRequest, spSlug, id);
 
         if (aTestResult != null) {
             // Start of user code getTestResult
             // End of user code
-            httpServletResponse.setHeader("ETag", QMManager.getETagFromTestResult(aTestResult));
+            httpServletResponse.setHeader("ETag", RestDelegate.getETagFromTestResult(aTestResult));
             httpServletResponse.addHeader(QMConstants.HDR_OSLC_VERSION, QMConstants.OSLC_VERSION_V2);
             return aTestResult;
         }
@@ -181,7 +181,7 @@ public class WsResults
         // Start of user code getTestResultAsHtml_init
         // End of user code
 
-        final TestResult aTestResult = QMManager.getTestResult(httpServletRequest, spSlug, id);
+        final TestResult aTestResult = RestDelegate.getTestResult(httpServletRequest, spSlug, id);
 
         if (aTestResult != null) {
             httpServletRequest.setAttribute("aTestResult", aTestResult);
@@ -226,7 +226,7 @@ public class WsResults
         //TODO: adjust the preview height & width values from the default values provided above.
         // End of user code
 
-        final TestResult aTestResult = QMManager.getTestResult(httpServletRequest, spSlug, id);
+        final TestResult aTestResult = RestDelegate.getTestResult(httpServletRequest, spSlug, id);
 
         if (aTestResult != null) {
             final Compact compact = new Compact();
@@ -266,7 +266,7 @@ public class WsResults
         // Start of user code getTestResultAsHtmlSmallPreview_init
         // End of user code
 
-        final TestResult aTestResult = QMManager.getTestResult(httpServletRequest, spSlug, id);
+        final TestResult aTestResult = RestDelegate.getTestResult(httpServletRequest, spSlug, id);
 
         if (aTestResult != null) {
             httpServletRequest.setAttribute("aTestResult", aTestResult);
@@ -293,7 +293,7 @@ public class WsResults
         // Start of user code getTestResultAsHtmlLargePreview_init
         // End of user code
 
-        final TestResult aTestResult = QMManager.getTestResult(httpServletRequest, spSlug, id);
+        final TestResult aTestResult = RestDelegate.getTestResult(httpServletRequest, spSlug, id);
 
         if (aTestResult != null) {
             httpServletRequest.setAttribute("aTestResult", aTestResult);
@@ -330,12 +330,12 @@ public class WsResults
     {
         // Start of user code deleteTestResult_init
         // End of user code
-        final TestResult aResource = QMManager.getTestResult(httpServletRequest, spSlug, id);
+        final TestResult aResource = RestDelegate.getTestResult(httpServletRequest, spSlug, id);
 
         if (aResource != null) {
             // Start of user code deleteTestResult
             // End of user code
-            boolean deleted = QMManager.deleteTestResult(httpServletRequest, spSlug, id);
+            boolean deleted = RestDelegate.deleteTestResult(httpServletRequest, spSlug, id);
             if (deleted)
                 return Response.ok().header(QMConstants.HDR_OSLC_VERSION, QMConstants.OSLC_VERSION_V2).build();
             else
@@ -368,16 +368,16 @@ public class WsResults
     {
         // Start of user code updateTestResult_init
         // End of user code
-        final TestResult originalResource = QMManager.getTestResult(httpServletRequest, spSlug, id);
+        final TestResult originalResource = RestDelegate.getTestResult(httpServletRequest, spSlug, id);
 
         if (originalResource != null) {
-            final String originalETag = QMManager.getETagFromTestResult(originalResource);
+            final String originalETag = RestDelegate.getETagFromTestResult(originalResource);
 
             if ((eTagHeader == null) || (originalETag.equals(eTagHeader))) {
                 // Start of user code updateTestResult
                 // End of user code
-                final TestResult updatedResource = QMManager.updateTestResult(httpServletRequest, aResource, spSlug, id);
-                httpServletResponse.setHeader("ETag", QMManager.getETagFromTestResult(updatedResource));
+                final TestResult updatedResource = RestDelegate.updateTestResult(httpServletRequest, aResource, spSlug, id);
+                httpServletResponse.setHeader("ETag", RestDelegate.getETagFromTestResult(updatedResource));
                 return Response.ok().header(QMConstants.HDR_OSLC_VERSION, QMConstants.OSLC_VERSION_V2).build();
             }
             else {
