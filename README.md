@@ -119,6 +119,29 @@ docker build -f tomcat.Dockerfile -t refimpl-server-rm .
 docker run -p 8800:8080 refimpl-server-rm
 ```
 
+### Running on Tomcat via Maven
+
+
+```sh
+cd src/
+mvn clean install
+# if you have Docker running, you can run integration and acceptance tests
+# mvn clean verify -Pacceptance
+
+cd server-rm/
+mvn cargo:run
+
+cd ../server-cm/
+mvn cargo:run
+
+cd ../server-qm/
+mvn cargo:run
+
+cd ../server-am/
+mvn cargo:run
+
+```
+
 ## Navigating OSLC servers
 
 After that, OSLC servers are available at the following URLs:

@@ -23,6 +23,9 @@
         <jersey.version>2.35</jersey.version>
         <swagger.version>2.1.4</swagger.version>
         <swagger-ui.version>3.52.5</swagger-ui.version>
+        <servlet.port>8800</servlet.port>
+        <application.contextpath>/</application.contextpath>
+        <application.filename>server-rm</application.filename>
         <!-- Start of user code properties
         -->
         <v.lucene>7.7.3</v.lucene>
@@ -75,7 +78,7 @@
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-simple</artifactId>
-            <version>1.7.33</version>
+            <version>1.7.36</version>
             <scope>runtime</scope>
         </dependency>
         <!-- Servlet dependencies -->
@@ -95,7 +98,7 @@
             <artifactId>javax.inject</artifactId>
             <version>1</version>
         </dependency>
-
+        
         <dependency>
             <groupId>org.glassfish.jersey.core</groupId>
             <artifactId>jersey-server</artifactId>
@@ -131,7 +134,7 @@
             <artifactId>jersey-hk2</artifactId>
             <version>${jersey.version}</version>
         </dependency>
-
+        
         <dependency>
             <groupId>com.sun.xml.bind</groupId>
             <artifactId>jaxb-impl</artifactId>
@@ -175,7 +178,7 @@
             <version>${version.lyo}</version>
             <type>war</type>
         </dependency>
-
+        
         <!-- Swagger dependencies -->
         <dependency>
             <groupId>io.swagger.core.v3</groupId>
@@ -219,6 +222,7 @@
     <!-- End of user code
     -->
     <build>
+        <finalName>${application.filename}</finalName>
         <plugins>
             <!-- Start of user code plugins
             -->
@@ -231,12 +235,46 @@
                 <version>10.0.7</version>
                 <configuration>
                   <webApp>
-                    <contextPath>/</contextPath>
+                    <contextPath>${application.contextpath}</contextPath>
                   </webApp>
                   <httpConnector>
-                    <port>8800</port>
+                    <port>${servlet.port}</port>
                   </httpConnector>
                   <scan>5</scan>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.cargo</groupId>
+                <artifactId>cargo-maven3-plugin</artifactId>
+                <version>1.9.9</version>
+                <configuration>
+                    <!--This plugins supports the following containers-->
+                    <container>
+                        <!--These containers are know to work-->
+                        <containerId>tomcat9x</containerId>
+                        <!-- <containerId>jetty10x</containerId> -->
+                        <!-- <containerId>jetty9x</containerId> -->
+                        <!-- <containerId>tomee8x</containerId> -->
+                        <!-- <containerId>payara</containerId> -->
+                        <!-- <containerId>wildfly26x</containerId> -->
+                        <!--These containers are know to fail-->
+                        <!-- Context Root Not Found -->
+                        <!-- <containerId>liberty</containerId> -->
+                    </container>
+                    <configuration>
+                        <properties>
+                            <cargo.servlet.port>${servlet.port}</cargo.servlet.port>
+                        </properties>
+                    </configuration>
+                    <deployables>
+                        <deployable>
+                            <type>war</type>
+                            <location>${project.build.directory}/${project.build.finalName}.war</location>
+                            <properties>
+                                <context>${application.contextpath}</context>
+                            </properties>
+                        </deployable>
+                    </deployables>
                 </configuration>
             </plugin>
             <!-- Swagger-ui -->

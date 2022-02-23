@@ -24,6 +24,19 @@
 
 package co.oslc.refimpl.qm.gen;
 
+// Start of user code Notice
+//Note: The Lyo code generator is migrating the name of this class from 'QMManager' to the new shorter name 'RestDelegate'.
+//You are still using the old name. The generator will continue to use this old name until you actively trigger the change.
+//To migrate to the new class name:
+//1. Rename your class to RestDelegate 
+//    * Please rename and do not simply create a copy of the file. The generator needs to detect the file deletion in order to activate the name change.
+//2. Regenerate the code. 
+//    * The generator will generate this class with the new name.
+//    * Besides the class name, the code - including the user clode blocks - remain intact.
+//    * All other class references to the new class name are updated.
+//3. Delete this notice
+// End of user code
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.ServletContextEvent;
 import java.util.List;
@@ -73,7 +86,7 @@ public class QMManager {
 
     private static final Logger log = LoggerFactory.getLogger(QMManager.class);
 
-
+    
     // Start of user code class_attributes
     public static final String SP_DEFAULT = "sp_single";
     public static final int SELECTOR_LIMIT = 30;
@@ -84,23 +97,23 @@ public class QMManager {
     private static final ResourceRepository<TestResult> testResultRepository = new MemResourceRepository<>();
     private static final ResourceRepository<TestScript> testScriptRepository = new MemResourceRepository<>();
     // End of user code
-
-
+    
+    
     // Start of user code class_methods
     // End of user code
 
     public static void contextInitializeServletListener(final ServletContextEvent servletContextEvent)
     {
-
+        
         // Start of user code contextInitializeServletListener
         OSLC4JUtils.setLyoStorePagingPreciseLimit(false);
         // End of user code
-
+        
     }
 
-    public static void contextDestroyServletListener(ServletContextEvent servletContextEvent)
+    public static void contextDestroyServletListener(ServletContextEvent servletContextEvent) 
     {
-
+        
         // Start of user code contextDestroyed
         // TODO Implement code to shutdown connections to data backbone etc...
         // End of user code
@@ -109,7 +122,7 @@ public class QMManager {
     public static ServiceProviderInfo[] getServiceProviderInfos(HttpServletRequest httpServletRequest)
     {
         ServiceProviderInfo[] serviceProviderInfos = {};
-
+        
         // Start of user code "ServiceProviderInfo[] getServiceProviderInfos(...)"
         ServiceProviderInfo providerInfo = new ServiceProviderInfo();
         providerInfo.name = SP_DEFAULT;
@@ -122,18 +135,18 @@ public class QMManager {
     public static List<TestCase> queryTestCases(HttpServletRequest httpServletRequest, String where, String prefix, boolean paging, int page, int limit)
     {
         List<TestCase> resources = null;
-
-
+        
+        
         // Start of user code queryTestCases
         resources = testCaseRepository.fetchResourcePageForSP(SP_DEFAULT, page, limit);
         // End of user code
         return resources;
     }
-    public static List<TestCase> TestCaseSelector(HttpServletRequest httpServletRequest, String terms)
+    public static List<TestCase> TestCaseSelector(HttpServletRequest httpServletRequest, String terms)   
     {
         List<TestCase> resources = null;
-
-
+        
+        
         // Start of user code TestCaseSelector
         resources = testCaseRepository.findResources(SP_DEFAULT, terms, SELECTOR_LIMIT);
         // End of user code
@@ -142,8 +155,8 @@ public class QMManager {
     public static TestCase createTestCase(HttpServletRequest httpServletRequest, final TestCase aResource)
     {
         TestCase newResource = null;
-
-
+        
+        
         // Start of user code createTestCase
         String id = aResource.getIdentifier();
         if(id == null) {
@@ -164,18 +177,18 @@ public class QMManager {
     public static List<TestPlan> queryTestPlans(HttpServletRequest httpServletRequest, String where, String prefix, boolean paging, int page, int limit)
     {
         List<TestPlan> resources = null;
-
-
+        
+        
         // Start of user code queryTestPlans
         resources = testPlanRepository.fetchResourcePageForSP(SP_DEFAULT, page, limit);
         // End of user code
         return resources;
     }
-    public static List<TestPlan> TestPlanSelector(HttpServletRequest httpServletRequest, String terms)
+    public static List<TestPlan> TestPlanSelector(HttpServletRequest httpServletRequest, String terms)   
     {
         List<TestPlan> resources = null;
-
-
+        
+        
         // Start of user code TestPlanSelector
         resources = testPlanRepository.findResources(SP_DEFAULT, terms, SELECTOR_LIMIT);
         // End of user code
@@ -184,8 +197,8 @@ public class QMManager {
     public static TestPlan createTestPlan(HttpServletRequest httpServletRequest, final TestPlan aResource)
     {
         TestPlan newResource = null;
-
-
+        
+        
         // Start of user code createTestPlan
         String id = aResource.getIdentifier();
         if(id == null) {
@@ -206,18 +219,18 @@ public class QMManager {
     public static List<TestScript> queryTestScripts(HttpServletRequest httpServletRequest, String where, String prefix, boolean paging, int page, int limit)
     {
         List<TestScript> resources = null;
-
-
+        
+        
         // Start of user code queryTestScripts
         resources = testScriptRepository.fetchResourcePageForSP(SP_DEFAULT, page, limit);
         // End of user code
         return resources;
     }
-    public static List<TestScript> TestScriptSelector(HttpServletRequest httpServletRequest, String terms)
+    public static List<TestScript> TestScriptSelector(HttpServletRequest httpServletRequest, String terms)   
     {
         List<TestScript> resources = null;
-
-
+        
+        
         // Start of user code TestScriptSelector
         resources = testScriptRepository.findResources(SP_DEFAULT, terms, SELECTOR_LIMIT);
         // End of user code
@@ -226,8 +239,8 @@ public class QMManager {
     public static TestScript createTestScript(HttpServletRequest httpServletRequest, final TestScript aResource)
     {
         TestScript newResource = null;
-
-
+        
+        
         // Start of user code createTestScript
         String id = aResource.getIdentifier();
         if(id == null) {
@@ -248,18 +261,18 @@ public class QMManager {
     public static List<TestResult> queryTestResults(HttpServletRequest httpServletRequest, String where, String prefix, boolean paging, int page, int limit)
     {
         List<TestResult> resources = null;
-
-
+        
+        
         // Start of user code queryTestResults
         resources = testResultRepository.fetchResourcePageForSP(SP_DEFAULT, page, limit);
         // End of user code
         return resources;
     }
-    public static List<TestResult> TestResultSelector(HttpServletRequest httpServletRequest, String terms)
+    public static List<TestResult> TestResultSelector(HttpServletRequest httpServletRequest, String terms)   
     {
         List<TestResult> resources = null;
-
-
+        
+        
         // Start of user code TestResultSelector
         resources = testResultRepository.findResources(SP_DEFAULT, terms, SELECTOR_LIMIT);
         // End of user code
@@ -268,8 +281,8 @@ public class QMManager {
     public static TestResult createTestResult(HttpServletRequest httpServletRequest, final TestResult aResource)
     {
         TestResult newResource = null;
-
-
+        
+        
         // Start of user code createTestResult
         String id = aResource.getIdentifier();
         if(id == null) {
@@ -290,18 +303,18 @@ public class QMManager {
     public static List<TestExecutionRecord> queryTestExecutionRecords(HttpServletRequest httpServletRequest, String where, String prefix, boolean paging, int page, int limit)
     {
         List<TestExecutionRecord> resources = null;
-
-
+        
+        
         // Start of user code queryTestExecutionRecords
         resources = testExecutionRecordRepository.fetchResourcePageForSP(SP_DEFAULT, page, limit);
         // End of user code
         return resources;
     }
-    public static List<TestExecutionRecord> TestExecutionRecordSelector(HttpServletRequest httpServletRequest, String terms)
+    public static List<TestExecutionRecord> TestExecutionRecordSelector(HttpServletRequest httpServletRequest, String terms)   
     {
         List<TestExecutionRecord> resources = null;
-
-
+        
+        
         // Start of user code TestExecutionRecordSelector
         resources = testExecutionRecordRepository.findResources(SP_DEFAULT, terms, SELECTOR_LIMIT);
         // End of user code
@@ -310,8 +323,8 @@ public class QMManager {
     public static TestExecutionRecord createTestExecutionRecord(HttpServletRequest httpServletRequest, final TestExecutionRecord aResource)
     {
         TestExecutionRecord newResource = null;
-
-
+        
+        
         // Start of user code createTestExecutionRecord
         String id = aResource.getIdentifier();
         if(id == null) {
@@ -333,8 +346,8 @@ public class QMManager {
     public static TestCase getTestCase(HttpServletRequest httpServletRequest, final String spSlug, final String id)
     {
         TestCase aResource = null;
-
-
+        
+        
         // Start of user code getTestCase
         if(testCaseRepository.hasResource(spSlug, id)) {
             aResource = testCaseRepository.getResource(spSlug, id);
@@ -346,7 +359,7 @@ public class QMManager {
     public static Boolean deleteTestCase(HttpServletRequest httpServletRequest, final String spSlug, final String id)
     {
         Boolean deleted = false;
-
+        
         // Start of user code deleteTestCase
         testCaseRepository.deleteResource(spSlug, id);
         deleted = true;
@@ -356,7 +369,7 @@ public class QMManager {
 
     public static TestCase updateTestCase(HttpServletRequest httpServletRequest, final TestCase aResource, final String spSlug, final String id) {
         TestCase updatedResource = null;
-
+        
         // Start of user code updateTestCase
         if(!QMResourcesFactory.constructURIForTestCase(spSlug, id).equals(aResource.getAbout())) {
             throw new WebApplicationException("Subject URI shall match the endpoint", Response.Status.BAD_REQUEST);
@@ -370,8 +383,8 @@ public class QMManager {
     public static TestPlan getTestPlan(HttpServletRequest httpServletRequest, final String spSlug, final String id)
     {
         TestPlan aResource = null;
-
-
+        
+        
         // Start of user code getTestPlan
         if(testPlanRepository.hasResource(spSlug, id)) {
             aResource = testPlanRepository.getResource(spSlug, id);
@@ -383,7 +396,7 @@ public class QMManager {
     public static Boolean deleteTestPlan(HttpServletRequest httpServletRequest, final String spSlug, final String id)
     {
         Boolean deleted = false;
-
+        
         // Start of user code deleteTestPlan
         testPlanRepository.deleteResource(spSlug, id);
         deleted = true;
@@ -393,7 +406,7 @@ public class QMManager {
 
     public static TestPlan updateTestPlan(HttpServletRequest httpServletRequest, final TestPlan aResource, final String spSlug, final String id) {
         TestPlan updatedResource = null;
-
+        
         // Start of user code updateTestPlan
         if(!QMResourcesFactory.constructURIForTestPlan(spSlug, id).equals(aResource.getAbout())) {
             throw new WebApplicationException("Subject URI shall match the endpoint", Response.Status.BAD_REQUEST);
@@ -407,8 +420,8 @@ public class QMManager {
     public static TestScript getTestScript(HttpServletRequest httpServletRequest, final String spSlug, final String id)
     {
         TestScript aResource = null;
-
-
+        
+        
         // Start of user code getTestScript
         if(testScriptRepository.hasResource(spSlug, id)) {
             aResource = testScriptRepository.getResource(spSlug, id);
@@ -420,7 +433,7 @@ public class QMManager {
     public static Boolean deleteTestScript(HttpServletRequest httpServletRequest, final String spSlug, final String id)
     {
         Boolean deleted = false;
-
+        
         // Start of user code deleteTestScript
         testScriptRepository.deleteResource(spSlug, id);
         deleted = true;
@@ -430,7 +443,7 @@ public class QMManager {
 
     public static TestScript updateTestScript(HttpServletRequest httpServletRequest, final TestScript aResource, final String spSlug, final String id) {
         TestScript updatedResource = null;
-
+        
         // Start of user code updateTestScript
         if(!QMResourcesFactory.constructURIForTestScript(spSlug, id).equals(aResource.getAbout())) {
             throw new WebApplicationException("Subject URI shall match the endpoint", Response.Status.BAD_REQUEST);
@@ -444,8 +457,8 @@ public class QMManager {
     public static TestResult getTestResult(HttpServletRequest httpServletRequest, final String spSlug, final String id)
     {
         TestResult aResource = null;
-
-
+        
+        
         // Start of user code getTestResult
         if(testResultRepository.hasResource(spSlug, id)) {
             aResource = testResultRepository.getResource(spSlug, id);
@@ -457,7 +470,7 @@ public class QMManager {
     public static Boolean deleteTestResult(HttpServletRequest httpServletRequest, final String spSlug, final String id)
     {
         Boolean deleted = false;
-
+        
         // Start of user code deleteTestResult
         testResultRepository.deleteResource(spSlug, id);
         deleted = true;
@@ -467,7 +480,7 @@ public class QMManager {
 
     public static TestResult updateTestResult(HttpServletRequest httpServletRequest, final TestResult aResource, final String spSlug, final String id) {
         TestResult updatedResource = null;
-
+        
         // Start of user code updateTestResult
         if(!QMResourcesFactory.constructURIForTestResult(spSlug, id).equals(aResource.getAbout())) {
             throw new WebApplicationException("Subject URI shall match the endpoint", Response.Status.BAD_REQUEST);
@@ -481,8 +494,8 @@ public class QMManager {
     public static TestExecutionRecord getTestExecutionRecord(HttpServletRequest httpServletRequest, final String spSlug, final String id)
     {
         TestExecutionRecord aResource = null;
-
-
+        
+        
         // Start of user code getTestExecutionRecord
         aResource = testExecutionRecordRepository.getResource(spSlug, id);
         // End of user code
@@ -492,7 +505,7 @@ public class QMManager {
     public static Boolean deleteTestExecutionRecord(HttpServletRequest httpServletRequest, final String spSlug, final String id)
     {
         Boolean deleted = false;
-
+        
         // Start of user code deleteTestExecutionRecord
         testExecutionRecordRepository.deleteResource(spSlug, id);
         deleted = true;
@@ -502,7 +515,7 @@ public class QMManager {
 
     public static TestExecutionRecord updateTestExecutionRecord(HttpServletRequest httpServletRequest, final TestExecutionRecord aResource, final String spSlug, final String id) {
         TestExecutionRecord updatedResource = null;
-
+        
         // Start of user code updateTestExecutionRecord
         if(!QMResourcesFactory.constructURIForTestExecutionRecord(spSlug, id).equals(aResource.getAbout())) {
             throw new WebApplicationException("Subject URI shall match the endpoint", Response.Status.BAD_REQUEST);
