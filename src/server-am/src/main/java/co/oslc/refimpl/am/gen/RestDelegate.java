@@ -68,7 +68,7 @@ public class RestDelegate {
 
     private static final ResourceRepository<Resource> resourceRepository = new MemResourceRepository<>();
     private static final ResourceRepository<LinkType> linkRepository = new MemResourceRepository<>();
-    private static final ResourcesFactory resourcesFactory = new ResourcesFactory(OSLC4JUtils.getPublicURI());
+    private static final ResourcesFactory resourcesFactory = new ResourcesFactory(OSLC4JUtils.getServletURI());
     // End of user code
 
 
