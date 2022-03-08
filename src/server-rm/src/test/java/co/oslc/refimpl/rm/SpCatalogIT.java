@@ -1,3 +1,5 @@
+package co.oslc.refimpl.rm;
+
 import static io.restassured.RestAssured.*;
 import static io.restassured.config.XmlConfig.xmlConfig;
 import static io.restassured.matcher.RestAssuredMatchers.*;
