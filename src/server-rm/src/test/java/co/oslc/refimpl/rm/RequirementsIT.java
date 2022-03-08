@@ -2,6 +2,7 @@ package co.oslc.refimpl.rm;
 
 import io.restassured.response.Response;
 import io.restassured.response.ValidatableResponse;
+import io.restassured.specification.RequestSpecification;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.riot.RDFDataMgr;
@@ -26,9 +27,8 @@ public class RequirementsIT {
 
     @Test
     public void testSvcProvHasServices() {
-        Response response = given()
+        Response response = givenOslcRequest()
                 .auth().basic("admin", "admin")
-                .accept("text/turtle;q=1.0, application/rdf+xml;q=0.9, application/ld+json;q=0.8, application/n-triples;q=0.5")
             .when()
                 .get("http://localhost:8800/services/serviceProviders/sp_single");
 
@@ -37,6 +37,12 @@ public class RequirementsIT {
             .statusCode(200)
             .contentType(isRdf())
             .body(hasCreationFactory(response.getContentType()));
+    }
+
+    private RequestSpecification givenOslcRequest() {
+        return given()
+            .accept("text/turtle;q=1.0, application/rdf+xml;q=0.9, application/ld+json;q=0.8, application/n-triples;q=0.5")
+            .header("OSLC-Core-Version", "3.0");
     }
 
 
