@@ -17,7 +17,10 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.BufferedInputStream;
+import java.io.ByteArrayInputStream;
 import java.io.StringReader;
+import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.concurrent.TimeUnit;
 
@@ -78,7 +81,8 @@ public class RequirementsIT {
     private static Model parseJenaModel(String value, String contentType) {
         Model model = ModelFactory.createDefaultModel();
         // TODO: consider passing the GET URI as a base
-        RDFDataMgr.read(model, new StringReader(value), null, RDFLanguages.contentTypeToLang(contentType));
+        ByteArrayInputStream inputStream = new ByteArrayInputStream(value.getBytes(StandardCharsets.UTF_8));
+        RDFDataMgr.read(model, new BufferedInputStream(inputStream), null, RDFLanguages.contentTypeToLang(contentType));
         return model;
     }
 }
