@@ -7,6 +7,7 @@ import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.riot.RDFDataMgr;
 import org.apache.jena.riot.RDFLanguages;
+import org.apache.jena.sys.JenaSystem;
 import org.eclipse.lyo.oslc4j.core.model.ServiceProvider;
 import org.eclipse.lyo.oslc4j.provider.jena.JenaModelHelper;
 import org.hamcrest.BaseMatcher;
@@ -24,6 +25,12 @@ import static co.oslc.misc.OslcMatchers.isRdf;
 import static io.restassured.RestAssured.given;
 public class RequirementsIT {
     private static final Logger log = LoggerFactory.getLogger(RequirementsIT.class);
+
+
+    static {
+        // to remove init from the perf timing
+        JenaSystem.init();
+    }
 
     @Test
     public void testSvcProvHasServices() {
