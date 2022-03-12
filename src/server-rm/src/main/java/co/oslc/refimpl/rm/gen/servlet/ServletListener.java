@@ -28,6 +28,7 @@ import java.util.NoSuchElementException;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -41,12 +42,13 @@ import org.eclipse.lyo.oslc4j.core.OSLC4JUtils;
 import co.oslc.refimpl.rm.gen.RestDelegate;
 
 // Start of user code imports
+import org.apache.jena.sys.JenaSystem;
 // End of user code
 
 /**
  * During the initialization of this ServletListener, the base URI for the OSLC resources produced by this server is configured through the OSLC4J method setPublicURI().
  * <p>
- * See getConfigurationProperty() for the different alternatives to set this base URI. 
+ * See getConfigurationProperty() for the different alternatives to set this base URI.
  */
 public class ServletListener implements ServletContextListener  {
     private static final Logger logger = LoggerFactory.getLogger(ServletListener.class);
@@ -67,6 +69,7 @@ public class ServletListener implements ServletContextListener  {
         String servletName = "JAX-RS Servlet";
 
         // Start of user code contextInitialized_init
+        JenaSystem.init();
         // End of user code
 
         ServletContext servletContext = servletContextEvent.getServletContext();
@@ -94,7 +97,7 @@ public class ServletListener implements ServletContextListener  {
 
         // Establish connection to data backbone etc ...
         RestDelegate.contextInitializeServletListener(servletContextEvent);
-        
+
         // Start of user code contextInitialized_final
         // End of user code
     }
@@ -108,7 +111,7 @@ public class ServletListener implements ServletContextListener  {
         // Shutdown connections to data backbone etc...
         RestDelegate.contextDestroyServletListener(servletContextEvent);
 
-        
+
         // Start of user code contextDestroyed_final
         // End of user code
     }

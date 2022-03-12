@@ -46,7 +46,9 @@ public class RequirementsIT {
             .assertThat()
             .statusCode(200)
             .contentType(isRdf())
-            .body(hasCreationFactory(response.getContentType()));
+            .body(hasCreationFactory(response.getContentType()),
+                hasCreationFactory(response.getContentType()),
+                hasCreationFactory(response.getContentType()));
     }
 
     private RequestSpecification givenOslcRequest() {
