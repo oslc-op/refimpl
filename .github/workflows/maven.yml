@@ -21,12 +21,9 @@ jobs:
         distribution: ['temurin', 'zulu', 'liberica', 'adopt-openj9', 'microsoft']
         experimental: [false]
         include:
-          - jdk: '15' # Zulu MTS
+          - jdk: '18'
             experimental: false
             distribution: zulu
-          - jdk: '18-ea'
-            distribution: zulu
-            experimental: true
           - jdk: '19-ea'
             distribution: zulu
             experimental: true
