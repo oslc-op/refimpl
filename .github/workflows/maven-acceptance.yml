@@ -18,16 +18,16 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        jdk: ['11', '17']
+        jdk: ['11']
         distribution: ['temurin', 'zulu', 'liberica', 'adopt-openj9', 'microsoft']
         experimental: [false]
         include:
-          - jdk: '15' # Zulu MTS
+          - jdk: '17'
+            distribution: 'temurin'
             experimental: false
-            distribution: zulu
-          - jdk: '18-ea'
-            distribution: zulu
-            experimental: true
+          - jdk: '18'
+            distribution: 'temurin'
+            experimental: false
           # no groovy support for JDK 19 bytecode yet
           # - jdk: '19-ea'
           #   distribution: zulu
