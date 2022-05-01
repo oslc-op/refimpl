@@ -17,16 +17,10 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        jdk: ['11', '17']
-        distribution: ['temurin', 'zulu', 'liberica', 'adopt-openj9', 'microsoft']
+        jdk: ['11', '17', '18']
+        distribution: ['temurin']
         experimental: [false]
         include:
-          - jdk: '15' # Zulu MTS
-            experimental: false
-            distribution: zulu
-          - jdk: '18-ea'
-            distribution: zulu
-            experimental: true
           - jdk: '19-ea'
             distribution: zulu
             experimental: true
