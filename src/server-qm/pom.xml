@@ -21,7 +21,7 @@
         <maven.compiler.release>11</maven.compiler.release>
         <version.lyo>5.0.0-SNAPSHOT</version.lyo>
         <jersey.version>2.35</jersey.version>
-        <swagger.version>2.1.4</swagger.version>
+        <swagger.version>2.2.1</swagger.version>
         <swagger-ui.version>3.52.5</swagger-ui.version>
         <servlet.port>8802</servlet.port>
         <application.contextpath>/</application.contextpath>
