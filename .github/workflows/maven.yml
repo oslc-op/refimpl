@@ -18,7 +18,7 @@ jobs:
       fail-fast: false
       matrix:
         jdk: ['11', '17', '19']
-        distribution: ['temurin']
+        distribution: ['zulu']
         experimental: [false]
         include:
           - jdk: '20-ea'
