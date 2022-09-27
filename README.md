@@ -6,11 +6,23 @@
 [![Gitpod ready-to-code](https://img.shields.io/badge/Gitpod-ready--to--code-blue?logo=gitpod)](https://gitpod.io/#https://github.com/oslc-op/refimpl)
 
 
-## Intro
+## Introduction
 
-RM/CM/QM/AM domains are covered.
+Reference implementation of four OSLC Servers covering each of the 4 OSLC Domains:
+* [Requirements Management](https://oslc-op.github.io/oslc-specs/specs/rm/requirements-management-spec.html)
+* [Change Management](https://oslc-op.github.io/oslc-specs/specs/cm/change-mgt-spec.html)
+* [Quality Management](https://oslc-op.github.io/oslc-specs/specs/qm/quality-management-spec.html)
+* [Architecture Management](https://oslc-op.github.io/oslc-specs/specs/am/architecture-management-spec.html)
 
-## Running OSLC Servers
+## How to run
+Follow the 3 sections below to:
+
+1. [Run the OSLC Servers](#run-the-oslc-servers)
+1. [Populate with sample data](#populate-with-sample-data)
+1. [Navigate to OSLC servers](#navigate-to-oslc-servers)
+
+## Run the OSLC Servers
+There are multiple options to run the OSLC Server.
 
 ### Using built-in servers directly
 
@@ -141,8 +153,20 @@ cd ../server-am/
 mvn cargo:run
 
 ```
+## Populate with sample data
 
-## Navigating OSLC servers
+Once running, you can populate the reference implementation servers with some OSLC resources using one of these 2 alternatives:
+
+* With a Kotlin plugin or IntelliJ: run the client under `src/client-toolchain/src/main/kotlin/co/oslc/refimpl/client/Main.kt`
+
+* As a java program: run the client using `java -jar client-toolchain/target/client-toolchain.jar`.
+
+Parameters:
+1. Use `--help` to see all accepted arguments.
+1. If you omit the argument, all 4 servers will be initialized.
+1. You can initialize one or more servers with - for example - `--init-servers am,qm`.
+
+## Navigate to OSLC servers
 
 After that, OSLC servers are available at the following URLs:
 
@@ -175,11 +199,6 @@ Swagger endpoints are available at the following URIs (use `sp_single` as a `ser
 
 Root Services for the RM Server is under: http://localhost:8800/services/rootservices (similar for other servers).
 
-## Sample data
-
-In order to initialise resources in all reference implementation servers, use the client under `src/client-toolchain/src/main/kotlin/co/oslc/refimpl/client/Main.kt`
-
-> Run the client after Maven build using `java -jar client-toolchain/target/client-toolchain.jar` command in case you don't wish to work with Kotlin code directly.
 
 ## License
 
