@@ -6,6 +6,8 @@ name: CI acceptance tests
 on:
   push:
     branches: [master]
+  pull_request:
+    branches: [master]
   schedule:
     # run integration tests every Thursday
     - cron: "31 20 * * *"
