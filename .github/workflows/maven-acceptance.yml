@@ -23,15 +23,11 @@ jobs:
         experimental: [false]
         include:
           - jdk: '17'
-            distribution: 'temurin'
+            distribution: 'zulu'
             experimental: false
-          # - jdk: '18'
-          #  distribution: 'temurin'
-          #  experimental: true
-          # no groovy support for JDK 19 bytecode yet
-          # - jdk: '19-ea'
-          #   distribution: zulu
-          #   experimental: true
+          - jdk: '19'
+            distribution: 'zulu'
+            experimental: true
     continue-on-error: ${{ matrix.experimental }}
 
     steps:
