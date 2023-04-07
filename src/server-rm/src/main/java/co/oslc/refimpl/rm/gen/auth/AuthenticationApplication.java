@@ -17,8 +17,11 @@
 package co.oslc.refimpl.rm.gen.auth;
 
 import java.util.Base64;
+import java.util.AbstractMap.SimpleEntry;
+import java.util.Optional;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -38,11 +41,6 @@ import org.eclipse.lyo.server.oauth.core.AuthenticationException;
 // End of user code
 
 public class AuthenticationApplication implements Application {
-    // Start of user code class_attributes
-    // End of user code
-
-    // Start of user code class_methods
-    // End of user code
 
     public final static String APPLICATION_NAME = "RM";
     public final static String OAUTH_REALM = "RM";
@@ -50,18 +48,28 @@ public class AuthenticationApplication implements Application {
     protected final static String APPLICATION_CONNECTOR_ADMIN_SESSION_ATTRIBUTE = "co.oslc.refimpl.rm.gen.auth.AdminSession";
     private final static Logger log = LoggerFactory.getLogger(AuthenticationApplication.class);
 
-    public static final String AUTHORIZATION_HEADER = "Authorization";
-    public static final String WWW_AUTHENTICATE_HEADER = "WWW-Authenticate";
-    private static final String BASIC_AUTHORIZATION_PREFIX = "Basic ";
-    public static final String BASIC_AUTHENTICATION_CHALLENGE = BASIC_AUTHORIZATION_PREFIX + "realm=\"" + OAUTH_REALM + "\"";
-    private static final String OAUTH_AUTHORIZATION_PREFIX = "OAuth ";
-    public static final String OAUTH_AUTHENTICATION_CHALLENGE = OAUTH_AUTHORIZATION_PREFIX + "realm=\"" + OAUTH_REALM + "\"";
+    public final static String AUTHORIZATION_HEADER = "Authorization";
+    public final static String WWW_AUTHENTICATE_HEADER = "WWW-Authenticate";
+    private final static String BASIC_AUTHORIZATION_PREFIX = "Basic ";
+    public final static String BASIC_AUTHENTICATION_CHALLENGE = BASIC_AUTHORIZATION_PREFIX + "realm=\"" + OAUTH_REALM + "\"";
+    private final static String OAUTH_AUTHORIZATION_PREFIX = "OAuth ";
+    public final static String OAUTH_AUTHENTICATION_CHALLENGE = OAUTH_AUTHORIZATION_PREFIX + "realm=\"" + OAUTH_REALM + "\"";
 
     private static AuthenticationApplication authenticationApplication;
+
+    // Start of user code class_attributes
+    // End of user code
+
     private String oslcConsumerStoreFilename;
     // TODO: Cleanup this cache so that entries from old keys/token are removed.
     // Currently, this list simply grows all the time.
     private LRUCache<String, String> oauth1TokenToApplicationConnector;
+
+    // Start of user code instance_attributes
+    // End of user code
+
+    // Start of user code class_methods
+    // End of user code
 
     private AuthenticationApplication() {
         // Start of user code constructor_init
@@ -72,14 +80,23 @@ public class AuthenticationApplication implements Application {
         // End of user code
     }
 
+    // Start of user code instance_methods
+    // End of user code
+
     public static AuthenticationApplication getApplication() {
+        // Start of user code getApplication_init
+        // End of user code
         if (null == authenticationApplication) {
             synchronized ("authenticationApplication") {
                 if (null == authenticationApplication) {
                     authenticationApplication = new AuthenticationApplication();
+                    // Start of user code getApplication_mid
+                    // End of user code
                 }
             }
         }
+        // Start of user code getApplication_final
+        // End of user code
         return authenticationApplication;
     }
 
@@ -120,25 +137,16 @@ public class AuthenticationApplication implements Application {
     }
 
     /**
-     * Login based on the credentials in the <code>Authorization</code> request header
+     * Get & Login based on the credentials in the <code>Authorization</code> request header
      * if successful, bind the credentials to the request session.
-     * @throws UnauthorizedException
-     *      if the request did not contain an <code>Authorization</code> header
-     *      or, on problems reading the credentials from the <code>Authorization</code> request header
+     *
+     * @throws AuthenticationException on problems reading the credentials from the <code>Authorization</code> request header
      */
-    public void loginWithBasicAuthentication(HttpServletRequest request) throws AuthenticationException {
+    public Optional<SimpleEntry> getBasicAuthenticationFromRequest(HttpServletRequest request) throws AuthenticationException {
         String authorizationHeader = request.getHeader(AUTHORIZATION_HEADER);
-        if (authorizationHeader == null || "".equals(authorizationHeader)) {
-            throw new AuthenticationException("No basic authentication header identified in request.");
-        }
-
-        if (!authorizationHeader.startsWith(BASIC_AUTHORIZATION_PREFIX)) {
-            throw new AuthenticationException("Only basic access authentication is supported.");
-        }
-
-        String encodedString = authorizationHeader.substring(BASIC_AUTHORIZATION_PREFIX.length());
-        try {
-            String unencodedString = new String(Base64.getDecoder().decode(encodedString), "UTF-8");
+        if (authorizationHeader != null && authorizationHeader.startsWith(BASIC_AUTHORIZATION_PREFIX)) {
+            String encodedString = authorizationHeader.substring(BASIC_AUTHORIZATION_PREFIX.length());
+            String unencodedString = new String(Base64.getDecoder().decode(encodedString), StandardCharsets.UTF_8);
             int seperator = unencodedString.indexOf(':');
             if (seperator == -1) {
                 throw new AuthenticationException("Invalid Authorization header value.");
@@ -146,12 +154,11 @@ public class AuthenticationApplication implements Application {
             String username = unencodedString.substring(0, seperator);
             String password = unencodedString.substring(seperator + 1);
             login(request, username, password);
-        } catch (UnsupportedEncodingException e) {
-            throw new AuthenticationException(e);
-        } catch (AuthenticationException e) {
-            throw new AuthenticationException(e);
+
+            bindApplicationConnectorToSession(request, unencodedString);
+            return Optional.of(new SimpleEntry<>(username, password));
         }
-        return;
+        return Optional.empty();
     }
 
     @Override
@@ -218,18 +225,19 @@ public class AuthenticationApplication implements Application {
     /**
      * Send error response when the request was not authorized
      *
-     * @param response      an error response
-     * @param e             Exception with error message
-     * @param authChallenge OAuth challenge
+     * @param response an error response
+     * @param e        Exception with error message
      * @throws IOException
      * @throws ServletException
      */
-    public void sendUnauthorizedResponse(HttpServletResponse response, Exception e) throws IOException, ServletException {
+    public void sendUnauthorizedResponse(HttpServletRequest request, HttpServletResponse response, Exception e) throws IOException, ServletException {
         // Start of user code sendUnauthorizedResponse_init
         // End of user code
         // Accept basic access or OAuth authentication.
         response.addHeader(WWW_AUTHENTICATE_HEADER, OAUTH_AUTHENTICATION_CHALLENGE);
         response.addHeader(WWW_AUTHENTICATE_HEADER, BASIC_AUTHENTICATION_CHALLENGE);
+        // Start of user code sendUnauthorizedResponse_mid
+        // End of user code
         response.sendError(HttpServletResponse.SC_UNAUTHORIZED);
         // Start of user code sendUnauthorizedResponse_final
         // End of user code

@@ -40,68 +40,64 @@ import org.eclipse.lyo.oslc.domains.rm.RequirementCollection;
 
 public class ResourcesFactory {
 
+    private String basePath;
+
     // Start of user code class_attributes
     // End of user code
-    
+
+    public ResourcesFactory(String basePath) {
+        this.basePath = basePath;
+    }
+
     // Start of user code class_methods
     // End of user code
 
     //methods for Requirement resource
     
-    public static Requirement createRequirement(final String serviceProviderId, final String resourceId)
-    {
+    public Requirement createRequirement(final String serviceProviderId, final String resourceId) {
         return new Requirement(constructURIForRequirement(serviceProviderId, resourceId));
     }
     
-    public static URI constructURIForRequirement(final String serviceProviderId, final String resourceId)
-    {
-        String basePath = OSLC4JUtils.getServletURI();
+    public URI constructURIForRequirement(final String serviceProviderId, final String resourceId) {
         Map<String, Object> pathParameters = new HashMap<String, Object>();
         pathParameters.put("serviceProviderId", serviceProviderId);
         pathParameters.put("resourceId", resourceId);
         String instanceURI = "Requirement/{serviceProviderId}/{resourceId}";
     
-        final UriBuilder builder = UriBuilder.fromUri(basePath);
+        final UriBuilder builder = UriBuilder.fromUri(this.basePath);
         return builder.path(instanceURI).buildFromMap(pathParameters);
     }
     
-    public static Link constructLinkForRequirement(final String serviceProviderId, final String resourceId , final String label)
-    {
+    public Link constructLinkForRequirement(final String serviceProviderId, final String resourceId , final String label) {
         return new Link(constructURIForRequirement(serviceProviderId, resourceId), label);
     }
     
-    public static Link constructLinkForRequirement(final String serviceProviderId, final String resourceId)
-    {
+    public Link constructLinkForRequirement(final String serviceProviderId, final String resourceId) {
         return new Link(constructURIForRequirement(serviceProviderId, resourceId));
     }
     
 
     //methods for RequirementCollection resource
     
-    public static RequirementCollection createRequirementCollection(final String serviceProviderId, final String resourceId)
-    {
+    public RequirementCollection createRequirementCollection(final String serviceProviderId, final String resourceId) {
         return new RequirementCollection(constructURIForRequirementCollection(serviceProviderId, resourceId));
     }
     
-    public static URI constructURIForRequirementCollection(final String serviceProviderId, final String resourceId)
-    {
-        String basePath = OSLC4JUtils.getServletURI();
+    public URI constructURIForRequirementCollection(final String serviceProviderId, final String resourceId) {
         Map<String, Object> pathParameters = new HashMap<String, Object>();
         pathParameters.put("serviceProviderId", serviceProviderId);
         pathParameters.put("resourceId", resourceId);
         String instanceURI = "RequirementCollection/{serviceProviderId}/{resourceId}";
     
-        final UriBuilder builder = UriBuilder.fromUri(basePath);
+        final UriBuilder builder = UriBuilder.fromUri(this.basePath);
         return builder.path(instanceURI).buildFromMap(pathParameters);
     }
     
-    public static Link constructLinkForRequirementCollection(final String serviceProviderId, final String resourceId , final String label)
-    {
+    public Link constructLinkForRequirementCollection(final String serviceProviderId, final String resourceId , final String label) {
         return new Link(constructURIForRequirementCollection(serviceProviderId, resourceId), label);
     }
     
-    public static Link constructLinkForRequirementCollection(final String serviceProviderId, final String resourceId)
-    {
+    public Link constructLinkForRequirementCollection(final String serviceProviderId, final String resourceId) {
         return new Link(constructURIForRequirementCollection(serviceProviderId, resourceId));
     }
     

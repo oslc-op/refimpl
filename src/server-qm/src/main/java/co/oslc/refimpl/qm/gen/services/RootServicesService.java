@@ -29,7 +29,7 @@ import javax.ws.rs.core.UriBuilder;
 import javax.ws.rs.core.UriInfo;
 import org.eclipse.lyo.oslc4j.core.model.OslcMediaType;
 import org.eclipse.lyo.oslc4j.core.OSLC4JUtils;
-import co.oslc.refimpl.qm.gen.QMConstants;
+import co.oslc.refimpl.qm.gen.ServerConstants;
 import co.oslc.refimpl.qm.gen.auth.AuthenticationApplication;
 import co.oslc.refimpl.qm.gen.servlet.ServiceProviderCatalogSingleton;
 
@@ -91,7 +91,7 @@ public class RootServicesService {
         MediaType mediaType = MediaType.valueOf("application/rdf+xml");
         ResponseBuilder builder = Response.ok(response, mediaType);
         builder.type("application/rdf+xml; charset=UTF-8");
-        builder.header(QMConstants.HDR_OSLC_VERSION, QMConstants.OSLC_VERSION_V2);
+        builder.header(ServerConstants.HDR_OSLC_VERSION, ServerConstants.OSLC_VERSION_V2);
         // Start of user code final
         // End of user code
         return builder.build();

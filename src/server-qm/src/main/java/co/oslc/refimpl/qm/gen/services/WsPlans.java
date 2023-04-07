@@ -36,6 +36,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
+import javax.inject.Inject;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -80,7 +81,7 @@ import org.eclipse.lyo.oslc4j.core.model.Link;
 import org.eclipse.lyo.oslc4j.core.model.AbstractResource;
 
 import co.oslc.refimpl.qm.gen.RestDelegate;
-import co.oslc.refimpl.qm.gen.QMConstants;
+import co.oslc.refimpl.qm.gen.ServerConstants;
 import org.eclipse.lyo.oslc.domains.qm.Oslc_qmDomainConstants;
 import co.oslc.refimpl.qm.gen.servlet.ServiceProviderCatalogSingleton;
 import org.eclipse.lyo.oslc.domains.qm.TestPlan;
@@ -99,6 +100,7 @@ public class WsPlans
     @Context private HttpServletRequest httpServletRequest;
     @Context private HttpServletResponse httpServletResponse;
     @Context private UriInfo uriInfo;
+    @Inject  private RestDelegate delegate;
 
     private static final Logger log = LoggerFactory.getLogger(WsPlans.class);
 
@@ -145,13 +147,13 @@ public class WsPlans
         // Start of user code getResource_init
         // End of user code
 
-        final TestPlan aTestPlan = RestDelegate.getTestPlan(httpServletRequest, spSlug, id);
+        final TestPlan aTestPlan = delegate.getTestPlan(httpServletRequest, spSlug, id);
 
         if (aTestPlan != null) {
             // Start of user code getTestPlan
             // End of user code
-            httpServletResponse.setHeader("ETag", RestDelegate.getETagFromTestPlan(aTestPlan));
-            httpServletResponse.addHeader(QMConstants.HDR_OSLC_VERSION, QMConstants.OSLC_VERSION_V2);
+            httpServletResponse.setHeader("ETag", delegate.getETagFromTestPlan(aTestPlan));
+            httpServletResponse.addHeader(ServerConstants.HDR_OSLC_VERSION, ServerConstants.OSLC_VERSION_V2);
             return aTestPlan;
         }
 
@@ -181,7 +183,7 @@ public class WsPlans
         // Start of user code getTestPlanAsHtml_init
         // End of user code
 
-        final TestPlan aTestPlan = RestDelegate.getTestPlan(httpServletRequest, spSlug, id);
+        final TestPlan aTestPlan = delegate.getTestPlan(httpServletRequest, spSlug, id);
 
         if (aTestPlan != null) {
             httpServletRequest.setAttribute("aTestPlan", aTestPlan);
@@ -226,7 +228,7 @@ public class WsPlans
         //TODO: adjust the preview height & width values from the default values provided above.
         // End of user code
 
-        final TestPlan aTestPlan = RestDelegate.getTestPlan(httpServletRequest, spSlug, id);
+        final TestPlan aTestPlan = delegate.getTestPlan(httpServletRequest, spSlug, id);
 
         if (aTestPlan != null) {
             final Compact compact = new Compact();
@@ -249,7 +251,7 @@ public class WsPlans
             largePreview.setDocument(UriBuilder.fromUri(aTestPlan.getAbout()).path("largePreview").build());
             compact.setLargePreview(largePreview);
 
-            httpServletResponse.addHeader(QMConstants.HDR_OSLC_VERSION, QMConstants.OSLC_VERSION_V2);
+            httpServletResponse.addHeader(ServerConstants.HDR_OSLC_VERSION, ServerConstants.OSLC_VERSION_V2);
             addCORSHeaders(httpServletResponse);
             return compact;
         }
@@ -266,7 +268,7 @@ public class WsPlans
         // Start of user code getTestPlanAsHtmlSmallPreview_init
         // End of user code
 
-        final TestPlan aTestPlan = RestDelegate.getTestPlan(httpServletRequest, spSlug, id);
+        final TestPlan aTestPlan = delegate.getTestPlan(httpServletRequest, spSlug, id);
 
         if (aTestPlan != null) {
             httpServletRequest.setAttribute("aTestPlan", aTestPlan);
@@ -274,7 +276,7 @@ public class WsPlans
             // End of user code
 
             RequestDispatcher rd = httpServletRequest.getRequestDispatcher("/co/oslc/refimpl/qm/gen/testplansmallpreview.jsp");
-            httpServletResponse.addHeader(QMConstants.HDR_OSLC_VERSION, QMConstants.OSLC_VERSION_V2);
+            httpServletResponse.addHeader(ServerConstants.HDR_OSLC_VERSION, ServerConstants.OSLC_VERSION_V2);
             addCORSHeaders(httpServletResponse);
             rd.forward(httpServletRequest, httpServletResponse);
             return;
@@ -293,7 +295,7 @@ public class WsPlans
         // Start of user code getTestPlanAsHtmlLargePreview_init
         // End of user code
 
-        final TestPlan aTestPlan = RestDelegate.getTestPlan(httpServletRequest, spSlug, id);
+        final TestPlan aTestPlan = delegate.getTestPlan(httpServletRequest, spSlug, id);
 
         if (aTestPlan != null) {
             httpServletRequest.setAttribute("aTestPlan", aTestPlan);
@@ -301,7 +303,7 @@ public class WsPlans
             // End of user code
 
             RequestDispatcher rd = httpServletRequest.getRequestDispatcher("/co/oslc/refimpl/qm/gen/testplanlargepreview.jsp");
-            httpServletResponse.addHeader(QMConstants.HDR_OSLC_VERSION, QMConstants.OSLC_VERSION_V2);
+            httpServletResponse.addHeader(ServerConstants.HDR_OSLC_VERSION, ServerConstants.OSLC_VERSION_V2);
             addCORSHeaders(httpServletResponse);
             rd.forward(httpServletRequest, httpServletResponse);
             return;
@@ -330,14 +332,14 @@ public class WsPlans
     {
         // Start of user code deleteTestPlan_init
         // End of user code
-        final TestPlan aResource = RestDelegate.getTestPlan(httpServletRequest, spSlug, id);
+        final TestPlan aResource = delegate.getTestPlan(httpServletRequest, spSlug, id);
 
         if (aResource != null) {
             // Start of user code deleteTestPlan
             // End of user code
-            boolean deleted = RestDelegate.deleteTestPlan(httpServletRequest, spSlug, id);
+            boolean deleted = delegate.deleteTestPlan(httpServletRequest, spSlug, id);
             if (deleted)
-                return Response.ok().header(QMConstants.HDR_OSLC_VERSION, QMConstants.OSLC_VERSION_V2).build();
+                return Response.ok().header(ServerConstants.HDR_OSLC_VERSION, ServerConstants.OSLC_VERSION_V2).build();
             else
                 throw new WebApplicationException(Status.INTERNAL_SERVER_ERROR);
         }
@@ -368,17 +370,17 @@ public class WsPlans
     {
         // Start of user code updateTestPlan_init
         // End of user code
-        final TestPlan originalResource = RestDelegate.getTestPlan(httpServletRequest, spSlug, id);
+        final TestPlan originalResource = delegate.getTestPlan(httpServletRequest, spSlug, id);
 
         if (originalResource != null) {
-            final String originalETag = RestDelegate.getETagFromTestPlan(originalResource);
+            final String originalETag = delegate.getETagFromTestPlan(originalResource);
 
             if ((eTagHeader == null) || (originalETag.equals(eTagHeader))) {
                 // Start of user code updateTestPlan
                 // End of user code
-                final TestPlan updatedResource = RestDelegate.updateTestPlan(httpServletRequest, aResource, spSlug, id);
-                httpServletResponse.setHeader("ETag", RestDelegate.getETagFromTestPlan(updatedResource));
-                return Response.ok().header(QMConstants.HDR_OSLC_VERSION, QMConstants.OSLC_VERSION_V2).build();
+                final TestPlan updatedResource = delegate.updateTestPlan(httpServletRequest, aResource, spSlug, id);
+                httpServletResponse.setHeader("ETag", delegate.getETagFromTestPlan(updatedResource));
+                return Response.ok().header(ServerConstants.HDR_OSLC_VERSION, ServerConstants.OSLC_VERSION_V2).build();
             }
             else {
                 throw new WebApplicationException(Status.PRECONDITION_FAILED);

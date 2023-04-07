@@ -25,6 +25,7 @@
 package co.oslc.refimpl.am.gen;
 
 
+import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.ServletContextEvent;
 import java.util.List;
@@ -63,6 +64,8 @@ public class RestDelegate {
     private static final Logger log = LoggerFactory.getLogger(RestDelegate.class);
 
     
+    
+    @Inject ResourcesFactory resourcesFactory;
     // Start of user code class_attributes
     public static final String SP_DEFAULT = "sp_single";
 
@@ -70,27 +73,17 @@ public class RestDelegate {
     private static final ResourceRepository<LinkType> linkRepository = new MemResourceRepository<>();
     // End of user code
     
+    public RestDelegate() {
+        log.trace("Delegate is initialized");
+    }
+    
     
     // Start of user code class_methods
     // End of user code
 
-    public static void contextInitializeServletListener(final ServletContextEvent servletContextEvent)
-    {
-        
-        // Start of user code contextInitializeServletListener
-        OSLC4JUtils.setLyoStorePagingPreciseLimit(false);
-        // TODO Implement code to establish connection to data backbone etc ...
-        // End of user code
-        
-    }
-
-    public static void contextDestroyServletListener(ServletContextEvent servletContextEvent) 
-    {
-        
-        // Start of user code contextDestroyed
-        // TODO Implement code to shutdown connections to data backbone etc...
-        // End of user code
-    }
+    //The methods contextInitializeServletListener() and contextDestroyServletListener() no longer exits
+    //Migrate any user-specific code blocks to the class co.oslc.refimpl.am.gen.servlet.ServletListener
+    //Any user-specific code should be found in *.lost files.
 
     public static ServiceProviderInfo[] getServiceProviderInfos(HttpServletRequest httpServletRequest)
     {
@@ -105,7 +98,7 @@ public class RestDelegate {
         return serviceProviderInfos;
     }
 
-    public static List<Resource> queryResources(HttpServletRequest httpServletRequest, String where, String prefix, boolean paging, int page, int limit)
+    public List<Resource> queryResources(HttpServletRequest httpServletRequest, String where, String prefix, boolean paging, int page, int limit)
     {
         List<Resource> resources = null;
         
@@ -115,7 +108,7 @@ public class RestDelegate {
         // End of user code
         return resources;
     }
-    public static List<Resource> ResourceSelector(HttpServletRequest httpServletRequest, String terms)   
+    public List<Resource> ResourceSelector(HttpServletRequest httpServletRequest, String terms)
     {
         List<Resource> resources = null;
         
@@ -125,7 +118,7 @@ public class RestDelegate {
         // End of user code
         return resources;
     }
-    public static Resource createResource(HttpServletRequest httpServletRequest, final Resource aResource)
+    public Resource createResource(HttpServletRequest httpServletRequest, final Resource aResource)
     {
         Resource newResource = null;
         
@@ -136,7 +129,7 @@ public class RestDelegate {
             id = UUID.randomUUID().toString();
             aResource.setIdentifier(id);
         }
-        URI uri = ResourcesFactory.constructURIForResource(id);
+        URI uri = resourcesFactory.constructURIForResource(id);
         aResource.setAbout(uri);
         aResource.setCreated(new Date());
         resourceRepository.addResource(SP_DEFAULT, id, aResource);
@@ -147,7 +140,7 @@ public class RestDelegate {
 
 
 
-    public static List<LinkType> queryLinkTypes(HttpServletRequest httpServletRequest, String where, String prefix, boolean paging, int page, int limit)
+    public List<LinkType> queryLinkTypes(HttpServletRequest httpServletRequest, String where, String prefix, boolean paging, int page, int limit)
     {
         List<LinkType> resources = null;
         
@@ -157,7 +150,7 @@ public class RestDelegate {
         // End of user code
         return resources;
     }
-    public static List<LinkType> LinkTypeSelector(HttpServletRequest httpServletRequest, String terms)   
+    public List<LinkType> LinkTypeSelector(HttpServletRequest httpServletRequest, String terms)
     {
         List<LinkType> resources = null;
         
@@ -167,7 +160,7 @@ public class RestDelegate {
         // End of user code
         return resources;
     }
-    public static LinkType createLinkType(HttpServletRequest httpServletRequest, final LinkType aResource)
+    public LinkType createLinkType(HttpServletRequest httpServletRequest, final LinkType aResource)
     {
         LinkType newResource = null;
         
@@ -178,7 +171,7 @@ public class RestDelegate {
             id = UUID.randomUUID().toString();
             aResource.setIdentifier(id);
         }
-        URI uri = ResourcesFactory.constructURIForLinkType(id);
+        URI uri = resourcesFactory.constructURIForLinkType(id);
         aResource.setAbout(uri);
         aResource.setCreated(new Date());
         linkRepository.addResource(SP_DEFAULT, id, aResource);
@@ -190,7 +183,7 @@ public class RestDelegate {
 
 
 
-    public static Resource getResource(HttpServletRequest httpServletRequest, final String id)
+    public Resource getResource(HttpServletRequest httpServletRequest, final String id)
     {
         Resource aResource = null;
         
@@ -203,7 +196,7 @@ public class RestDelegate {
         return aResource;
     }
 
-    public static Boolean deleteResource(HttpServletRequest httpServletRequest, final String id)
+    public Boolean deleteResource(HttpServletRequest httpServletRequest, final String id)
     {
         Boolean deleted = false;
         
@@ -215,11 +208,11 @@ public class RestDelegate {
         return deleted;
     }
 
-    public static Resource updateResource(HttpServletRequest httpServletRequest, final Resource aResource, final String id) {
+    public Resource updateResource(HttpServletRequest httpServletRequest, final Resource aResource, final String id) {
         Resource updatedResource = null;
         
         // Start of user code updateResource
-        if(!ResourcesFactory.constructURIForResource(id).equals(aResource.getAbout())) {
+        if(!resourcesFactory.constructURIForResource(id).equals(aResource.getAbout())) {
             throw new WebApplicationException("Subject URI shall match the endpoint", Response.Status.BAD_REQUEST);
         }
         aResource.setModified(new Date());
@@ -228,7 +221,7 @@ public class RestDelegate {
         // End of user code
         return updatedResource;
     }
-    public static LinkType getLinkType(HttpServletRequest httpServletRequest, final String id)
+    public LinkType getLinkType(HttpServletRequest httpServletRequest, final String id)
     {
         LinkType aResource = null;
         
@@ -240,7 +233,7 @@ public class RestDelegate {
         return aResource;
     }
 
-    public static Boolean deleteLinkType(HttpServletRequest httpServletRequest, final String id)
+    public Boolean deleteLinkType(HttpServletRequest httpServletRequest, final String id)
     {
         Boolean deleted = false;
         
@@ -252,11 +245,11 @@ public class RestDelegate {
         return deleted;
     }
 
-    public static LinkType updateLinkType(HttpServletRequest httpServletRequest, final LinkType aResource, final String id) {
+    public LinkType updateLinkType(HttpServletRequest httpServletRequest, final LinkType aResource, final String id) {
         LinkType updatedResource = null;
         
         // Start of user code updateLinkType
-        if(!ResourcesFactory.constructURIForLinkType(id).equals(aResource.getAbout())) {
+        if(!resourcesFactory.constructURIForLinkType(id).equals(aResource.getAbout())) {
             throw new WebApplicationException("Subject URI shall match the endpoint", Response.Status.BAD_REQUEST);
         }
         aResource.setModified(new Date());
@@ -267,7 +260,7 @@ public class RestDelegate {
         return updatedResource;
     }
 
-    public static String getETagFromLinkType(final LinkType aResource)
+    public String getETagFromLinkType(final LinkType aResource)
     {
         String eTag = null;
         // Start of user code getETagFromLinkType
@@ -275,7 +268,7 @@ public class RestDelegate {
         // End of user code
         return eTag;
     }
-    public static String getETagFromResource(final Resource aResource)
+    public String getETagFromResource(final Resource aResource)
     {
         String eTag = null;
         // Start of user code getETagFromResource

@@ -28,7 +28,6 @@ import java.util.NoSuchElementException;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -48,7 +47,7 @@ import org.apache.jena.sys.JenaSystem;
 /**
  * During the initialization of this ServletListener, the base URI for the OSLC resources produced by this server is configured through the OSLC4J method setPublicURI().
  * <p>
- * See getConfigurationProperty() for the different alternatives to set this base URI.
+ * See getConfigurationProperty() for the different alternatives to set this base URI. 
  */
 public class ServletListener implements ServletContextListener  {
     private static final Logger logger = LoggerFactory.getLogger(ServletListener.class);
@@ -70,6 +69,7 @@ public class ServletListener implements ServletContextListener  {
 
         // Start of user code contextInitialized_init
         JenaSystem.init();
+        OSLC4JUtils.setLyoStorePagingPreciseLimit(false);
         // End of user code
 
         ServletContext servletContext = servletContextEvent.getServletContext();
@@ -95,9 +95,10 @@ public class ServletListener implements ServletContextListener  {
 
         logger.info("servletListner contextInitialized.");
 
-        // Establish connection to data backbone etc ...
-        RestDelegate.contextInitializeServletListener(servletContextEvent);
-
+        // Start of user code contextInitialized_mid
+        // TODO Implement code to establish connection to data backbone etc ...
+        // End of user code
+        
         // Start of user code contextInitialized_final
         // End of user code
     }
@@ -107,13 +108,7 @@ public class ServletListener implements ServletContextListener  {
     {
         // Start of user code contextDestroyed_init
         // End of user code
-
-        // Shutdown connections to data backbone etc...
-        RestDelegate.contextDestroyServletListener(servletContextEvent);
-
-
-        // Start of user code contextDestroyed_final
-        // End of user code
+        
     }
 
     // Start of user code class_methods

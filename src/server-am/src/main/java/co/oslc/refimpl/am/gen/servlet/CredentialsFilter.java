@@ -18,6 +18,11 @@ package co.oslc.refimpl.am.gen.servlet;
 
 import java.io.IOException;
 import java.util.Enumeration;
+import java.util.AbstractMap.SimpleEntry;
+import java.util.Optional;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -49,8 +54,10 @@ import co.oslc.refimpl.am.gen.auth.AuthenticationApplication;
 // End of user code
 
 public class CredentialsFilter implements Filter {
+    private final static Logger log = LoggerFactory.getLogger(CredentialsFilter.class);
+
     //For debugging, it might be convenient sometimes to deactivate oauth authentication. By enabling this flag, all http requests are no longer protected.
-    private static final Boolean ignoreResourceProtection = false;
+    private static Boolean ignoreResourceProtection = false;
     // Start of user code override_ignoreResourceProtection
     // End of user code
 
@@ -63,7 +70,6 @@ public class CredentialsFilter implements Filter {
     /**
      * Check if the resource is protected
      * 
-     * @param requestUri the uri of the resource which will be checked
      * @return true - the resource is protected, otherwise false
      */
     private boolean isProtectedResource(HttpServletRequest httpRequest) {
@@ -99,54 +105,77 @@ public class CredentialsFilter implements Filter {
 
             if (isProtectedResource(request)) {
                 AuthenticationApplication authenticationApplication = AuthenticationApplication.getApplication();
+                // Start of user code doFilter_protectedResource_init
+                // End of user code
                 
+                //Check if this is an OAuth1 request.
                 //String clientRequestURL = UriBuilder.fromUri(OSLC4JUtils.getServletURI()).path(request.getPathInfo()).build().toString();
                 OAuthMessage message = OAuthServlet.getMessage(request, null);
-                // First check if this is an OAuth request.
+                // Start of user code checkOauth1_Init
+                // End of user code
+                log.trace(request.getPathInfo() + " - checking for oauth1 authentication");
                 if (message.getToken() != null) {
+                    log.trace(request.getPathInfo() + " - Found an oauth1 token. Validating it.");
                     try {
                         OAuthRequest oAuthRequest = new OAuthRequest(request);
                         oAuthRequest.validate();
                         String applicationConnector = authenticationApplication.getApplicationConnector(message.getToken());
                         if (applicationConnector == null) {
-                            // Start of user code nullApplicationConnectorForOauth
+                            // Start of user code checkOauth1_applicationConnectorNull
                             // End of user code
+                            log.trace(request.getPathInfo() + " - oauth1 authentication not valid. Raising an exception TOKEN_REJECTED");
                             throw new OAuthProblemException(OAuth.Problems.TOKEN_REJECTED);
                         }
+                        log.trace(request.getPathInfo() + " - oauth1 authentication is valid. Done.");
                         authenticationApplication.bindApplicationConnectorToSession(request, applicationConnector);
                     } catch (OAuthException e) {
-                        // Start of user code oauthException
+                        // Start of user code checkOauth1_exception
                         // End of user code
                         OAuthServlet.handleException(response, e, AuthenticationApplication.OAUTH_REALM);
                         return;
                     }
                 } 
                 else {
-                    // This is not an OAuth request, so check for basic authentication
-                    // Start of user code basicAuth_Init
+                    // This is not an OAuth request, so check for authentication in the session
+                    // Start of user code checkSession_Init
                     // End of user code
+                    log.trace(request.getPathInfo() + " - checking for authentication in the session");
                     String applicationConnector = authenticationApplication.getApplicationConnectorFromSession(request);
-                    if (null == applicationConnector) {
+                    if (null != applicationConnector) {
+                        log.trace(request.getPathInfo() + " - session authentication done");
+                        // Start of user code checkSession_Final
+                        // End of user code
+                    } else {
+                        // Start of user code basicAuth_Init
+                    // End of user code
+                        log.trace(request.getPathInfo() + " - checking for basic authentication");
                         // Start of user code basicAuth_nullConnector
                         // End of user code
                         try {
-                            authenticationApplication.loginWithBasicAuthentication(request);
-                            if (null == authenticationApplication.getApplicationConnectorFromSession(request)) {
-                                //So the login still failed
-                                throw new AuthenticationException();
+                            //Check for basic authentication
+                            Optional<SimpleEntry> basicAuthenticationFromRequest = authenticationApplication.getBasicAuthenticationFromRequest(request);
+                            if (basicAuthenticationFromRequest.isEmpty()) {
+                                log.trace(request.getPathInfo() + " - no authentication identified. Throwing an exception");
+                                throw new AuthenticationException("No or invalid basic authentication header identified in request.");
+                            } else {
+                                log.trace(request.getPathInfo() + " - basic authentication done");
+                                // Start of user code basicAuth_Final
+                                // End of user code
                             }
                         } catch (AuthenticationException e) {
                             // Start of user code basicAuth_authenticationException
                             // End of user code
-                            authenticationApplication.sendUnauthorizedResponse(response, e);
+                            authenticationApplication.sendUnauthorizedResponse(request, response, e);
                             return;
                         } 
                     }
                     // Start of user code basicAuth_final
                     // End of user code
                 }
+            // Start of user code doFilter_protectedResource_final
+            // End of user code
             } else {
-                // Start of user code resource_not_protected
+                // Start of user code doFilter_notProtectedResource
                 // End of user code
             }
         }
@@ -161,6 +190,9 @@ public class CredentialsFilter implements Filter {
         // Validates a user's ID and password.
         config.setApplication(authenticationApplication);
 
+        // Start of user code init
+        // End of user code
+
         /*
          * Override some SimpleTokenStrategy methods so that we can keep the
          * BugzillaConnection associated with the OAuth tokens.
@@ -169,15 +201,27 @@ public class CredentialsFilter implements Filter {
             @Override
             public void markRequestTokenAuthorized(HttpServletRequest httpRequest, String requestToken)
                     throws OAuthProblemException {
+                // Start of user code markRequestTokenAuthorized_init
+                // End of user code
                 authenticationApplication.putApplicationConnector(requestToken, authenticationApplication.getApplicationConnectorFromSession(httpRequest));
+                // Start of user code markRequestTokenAuthorized_mid
+                // End of user code
                 super.markRequestTokenAuthorized(httpRequest, requestToken);
+                // Start of user code markRequestTokenAuthorized_final
+                // End of user code
             }
 
             @Override
             public void generateAccessToken(OAuthRequest oAuthRequest) throws OAuthProblemException, IOException {
+                // Start of user code generateAccessToken_init
+                // End of user code
                 String requestToken = oAuthRequest.getMessage().getToken();
+                // Start of user code generateAccessToken_mid
+                // End of user code
                 super.generateAccessToken(oAuthRequest);
                 authenticationApplication.moveApplicationConnector(requestToken, oAuthRequest.getAccessor().accessToken);
+                // Start of user code generateAccessToken_final
+                // End of user code
             }
         });
 
@@ -185,7 +229,7 @@ public class CredentialsFilter implements Filter {
             // For now, hard-code the consumers.
             config.setConsumerStore(new FileSystemConsumerStore(authenticationApplication.getOslcConsumerStoreFilename()));
         } catch (Throwable t) {
-            System.err.println("Error initializing the OAuth consumer store: " + t.getMessage());
+            log.error("Error initializing the OAuth consumer store: " + t.getMessage());
         }
     }
 }

@@ -25,6 +25,7 @@
 package co.oslc.refimpl.qm.gen;
 
 
+import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.ServletContextEvent;
 import java.util.List;
@@ -40,18 +41,25 @@ import co.oslc.refimpl.qm.gen.ServiceProviderInfo;
 import org.eclipse.lyo.oslc.domains.Agent;
 import org.eclipse.lyo.oslc.domains.cm.ChangeRequest;
 import org.eclipse.lyo.oslc.domains.config.ChangeSet;
+import org.eclipse.lyo.oslc.domains.RdfsClass;
+import org.eclipse.lyo.oslc.domains.config.Component;
+import org.eclipse.lyo.oslc.domains.config.ConceptResource;
+import org.eclipse.lyo.oslc.domains.config.Configuration;
+import org.eclipse.lyo.oslc.domains.config.Contribution;
 import org.eclipse.lyo.oslc.domains.cm.Defect;
 import org.eclipse.lyo.oslc4j.core.model.Discussion;
 import org.eclipse.lyo.oslc.domains.Person;
 import org.eclipse.lyo.oslc.domains.cm.Priority;
 import org.eclipse.lyo.oslc.domains.rm.Requirement;
 import org.eclipse.lyo.oslc.domains.rm.RequirementCollection;
+import org.eclipse.lyo.oslc.domains.config.Selections;
 import org.eclipse.lyo.oslc.domains.cm.State;
 import org.eclipse.lyo.oslc.domains.qm.TestCase;
 import org.eclipse.lyo.oslc.domains.qm.TestExecutionRecord;
 import org.eclipse.lyo.oslc.domains.qm.TestPlan;
 import org.eclipse.lyo.oslc.domains.qm.TestResult;
 import org.eclipse.lyo.oslc.domains.qm.TestScript;
+import org.eclipse.lyo.oslc.domains.config.VersionResource;
 
 
 
@@ -75,6 +83,8 @@ public class RestDelegate {
     private static final Logger log = LoggerFactory.getLogger(RestDelegate.class);
 
     
+    
+    @Inject ResourcesFactory resourcesFactory;
     // Start of user code class_attributes
     public static final String SP_DEFAULT = "sp_single";
     public static final int SELECTOR_LIMIT = 30;
@@ -86,26 +96,17 @@ public class RestDelegate {
     private static final ResourceRepository<TestScript> testScriptRepository = new MemResourceRepository<>();
     // End of user code
     
+    public RestDelegate() {
+        log.trace("Delegate is initialized");
+    }
+    
     
     // Start of user code class_methods
     // End of user code
 
-    public static void contextInitializeServletListener(final ServletContextEvent servletContextEvent)
-    {
-        
-        // Start of user code contextInitializeServletListener
-        OSLC4JUtils.setLyoStorePagingPreciseLimit(false);
-        // End of user code
-        
-    }
-
-    public static void contextDestroyServletListener(ServletContextEvent servletContextEvent) 
-    {
-        
-        // Start of user code contextDestroyed
-        // TODO Implement code to shutdown connections to data backbone etc...
-        // End of user code
-    }
+    //The methods contextInitializeServletListener() and contextDestroyServletListener() no longer exits
+    //Migrate any user-specific code blocks to the class co.oslc.refimpl.qm.gen.servlet.ServletListener
+    //Any user-specific code should be found in *.lost files.
 
     public static ServiceProviderInfo[] getServiceProviderInfos(HttpServletRequest httpServletRequest)
     {
@@ -120,7 +121,7 @@ public class RestDelegate {
         return serviceProviderInfos;
     }
 
-    public static List<TestCase> queryTestCases(HttpServletRequest httpServletRequest, String where, String prefix, boolean paging, int page, int limit)
+    public List<TestCase> queryTestCases(HttpServletRequest httpServletRequest, String where, String prefix, boolean paging, int page, int limit)
     {
         List<TestCase> resources = null;
         
@@ -130,7 +131,7 @@ public class RestDelegate {
         // End of user code
         return resources;
     }
-    public static List<TestCase> TestCaseSelector(HttpServletRequest httpServletRequest, String terms)   
+    public List<TestCase> TestCaseSelector(HttpServletRequest httpServletRequest, String terms)
     {
         List<TestCase> resources = null;
         
@@ -140,7 +141,7 @@ public class RestDelegate {
         // End of user code
         return resources;
     }
-    public static TestCase createTestCase(HttpServletRequest httpServletRequest, final TestCase aResource)
+    public TestCase createTestCase(HttpServletRequest httpServletRequest, final TestCase aResource)
     {
         TestCase newResource = null;
         
@@ -151,7 +152,7 @@ public class RestDelegate {
             id = UUID.randomUUID().toString();
             aResource.setIdentifier(id);
         }
-        URI uri = ResourcesFactory.constructURIForTestCase(SP_DEFAULT, id);
+        URI uri = resourcesFactory.constructURIForTestCase(SP_DEFAULT, id);
         aResource.setAbout(uri);
         aResource.setCreated(new Date());
         testCaseRepository.addResource(SP_DEFAULT, id, aResource);
@@ -162,7 +163,7 @@ public class RestDelegate {
 
 
 
-    public static List<TestPlan> queryTestPlans(HttpServletRequest httpServletRequest, String where, String prefix, boolean paging, int page, int limit)
+    public List<TestPlan> queryTestPlans(HttpServletRequest httpServletRequest, String where, String prefix, boolean paging, int page, int limit)
     {
         List<TestPlan> resources = null;
         
@@ -172,7 +173,7 @@ public class RestDelegate {
         // End of user code
         return resources;
     }
-    public static List<TestPlan> TestPlanSelector(HttpServletRequest httpServletRequest, String terms)   
+    public List<TestPlan> TestPlanSelector(HttpServletRequest httpServletRequest, String terms)
     {
         List<TestPlan> resources = null;
         
@@ -182,7 +183,7 @@ public class RestDelegate {
         // End of user code
         return resources;
     }
-    public static TestPlan createTestPlan(HttpServletRequest httpServletRequest, final TestPlan aResource)
+    public TestPlan createTestPlan(HttpServletRequest httpServletRequest, final TestPlan aResource)
     {
         TestPlan newResource = null;
         
@@ -193,7 +194,7 @@ public class RestDelegate {
             id = UUID.randomUUID().toString();
             aResource.setIdentifier(id);
         }
-        URI uri = ResourcesFactory.constructURIForTestPlan(SP_DEFAULT, id);
+        URI uri = resourcesFactory.constructURIForTestPlan(SP_DEFAULT, id);
         aResource.setAbout(uri);
         aResource.setCreated(new Date());
         testPlanRepository.addResource(SP_DEFAULT, id, aResource);
@@ -204,7 +205,7 @@ public class RestDelegate {
 
 
 
-    public static List<TestScript> queryTestScripts(HttpServletRequest httpServletRequest, String where, String prefix, boolean paging, int page, int limit)
+    public List<TestScript> queryTestScripts(HttpServletRequest httpServletRequest, String where, String prefix, boolean paging, int page, int limit)
     {
         List<TestScript> resources = null;
         
@@ -214,7 +215,7 @@ public class RestDelegate {
         // End of user code
         return resources;
     }
-    public static List<TestScript> TestScriptSelector(HttpServletRequest httpServletRequest, String terms)   
+    public List<TestScript> TestScriptSelector(HttpServletRequest httpServletRequest, String terms)
     {
         List<TestScript> resources = null;
         
@@ -224,7 +225,7 @@ public class RestDelegate {
         // End of user code
         return resources;
     }
-    public static TestScript createTestScript(HttpServletRequest httpServletRequest, final TestScript aResource)
+    public TestScript createTestScript(HttpServletRequest httpServletRequest, final TestScript aResource)
     {
         TestScript newResource = null;
         
@@ -235,7 +236,7 @@ public class RestDelegate {
             id = UUID.randomUUID().toString();
             aResource.setIdentifier(id);
         }
-        URI uri = ResourcesFactory.constructURIForTestScript(SP_DEFAULT, id);
+        URI uri = resourcesFactory.constructURIForTestScript(SP_DEFAULT, id);
         aResource.setAbout(uri);
         aResource.setCreated(new Date());
         testScriptRepository.addResource(SP_DEFAULT, id, aResource);
@@ -246,7 +247,7 @@ public class RestDelegate {
 
 
 
-    public static List<TestResult> queryTestResults(HttpServletRequest httpServletRequest, String where, String prefix, boolean paging, int page, int limit)
+    public List<TestResult> queryTestResults(HttpServletRequest httpServletRequest, String where, String prefix, boolean paging, int page, int limit)
     {
         List<TestResult> resources = null;
         
@@ -256,7 +257,7 @@ public class RestDelegate {
         // End of user code
         return resources;
     }
-    public static List<TestResult> TestResultSelector(HttpServletRequest httpServletRequest, String terms)   
+    public List<TestResult> TestResultSelector(HttpServletRequest httpServletRequest, String terms)
     {
         List<TestResult> resources = null;
         
@@ -266,7 +267,7 @@ public class RestDelegate {
         // End of user code
         return resources;
     }
-    public static TestResult createTestResult(HttpServletRequest httpServletRequest, final TestResult aResource)
+    public TestResult createTestResult(HttpServletRequest httpServletRequest, final TestResult aResource)
     {
         TestResult newResource = null;
         
@@ -277,7 +278,7 @@ public class RestDelegate {
             id = UUID.randomUUID().toString();
             aResource.setIdentifier(id);
         }
-        URI uri = ResourcesFactory.constructURIForTestResult(SP_DEFAULT, id);
+        URI uri = resourcesFactory.constructURIForTestResult(SP_DEFAULT, id);
         aResource.setAbout(uri);
         aResource.setCreated(new Date());
         testResultRepository.addResource(SP_DEFAULT, id, aResource);
@@ -288,7 +289,7 @@ public class RestDelegate {
 
 
 
-    public static List<TestExecutionRecord> queryTestExecutionRecords(HttpServletRequest httpServletRequest, String where, String prefix, boolean paging, int page, int limit)
+    public List<TestExecutionRecord> queryTestExecutionRecords(HttpServletRequest httpServletRequest, String where, String prefix, boolean paging, int page, int limit)
     {
         List<TestExecutionRecord> resources = null;
         
@@ -298,7 +299,7 @@ public class RestDelegate {
         // End of user code
         return resources;
     }
-    public static List<TestExecutionRecord> TestExecutionRecordSelector(HttpServletRequest httpServletRequest, String terms)   
+    public List<TestExecutionRecord> TestExecutionRecordSelector(HttpServletRequest httpServletRequest, String terms)
     {
         List<TestExecutionRecord> resources = null;
         
@@ -308,7 +309,7 @@ public class RestDelegate {
         // End of user code
         return resources;
     }
-    public static TestExecutionRecord createTestExecutionRecord(HttpServletRequest httpServletRequest, final TestExecutionRecord aResource)
+    public TestExecutionRecord createTestExecutionRecord(HttpServletRequest httpServletRequest, final TestExecutionRecord aResource)
     {
         TestExecutionRecord newResource = null;
         
@@ -319,7 +320,7 @@ public class RestDelegate {
             id = UUID.randomUUID().toString();
             aResource.setIdentifier(id);
         }
-        URI uri = ResourcesFactory.constructURIForTestExecutionRecord(SP_DEFAULT, id);
+        URI uri = resourcesFactory.constructURIForTestExecutionRecord(SP_DEFAULT, id);
         aResource.setAbout(uri);
         aResource.setCreated(new Date());
         testExecutionRecordRepository.addResource(SP_DEFAULT, id, aResource);
@@ -331,7 +332,7 @@ public class RestDelegate {
 
 
 
-    public static TestCase getTestCase(HttpServletRequest httpServletRequest, final String spSlug, final String id)
+    public TestCase getTestCase(HttpServletRequest httpServletRequest, final String spSlug, final String id)
     {
         TestCase aResource = null;
         
@@ -344,7 +345,7 @@ public class RestDelegate {
         return aResource;
     }
 
-    public static Boolean deleteTestCase(HttpServletRequest httpServletRequest, final String spSlug, final String id)
+    public Boolean deleteTestCase(HttpServletRequest httpServletRequest, final String spSlug, final String id)
     {
         Boolean deleted = false;
         
@@ -355,11 +356,11 @@ public class RestDelegate {
         return deleted;
     }
 
-    public static TestCase updateTestCase(HttpServletRequest httpServletRequest, final TestCase aResource, final String spSlug, final String id) {
+    public TestCase updateTestCase(HttpServletRequest httpServletRequest, final TestCase aResource, final String spSlug, final String id) {
         TestCase updatedResource = null;
         
         // Start of user code updateTestCase
-        if(!ResourcesFactory.constructURIForTestCase(spSlug, id).equals(aResource.getAbout())) {
+        if(!resourcesFactory.constructURIForTestCase(spSlug, id).equals(aResource.getAbout())) {
             throw new WebApplicationException("Subject URI shall match the endpoint", Response.Status.BAD_REQUEST);
         }
         aResource.setModified(new Date());
@@ -368,7 +369,7 @@ public class RestDelegate {
         // End of user code
         return updatedResource;
     }
-    public static TestPlan getTestPlan(HttpServletRequest httpServletRequest, final String spSlug, final String id)
+    public TestPlan getTestPlan(HttpServletRequest httpServletRequest, final String spSlug, final String id)
     {
         TestPlan aResource = null;
         
@@ -381,7 +382,7 @@ public class RestDelegate {
         return aResource;
     }
 
-    public static Boolean deleteTestPlan(HttpServletRequest httpServletRequest, final String spSlug, final String id)
+    public Boolean deleteTestPlan(HttpServletRequest httpServletRequest, final String spSlug, final String id)
     {
         Boolean deleted = false;
         
@@ -392,11 +393,11 @@ public class RestDelegate {
         return deleted;
     }
 
-    public static TestPlan updateTestPlan(HttpServletRequest httpServletRequest, final TestPlan aResource, final String spSlug, final String id) {
+    public TestPlan updateTestPlan(HttpServletRequest httpServletRequest, final TestPlan aResource, final String spSlug, final String id) {
         TestPlan updatedResource = null;
         
         // Start of user code updateTestPlan
-        if(!ResourcesFactory.constructURIForTestPlan(spSlug, id).equals(aResource.getAbout())) {
+        if(!resourcesFactory.constructURIForTestPlan(spSlug, id).equals(aResource.getAbout())) {
             throw new WebApplicationException("Subject URI shall match the endpoint", Response.Status.BAD_REQUEST);
         }
         aResource.setModified(new Date());
@@ -405,7 +406,7 @@ public class RestDelegate {
         // End of user code
         return updatedResource;
     }
-    public static TestScript getTestScript(HttpServletRequest httpServletRequest, final String spSlug, final String id)
+    public TestScript getTestScript(HttpServletRequest httpServletRequest, final String spSlug, final String id)
     {
         TestScript aResource = null;
         
@@ -418,7 +419,7 @@ public class RestDelegate {
         return aResource;
     }
 
-    public static Boolean deleteTestScript(HttpServletRequest httpServletRequest, final String spSlug, final String id)
+    public Boolean deleteTestScript(HttpServletRequest httpServletRequest, final String spSlug, final String id)
     {
         Boolean deleted = false;
         
@@ -429,11 +430,11 @@ public class RestDelegate {
         return deleted;
     }
 
-    public static TestScript updateTestScript(HttpServletRequest httpServletRequest, final TestScript aResource, final String spSlug, final String id) {
+    public TestScript updateTestScript(HttpServletRequest httpServletRequest, final TestScript aResource, final String spSlug, final String id) {
         TestScript updatedResource = null;
         
         // Start of user code updateTestScript
-        if(!ResourcesFactory.constructURIForTestScript(spSlug, id).equals(aResource.getAbout())) {
+        if(!resourcesFactory.constructURIForTestScript(spSlug, id).equals(aResource.getAbout())) {
             throw new WebApplicationException("Subject URI shall match the endpoint", Response.Status.BAD_REQUEST);
         }
         aResource.setModified(new Date());
@@ -442,7 +443,7 @@ public class RestDelegate {
         // End of user code
         return updatedResource;
     }
-    public static TestResult getTestResult(HttpServletRequest httpServletRequest, final String spSlug, final String id)
+    public TestResult getTestResult(HttpServletRequest httpServletRequest, final String spSlug, final String id)
     {
         TestResult aResource = null;
         
@@ -455,7 +456,7 @@ public class RestDelegate {
         return aResource;
     }
 
-    public static Boolean deleteTestResult(HttpServletRequest httpServletRequest, final String spSlug, final String id)
+    public Boolean deleteTestResult(HttpServletRequest httpServletRequest, final String spSlug, final String id)
     {
         Boolean deleted = false;
         
@@ -466,11 +467,11 @@ public class RestDelegate {
         return deleted;
     }
 
-    public static TestResult updateTestResult(HttpServletRequest httpServletRequest, final TestResult aResource, final String spSlug, final String id) {
+    public TestResult updateTestResult(HttpServletRequest httpServletRequest, final TestResult aResource, final String spSlug, final String id) {
         TestResult updatedResource = null;
         
         // Start of user code updateTestResult
-        if(!ResourcesFactory.constructURIForTestResult(spSlug, id).equals(aResource.getAbout())) {
+        if(!resourcesFactory.constructURIForTestResult(spSlug, id).equals(aResource.getAbout())) {
             throw new WebApplicationException("Subject URI shall match the endpoint", Response.Status.BAD_REQUEST);
         }
         aResource.setModified(new Date());
@@ -479,7 +480,7 @@ public class RestDelegate {
         // End of user code
         return updatedResource;
     }
-    public static TestExecutionRecord getTestExecutionRecord(HttpServletRequest httpServletRequest, final String spSlug, final String id)
+    public TestExecutionRecord getTestExecutionRecord(HttpServletRequest httpServletRequest, final String spSlug, final String id)
     {
         TestExecutionRecord aResource = null;
         
@@ -490,7 +491,7 @@ public class RestDelegate {
         return aResource;
     }
 
-    public static Boolean deleteTestExecutionRecord(HttpServletRequest httpServletRequest, final String spSlug, final String id)
+    public Boolean deleteTestExecutionRecord(HttpServletRequest httpServletRequest, final String spSlug, final String id)
     {
         Boolean deleted = false;
         
@@ -501,11 +502,11 @@ public class RestDelegate {
         return deleted;
     }
 
-    public static TestExecutionRecord updateTestExecutionRecord(HttpServletRequest httpServletRequest, final TestExecutionRecord aResource, final String spSlug, final String id) {
+    public TestExecutionRecord updateTestExecutionRecord(HttpServletRequest httpServletRequest, final TestExecutionRecord aResource, final String spSlug, final String id) {
         TestExecutionRecord updatedResource = null;
         
         // Start of user code updateTestExecutionRecord
-        if(!ResourcesFactory.constructURIForTestExecutionRecord(spSlug, id).equals(aResource.getAbout())) {
+        if(!resourcesFactory.constructURIForTestExecutionRecord(spSlug, id).equals(aResource.getAbout())) {
             throw new WebApplicationException("Subject URI shall match the endpoint", Response.Status.BAD_REQUEST);
         }
         aResource.setModified(new Date());
@@ -515,7 +516,7 @@ public class RestDelegate {
         return updatedResource;
     }
 
-    public static String getETagFromTestCase(final TestCase aResource)
+    public String getETagFromTestCase(final TestCase aResource)
     {
         String eTag = null;
         // Start of user code getETagFromTestCase
@@ -523,7 +524,7 @@ public class RestDelegate {
         // End of user code
         return eTag;
     }
-    public static String getETagFromTestExecutionRecord(final TestExecutionRecord aResource)
+    public String getETagFromTestExecutionRecord(final TestExecutionRecord aResource)
     {
         String eTag = null;
         // Start of user code getETagFromTestExecutionRecord
@@ -531,7 +532,7 @@ public class RestDelegate {
         // End of user code
         return eTag;
     }
-    public static String getETagFromTestPlan(final TestPlan aResource)
+    public String getETagFromTestPlan(final TestPlan aResource)
     {
         String eTag = null;
         // Start of user code getETagFromTestPlan
@@ -539,7 +540,7 @@ public class RestDelegate {
         // End of user code
         return eTag;
     }
-    public static String getETagFromTestResult(final TestResult aResource)
+    public String getETagFromTestResult(final TestResult aResource)
     {
         String eTag = null;
         // Start of user code getETagFromTestResult
@@ -547,7 +548,7 @@ public class RestDelegate {
         // End of user code
         return eTag;
     }
-    public static String getETagFromTestScript(final TestScript aResource)
+    public String getETagFromTestScript(final TestScript aResource)
     {
         String eTag = null;
         // Start of user code getETagFromTestScript

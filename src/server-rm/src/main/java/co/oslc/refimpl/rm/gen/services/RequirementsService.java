@@ -36,6 +36,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
+import javax.inject.Inject;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -82,7 +83,7 @@ import org.eclipse.lyo.oslc4j.core.model.Link;
 import org.eclipse.lyo.oslc4j.core.model.AbstractResource;
 
 import co.oslc.refimpl.rm.gen.RestDelegate;
-import co.oslc.refimpl.rm.gen.RMConstants;
+import co.oslc.refimpl.rm.gen.ServerConstants;
 import org.eclipse.lyo.oslc.domains.rm.Oslc_rmDomainConstants;
 import org.eclipse.lyo.oslc.domains.rm.Oslc_rmDomainConstants;
 import co.oslc.refimpl.rm.gen.servlet.ServiceProviderCatalogSingleton;
@@ -97,13 +98,14 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 
 // Start of user code pre_class_code
 // End of user code
-@OslcService(Oslc_rmDomainConstants.REQUIREMENTS_MANAGEMENT_SHAPES_DOMAIN)
+@OslcService(Oslc_rmDomainConstants.REQUIREMENTS_MANAGEMENT_SHAPES_NAMSPACE)
 @Path("serviceProviders/{serviceProviderId}/service1/requirements")
 public class RequirementsService
 {
     @Context private HttpServletRequest httpServletRequest;
     @Context private HttpServletResponse httpServletResponse;
     @Context private UriInfo uriInfo;
+    @Inject  private RestDelegate delegate;
 
     private static final Logger log = LoggerFactory.getLogger(RequirementsService.class);
 
@@ -171,7 +173,7 @@ public class RequirementsService
         // Here additional logic can be implemented that complements main action taken in RMManager
         // End of user code
 
-        List<Requirement> resources = RestDelegate.queryRequirements(httpServletRequest, serviceProviderId, where, prefix, paging, page, pageSize);
+        List<Requirement> resources = delegate.queryRequirements(httpServletRequest, serviceProviderId, where, prefix, paging, page, pageSize);
         UriBuilder uriBuilder = UriBuilder.fromUri(uriInfo.getAbsolutePath())
             .queryParam("oslc.paging", "true")
             .queryParam("oslc.pageSize", pageSize)
@@ -227,7 +229,7 @@ public class RequirementsService
         // Start of user code queryRequirementsAsHtml
         // End of user code
 
-        List<Requirement> resources = RestDelegate.queryRequirements(httpServletRequest, serviceProviderId, where, prefix, paging, page, pageSize);
+        List<Requirement> resources = delegate.queryRequirements(httpServletRequest, serviceProviderId, where, prefix, paging, page, pageSize);
 
         if (resources!= null) {
             // Start of user code queryRequirementsAsHtml_setAttributes
@@ -286,7 +288,7 @@ public class RequirementsService
 
         if (terms != null ) {
             httpServletRequest.setAttribute("terms", terms);
-            final List<Requirement> resources = RestDelegate.RequirementSelector(httpServletRequest, serviceProviderId, terms);
+            final List<Requirement> resources = delegate.RequirementSelector(httpServletRequest, serviceProviderId, terms);
             if (resources!= null) {
                 JSONArray resourceArray = new JSONArray();
                 for (Requirement resource : resources) {
@@ -343,9 +345,9 @@ public class RequirementsService
             final Requirement aResource
         ) throws IOException, ServletException
     {
-        Requirement newResource = RestDelegate.createRequirement(httpServletRequest, aResource, serviceProviderId);
-        httpServletResponse.setHeader("ETag", RestDelegate.getETagFromRequirement(newResource));
-        return Response.created(newResource.getAbout()).entity(newResource).header(RMConstants.HDR_OSLC_VERSION, RMConstants.OSLC_VERSION_V2).build();
+        Requirement newResource = delegate.createRequirement(httpServletRequest, aResource, serviceProviderId);
+        httpServletResponse.setHeader("ETag", delegate.getETagFromRequirement(newResource));
+        return Response.created(newResource.getAbout()).entity(newResource).header(ServerConstants.HDR_OSLC_VERSION, ServerConstants.OSLC_VERSION_V2).build();
     }
 
     /**
@@ -568,7 +570,7 @@ public class RequirementsService
                 }
         }
 
-        newResource = RestDelegate.createRequirementFromDialog(httpServletRequest, aResource, serviceProviderId);
+        newResource = delegate.createRequirementFromDialog(httpServletRequest, aResource, serviceProviderId);
 
         if (newResource != null) {
             httpServletRequest.setAttribute("newResource", newResource);

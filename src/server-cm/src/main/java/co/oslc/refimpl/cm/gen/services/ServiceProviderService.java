@@ -122,15 +122,14 @@ public class ServiceProviderService
     {
         ServiceProvider serviceProvider = ServiceProviderCatalogSingleton.getServiceProvider(httpServletRequest, serviceProviderId);
         Service [] services = serviceProvider.getServices();
-
+    
         httpServletRequest.setAttribute("serviceProvider", serviceProvider);
         httpServletRequest.setAttribute("services", services);
         // Start of user code getHtmlServiceProvider_setAttributes
         // End of user code
-
+    
         RequestDispatcher rd = httpServletRequest.getRequestDispatcher("/co/oslc/refimpl/cm/gen/serviceprovider.jsp");
         rd.forward(httpServletRequest, httpServletResponse);
         return;
     }
 }
-

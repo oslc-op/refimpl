@@ -32,6 +32,11 @@ import org.eclipse.lyo.oslc.domains.Agent;
 import org.eclipse.lyo.oslc.domains.cm.ChangeNotice;
 import org.eclipse.lyo.oslc.domains.cm.ChangeRequest;
 import org.eclipse.lyo.oslc.domains.config.ChangeSet;
+import org.eclipse.lyo.oslc.domains.RdfsClass;
+import org.eclipse.lyo.oslc.domains.config.Component;
+import org.eclipse.lyo.oslc.domains.config.ConceptResource;
+import org.eclipse.lyo.oslc.domains.config.Configuration;
+import org.eclipse.lyo.oslc.domains.config.Contribution;
 import org.eclipse.lyo.oslc.domains.cm.Defect;
 import org.eclipse.lyo.oslc4j.core.model.Discussion;
 import org.eclipse.lyo.oslc.domains.cm.Enhancement;
@@ -39,8 +44,10 @@ import org.eclipse.lyo.oslc.domains.Person;
 import org.eclipse.lyo.oslc.domains.cm.Priority;
 import org.eclipse.lyo.oslc.domains.rm.Requirement;
 import org.eclipse.lyo.oslc.domains.cm.ReviewTask;
+import org.eclipse.lyo.oslc.domains.config.Selections;
 import org.eclipse.lyo.oslc.domains.cm.State;
 import org.eclipse.lyo.oslc.domains.cm.Task;
+import org.eclipse.lyo.oslc.domains.config.VersionResource;
 
 // Start of user code imports
 // End of user code
@@ -50,9 +57,15 @@ import org.eclipse.lyo.oslc.domains.cm.Task;
 
 public class ResourcesFactory {
 
+    private String basePath;
+
     // Start of user code class_attributes
     // End of user code
-    
+
+    public ResourcesFactory(String basePath) {
+        this.basePath = basePath;
+    }
+
     // Start of user code class_methods
     // End of user code
 
@@ -62,29 +75,24 @@ public class ResourcesFactory {
 
     //methods for ChangeRequest resource
     
-    public static ChangeRequest createChangeRequest(final String id)
-    {
+    public ChangeRequest createChangeRequest(final String id) {
         return new ChangeRequest(constructURIForChangeRequest(id));
     }
     
-    public static URI constructURIForChangeRequest(final String id)
-    {
-        String basePath = OSLC4JUtils.getServletURI();
+    public URI constructURIForChangeRequest(final String id) {
         Map<String, Object> pathParameters = new HashMap<String, Object>();
         pathParameters.put("id", id);
         String instanceURI = "change_request/{id}";
     
-        final UriBuilder builder = UriBuilder.fromUri(basePath);
+        final UriBuilder builder = UriBuilder.fromUri(this.basePath);
         return builder.path(instanceURI).buildFromMap(pathParameters);
     }
     
-    public static Link constructLinkForChangeRequest(final String id , final String label)
-    {
+    public Link constructLinkForChangeRequest(final String id , final String label) {
         return new Link(constructURIForChangeRequest(id), label);
     }
     
-    public static Link constructLinkForChangeRequest(final String id)
-    {
+    public Link constructLinkForChangeRequest(final String id) {
         return new Link(constructURIForChangeRequest(id));
     }
     
