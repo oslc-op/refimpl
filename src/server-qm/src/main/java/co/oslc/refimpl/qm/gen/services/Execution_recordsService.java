@@ -36,6 +36,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
+import javax.inject.Inject;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -82,24 +83,31 @@ import org.eclipse.lyo.oslc4j.core.model.Link;
 import org.eclipse.lyo.oslc4j.core.model.AbstractResource;
 
 import co.oslc.refimpl.qm.gen.RestDelegate;
-import co.oslc.refimpl.qm.gen.QMConstants;
+import co.oslc.refimpl.qm.gen.ServerConstants;
 import org.eclipse.lyo.oslc.domains.qm.Oslc_qmDomainConstants;
 import org.eclipse.lyo.oslc.domains.qm.Oslc_qmDomainConstants;
 import co.oslc.refimpl.qm.gen.servlet.ServiceProviderCatalogSingleton;
 import org.eclipse.lyo.oslc.domains.Agent;
 import org.eclipse.lyo.oslc.domains.cm.ChangeRequest;
 import org.eclipse.lyo.oslc.domains.config.ChangeSet;
+import org.eclipse.lyo.oslc.domains.RdfsClass;
+import org.eclipse.lyo.oslc.domains.config.Component;
+import org.eclipse.lyo.oslc.domains.config.ConceptResource;
+import org.eclipse.lyo.oslc.domains.config.Configuration;
+import org.eclipse.lyo.oslc.domains.config.Contribution;
 import org.eclipse.lyo.oslc.domains.cm.Defect;
 import org.eclipse.lyo.oslc4j.core.model.Discussion;
 import org.eclipse.lyo.oslc.domains.Person;
 import org.eclipse.lyo.oslc.domains.cm.Priority;
 import org.eclipse.lyo.oslc.domains.rm.Requirement;
 import org.eclipse.lyo.oslc.domains.rm.RequirementCollection;
+import org.eclipse.lyo.oslc.domains.config.Selections;
 import org.eclipse.lyo.oslc.domains.cm.State;
 import org.eclipse.lyo.oslc.domains.qm.TestCase;
 import org.eclipse.lyo.oslc.domains.qm.TestExecutionRecord;
 import org.eclipse.lyo.oslc.domains.qm.TestPlan;
 import org.eclipse.lyo.oslc.domains.qm.TestScript;
+import org.eclipse.lyo.oslc.domains.config.VersionResource;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -109,13 +117,14 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 
 // Start of user code pre_class_code
 // End of user code
-@OslcService(Oslc_qmDomainConstants.QUALITY_MANAGEMENT_DOMAIN)
+@OslcService(Oslc_qmDomainConstants.QUALITY_MANAGEMENT_NAMSPACE)
 @Path("service5/testExecutionRecords")
 public class Execution_recordsService
 {
     @Context private HttpServletRequest httpServletRequest;
     @Context private HttpServletResponse httpServletResponse;
     @Context private UriInfo uriInfo;
+    @Inject  private RestDelegate delegate;
 
     private static final Logger log = LoggerFactory.getLogger(Execution_recordsService.class);
 
@@ -183,7 +192,7 @@ public class Execution_recordsService
         // Here additional logic can be implemented that complements main action taken in RestDelegate
         // End of user code
 
-        List<TestExecutionRecord> resources = RestDelegate.queryTestExecutionRecords(httpServletRequest, where, prefix, paging, page, pageSize);
+        List<TestExecutionRecord> resources = delegate.queryTestExecutionRecords(httpServletRequest, where, prefix, paging, page, pageSize);
         UriBuilder uriBuilder = UriBuilder.fromUri(uriInfo.getAbsolutePath())
             .queryParam("oslc.paging", "true")
             .queryParam("oslc.pageSize", pageSize)
@@ -239,7 +248,7 @@ public class Execution_recordsService
         // Start of user code queryTestExecutionRecordsAsHtml
         // End of user code
 
-        List<TestExecutionRecord> resources = RestDelegate.queryTestExecutionRecords(httpServletRequest, where, prefix, paging, page, pageSize);
+        List<TestExecutionRecord> resources = delegate.queryTestExecutionRecords(httpServletRequest, where, prefix, paging, page, pageSize);
 
         if (resources!= null) {
             // Start of user code queryTestExecutionRecordsAsHtml_setAttributes
@@ -298,7 +307,7 @@ public class Execution_recordsService
 
         if (terms != null ) {
             httpServletRequest.setAttribute("terms", terms);
-            final List<TestExecutionRecord> resources = RestDelegate.TestExecutionRecordSelector(httpServletRequest, terms);
+            final List<TestExecutionRecord> resources = delegate.TestExecutionRecordSelector(httpServletRequest, terms);
             if (resources!= null) {
                 JSONArray resourceArray = new JSONArray();
                 for (TestExecutionRecord resource : resources) {
@@ -356,9 +365,9 @@ public class Execution_recordsService
             final TestExecutionRecord aResource
         ) throws IOException, ServletException
     {
-        TestExecutionRecord newResource = RestDelegate.createTestExecutionRecord(httpServletRequest, aResource);
-        httpServletResponse.setHeader("ETag", RestDelegate.getETagFromTestExecutionRecord(newResource));
-        return Response.created(newResource.getAbout()).entity(newResource).header(QMConstants.HDR_OSLC_VERSION, QMConstants.OSLC_VERSION_V2).build();
+        TestExecutionRecord newResource = delegate.createTestExecutionRecord(httpServletRequest, aResource);
+        httpServletResponse.setHeader("ETag", delegate.getETagFromTestExecutionRecord(newResource));
+        return Response.created(newResource.getAbout()).entity(newResource).header(ServerConstants.HDR_OSLC_VERSION, ServerConstants.OSLC_VERSION_V2).build();
     }
 
 }

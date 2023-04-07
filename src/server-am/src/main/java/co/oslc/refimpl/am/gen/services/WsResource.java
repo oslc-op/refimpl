@@ -36,6 +36,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
+import javax.inject.Inject;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -80,7 +81,7 @@ import org.eclipse.lyo.oslc4j.core.model.Link;
 import org.eclipse.lyo.oslc4j.core.model.AbstractResource;
 
 import co.oslc.refimpl.am.gen.RestDelegate;
-import co.oslc.refimpl.am.gen.AMConstants;
+import co.oslc.refimpl.am.gen.ServerConstants;
 import org.eclipse.lyo.oslc.domains.am.Oslc_amDomainConstants;
 import co.oslc.refimpl.am.gen.servlet.ServiceProviderCatalogSingleton;
 import org.eclipse.lyo.oslc.domains.am.Resource;
@@ -99,6 +100,7 @@ public class WsResource
     @Context private HttpServletRequest httpServletRequest;
     @Context private HttpServletResponse httpServletResponse;
     @Context private UriInfo uriInfo;
+    @Inject  private RestDelegate delegate;
 
     private static final Logger log = LoggerFactory.getLogger(WsResource.class);
 
@@ -145,13 +147,13 @@ public class WsResource
         // Start of user code getResource_init
         // End of user code
 
-        final Resource aResource = RestDelegate.getResource(httpServletRequest, id);
+        final Resource aResource = delegate.getResource(httpServletRequest, id);
 
         if (aResource != null) {
             // Start of user code getResource
             // End of user code
-            httpServletResponse.setHeader("ETag", RestDelegate.getETagFromResource(aResource));
-            httpServletResponse.addHeader(AMConstants.HDR_OSLC_VERSION, AMConstants.OSLC_VERSION_V2);
+            httpServletResponse.setHeader("ETag", delegate.getETagFromResource(aResource));
+            httpServletResponse.addHeader(ServerConstants.HDR_OSLC_VERSION, ServerConstants.OSLC_VERSION_V2);
             return aResource;
         }
 
@@ -181,7 +183,7 @@ public class WsResource
         // Start of user code getResourceAsHtml_init
         // End of user code
 
-        final Resource aResource = RestDelegate.getResource(httpServletRequest, id);
+        final Resource aResource = delegate.getResource(httpServletRequest, id);
 
         if (aResource != null) {
             httpServletRequest.setAttribute("aResource", aResource);
@@ -226,7 +228,7 @@ public class WsResource
         //TODO: adjust the preview height & width values from the default values provided above.
         // End of user code
 
-        final Resource aResource = RestDelegate.getResource(httpServletRequest, id);
+        final Resource aResource = delegate.getResource(httpServletRequest, id);
 
         if (aResource != null) {
             final Compact compact = new Compact();
@@ -249,7 +251,7 @@ public class WsResource
             largePreview.setDocument(UriBuilder.fromUri(aResource.getAbout()).path("largePreview").build());
             compact.setLargePreview(largePreview);
 
-            httpServletResponse.addHeader(AMConstants.HDR_OSLC_VERSION, AMConstants.OSLC_VERSION_V2);
+            httpServletResponse.addHeader(ServerConstants.HDR_OSLC_VERSION, ServerConstants.OSLC_VERSION_V2);
             addCORSHeaders(httpServletResponse);
             return compact;
         }
@@ -266,7 +268,7 @@ public class WsResource
         // Start of user code getResourceAsHtmlSmallPreview_init
         // End of user code
 
-        final Resource aResource = RestDelegate.getResource(httpServletRequest, id);
+        final Resource aResource = delegate.getResource(httpServletRequest, id);
 
         if (aResource != null) {
             httpServletRequest.setAttribute("aResource", aResource);
@@ -274,7 +276,7 @@ public class WsResource
             // End of user code
 
             RequestDispatcher rd = httpServletRequest.getRequestDispatcher("/co/oslc/refimpl/am/gen/resourcesmallpreview.jsp");
-            httpServletResponse.addHeader(AMConstants.HDR_OSLC_VERSION, AMConstants.OSLC_VERSION_V2);
+            httpServletResponse.addHeader(ServerConstants.HDR_OSLC_VERSION, ServerConstants.OSLC_VERSION_V2);
             addCORSHeaders(httpServletResponse);
             rd.forward(httpServletRequest, httpServletResponse);
             return;
@@ -293,7 +295,7 @@ public class WsResource
         // Start of user code getResourceAsHtmlLargePreview_init
         // End of user code
 
-        final Resource aResource = RestDelegate.getResource(httpServletRequest, id);
+        final Resource aResource = delegate.getResource(httpServletRequest, id);
 
         if (aResource != null) {
             httpServletRequest.setAttribute("aResource", aResource);
@@ -301,7 +303,7 @@ public class WsResource
             // End of user code
 
             RequestDispatcher rd = httpServletRequest.getRequestDispatcher("/co/oslc/refimpl/am/gen/resourcelargepreview.jsp");
-            httpServletResponse.addHeader(AMConstants.HDR_OSLC_VERSION, AMConstants.OSLC_VERSION_V2);
+            httpServletResponse.addHeader(ServerConstants.HDR_OSLC_VERSION, ServerConstants.OSLC_VERSION_V2);
             addCORSHeaders(httpServletResponse);
             rd.forward(httpServletRequest, httpServletResponse);
             return;
@@ -330,14 +332,14 @@ public class WsResource
     {
         // Start of user code deleteResource_init
         // End of user code
-        final Resource aResource = RestDelegate.getResource(httpServletRequest, id);
+        final Resource aResource = delegate.getResource(httpServletRequest, id);
 
         if (aResource != null) {
             // Start of user code deleteResource
             // End of user code
-            boolean deleted = RestDelegate.deleteResource(httpServletRequest, id);
+            boolean deleted = delegate.deleteResource(httpServletRequest, id);
             if (deleted)
-                return Response.ok().header(AMConstants.HDR_OSLC_VERSION, AMConstants.OSLC_VERSION_V2).build();
+                return Response.ok().header(ServerConstants.HDR_OSLC_VERSION, ServerConstants.OSLC_VERSION_V2).build();
             else
                 throw new WebApplicationException(Status.INTERNAL_SERVER_ERROR);
         }
@@ -368,17 +370,17 @@ public class WsResource
     {
         // Start of user code updateResource_init
         // End of user code
-        final Resource originalResource = RestDelegate.getResource(httpServletRequest, id);
+        final Resource originalResource = delegate.getResource(httpServletRequest, id);
 
         if (originalResource != null) {
-            final String originalETag = RestDelegate.getETagFromResource(originalResource);
+            final String originalETag = delegate.getETagFromResource(originalResource);
 
             if ((eTagHeader == null) || (originalETag.equals(eTagHeader))) {
                 // Start of user code updateResource
                 // End of user code
-                final Resource updatedResource = RestDelegate.updateResource(httpServletRequest, aResource, id);
-                httpServletResponse.setHeader("ETag", RestDelegate.getETagFromResource(updatedResource));
-                return Response.ok().header(AMConstants.HDR_OSLC_VERSION, AMConstants.OSLC_VERSION_V2).build();
+                final Resource updatedResource = delegate.updateResource(httpServletRequest, aResource, id);
+                httpServletResponse.setHeader("ETag", delegate.getETagFromResource(updatedResource));
+                return Response.ok().header(ServerConstants.HDR_OSLC_VERSION, ServerConstants.OSLC_VERSION_V2).build();
             }
             else {
                 throw new WebApplicationException(Status.PRECONDITION_FAILED);

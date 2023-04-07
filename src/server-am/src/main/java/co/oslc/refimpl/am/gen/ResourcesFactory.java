@@ -40,66 +40,62 @@ import org.eclipse.lyo.oslc.domains.am.Resource;
 
 public class ResourcesFactory {
 
+    private String basePath;
+
     // Start of user code class_attributes
     // End of user code
-    
+
+    public ResourcesFactory(String basePath) {
+        this.basePath = basePath;
+    }
+
     // Start of user code class_methods
     // End of user code
 
     //methods for LinkType resource
     
-    public static LinkType createLinkType(final String id)
-    {
+    public LinkType createLinkType(final String id) {
         return new LinkType(constructURIForLinkType(id));
     }
     
-    public static URI constructURIForLinkType(final String id)
-    {
-        String basePath = OSLC4JUtils.getServletURI();
+    public URI constructURIForLinkType(final String id) {
         Map<String, Object> pathParameters = new HashMap<String, Object>();
         pathParameters.put("id", id);
         String instanceURI = "lt/{id}";
     
-        final UriBuilder builder = UriBuilder.fromUri(basePath);
+        final UriBuilder builder = UriBuilder.fromUri(this.basePath);
         return builder.path(instanceURI).buildFromMap(pathParameters);
     }
     
-    public static Link constructLinkForLinkType(final String id , final String label)
-    {
+    public Link constructLinkForLinkType(final String id , final String label) {
         return new Link(constructURIForLinkType(id), label);
     }
     
-    public static Link constructLinkForLinkType(final String id)
-    {
+    public Link constructLinkForLinkType(final String id) {
         return new Link(constructURIForLinkType(id));
     }
     
 
     //methods for Resource resource
     
-    public static Resource createResource(final String id)
-    {
+    public Resource createResource(final String id) {
         return new Resource(constructURIForResource(id));
     }
     
-    public static URI constructURIForResource(final String id)
-    {
-        String basePath = OSLC4JUtils.getServletURI();
+    public URI constructURIForResource(final String id) {
         Map<String, Object> pathParameters = new HashMap<String, Object>();
         pathParameters.put("id", id);
         String instanceURI = "resource/{id}";
     
-        final UriBuilder builder = UriBuilder.fromUri(basePath);
+        final UriBuilder builder = UriBuilder.fromUri(this.basePath);
         return builder.path(instanceURI).buildFromMap(pathParameters);
     }
     
-    public static Link constructLinkForResource(final String id , final String label)
-    {
+    public Link constructLinkForResource(final String id , final String label) {
         return new Link(constructURIForResource(id), label);
     }
     
-    public static Link constructLinkForResource(final String id)
-    {
+    public Link constructLinkForResource(final String id) {
         return new Link(constructURIForResource(id));
     }
     

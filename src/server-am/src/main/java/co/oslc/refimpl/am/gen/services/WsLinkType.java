@@ -36,6 +36,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
+import javax.inject.Inject;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -80,7 +81,7 @@ import org.eclipse.lyo.oslc4j.core.model.Link;
 import org.eclipse.lyo.oslc4j.core.model.AbstractResource;
 
 import co.oslc.refimpl.am.gen.RestDelegate;
-import co.oslc.refimpl.am.gen.AMConstants;
+import co.oslc.refimpl.am.gen.ServerConstants;
 import org.eclipse.lyo.oslc.domains.am.Oslc_amDomainConstants;
 import co.oslc.refimpl.am.gen.servlet.ServiceProviderCatalogSingleton;
 import org.eclipse.lyo.oslc.domains.am.LinkType;
@@ -99,6 +100,7 @@ public class WsLinkType
     @Context private HttpServletRequest httpServletRequest;
     @Context private HttpServletResponse httpServletResponse;
     @Context private UriInfo uriInfo;
+    @Inject  private RestDelegate delegate;
 
     private static final Logger log = LoggerFactory.getLogger(WsLinkType.class);
 
@@ -145,13 +147,13 @@ public class WsLinkType
         // Start of user code getResource_init
         // End of user code
 
-        final LinkType aLinkType = RestDelegate.getLinkType(httpServletRequest, id);
+        final LinkType aLinkType = delegate.getLinkType(httpServletRequest, id);
 
         if (aLinkType != null) {
             // Start of user code getLinkType
             // End of user code
-            httpServletResponse.setHeader("ETag", RestDelegate.getETagFromLinkType(aLinkType));
-            httpServletResponse.addHeader(AMConstants.HDR_OSLC_VERSION, AMConstants.OSLC_VERSION_V2);
+            httpServletResponse.setHeader("ETag", delegate.getETagFromLinkType(aLinkType));
+            httpServletResponse.addHeader(ServerConstants.HDR_OSLC_VERSION, ServerConstants.OSLC_VERSION_V2);
             return aLinkType;
         }
 
@@ -181,7 +183,7 @@ public class WsLinkType
         // Start of user code getLinkTypeAsHtml_init
         // End of user code
 
-        final LinkType aLinkType = RestDelegate.getLinkType(httpServletRequest, id);
+        final LinkType aLinkType = delegate.getLinkType(httpServletRequest, id);
 
         if (aLinkType != null) {
             httpServletRequest.setAttribute("aLinkType", aLinkType);
@@ -226,7 +228,7 @@ public class WsLinkType
         //TODO: adjust the preview height & width values from the default values provided above.
         // End of user code
 
-        final LinkType aLinkType = RestDelegate.getLinkType(httpServletRequest, id);
+        final LinkType aLinkType = delegate.getLinkType(httpServletRequest, id);
 
         if (aLinkType != null) {
             final Compact compact = new Compact();
@@ -249,7 +251,7 @@ public class WsLinkType
             largePreview.setDocument(UriBuilder.fromUri(aLinkType.getAbout()).path("largePreview").build());
             compact.setLargePreview(largePreview);
 
-            httpServletResponse.addHeader(AMConstants.HDR_OSLC_VERSION, AMConstants.OSLC_VERSION_V2);
+            httpServletResponse.addHeader(ServerConstants.HDR_OSLC_VERSION, ServerConstants.OSLC_VERSION_V2);
             addCORSHeaders(httpServletResponse);
             return compact;
         }
@@ -266,7 +268,7 @@ public class WsLinkType
         // Start of user code getLinkTypeAsHtmlSmallPreview_init
         // End of user code
 
-        final LinkType aLinkType = RestDelegate.getLinkType(httpServletRequest, id);
+        final LinkType aLinkType = delegate.getLinkType(httpServletRequest, id);
 
         if (aLinkType != null) {
             httpServletRequest.setAttribute("aLinkType", aLinkType);
@@ -274,7 +276,7 @@ public class WsLinkType
             // End of user code
 
             RequestDispatcher rd = httpServletRequest.getRequestDispatcher("/co/oslc/refimpl/am/gen/linktypesmallpreview.jsp");
-            httpServletResponse.addHeader(AMConstants.HDR_OSLC_VERSION, AMConstants.OSLC_VERSION_V2);
+            httpServletResponse.addHeader(ServerConstants.HDR_OSLC_VERSION, ServerConstants.OSLC_VERSION_V2);
             addCORSHeaders(httpServletResponse);
             rd.forward(httpServletRequest, httpServletResponse);
             return;
@@ -293,7 +295,7 @@ public class WsLinkType
         // Start of user code getLinkTypeAsHtmlLargePreview_init
         // End of user code
 
-        final LinkType aLinkType = RestDelegate.getLinkType(httpServletRequest, id);
+        final LinkType aLinkType = delegate.getLinkType(httpServletRequest, id);
 
         if (aLinkType != null) {
             httpServletRequest.setAttribute("aLinkType", aLinkType);
@@ -301,7 +303,7 @@ public class WsLinkType
             // End of user code
 
             RequestDispatcher rd = httpServletRequest.getRequestDispatcher("/co/oslc/refimpl/am/gen/linktypelargepreview.jsp");
-            httpServletResponse.addHeader(AMConstants.HDR_OSLC_VERSION, AMConstants.OSLC_VERSION_V2);
+            httpServletResponse.addHeader(ServerConstants.HDR_OSLC_VERSION, ServerConstants.OSLC_VERSION_V2);
             addCORSHeaders(httpServletResponse);
             rd.forward(httpServletRequest, httpServletResponse);
             return;
@@ -330,14 +332,14 @@ public class WsLinkType
     {
         // Start of user code deleteLinkType_init
         // End of user code
-        final LinkType aResource = RestDelegate.getLinkType(httpServletRequest, id);
+        final LinkType aResource = delegate.getLinkType(httpServletRequest, id);
 
         if (aResource != null) {
             // Start of user code deleteLinkType
             // End of user code
-            boolean deleted = RestDelegate.deleteLinkType(httpServletRequest, id);
+            boolean deleted = delegate.deleteLinkType(httpServletRequest, id);
             if (deleted)
-                return Response.ok().header(AMConstants.HDR_OSLC_VERSION, AMConstants.OSLC_VERSION_V2).build();
+                return Response.ok().header(ServerConstants.HDR_OSLC_VERSION, ServerConstants.OSLC_VERSION_V2).build();
             else
                 throw new WebApplicationException(Status.INTERNAL_SERVER_ERROR);
         }
@@ -368,17 +370,17 @@ public class WsLinkType
     {
         // Start of user code updateLinkType_init
         // End of user code
-        final LinkType originalResource = RestDelegate.getLinkType(httpServletRequest, id);
+        final LinkType originalResource = delegate.getLinkType(httpServletRequest, id);
 
         if (originalResource != null) {
-            final String originalETag = RestDelegate.getETagFromLinkType(originalResource);
+            final String originalETag = delegate.getETagFromLinkType(originalResource);
 
             if ((eTagHeader == null) || (originalETag.equals(eTagHeader))) {
                 // Start of user code updateLinkType
                 // End of user code
-                final LinkType updatedResource = RestDelegate.updateLinkType(httpServletRequest, aResource, id);
-                httpServletResponse.setHeader("ETag", RestDelegate.getETagFromLinkType(updatedResource));
-                return Response.ok().header(AMConstants.HDR_OSLC_VERSION, AMConstants.OSLC_VERSION_V2).build();
+                final LinkType updatedResource = delegate.updateLinkType(httpServletRequest, aResource, id);
+                httpServletResponse.setHeader("ETag", delegate.getETagFromLinkType(updatedResource));
+                return Response.ok().header(ServerConstants.HDR_OSLC_VERSION, ServerConstants.OSLC_VERSION_V2).build();
             }
             else {
                 throw new WebApplicationException(Status.PRECONDITION_FAILED);

@@ -49,6 +49,7 @@ import org.eclipse.lyo.oslc4j.core.exception.OslcCoreApplicationException;
 import org.eclipse.lyo.oslc4j.core.model.ResourceShape;
 import org.eclipse.lyo.oslc4j.core.model.ResourceShapeFactory;
 
+import io.swagger.v3.oas.annotations.Operation;
 import co.oslc.refimpl.qm.gen.servlet.Application;
 
 // Start of user code imports
@@ -74,6 +75,7 @@ public class ResourceShapeService
     @GET
     @Path("{resourceShapePath}")
     @Produces({OslcMediaType.APPLICATION_RDF_XML, OslcMediaType.APPLICATION_XML, OslcMediaType.TEXT_XML, OslcMediaType.APPLICATION_JSON, OslcMediaType.TEXT_TURTLE})
+    @Operation(hidden = true)
     public ResourceShape getResourceShape(@Context                        final HttpServletRequest httpServletRequest,
                                           @PathParam("resourceShapePath") final String             resourceShapePath)
            throws OslcCoreApplicationException,

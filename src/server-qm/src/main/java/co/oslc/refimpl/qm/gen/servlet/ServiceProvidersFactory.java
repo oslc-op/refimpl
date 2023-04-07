@@ -52,6 +52,7 @@ import org.eclipse.lyo.oslc.domains.FoafDomainConstants;
 import org.eclipse.lyo.oslc4j.core.model.OslcDomainConstants;
 import org.eclipse.lyo.oslc.domains.qm.Oslc_qmDomainConstants;
 import org.eclipse.lyo.oslc.domains.RdfDomainConstants;
+import org.eclipse.lyo.oslc.domains.RdfsDomainConstants;
 import org.eclipse.lyo.oslc.domains.rm.Oslc_rmDomainConstants;
 import co.oslc.refimpl.qm.gen.services.CasesService;
 import co.oslc.refimpl.qm.gen.services.PlansService;
@@ -144,6 +145,8 @@ public class ServiceProvidersFactory
             new PrefixDefinition(Oslc_qmDomainConstants.QUALITY_MANAGEMENT_NAMSPACE_PREFIX, new URI(Oslc_qmDomainConstants.QUALITY_MANAGEMENT_NAMSPACE))
 ,
             new PrefixDefinition(RdfDomainConstants.RDF_NAMSPACE_PREFIX, new URI(RdfDomainConstants.RDF_NAMSPACE))
+,
+            new PrefixDefinition(RdfsDomainConstants.RDFS_NAMSPACE_PREFIX, new URI(RdfsDomainConstants.RDFS_NAMSPACE))
 ,
             new PrefixDefinition(Oslc_rmDomainConstants.REQUIREMENTS_MANAGEMENT_SHAPES_NAMSPACE_PREFIX, new URI(Oslc_rmDomainConstants.REQUIREMENTS_MANAGEMENT_SHAPES_NAMSPACE))
         };
