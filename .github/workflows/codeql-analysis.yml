@@ -27,7 +27,8 @@ concurrency:
 jobs:
   analyze:
     name: Analyze
-    runs-on: ubuntu-latest
+    # doesn't like self-hosted runners
+    runs-on: ubuntu-22.04
     timeout-minutes: 30
     permissions:
       actions: read
