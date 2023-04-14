@@ -24,3 +24,9 @@ indent_size = 2
 [*.{java,jsp,xml}]
 # due to a problem in Acceleo
 trim_trailing_whitespace = false
+
+[**/pom.xml]
+# same as Acceleo
+indent_style = space
+indent_size = 4
+trim_trailing_whitespace = false
