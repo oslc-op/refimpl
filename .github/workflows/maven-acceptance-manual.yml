@@ -7,15 +7,15 @@ on:
   workflow_dispatch:
     inputs:
       lyoBranch:
-        description: 'Lyo branch to test on'     
+        description: 'Lyo branch to test on'
         required: true
         default: 'master'
       link:
-        description: 'PR/issue link (e.g., to Lyo)'  
+        description: 'PR/issue link (e.g., to Lyo)'
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: [ubuntu-latest, self-hosted]
     timeout-minutes: 15
     strategy:
       fail-fast: false
