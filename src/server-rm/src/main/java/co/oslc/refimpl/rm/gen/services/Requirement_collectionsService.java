@@ -36,6 +36,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
+import javax.inject.Inject;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -82,7 +83,7 @@ import org.eclipse.lyo.oslc4j.core.model.Link;
 import org.eclipse.lyo.oslc4j.core.model.AbstractResource;
 
 import co.oslc.refimpl.rm.gen.RestDelegate;
-import co.oslc.refimpl.rm.gen.RMConstants;
+import co.oslc.refimpl.rm.gen.ServerConstants;
 import org.eclipse.lyo.oslc.domains.rm.Oslc_rmDomainConstants;
 import org.eclipse.lyo.oslc.domains.rm.Oslc_rmDomainConstants;
 import co.oslc.refimpl.rm.gen.servlet.ServiceProviderCatalogSingleton;
@@ -97,13 +98,14 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 
 // Start of user code pre_class_code
 // End of user code
-@OslcService(Oslc_rmDomainConstants.REQUIREMENTS_MANAGEMENT_SHAPES_DOMAIN)
+@OslcService(Oslc_rmDomainConstants.REQUIREMENTS_MANAGEMENT_SHAPES_NAMSPACE)
 @Path("serviceProviders/{serviceProviderId}/service2/requirementCollections")
 public class Requirement_collectionsService
 {
     @Context private HttpServletRequest httpServletRequest;
     @Context private HttpServletResponse httpServletResponse;
     @Context private UriInfo uriInfo;
+    @Inject  private RestDelegate delegate;
 
     private static final Logger log = LoggerFactory.getLogger(Requirement_collectionsService.class);
 
@@ -171,7 +173,7 @@ public class Requirement_collectionsService
         // Here additional logic can be implemented that complements main action taken in RMManager
         // End of user code
 
-        List<RequirementCollection> resources = RestDelegate.queryRequirementCollections(httpServletRequest, serviceProviderId, where, prefix, paging, page, pageSize);
+        List<RequirementCollection> resources = delegate.queryRequirementCollections(httpServletRequest, serviceProviderId, where, prefix, paging, page, pageSize);
         UriBuilder uriBuilder = UriBuilder.fromUri(uriInfo.getAbsolutePath())
             .queryParam("oslc.paging", "true")
             .queryParam("oslc.pageSize", pageSize)
@@ -227,7 +229,7 @@ public class Requirement_collectionsService
         // Start of user code queryRequirementCollectionsAsHtml
         // End of user code
 
-        List<RequirementCollection> resources = RestDelegate.queryRequirementCollections(httpServletRequest, serviceProviderId, where, prefix, paging, page, pageSize);
+        List<RequirementCollection> resources = delegate.queryRequirementCollections(httpServletRequest, serviceProviderId, where, prefix, paging, page, pageSize);
 
         if (resources!= null) {
             // Start of user code queryRequirementCollectionsAsHtml_setAttributes
@@ -286,7 +288,7 @@ public class Requirement_collectionsService
 
         if (terms != null ) {
             httpServletRequest.setAttribute("terms", terms);
-            final List<RequirementCollection> resources = RestDelegate.RequirementCollectionSelector(httpServletRequest, serviceProviderId, terms);
+            final List<RequirementCollection> resources = delegate.RequirementCollectionSelector(httpServletRequest, serviceProviderId, terms);
             if (resources!= null) {
                 JSONArray resourceArray = new JSONArray();
                 for (RequirementCollection resource : resources) {
@@ -343,9 +345,9 @@ public class Requirement_collectionsService
             final RequirementCollection aResource
         ) throws IOException, ServletException
     {
-        RequirementCollection newResource = RestDelegate.createRequirementCollection(httpServletRequest, aResource, serviceProviderId);
-        httpServletResponse.setHeader("ETag", RestDelegate.getETagFromRequirementCollection(newResource));
-        return Response.created(newResource.getAbout()).entity(newResource).header(RMConstants.HDR_OSLC_VERSION, RMConstants.OSLC_VERSION_V2).build();
+        RequirementCollection newResource = delegate.createRequirementCollection(httpServletRequest, aResource, serviceProviderId);
+        httpServletResponse.setHeader("ETag", delegate.getETagFromRequirementCollection(newResource));
+        return Response.created(newResource.getAbout()).entity(newResource).header(ServerConstants.HDR_OSLC_VERSION, ServerConstants.OSLC_VERSION_V2).build();
     }
 
 }

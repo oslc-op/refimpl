@@ -36,6 +36,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
+import javax.inject.Inject;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -80,7 +81,7 @@ import org.eclipse.lyo.oslc4j.core.model.Link;
 import org.eclipse.lyo.oslc4j.core.model.AbstractResource;
 
 import co.oslc.refimpl.qm.gen.RestDelegate;
-import co.oslc.refimpl.qm.gen.QMConstants;
+import co.oslc.refimpl.qm.gen.ServerConstants;
 import org.eclipse.lyo.oslc.domains.qm.Oslc_qmDomainConstants;
 import co.oslc.refimpl.qm.gen.servlet.ServiceProviderCatalogSingleton;
 import org.eclipse.lyo.oslc.domains.qm.TestExecutionRecord;
@@ -99,6 +100,7 @@ public class WsExecRecords
     @Context private HttpServletRequest httpServletRequest;
     @Context private HttpServletResponse httpServletResponse;
     @Context private UriInfo uriInfo;
+    @Inject  private RestDelegate delegate;
 
     private static final Logger log = LoggerFactory.getLogger(WsExecRecords.class);
 
@@ -145,13 +147,13 @@ public class WsExecRecords
         // Start of user code getResource_init
         // End of user code
 
-        final TestExecutionRecord aTestExecutionRecord = RestDelegate.getTestExecutionRecord(httpServletRequest, spSlug, id);
+        final TestExecutionRecord aTestExecutionRecord = delegate.getTestExecutionRecord(httpServletRequest, spSlug, id);
 
         if (aTestExecutionRecord != null) {
             // Start of user code getTestExecutionRecord
             // End of user code
-            httpServletResponse.setHeader("ETag", RestDelegate.getETagFromTestExecutionRecord(aTestExecutionRecord));
-            httpServletResponse.addHeader(QMConstants.HDR_OSLC_VERSION, QMConstants.OSLC_VERSION_V2);
+            httpServletResponse.setHeader("ETag", delegate.getETagFromTestExecutionRecord(aTestExecutionRecord));
+            httpServletResponse.addHeader(ServerConstants.HDR_OSLC_VERSION, ServerConstants.OSLC_VERSION_V2);
             return aTestExecutionRecord;
         }
 
@@ -181,7 +183,7 @@ public class WsExecRecords
         // Start of user code getTestExecutionRecordAsHtml_init
         // End of user code
 
-        final TestExecutionRecord aTestExecutionRecord = RestDelegate.getTestExecutionRecord(httpServletRequest, spSlug, id);
+        final TestExecutionRecord aTestExecutionRecord = delegate.getTestExecutionRecord(httpServletRequest, spSlug, id);
 
         if (aTestExecutionRecord != null) {
             httpServletRequest.setAttribute("aTestExecutionRecord", aTestExecutionRecord);
@@ -226,7 +228,7 @@ public class WsExecRecords
         //TODO: adjust the preview height & width values from the default values provided above.
         // End of user code
 
-        final TestExecutionRecord aTestExecutionRecord = RestDelegate.getTestExecutionRecord(httpServletRequest, spSlug, id);
+        final TestExecutionRecord aTestExecutionRecord = delegate.getTestExecutionRecord(httpServletRequest, spSlug, id);
 
         if (aTestExecutionRecord != null) {
             final Compact compact = new Compact();
@@ -249,7 +251,7 @@ public class WsExecRecords
             largePreview.setDocument(UriBuilder.fromUri(aTestExecutionRecord.getAbout()).path("largePreview").build());
             compact.setLargePreview(largePreview);
 
-            httpServletResponse.addHeader(QMConstants.HDR_OSLC_VERSION, QMConstants.OSLC_VERSION_V2);
+            httpServletResponse.addHeader(ServerConstants.HDR_OSLC_VERSION, ServerConstants.OSLC_VERSION_V2);
             addCORSHeaders(httpServletResponse);
             return compact;
         }
@@ -266,7 +268,7 @@ public class WsExecRecords
         // Start of user code getTestExecutionRecordAsHtmlSmallPreview_init
         // End of user code
 
-        final TestExecutionRecord aTestExecutionRecord = RestDelegate.getTestExecutionRecord(httpServletRequest, spSlug, id);
+        final TestExecutionRecord aTestExecutionRecord = delegate.getTestExecutionRecord(httpServletRequest, spSlug, id);
 
         if (aTestExecutionRecord != null) {
             httpServletRequest.setAttribute("aTestExecutionRecord", aTestExecutionRecord);
@@ -274,7 +276,7 @@ public class WsExecRecords
             // End of user code
 
             RequestDispatcher rd = httpServletRequest.getRequestDispatcher("/co/oslc/refimpl/qm/gen/testexecutionrecordsmallpreview.jsp");
-            httpServletResponse.addHeader(QMConstants.HDR_OSLC_VERSION, QMConstants.OSLC_VERSION_V2);
+            httpServletResponse.addHeader(ServerConstants.HDR_OSLC_VERSION, ServerConstants.OSLC_VERSION_V2);
             addCORSHeaders(httpServletResponse);
             rd.forward(httpServletRequest, httpServletResponse);
             return;
@@ -293,7 +295,7 @@ public class WsExecRecords
         // Start of user code getTestExecutionRecordAsHtmlLargePreview_init
         // End of user code
 
-        final TestExecutionRecord aTestExecutionRecord = RestDelegate.getTestExecutionRecord(httpServletRequest, spSlug, id);
+        final TestExecutionRecord aTestExecutionRecord = delegate.getTestExecutionRecord(httpServletRequest, spSlug, id);
 
         if (aTestExecutionRecord != null) {
             httpServletRequest.setAttribute("aTestExecutionRecord", aTestExecutionRecord);
@@ -301,7 +303,7 @@ public class WsExecRecords
             // End of user code
 
             RequestDispatcher rd = httpServletRequest.getRequestDispatcher("/co/oslc/refimpl/qm/gen/testexecutionrecordlargepreview.jsp");
-            httpServletResponse.addHeader(QMConstants.HDR_OSLC_VERSION, QMConstants.OSLC_VERSION_V2);
+            httpServletResponse.addHeader(ServerConstants.HDR_OSLC_VERSION, ServerConstants.OSLC_VERSION_V2);
             addCORSHeaders(httpServletResponse);
             rd.forward(httpServletRequest, httpServletResponse);
             return;
@@ -330,14 +332,14 @@ public class WsExecRecords
     {
         // Start of user code deleteTestExecutionRecord_init
         // End of user code
-        final TestExecutionRecord aResource = RestDelegate.getTestExecutionRecord(httpServletRequest, spSlug, id);
+        final TestExecutionRecord aResource = delegate.getTestExecutionRecord(httpServletRequest, spSlug, id);
 
         if (aResource != null) {
             // Start of user code deleteTestExecutionRecord
             // End of user code
-            boolean deleted = RestDelegate.deleteTestExecutionRecord(httpServletRequest, spSlug, id);
+            boolean deleted = delegate.deleteTestExecutionRecord(httpServletRequest, spSlug, id);
             if (deleted)
-                return Response.ok().header(QMConstants.HDR_OSLC_VERSION, QMConstants.OSLC_VERSION_V2).build();
+                return Response.ok().header(ServerConstants.HDR_OSLC_VERSION, ServerConstants.OSLC_VERSION_V2).build();
             else
                 throw new WebApplicationException(Status.INTERNAL_SERVER_ERROR);
         }
@@ -368,17 +370,17 @@ public class WsExecRecords
     {
         // Start of user code updateTestExecutionRecord_init
         // End of user code
-        final TestExecutionRecord originalResource = RestDelegate.getTestExecutionRecord(httpServletRequest, spSlug, id);
+        final TestExecutionRecord originalResource = delegate.getTestExecutionRecord(httpServletRequest, spSlug, id);
 
         if (originalResource != null) {
-            final String originalETag = RestDelegate.getETagFromTestExecutionRecord(originalResource);
+            final String originalETag = delegate.getETagFromTestExecutionRecord(originalResource);
 
             if ((eTagHeader == null) || (originalETag.equals(eTagHeader))) {
                 // Start of user code updateTestExecutionRecord
                 // End of user code
-                final TestExecutionRecord updatedResource = RestDelegate.updateTestExecutionRecord(httpServletRequest, aResource, spSlug, id);
-                httpServletResponse.setHeader("ETag", RestDelegate.getETagFromTestExecutionRecord(updatedResource));
-                return Response.ok().header(QMConstants.HDR_OSLC_VERSION, QMConstants.OSLC_VERSION_V2).build();
+                final TestExecutionRecord updatedResource = delegate.updateTestExecutionRecord(httpServletRequest, aResource, spSlug, id);
+                httpServletResponse.setHeader("ETag", delegate.getETagFromTestExecutionRecord(updatedResource));
+                return Response.ok().header(ServerConstants.HDR_OSLC_VERSION, ServerConstants.OSLC_VERSION_V2).build();
             }
             else {
                 throw new WebApplicationException(Status.PRECONDITION_FAILED);

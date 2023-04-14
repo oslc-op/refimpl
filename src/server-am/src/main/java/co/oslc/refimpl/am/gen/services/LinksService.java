@@ -36,6 +36,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
+import javax.inject.Inject;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -82,7 +83,7 @@ import org.eclipse.lyo.oslc4j.core.model.Link;
 import org.eclipse.lyo.oslc4j.core.model.AbstractResource;
 
 import co.oslc.refimpl.am.gen.RestDelegate;
-import co.oslc.refimpl.am.gen.AMConstants;
+import co.oslc.refimpl.am.gen.ServerConstants;
 import org.eclipse.lyo.oslc.domains.am.Oslc_amDomainConstants;
 import org.eclipse.lyo.oslc.domains.am.Oslc_amDomainConstants;
 import co.oslc.refimpl.am.gen.servlet.ServiceProviderCatalogSingleton;
@@ -97,13 +98,14 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 
 // Start of user code pre_class_code
 // End of user code
-@OslcService(Oslc_amDomainConstants.ARCHITECTURE_MANAGEMENT_DOMAIN)
+@OslcService(Oslc_amDomainConstants.ARCHITECTURE_MANAGEMENT_NAMSPACE)
 @Path("service2/linkTypes")
 public class LinksService
 {
     @Context private HttpServletRequest httpServletRequest;
     @Context private HttpServletResponse httpServletResponse;
     @Context private UriInfo uriInfo;
+    @Inject  private RestDelegate delegate;
 
     private static final Logger log = LoggerFactory.getLogger(LinksService.class);
 
@@ -171,7 +173,7 @@ public class LinksService
         // Here additional logic can be implemented that complements main action taken in RestDelegate
         // End of user code
 
-        List<LinkType> resources = RestDelegate.queryLinkTypes(httpServletRequest, where, prefix, paging, page, pageSize);
+        List<LinkType> resources = delegate.queryLinkTypes(httpServletRequest, where, prefix, paging, page, pageSize);
         UriBuilder uriBuilder = UriBuilder.fromUri(uriInfo.getAbsolutePath())
             .queryParam("oslc.paging", "true")
             .queryParam("oslc.pageSize", pageSize)
@@ -227,7 +229,7 @@ public class LinksService
         // Start of user code queryLinkTypesAsHtml
         // End of user code
 
-        List<LinkType> resources = RestDelegate.queryLinkTypes(httpServletRequest, where, prefix, paging, page, pageSize);
+        List<LinkType> resources = delegate.queryLinkTypes(httpServletRequest, where, prefix, paging, page, pageSize);
 
         if (resources!= null) {
             // Start of user code queryLinkTypesAsHtml_setAttributes
@@ -286,7 +288,7 @@ public class LinksService
 
         if (terms != null ) {
             httpServletRequest.setAttribute("terms", terms);
-            final List<LinkType> resources = RestDelegate.LinkTypeSelector(httpServletRequest, terms);
+            final List<LinkType> resources = delegate.LinkTypeSelector(httpServletRequest, terms);
             if (resources!= null) {
                 JSONArray resourceArray = new JSONArray();
                 for (LinkType resource : resources) {
@@ -344,9 +346,9 @@ public class LinksService
             final LinkType aResource
         ) throws IOException, ServletException
     {
-        LinkType newResource = RestDelegate.createLinkType(httpServletRequest, aResource);
-        httpServletResponse.setHeader("ETag", RestDelegate.getETagFromLinkType(newResource));
-        return Response.created(newResource.getAbout()).entity(newResource).header(AMConstants.HDR_OSLC_VERSION, AMConstants.OSLC_VERSION_V2).build();
+        LinkType newResource = delegate.createLinkType(httpServletRequest, aResource);
+        httpServletResponse.setHeader("ETag", delegate.getETagFromLinkType(newResource));
+        return Response.created(newResource.getAbout()).entity(newResource).header(ServerConstants.HDR_OSLC_VERSION, ServerConstants.OSLC_VERSION_V2).build();
     }
 
 }

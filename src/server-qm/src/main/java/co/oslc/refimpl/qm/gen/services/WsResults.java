@@ -36,6 +36,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
+import javax.inject.Inject;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -80,7 +81,7 @@ import org.eclipse.lyo.oslc4j.core.model.Link;
 import org.eclipse.lyo.oslc4j.core.model.AbstractResource;
 
 import co.oslc.refimpl.qm.gen.RestDelegate;
-import co.oslc.refimpl.qm.gen.QMConstants;
+import co.oslc.refimpl.qm.gen.ServerConstants;
 import org.eclipse.lyo.oslc.domains.qm.Oslc_qmDomainConstants;
 import co.oslc.refimpl.qm.gen.servlet.ServiceProviderCatalogSingleton;
 import org.eclipse.lyo.oslc.domains.qm.TestResult;
@@ -99,6 +100,7 @@ public class WsResults
     @Context private HttpServletRequest httpServletRequest;
     @Context private HttpServletResponse httpServletResponse;
     @Context private UriInfo uriInfo;
+    @Inject  private RestDelegate delegate;
 
     private static final Logger log = LoggerFactory.getLogger(WsResults.class);
 
@@ -145,13 +147,13 @@ public class WsResults
         // Start of user code getResource_init
         // End of user code
 
-        final TestResult aTestResult = RestDelegate.getTestResult(httpServletRequest, spSlug, id);
+        final TestResult aTestResult = delegate.getTestResult(httpServletRequest, spSlug, id);
 
         if (aTestResult != null) {
             // Start of user code getTestResult
             // End of user code
-            httpServletResponse.setHeader("ETag", RestDelegate.getETagFromTestResult(aTestResult));
-            httpServletResponse.addHeader(QMConstants.HDR_OSLC_VERSION, QMConstants.OSLC_VERSION_V2);
+            httpServletResponse.setHeader("ETag", delegate.getETagFromTestResult(aTestResult));
+            httpServletResponse.addHeader(ServerConstants.HDR_OSLC_VERSION, ServerConstants.OSLC_VERSION_V2);
             return aTestResult;
         }
 
@@ -181,7 +183,7 @@ public class WsResults
         // Start of user code getTestResultAsHtml_init
         // End of user code
 
-        final TestResult aTestResult = RestDelegate.getTestResult(httpServletRequest, spSlug, id);
+        final TestResult aTestResult = delegate.getTestResult(httpServletRequest, spSlug, id);
 
         if (aTestResult != null) {
             httpServletRequest.setAttribute("aTestResult", aTestResult);
@@ -226,7 +228,7 @@ public class WsResults
         //TODO: adjust the preview height & width values from the default values provided above.
         // End of user code
 
-        final TestResult aTestResult = RestDelegate.getTestResult(httpServletRequest, spSlug, id);
+        final TestResult aTestResult = delegate.getTestResult(httpServletRequest, spSlug, id);
 
         if (aTestResult != null) {
             final Compact compact = new Compact();
@@ -249,7 +251,7 @@ public class WsResults
             largePreview.setDocument(UriBuilder.fromUri(aTestResult.getAbout()).path("largePreview").build());
             compact.setLargePreview(largePreview);
 
-            httpServletResponse.addHeader(QMConstants.HDR_OSLC_VERSION, QMConstants.OSLC_VERSION_V2);
+            httpServletResponse.addHeader(ServerConstants.HDR_OSLC_VERSION, ServerConstants.OSLC_VERSION_V2);
             addCORSHeaders(httpServletResponse);
             return compact;
         }
@@ -266,7 +268,7 @@ public class WsResults
         // Start of user code getTestResultAsHtmlSmallPreview_init
         // End of user code
 
-        final TestResult aTestResult = RestDelegate.getTestResult(httpServletRequest, spSlug, id);
+        final TestResult aTestResult = delegate.getTestResult(httpServletRequest, spSlug, id);
 
         if (aTestResult != null) {
             httpServletRequest.setAttribute("aTestResult", aTestResult);
@@ -274,7 +276,7 @@ public class WsResults
             // End of user code
 
             RequestDispatcher rd = httpServletRequest.getRequestDispatcher("/co/oslc/refimpl/qm/gen/testresultsmallpreview.jsp");
-            httpServletResponse.addHeader(QMConstants.HDR_OSLC_VERSION, QMConstants.OSLC_VERSION_V2);
+            httpServletResponse.addHeader(ServerConstants.HDR_OSLC_VERSION, ServerConstants.OSLC_VERSION_V2);
             addCORSHeaders(httpServletResponse);
             rd.forward(httpServletRequest, httpServletResponse);
             return;
@@ -293,7 +295,7 @@ public class WsResults
         // Start of user code getTestResultAsHtmlLargePreview_init
         // End of user code
 
-        final TestResult aTestResult = RestDelegate.getTestResult(httpServletRequest, spSlug, id);
+        final TestResult aTestResult = delegate.getTestResult(httpServletRequest, spSlug, id);
 
         if (aTestResult != null) {
             httpServletRequest.setAttribute("aTestResult", aTestResult);
@@ -301,7 +303,7 @@ public class WsResults
             // End of user code
 
             RequestDispatcher rd = httpServletRequest.getRequestDispatcher("/co/oslc/refimpl/qm/gen/testresultlargepreview.jsp");
-            httpServletResponse.addHeader(QMConstants.HDR_OSLC_VERSION, QMConstants.OSLC_VERSION_V2);
+            httpServletResponse.addHeader(ServerConstants.HDR_OSLC_VERSION, ServerConstants.OSLC_VERSION_V2);
             addCORSHeaders(httpServletResponse);
             rd.forward(httpServletRequest, httpServletResponse);
             return;
@@ -330,14 +332,14 @@ public class WsResults
     {
         // Start of user code deleteTestResult_init
         // End of user code
-        final TestResult aResource = RestDelegate.getTestResult(httpServletRequest, spSlug, id);
+        final TestResult aResource = delegate.getTestResult(httpServletRequest, spSlug, id);
 
         if (aResource != null) {
             // Start of user code deleteTestResult
             // End of user code
-            boolean deleted = RestDelegate.deleteTestResult(httpServletRequest, spSlug, id);
+            boolean deleted = delegate.deleteTestResult(httpServletRequest, spSlug, id);
             if (deleted)
-                return Response.ok().header(QMConstants.HDR_OSLC_VERSION, QMConstants.OSLC_VERSION_V2).build();
+                return Response.ok().header(ServerConstants.HDR_OSLC_VERSION, ServerConstants.OSLC_VERSION_V2).build();
             else
                 throw new WebApplicationException(Status.INTERNAL_SERVER_ERROR);
         }
@@ -368,17 +370,17 @@ public class WsResults
     {
         // Start of user code updateTestResult_init
         // End of user code
-        final TestResult originalResource = RestDelegate.getTestResult(httpServletRequest, spSlug, id);
+        final TestResult originalResource = delegate.getTestResult(httpServletRequest, spSlug, id);
 
         if (originalResource != null) {
-            final String originalETag = RestDelegate.getETagFromTestResult(originalResource);
+            final String originalETag = delegate.getETagFromTestResult(originalResource);
 
             if ((eTagHeader == null) || (originalETag.equals(eTagHeader))) {
                 // Start of user code updateTestResult
                 // End of user code
-                final TestResult updatedResource = RestDelegate.updateTestResult(httpServletRequest, aResource, spSlug, id);
-                httpServletResponse.setHeader("ETag", RestDelegate.getETagFromTestResult(updatedResource));
-                return Response.ok().header(QMConstants.HDR_OSLC_VERSION, QMConstants.OSLC_VERSION_V2).build();
+                final TestResult updatedResource = delegate.updateTestResult(httpServletRequest, aResource, spSlug, id);
+                httpServletResponse.setHeader("ETag", delegate.getETagFromTestResult(updatedResource));
+                return Response.ok().header(ServerConstants.HDR_OSLC_VERSION, ServerConstants.OSLC_VERSION_V2).build();
             }
             else {
                 throw new WebApplicationException(Status.PRECONDITION_FAILED);

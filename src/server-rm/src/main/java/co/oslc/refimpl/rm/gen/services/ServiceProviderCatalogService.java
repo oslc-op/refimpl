@@ -25,7 +25,6 @@
 
 package co.oslc.refimpl.rm.gen.services;
 
-
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -52,7 +51,7 @@ import org.eclipse.lyo.oslc4j.core.model.OslcConstants;
 import org.eclipse.lyo.oslc4j.core.model.OslcMediaType;
 import org.eclipse.lyo.oslc4j.core.model.ServiceProviderCatalog;
 
-import co.oslc.refimpl.rm.gen.RMConstants;
+import co.oslc.refimpl.rm.gen.ServerConstants;
 import co.oslc.refimpl.rm.gen.RestDelegate;
 import co.oslc.refimpl.rm.gen.servlet.ServiceProviderCatalogSingleton;
 
@@ -114,12 +113,12 @@ public class ServiceProviderCatalogService
     public ServiceProviderCatalog getServiceProviderCatalog(@PathParam("serviceProviderCatalogId") final String serviceProviderCatalogId)
     {
         ServiceProviderCatalog catalog =  ServiceProviderCatalogSingleton.getServiceProviderCatalog(httpServletRequest);
-
+    
         if (catalog != null) {
-            httpServletResponse.addHeader(RMConstants.HDR_OSLC_VERSION,"2.0");
+            httpServletResponse.addHeader(ServerConstants.HDR_OSLC_VERSION,"2.0");
             return catalog;
         }
-
+    
         throw new WebApplicationException(Status.NOT_FOUND);
     }
 
@@ -135,13 +134,13 @@ public class ServiceProviderCatalogService
     public void getHtmlServiceProvider(@PathParam("someId") final String someId)
     {
         ServiceProviderCatalog catalog = ServiceProviderCatalogSingleton.getServiceProviderCatalog(httpServletRequest);
-
+    
         if (catalog !=null )
         {
             httpServletRequest.setAttribute("catalog",catalog);
             // Start of user code getHtmlServiceProvider_setAttributes
             // End of user code
-
+    
             RequestDispatcher rd = httpServletRequest.getRequestDispatcher("/co/oslc/refimpl/rm/gen/serviceprovidercatalog.jsp");
             try {
                 rd.forward(httpServletRequest, httpServletResponse);
@@ -153,4 +152,3 @@ public class ServiceProviderCatalogService
         }
     }
 }
-

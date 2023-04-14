@@ -36,6 +36,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
+import javax.inject.Inject;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -80,7 +81,7 @@ import org.eclipse.lyo.oslc4j.core.model.Link;
 import org.eclipse.lyo.oslc4j.core.model.AbstractResource;
 
 import co.oslc.refimpl.rm.gen.RestDelegate;
-import co.oslc.refimpl.rm.gen.RMConstants;
+import co.oslc.refimpl.rm.gen.ServerConstants;
 import org.eclipse.lyo.oslc.domains.rm.Oslc_rmDomainConstants;
 import org.eclipse.lyo.oslc.domains.rm.Oslc_rmDomainConstants;
 import co.oslc.refimpl.rm.gen.servlet.ServiceProviderCatalogSingleton;
@@ -101,6 +102,7 @@ public class WebServiceBasic
     @Context private HttpServletRequest httpServletRequest;
     @Context private HttpServletResponse httpServletResponse;
     @Context private UriInfo uriInfo;
+    @Inject  private RestDelegate delegate;
 
     private static final Logger log = LoggerFactory.getLogger(WebServiceBasic.class);
 
@@ -147,13 +149,13 @@ public class WebServiceBasic
         // Start of user code getResource_init
         // End of user code
 
-        final Requirement aRequirement = RestDelegate.getRequirement(httpServletRequest, serviceProviderId, resourceId);
+        final Requirement aRequirement = delegate.getRequirement(httpServletRequest, serviceProviderId, resourceId);
 
         if (aRequirement != null) {
             // Start of user code getRequirement
             // End of user code
-            httpServletResponse.setHeader("ETag", RestDelegate.getETagFromRequirement(aRequirement));
-            httpServletResponse.addHeader(RMConstants.HDR_OSLC_VERSION, RMConstants.OSLC_VERSION_V2);
+            httpServletResponse.setHeader("ETag", delegate.getETagFromRequirement(aRequirement));
+            httpServletResponse.addHeader(ServerConstants.HDR_OSLC_VERSION, ServerConstants.OSLC_VERSION_V2);
             return aRequirement;
         }
 
@@ -183,7 +185,7 @@ public class WebServiceBasic
         // Start of user code getRequirementAsHtml_init
         // End of user code
 
-        final Requirement aRequirement = RestDelegate.getRequirement(httpServletRequest, serviceProviderId, resourceId);
+        final Requirement aRequirement = delegate.getRequirement(httpServletRequest, serviceProviderId, resourceId);
 
         if (aRequirement != null) {
             httpServletRequest.setAttribute("aRequirement", aRequirement);
@@ -228,7 +230,7 @@ public class WebServiceBasic
         //TODO: adjust the preview height & width values from the default values provided above.
         // End of user code
 
-        final Requirement aRequirement = RestDelegate.getRequirement(httpServletRequest, serviceProviderId, resourceId);
+        final Requirement aRequirement = delegate.getRequirement(httpServletRequest, serviceProviderId, resourceId);
 
         if (aRequirement != null) {
             final Compact compact = new Compact();
@@ -251,7 +253,7 @@ public class WebServiceBasic
             largePreview.setDocument(UriBuilder.fromUri(aRequirement.getAbout()).path("largePreview").build());
             compact.setLargePreview(largePreview);
 
-            httpServletResponse.addHeader(RMConstants.HDR_OSLC_VERSION, RMConstants.OSLC_VERSION_V2);
+            httpServletResponse.addHeader(ServerConstants.HDR_OSLC_VERSION, ServerConstants.OSLC_VERSION_V2);
             addCORSHeaders(httpServletResponse);
             return compact;
         }
@@ -268,7 +270,7 @@ public class WebServiceBasic
         // Start of user code getRequirementAsHtmlSmallPreview_init
         // End of user code
 
-        final Requirement aRequirement = RestDelegate.getRequirement(httpServletRequest, serviceProviderId, resourceId);
+        final Requirement aRequirement = delegate.getRequirement(httpServletRequest, serviceProviderId, resourceId);
 
         if (aRequirement != null) {
             httpServletRequest.setAttribute("aRequirement", aRequirement);
@@ -276,7 +278,7 @@ public class WebServiceBasic
             // End of user code
 
             RequestDispatcher rd = httpServletRequest.getRequestDispatcher("/co/oslc/refimpl/rm/gen/requirementsmallpreview.jsp");
-            httpServletResponse.addHeader(RMConstants.HDR_OSLC_VERSION, RMConstants.OSLC_VERSION_V2);
+            httpServletResponse.addHeader(ServerConstants.HDR_OSLC_VERSION, ServerConstants.OSLC_VERSION_V2);
             addCORSHeaders(httpServletResponse);
             rd.forward(httpServletRequest, httpServletResponse);
             return;
@@ -295,7 +297,7 @@ public class WebServiceBasic
         // Start of user code getRequirementAsHtmlLargePreview_init
         // End of user code
 
-        final Requirement aRequirement = RestDelegate.getRequirement(httpServletRequest, serviceProviderId, resourceId);
+        final Requirement aRequirement = delegate.getRequirement(httpServletRequest, serviceProviderId, resourceId);
 
         if (aRequirement != null) {
             httpServletRequest.setAttribute("aRequirement", aRequirement);
@@ -303,7 +305,7 @@ public class WebServiceBasic
             // End of user code
 
             RequestDispatcher rd = httpServletRequest.getRequestDispatcher("/co/oslc/refimpl/rm/gen/requirementlargepreview.jsp");
-            httpServletResponse.addHeader(RMConstants.HDR_OSLC_VERSION, RMConstants.OSLC_VERSION_V2);
+            httpServletResponse.addHeader(ServerConstants.HDR_OSLC_VERSION, ServerConstants.OSLC_VERSION_V2);
             addCORSHeaders(httpServletResponse);
             rd.forward(httpServletRequest, httpServletResponse);
             return;
@@ -334,13 +336,13 @@ public class WebServiceBasic
         // Start of user code getResource_init
         // End of user code
 
-        final RequirementCollection aRequirementCollection = RestDelegate.getRequirementCollection(httpServletRequest, serviceProviderId, resourceId);
+        final RequirementCollection aRequirementCollection = delegate.getRequirementCollection(httpServletRequest, serviceProviderId, resourceId);
 
         if (aRequirementCollection != null) {
             // Start of user code getRequirementCollection
             // End of user code
-            httpServletResponse.setHeader("ETag", RestDelegate.getETagFromRequirementCollection(aRequirementCollection));
-            httpServletResponse.addHeader(RMConstants.HDR_OSLC_VERSION, RMConstants.OSLC_VERSION_V2);
+            httpServletResponse.setHeader("ETag", delegate.getETagFromRequirementCollection(aRequirementCollection));
+            httpServletResponse.addHeader(ServerConstants.HDR_OSLC_VERSION, ServerConstants.OSLC_VERSION_V2);
             return aRequirementCollection;
         }
 
@@ -370,7 +372,7 @@ public class WebServiceBasic
         // Start of user code getRequirementCollectionAsHtml_init
         // End of user code
 
-        final RequirementCollection aRequirementCollection = RestDelegate.getRequirementCollection(httpServletRequest, serviceProviderId, resourceId);
+        final RequirementCollection aRequirementCollection = delegate.getRequirementCollection(httpServletRequest, serviceProviderId, resourceId);
 
         if (aRequirementCollection != null) {
             httpServletRequest.setAttribute("aRequirementCollection", aRequirementCollection);
@@ -415,7 +417,7 @@ public class WebServiceBasic
         //TODO: adjust the preview height & width values from the default values provided above.
         // End of user code
 
-        final RequirementCollection aRequirementCollection = RestDelegate.getRequirementCollection(httpServletRequest, serviceProviderId, resourceId);
+        final RequirementCollection aRequirementCollection = delegate.getRequirementCollection(httpServletRequest, serviceProviderId, resourceId);
 
         if (aRequirementCollection != null) {
             final Compact compact = new Compact();
@@ -438,7 +440,7 @@ public class WebServiceBasic
             largePreview.setDocument(UriBuilder.fromUri(aRequirementCollection.getAbout()).path("largePreview").build());
             compact.setLargePreview(largePreview);
 
-            httpServletResponse.addHeader(RMConstants.HDR_OSLC_VERSION, RMConstants.OSLC_VERSION_V2);
+            httpServletResponse.addHeader(ServerConstants.HDR_OSLC_VERSION, ServerConstants.OSLC_VERSION_V2);
             addCORSHeaders(httpServletResponse);
             return compact;
         }
@@ -455,7 +457,7 @@ public class WebServiceBasic
         // Start of user code getRequirementCollectionAsHtmlSmallPreview_init
         // End of user code
 
-        final RequirementCollection aRequirementCollection = RestDelegate.getRequirementCollection(httpServletRequest, serviceProviderId, resourceId);
+        final RequirementCollection aRequirementCollection = delegate.getRequirementCollection(httpServletRequest, serviceProviderId, resourceId);
 
         if (aRequirementCollection != null) {
             httpServletRequest.setAttribute("aRequirementCollection", aRequirementCollection);
@@ -463,7 +465,7 @@ public class WebServiceBasic
             // End of user code
 
             RequestDispatcher rd = httpServletRequest.getRequestDispatcher("/co/oslc/refimpl/rm/gen/requirementcollectionsmallpreview.jsp");
-            httpServletResponse.addHeader(RMConstants.HDR_OSLC_VERSION, RMConstants.OSLC_VERSION_V2);
+            httpServletResponse.addHeader(ServerConstants.HDR_OSLC_VERSION, ServerConstants.OSLC_VERSION_V2);
             addCORSHeaders(httpServletResponse);
             rd.forward(httpServletRequest, httpServletResponse);
             return;
@@ -482,7 +484,7 @@ public class WebServiceBasic
         // Start of user code getRequirementCollectionAsHtmlLargePreview_init
         // End of user code
 
-        final RequirementCollection aRequirementCollection = RestDelegate.getRequirementCollection(httpServletRequest, serviceProviderId, resourceId);
+        final RequirementCollection aRequirementCollection = delegate.getRequirementCollection(httpServletRequest, serviceProviderId, resourceId);
 
         if (aRequirementCollection != null) {
             httpServletRequest.setAttribute("aRequirementCollection", aRequirementCollection);
@@ -490,7 +492,7 @@ public class WebServiceBasic
             // End of user code
 
             RequestDispatcher rd = httpServletRequest.getRequestDispatcher("/co/oslc/refimpl/rm/gen/requirementcollectionlargepreview.jsp");
-            httpServletResponse.addHeader(RMConstants.HDR_OSLC_VERSION, RMConstants.OSLC_VERSION_V2);
+            httpServletResponse.addHeader(ServerConstants.HDR_OSLC_VERSION, ServerConstants.OSLC_VERSION_V2);
             addCORSHeaders(httpServletResponse);
             rd.forward(httpServletRequest, httpServletResponse);
             return;
@@ -519,14 +521,14 @@ public class WebServiceBasic
     {
         // Start of user code deleteRequirement_init
         // End of user code
-        final Requirement aResource = RestDelegate.getRequirement(httpServletRequest, serviceProviderId, resourceId);
+        final Requirement aResource = delegate.getRequirement(httpServletRequest, serviceProviderId, resourceId);
 
         if (aResource != null) {
             // Start of user code deleteRequirement
             // End of user code
-            boolean deleted = RestDelegate.deleteRequirement(httpServletRequest, serviceProviderId, resourceId);
+            boolean deleted = delegate.deleteRequirement(httpServletRequest, serviceProviderId, resourceId);
             if (deleted)
-                return Response.ok().header(RMConstants.HDR_OSLC_VERSION, RMConstants.OSLC_VERSION_V2).build();
+                return Response.ok().header(ServerConstants.HDR_OSLC_VERSION, ServerConstants.OSLC_VERSION_V2).build();
             else
                 throw new WebApplicationException(Status.INTERNAL_SERVER_ERROR);
         }
@@ -554,14 +556,14 @@ public class WebServiceBasic
     {
         // Start of user code deleteRequirementCollection_init
         // End of user code
-        final RequirementCollection aResource = RestDelegate.getRequirementCollection(httpServletRequest, serviceProviderId, resourceId);
+        final RequirementCollection aResource = delegate.getRequirementCollection(httpServletRequest, serviceProviderId, resourceId);
 
         if (aResource != null) {
             // Start of user code deleteRequirementCollection
             // End of user code
-            boolean deleted = RestDelegate.deleteRequirementCollection(httpServletRequest, serviceProviderId, resourceId);
+            boolean deleted = delegate.deleteRequirementCollection(httpServletRequest, serviceProviderId, resourceId);
             if (deleted)
-                return Response.ok().header(RMConstants.HDR_OSLC_VERSION, RMConstants.OSLC_VERSION_V2).build();
+                return Response.ok().header(ServerConstants.HDR_OSLC_VERSION, ServerConstants.OSLC_VERSION_V2).build();
             else
                 throw new WebApplicationException(Status.INTERNAL_SERVER_ERROR);
         }
@@ -592,17 +594,17 @@ public class WebServiceBasic
     {
         // Start of user code updateRequirement_init
         // End of user code
-        final Requirement originalResource = RestDelegate.getRequirement(httpServletRequest, serviceProviderId, resourceId);
+        final Requirement originalResource = delegate.getRequirement(httpServletRequest, serviceProviderId, resourceId);
 
         if (originalResource != null) {
-            final String originalETag = RestDelegate.getETagFromRequirement(originalResource);
+            final String originalETag = delegate.getETagFromRequirement(originalResource);
 
             if ((eTagHeader == null) || (originalETag.equals(eTagHeader))) {
                 // Start of user code updateRequirement
                 // End of user code
-                final Requirement updatedResource = RestDelegate.updateRequirement(httpServletRequest, aResource, serviceProviderId, resourceId);
-                httpServletResponse.setHeader("ETag", RestDelegate.getETagFromRequirement(updatedResource));
-                return Response.ok().header(RMConstants.HDR_OSLC_VERSION, RMConstants.OSLC_VERSION_V2).build();
+                final Requirement updatedResource = delegate.updateRequirement(httpServletRequest, aResource, serviceProviderId, resourceId);
+                httpServletResponse.setHeader("ETag", delegate.getETagFromRequirement(updatedResource));
+                return Response.ok().header(ServerConstants.HDR_OSLC_VERSION, ServerConstants.OSLC_VERSION_V2).build();
             }
             else {
                 throw new WebApplicationException(Status.PRECONDITION_FAILED);
@@ -637,17 +639,17 @@ public class WebServiceBasic
     {
         // Start of user code updateRequirementCollection_init
         // End of user code
-        final RequirementCollection originalResource = RestDelegate.getRequirementCollection(httpServletRequest, serviceProviderId, resourceId);
+        final RequirementCollection originalResource = delegate.getRequirementCollection(httpServletRequest, serviceProviderId, resourceId);
 
         if (originalResource != null) {
-            final String originalETag = RestDelegate.getETagFromRequirementCollection(originalResource);
+            final String originalETag = delegate.getETagFromRequirementCollection(originalResource);
 
             if ((eTagHeader == null) || (originalETag.equals(eTagHeader))) {
                 // Start of user code updateRequirementCollection
                 // End of user code
-                final RequirementCollection updatedResource = RestDelegate.updateRequirementCollection(httpServletRequest, aResource, serviceProviderId, resourceId);
-                httpServletResponse.setHeader("ETag", RestDelegate.getETagFromRequirementCollection(updatedResource));
-                return Response.ok().header(RMConstants.HDR_OSLC_VERSION, RMConstants.OSLC_VERSION_V2).build();
+                final RequirementCollection updatedResource = delegate.updateRequirementCollection(httpServletRequest, aResource, serviceProviderId, resourceId);
+                httpServletResponse.setHeader("ETag", delegate.getETagFromRequirementCollection(updatedResource));
+                return Response.ok().header(ServerConstants.HDR_OSLC_VERSION, ServerConstants.OSLC_VERSION_V2).build();
             }
             else {
                 throw new WebApplicationException(Status.PRECONDITION_FAILED);

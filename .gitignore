@@ -1,7 +1,4 @@
 # Lyo
-*.lost
-model/license/
-model/src/
 
 # Eclipse
 .settings/

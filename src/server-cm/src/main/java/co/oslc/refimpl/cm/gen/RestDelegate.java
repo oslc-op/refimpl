@@ -25,6 +25,7 @@
 package co.oslc.refimpl.cm.gen;
 
 
+import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.ServletContextEvent;
 import java.util.List;
@@ -41,6 +42,11 @@ import org.eclipse.lyo.oslc.domains.Agent;
 import org.eclipse.lyo.oslc.domains.cm.ChangeNotice;
 import org.eclipse.lyo.oslc.domains.cm.ChangeRequest;
 import org.eclipse.lyo.oslc.domains.config.ChangeSet;
+import org.eclipse.lyo.oslc.domains.RdfsClass;
+import org.eclipse.lyo.oslc.domains.config.Component;
+import org.eclipse.lyo.oslc.domains.config.ConceptResource;
+import org.eclipse.lyo.oslc.domains.config.Configuration;
+import org.eclipse.lyo.oslc.domains.config.Contribution;
 import org.eclipse.lyo.oslc.domains.cm.Defect;
 import org.eclipse.lyo.oslc4j.core.model.Discussion;
 import org.eclipse.lyo.oslc.domains.cm.Enhancement;
@@ -48,8 +54,10 @@ import org.eclipse.lyo.oslc.domains.Person;
 import org.eclipse.lyo.oslc.domains.cm.Priority;
 import org.eclipse.lyo.oslc.domains.rm.Requirement;
 import org.eclipse.lyo.oslc.domains.cm.ReviewTask;
+import org.eclipse.lyo.oslc.domains.config.Selections;
 import org.eclipse.lyo.oslc.domains.cm.State;
 import org.eclipse.lyo.oslc.domains.cm.Task;
+import org.eclipse.lyo.oslc.domains.config.VersionResource;
 
 
 
@@ -73,6 +81,8 @@ public class RestDelegate {
     private static final Logger log = LoggerFactory.getLogger(RestDelegate.class);
 
     
+    
+    @Inject ResourcesFactory resourcesFactory;
     // Start of user code class_attributes
     public static final String SP_DEFAULT = "sp_single";
     private static final Logger LOG = LoggerFactory.getLogger(RestDelegate.class);
@@ -80,26 +90,17 @@ public class RestDelegate {
     private static final ResourceRepository<ChangeRequest> changeRequestRepository = new MemResourceRepository<>();
     // End of user code
     
+    public RestDelegate() {
+        log.trace("Delegate is initialized");
+    }
+    
     
     // Start of user code class_methods
     // End of user code
 
-    public static void contextInitializeServletListener(final ServletContextEvent servletContextEvent)
-    {
-        
-        // Start of user code contextInitializeServletListener
-        OSLC4JUtils.setLyoStorePagingPreciseLimit(false);
-        // End of user code
-        
-    }
-
-    public static void contextDestroyServletListener(ServletContextEvent servletContextEvent) 
-    {
-        
-        // Start of user code contextDestroyed
-        // TODO Implement code to shutdown connections to data backbone etc...
-        // End of user code
-    }
+    //The methods contextInitializeServletListener() and contextDestroyServletListener() no longer exits
+    //Migrate any user-specific code blocks to the class co.oslc.refimpl.cm.gen.servlet.ServletListener
+    //Any user-specific code should be found in *.lost files.
 
     public static ServiceProviderInfo[] getServiceProviderInfos(HttpServletRequest httpServletRequest)
     {
@@ -114,7 +115,7 @@ public class RestDelegate {
         return serviceProviderInfos;
     }
 
-    public static List<ChangeRequest> queryChangeRequests(HttpServletRequest httpServletRequest, String where, String prefix, boolean paging, int page, int limit)
+    public List<ChangeRequest> queryChangeRequests(HttpServletRequest httpServletRequest, String where, String prefix, boolean paging, int page, int limit)
     {
         List<ChangeRequest> resources = null;
         
@@ -124,7 +125,7 @@ public class RestDelegate {
         // End of user code
         return resources;
     }
-    public static List<Defect> queryDefects(HttpServletRequest httpServletRequest, String where, String prefix, boolean paging, int page, int limit)
+    public List<Defect> queryDefects(HttpServletRequest httpServletRequest, String where, String prefix, boolean paging, int page, int limit)
     {
         List<Defect> resources = null;
         
@@ -138,7 +139,7 @@ public class RestDelegate {
         // End of user code
         return resources;
     }
-    public static List<Task> queryTasks(HttpServletRequest httpServletRequest, String where, String prefix, boolean paging, int page, int limit)
+    public List<Task> queryTasks(HttpServletRequest httpServletRequest, String where, String prefix, boolean paging, int page, int limit)
     {
         List<Task> resources = null;
         
@@ -152,7 +153,7 @@ public class RestDelegate {
         // End of user code
         return resources;
     }
-    public static List<Enhancement> queryEnhancements(HttpServletRequest httpServletRequest, String where, String prefix, boolean paging, int page, int limit)
+    public List<Enhancement> queryEnhancements(HttpServletRequest httpServletRequest, String where, String prefix, boolean paging, int page, int limit)
     {
         List<Enhancement> resources = null;
         
@@ -166,7 +167,7 @@ public class RestDelegate {
         // End of user code
         return resources;
     }
-    public static List<ReviewTask> queryReviewTasks(HttpServletRequest httpServletRequest, String where, String prefix, boolean paging, int page, int limit)
+    public List<ReviewTask> queryReviewTasks(HttpServletRequest httpServletRequest, String where, String prefix, boolean paging, int page, int limit)
     {
         List<ReviewTask> resources = null;
         
@@ -180,7 +181,7 @@ public class RestDelegate {
         // End of user code
         return resources;
     }
-    public static List<ChangeNotice> queryChangeNotices(HttpServletRequest httpServletRequest, String where, String prefix, boolean paging, int page, int limit)
+    public List<ChangeNotice> queryChangeNotices(HttpServletRequest httpServletRequest, String where, String prefix, boolean paging, int page, int limit)
     {
         List<ChangeNotice> resources = null;
         
@@ -194,7 +195,7 @@ public class RestDelegate {
         // End of user code
         return resources;
     }
-    public static List<ChangeRequest> ChangeRequestSelector(HttpServletRequest httpServletRequest, String terms)   
+    public List<ChangeRequest> ChangeRequestSelector(HttpServletRequest httpServletRequest, String terms)
     {
         List<ChangeRequest> resources = null;
         
@@ -205,7 +206,7 @@ public class RestDelegate {
         // End of user code
         return resources;
     }
-    public static List<Defect> DefectSelector(HttpServletRequest httpServletRequest, String terms)   
+    public List<Defect> DefectSelector(HttpServletRequest httpServletRequest, String terms)
     {
         List<Defect> resources = null;
         
@@ -215,7 +216,7 @@ public class RestDelegate {
         // End of user code
         return resources;
     }
-    public static List<Task> TaskSelector(HttpServletRequest httpServletRequest, String terms)   
+    public List<Task> TaskSelector(HttpServletRequest httpServletRequest, String terms)
     {
         List<Task> resources = null;
         
@@ -225,7 +226,7 @@ public class RestDelegate {
         // End of user code
         return resources;
     }
-    public static List<ReviewTask> ReviewTaskSelector(HttpServletRequest httpServletRequest, String terms)   
+    public List<ReviewTask> ReviewTaskSelector(HttpServletRequest httpServletRequest, String terms)
     {
         List<ReviewTask> resources = null;
         
@@ -235,7 +236,7 @@ public class RestDelegate {
         // End of user code
         return resources;
     }
-    public static List<ChangeNotice> ChangeNoticeSelector(HttpServletRequest httpServletRequest, String terms)   
+    public List<ChangeNotice> ChangeNoticeSelector(HttpServletRequest httpServletRequest, String terms)
     {
         List<ChangeNotice> resources = null;
         
@@ -245,7 +246,7 @@ public class RestDelegate {
         // End of user code
         return resources;
     }
-    public static List<Enhancement> EnhancementSelector(HttpServletRequest httpServletRequest, String terms)   
+    public List<Enhancement> EnhancementSelector(HttpServletRequest httpServletRequest, String terms)
     {
         List<Enhancement> resources = null;
         
@@ -255,7 +256,7 @@ public class RestDelegate {
         // End of user code
         return resources;
     }
-    public static ChangeRequest createChangeRequest(HttpServletRequest httpServletRequest, final ChangeRequest aResource)
+    public ChangeRequest createChangeRequest(HttpServletRequest httpServletRequest, final ChangeRequest aResource)
     {
         ChangeRequest newResource = null;
         
@@ -266,7 +267,7 @@ public class RestDelegate {
             id = UUID.randomUUID().toString();
             aResource.setIdentifier(id);
         }
-        URI uri = ResourcesFactory.constructURIForChangeRequest(id);
+        URI uri = resourcesFactory.constructURIForChangeRequest(id);
         aResource.setAbout(uri);
         aResource.setCreated(new Date());
         changeRequestRepository.addResource(SP_DEFAULT, id, aResource);
@@ -275,7 +276,7 @@ public class RestDelegate {
         return newResource;
     }
 
-    public static Defect createDefectFromDialog(HttpServletRequest httpServletRequest, final Defect aResource)
+    public Defect createDefectFromDialog(HttpServletRequest httpServletRequest, final Defect aResource)
     {
         Defect newResource = null;
         
@@ -285,7 +286,7 @@ public class RestDelegate {
         // End of user code
         return newResource;
     }
-    public static Task createTaskFromDialog(HttpServletRequest httpServletRequest, final Task aResource)
+    public Task createTaskFromDialog(HttpServletRequest httpServletRequest, final Task aResource)
     {
         Task newResource = null;
         
@@ -295,7 +296,7 @@ public class RestDelegate {
         // End of user code
         return newResource;
     }
-    public static ReviewTask createReviewTaskFromDialog(HttpServletRequest httpServletRequest, final ReviewTask aResource)
+    public ReviewTask createReviewTaskFromDialog(HttpServletRequest httpServletRequest, final ReviewTask aResource)
     {
         ReviewTask newResource = null;
         
@@ -305,7 +306,7 @@ public class RestDelegate {
         // End of user code
         return newResource;
     }
-    public static ChangeNotice createChangeNoticeFromDialog(HttpServletRequest httpServletRequest, final ChangeNotice aResource)
+    public ChangeNotice createChangeNoticeFromDialog(HttpServletRequest httpServletRequest, final ChangeNotice aResource)
     {
         ChangeNotice newResource = null;
         
@@ -315,7 +316,7 @@ public class RestDelegate {
         // End of user code
         return newResource;
     }
-    public static Enhancement createEnhancementFromDialog(HttpServletRequest httpServletRequest, final Enhancement aResource)
+    public Enhancement createEnhancementFromDialog(HttpServletRequest httpServletRequest, final Enhancement aResource)
     {
         Enhancement newResource = null;
         
@@ -328,7 +329,7 @@ public class RestDelegate {
 
 
 
-    public static ChangeRequest getChangeRequest(HttpServletRequest httpServletRequest, final String id)
+    public ChangeRequest getChangeRequest(HttpServletRequest httpServletRequest, final String id)
     {
         ChangeRequest aResource = null;
         
@@ -339,7 +340,7 @@ public class RestDelegate {
         return aResource;
     }
 
-    public static Boolean deleteChangeRequest(HttpServletRequest httpServletRequest, final String id)
+    public Boolean deleteChangeRequest(HttpServletRequest httpServletRequest, final String id)
     {
         Boolean deleted = false;
         
@@ -350,11 +351,11 @@ public class RestDelegate {
         return deleted;
     }
 
-    public static ChangeRequest updateChangeRequest(HttpServletRequest httpServletRequest, final ChangeRequest aResource, final String id) {
+    public ChangeRequest updateChangeRequest(HttpServletRequest httpServletRequest, final ChangeRequest aResource, final String id) {
         ChangeRequest updatedResource = null;
         
         // Start of user code updateChangeRequest
-        if(!ResourcesFactory.constructURIForChangeRequest(id).equals(aResource.getAbout())) {
+        if(!resourcesFactory.constructURIForChangeRequest(id).equals(aResource.getAbout())) {
             throw new WebApplicationException("Subject URI shall match the endpoint", Response.Status.BAD_REQUEST);
         }
         aResource.setModified(new Date());
@@ -364,7 +365,7 @@ public class RestDelegate {
         return updatedResource;
     }
 
-    public static String getETagFromChangeNotice(final ChangeNotice aResource)
+    public String getETagFromChangeNotice(final ChangeNotice aResource)
     {
         String eTag = null;
         // Start of user code getETagFromChangeNotice
@@ -372,7 +373,7 @@ public class RestDelegate {
         // End of user code
         return eTag;
     }
-    public static String getETagFromChangeRequest(final ChangeRequest aResource)
+    public String getETagFromChangeRequest(final ChangeRequest aResource)
     {
         String eTag = null;
         // Start of user code getETagFromChangeRequest
@@ -380,7 +381,7 @@ public class RestDelegate {
         // End of user code
         return eTag;
     }
-    public static String getETagFromDefect(final Defect aResource)
+    public String getETagFromDefect(final Defect aResource)
     {
         String eTag = null;
         // Start of user code getETagFromDefect
@@ -388,7 +389,7 @@ public class RestDelegate {
         // End of user code
         return eTag;
     }
-    public static String getETagFromEnhancement(final Enhancement aResource)
+    public String getETagFromEnhancement(final Enhancement aResource)
     {
         String eTag = null;
         // Start of user code getETagFromEnhancement
@@ -396,7 +397,7 @@ public class RestDelegate {
         // End of user code
         return eTag;
     }
-    public static String getETagFromReviewTask(final ReviewTask aResource)
+    public String getETagFromReviewTask(final ReviewTask aResource)
     {
         String eTag = null;
         // Start of user code getETagFromReviewTask
@@ -404,7 +405,7 @@ public class RestDelegate {
         // End of user code
         return eTag;
     }
-    public static String getETagFromTask(final Task aResource)
+    public String getETagFromTask(final Task aResource)
     {
         String eTag = null;
         // Start of user code getETagFromTask

@@ -36,6 +36,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
+import javax.inject.Inject;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -80,7 +81,7 @@ import org.eclipse.lyo.oslc4j.core.model.Link;
 import org.eclipse.lyo.oslc4j.core.model.AbstractResource;
 
 import co.oslc.refimpl.cm.gen.RestDelegate;
-import co.oslc.refimpl.cm.gen.CMConstants;
+import co.oslc.refimpl.cm.gen.ServerConstants;
 import org.eclipse.lyo.oslc.domains.cm.Oslc_cmDomainConstants;
 import co.oslc.refimpl.cm.gen.servlet.ServiceProviderCatalogSingleton;
 import org.eclipse.lyo.oslc.domains.cm.ChangeRequest;
@@ -100,6 +101,7 @@ public class WsChangeRequest
     @Context private HttpServletRequest httpServletRequest;
     @Context private HttpServletResponse httpServletResponse;
     @Context private UriInfo uriInfo;
+    @Inject  private RestDelegate delegate;
 
     private static final Logger log = LoggerFactory.getLogger(WsChangeRequest.class);
 
@@ -146,13 +148,13 @@ public class WsChangeRequest
         // Start of user code getResource_init
         // End of user code
 
-        final ChangeRequest aChangeRequest = RestDelegate.getChangeRequest(httpServletRequest, id);
+        final ChangeRequest aChangeRequest = delegate.getChangeRequest(httpServletRequest, id);
 
         if (aChangeRequest != null) {
             // Start of user code getChangeRequest
             // End of user code
-            httpServletResponse.setHeader("ETag", RestDelegate.getETagFromChangeRequest(aChangeRequest));
-            httpServletResponse.addHeader(CMConstants.HDR_OSLC_VERSION, CMConstants.OSLC_VERSION_V2);
+            httpServletResponse.setHeader("ETag", delegate.getETagFromChangeRequest(aChangeRequest));
+            httpServletResponse.addHeader(ServerConstants.HDR_OSLC_VERSION, ServerConstants.OSLC_VERSION_V2);
             return aChangeRequest;
         }
 
@@ -182,7 +184,7 @@ public class WsChangeRequest
         // Start of user code getChangeRequestAsHtml_init
         // End of user code
 
-        final ChangeRequest aChangeRequest = RestDelegate.getChangeRequest(httpServletRequest, id);
+        final ChangeRequest aChangeRequest = delegate.getChangeRequest(httpServletRequest, id);
 
         if (aChangeRequest != null) {
             httpServletRequest.setAttribute("aChangeRequest", aChangeRequest);
@@ -230,7 +232,7 @@ public class WsChangeRequest
         //TODO: adjust the preview height & width values from the default values provided above.
         // End of user code
 
-        final ChangeRequest aChangeRequest = RestDelegate.getChangeRequest(httpServletRequest, id);
+        final ChangeRequest aChangeRequest = delegate.getChangeRequest(httpServletRequest, id);
 
         if (aChangeRequest != null) {
             final Compact compact = new Compact();
@@ -253,7 +255,7 @@ public class WsChangeRequest
             largePreview.setDocument(UriBuilder.fromUri(aChangeRequest.getAbout()).path("largePreview").build());
             compact.setLargePreview(largePreview);
 
-            httpServletResponse.addHeader(CMConstants.HDR_OSLC_VERSION, CMConstants.OSLC_VERSION_V2);
+            httpServletResponse.addHeader(ServerConstants.HDR_OSLC_VERSION, ServerConstants.OSLC_VERSION_V2);
             addCORSHeaders(httpServletResponse);
             return compact;
         }
@@ -270,7 +272,7 @@ public class WsChangeRequest
         // Start of user code getChangeRequestAsHtmlSmallPreview_init
         // End of user code
 
-        final ChangeRequest aChangeRequest = RestDelegate.getChangeRequest(httpServletRequest, id);
+        final ChangeRequest aChangeRequest = delegate.getChangeRequest(httpServletRequest, id);
 
         if (aChangeRequest != null) {
             httpServletRequest.setAttribute("aChangeRequest", aChangeRequest);
@@ -290,7 +292,7 @@ public class WsChangeRequest
                 throw new WebApplicationException("Could not handle smallPreview", e);
             }
             RequestDispatcher rd = httpServletRequest.getRequestDispatcher("/co/oslc/refimpl/cm/gen/uipreview.jsp");
-            httpServletResponse.addHeader(CMConstants.HDR_OSLC_VERSION, CMConstants.OSLC_VERSION_V2);
+            httpServletResponse.addHeader(ServerConstants.HDR_OSLC_VERSION, ServerConstants.OSLC_VERSION_V2);
             addCORSHeaders(httpServletResponse);
             rd.forward(httpServletRequest, httpServletResponse);
             return;
@@ -309,7 +311,7 @@ public class WsChangeRequest
         // Start of user code getChangeRequestAsHtmlLargePreview_init
         // End of user code
 
-        final ChangeRequest aChangeRequest = RestDelegate.getChangeRequest(httpServletRequest, id);
+        final ChangeRequest aChangeRequest = delegate.getChangeRequest(httpServletRequest, id);
 
         if (aChangeRequest != null) {
             httpServletRequest.setAttribute("aChangeRequest", aChangeRequest);
@@ -329,7 +331,7 @@ public class WsChangeRequest
                 throw new WebApplicationException("Could not handle largePreview", e);
             }
             RequestDispatcher rd = httpServletRequest.getRequestDispatcher("/co/oslc/refimpl/cm/gen/uipreview.jsp");
-            httpServletResponse.addHeader(CMConstants.HDR_OSLC_VERSION, CMConstants.OSLC_VERSION_V2);
+            httpServletResponse.addHeader(ServerConstants.HDR_OSLC_VERSION, ServerConstants.OSLC_VERSION_V2);
             addCORSHeaders(httpServletResponse);
             rd.forward(httpServletRequest, httpServletResponse);
             return;
@@ -358,14 +360,14 @@ public class WsChangeRequest
     {
         // Start of user code deleteChangeRequest_init
         // End of user code
-        final ChangeRequest aResource = RestDelegate.getChangeRequest(httpServletRequest, id);
+        final ChangeRequest aResource = delegate.getChangeRequest(httpServletRequest, id);
 
         if (aResource != null) {
             // Start of user code deleteChangeRequest
             // End of user code
-            boolean deleted = RestDelegate.deleteChangeRequest(httpServletRequest, id);
+            boolean deleted = delegate.deleteChangeRequest(httpServletRequest, id);
             if (deleted)
-                return Response.ok().header(CMConstants.HDR_OSLC_VERSION, CMConstants.OSLC_VERSION_V2).build();
+                return Response.ok().header(ServerConstants.HDR_OSLC_VERSION, ServerConstants.OSLC_VERSION_V2).build();
             else
                 throw new WebApplicationException(Status.INTERNAL_SERVER_ERROR);
         }
@@ -396,17 +398,17 @@ public class WsChangeRequest
     {
         // Start of user code updateChangeRequest_init
         // End of user code
-        final ChangeRequest originalResource = RestDelegate.getChangeRequest(httpServletRequest, id);
+        final ChangeRequest originalResource = delegate.getChangeRequest(httpServletRequest, id);
 
         if (originalResource != null) {
-            final String originalETag = RestDelegate.getETagFromChangeRequest(originalResource);
+            final String originalETag = delegate.getETagFromChangeRequest(originalResource);
 
             if ((eTagHeader == null) || (originalETag.equals(eTagHeader))) {
                 // Start of user code updateChangeRequest
                 // End of user code
-                final ChangeRequest updatedResource = RestDelegate.updateChangeRequest(httpServletRequest, aResource, id);
-                httpServletResponse.setHeader("ETag", RestDelegate.getETagFromChangeRequest(updatedResource));
-                return Response.ok().header(CMConstants.HDR_OSLC_VERSION, CMConstants.OSLC_VERSION_V2).build();
+                final ChangeRequest updatedResource = delegate.updateChangeRequest(httpServletRequest, aResource, id);
+                httpServletResponse.setHeader("ETag", delegate.getETagFromChangeRequest(updatedResource));
+                return Response.ok().header(ServerConstants.HDR_OSLC_VERSION, ServerConstants.OSLC_VERSION_V2).build();
             }
             else {
                 throw new WebApplicationException(Status.PRECONDITION_FAILED);

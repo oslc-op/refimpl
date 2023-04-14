@@ -76,6 +76,7 @@ public class ServiceProviderCatalogSingleton
         serviceProviderCatalog.setAbout(catalogUri);
         serviceProviderCatalog.setTitle("Service Provider Catalog");
         serviceProviderCatalog.setDescription("Service Provider Catalog");
+        
     }
 
     // Start of user code class_methods
@@ -243,4 +244,5 @@ public class ServiceProviderCatalogSingleton
             throw new WebApplicationException(e,Status.INTERNAL_SERVER_ERROR);
         }
     }
+    
 }

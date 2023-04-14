@@ -17,11 +17,11 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        jdk: ['11', '17', '19']
+        jdk: ['11', '17', '20']
         distribution: ['zulu']
         experimental: [false]
         include:
-          - jdk: '20-ea'
+          - jdk: '21-ea'
             distribution: zulu
             experimental: true
     continue-on-error: ${{ matrix.experimental }}

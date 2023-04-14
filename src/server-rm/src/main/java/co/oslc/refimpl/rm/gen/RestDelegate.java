@@ -25,6 +25,7 @@
 package co.oslc.refimpl.rm.gen;
 
 
+import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.ServletContextEvent;
 import java.util.List;
@@ -90,6 +91,8 @@ public class RestDelegate {
     private static final Logger log = LoggerFactory.getLogger(RestDelegate.class);
 
     
+    
+    @Inject ResourcesFactory resourcesFactory;
     // Start of user code class_attributes
     public static final String SP_DEFAULT = "sp_single";
 
@@ -99,6 +102,10 @@ public class RestDelegate {
     private static final StandardAnalyzer indexAnalyser = new StandardAnalyzer();
     private static final Executor indexer = Executors.newSingleThreadExecutor();
     // End of user code
+    
+    public RestDelegate() {
+        log.trace("Delegate is initialized");
+    }
     
     
     // Start of user code class_methods
@@ -164,22 +171,9 @@ public class RestDelegate {
     }
     // End of user code
 
-    public static void contextInitializeServletListener(final ServletContextEvent servletContextEvent)
-    {
-        
-        // Start of user code contextInitializeServletListener
-        OSLC4JUtils.setLyoStorePagingPreciseLimit(false);
-        // End of user code
-        
-    }
-
-    public static void contextDestroyServletListener(ServletContextEvent servletContextEvent) 
-    {
-        
-        // Start of user code contextDestroyed
-        // TODO Implement code to shutdown connections to data backbone etc...
-        // End of user code
-    }
+    //The methods contextInitializeServletListener() and contextDestroyServletListener() no longer exits
+    //Migrate any user-specific code blocks to the class co.oslc.refimpl.rm.gen.servlet.ServletListener
+    //Any user-specific code should be found in *.lost files.
 
     public static ServiceProviderInfo[] getServiceProviderInfos(HttpServletRequest httpServletRequest)
     {
@@ -194,7 +188,7 @@ public class RestDelegate {
         return serviceProviderInfos;
     }
 
-    public static List<Requirement> queryRequirements(HttpServletRequest httpServletRequest, final String serviceProviderId, String where, String prefix, boolean paging, int page, int limit)
+    public List<Requirement> queryRequirements(HttpServletRequest httpServletRequest, final String serviceProviderId, String where, String prefix, boolean paging, int page, int limit)
     {
         List<Requirement> resources = null;
         
@@ -210,7 +204,7 @@ public class RestDelegate {
         // End of user code
         return resources;
     }
-    public static List<Requirement> RequirementSelector(HttpServletRequest httpServletRequest, final String serviceProviderId, String terms)   
+    public List<Requirement> RequirementSelector(HttpServletRequest httpServletRequest, final String serviceProviderId, String terms)
     {
         List<Requirement> resources = null;
         
@@ -242,14 +236,14 @@ public class RestDelegate {
         // End of user code
         return resources;
     }
-    public static Requirement createRequirement(HttpServletRequest httpServletRequest, final Requirement aResource, final String serviceProviderId)
+    public Requirement createRequirement(HttpServletRequest httpServletRequest, final Requirement aResource, final String serviceProviderId)
     {
         Requirement newResource = null;
         
         
         // Start of user code createRequirement
         final Map<String, Requirement> requirements = requirementsForSP(serviceProviderId);
-        aResource.setAbout(ResourcesFactory.constructURIForRequirement(serviceProviderId, aResource.getIdentifier()));
+        aResource.setAbout(resourcesFactory.constructURIForRequirement(serviceProviderId, aResource.getIdentifier()));
         aResource.setCreated(new Date());
         requirements.put(aResource.getIdentifier(), aResource);
         log.info("Created {}", aResource.getShortTitle());
@@ -259,7 +253,7 @@ public class RestDelegate {
         return newResource;
     }
 
-    public static Requirement createRequirementFromDialog(HttpServletRequest httpServletRequest, final Requirement aResource, final String serviceProviderId)
+    public Requirement createRequirementFromDialog(HttpServletRequest httpServletRequest, final Requirement aResource, final String serviceProviderId)
     {
         Requirement newResource = null;
         
@@ -271,7 +265,7 @@ public class RestDelegate {
     }
 
 
-    public static List<RequirementCollection> queryRequirementCollections(HttpServletRequest httpServletRequest, final String serviceProviderId, String where, String prefix, boolean paging, int page, int limit)
+    public List<RequirementCollection> queryRequirementCollections(HttpServletRequest httpServletRequest, final String serviceProviderId, String where, String prefix, boolean paging, int page, int limit)
     {
         List<RequirementCollection> resources = null;
         
@@ -287,7 +281,7 @@ public class RestDelegate {
         // End of user code
         return resources;
     }
-    public static List<RequirementCollection> RequirementCollectionSelector(HttpServletRequest httpServletRequest, final String serviceProviderId, String terms)   
+    public List<RequirementCollection> RequirementCollectionSelector(HttpServletRequest httpServletRequest, final String serviceProviderId, String terms)
     {
         List<RequirementCollection> resources = null;
         
@@ -301,7 +295,7 @@ public class RestDelegate {
         // End of user code
         return resources;
     }
-    public static RequirementCollection createRequirementCollection(HttpServletRequest httpServletRequest, final RequirementCollection aResource, final String serviceProviderId)
+    public RequirementCollection createRequirementCollection(HttpServletRequest httpServletRequest, final RequirementCollection aResource, final String serviceProviderId)
     {
         RequirementCollection newResource = null;
         
@@ -311,7 +305,7 @@ public class RestDelegate {
             throw new WebApplicationException(Response.Status.BAD_REQUEST);
         }
         final Map<String, RequirementCollection> resources = requirementCollectionsForSP(serviceProviderId);
-        aResource.setAbout(ResourcesFactory.constructURIForRequirementCollection(serviceProviderId, aResource.getIdentifier()));
+        aResource.setAbout(resourcesFactory.constructURIForRequirementCollection(serviceProviderId, aResource.getIdentifier()));
         aResource.setCreated(new Date());
         resources.put(aResource.getIdentifier(), aResource);
         log.info("Created {}", aResource.getShortTitle());
@@ -325,7 +319,7 @@ public class RestDelegate {
 
 
 
-    public static Requirement getRequirement(HttpServletRequest httpServletRequest, final String serviceProviderId, final String resourceId)
+    public Requirement getRequirement(HttpServletRequest httpServletRequest, final String serviceProviderId, final String resourceId)
     {
         Requirement aResource = null;
         
@@ -336,7 +330,7 @@ public class RestDelegate {
         // End of user code
         return aResource;
     }
-    public static RequirementCollection getRequirementCollection(HttpServletRequest httpServletRequest, final String serviceProviderId, final String resourceId)
+    public RequirementCollection getRequirementCollection(HttpServletRequest httpServletRequest, final String serviceProviderId, final String resourceId)
     {
         RequirementCollection aResource = null;
         
@@ -349,7 +343,7 @@ public class RestDelegate {
         return aResource;
     }
 
-    public static Boolean deleteRequirement(HttpServletRequest httpServletRequest, final String serviceProviderId, final String resourceId)
+    public Boolean deleteRequirement(HttpServletRequest httpServletRequest, final String serviceProviderId, final String resourceId)
     {
         Boolean deleted = false;
         
@@ -359,7 +353,7 @@ public class RestDelegate {
         // End of user code
         return deleted;
     }
-    public static Boolean deleteRequirementCollection(HttpServletRequest httpServletRequest, final String serviceProviderId, final String resourceId)
+    public Boolean deleteRequirementCollection(HttpServletRequest httpServletRequest, final String serviceProviderId, final String resourceId)
     {
         Boolean deleted = false;
         
@@ -370,11 +364,11 @@ public class RestDelegate {
         return deleted;
     }
 
-    public static Requirement updateRequirement(HttpServletRequest httpServletRequest, final Requirement aResource, final String serviceProviderId, final String resourceId) {
+    public Requirement updateRequirement(HttpServletRequest httpServletRequest, final Requirement aResource, final String serviceProviderId, final String resourceId) {
         Requirement updatedResource = null;
         
         // Start of user code updateRequirement
-        if(!ResourcesFactory.constructURIForRequirement(serviceProviderId, resourceId).equals(aResource.getAbout())) {
+        if(!resourcesFactory.constructURIForRequirement(serviceProviderId, resourceId).equals(aResource.getAbout())) {
             throw new WebApplicationException("Subject URI shall match the endpoint", Response.Status.BAD_REQUEST);
         }
         aResource.setModified(new Date());
@@ -384,11 +378,11 @@ public class RestDelegate {
         // End of user code
         return updatedResource;
     }
-    public static RequirementCollection updateRequirementCollection(HttpServletRequest httpServletRequest, final RequirementCollection aResource, final String serviceProviderId, final String resourceId) {
+    public RequirementCollection updateRequirementCollection(HttpServletRequest httpServletRequest, final RequirementCollection aResource, final String serviceProviderId, final String resourceId) {
         RequirementCollection updatedResource = null;
         
         // Start of user code updateRequirementCollection
-        if(!ResourcesFactory.constructURIForRequirementCollection(serviceProviderId, resourceId).equals(aResource.getAbout())) {
+        if(!resourcesFactory.constructURIForRequirementCollection(serviceProviderId, resourceId).equals(aResource.getAbout())) {
             throw new WebApplicationException("Subject URI shall match the endpoint", Response.Status.BAD_REQUEST);
         }
         aResource.setModified(new Date());
@@ -399,7 +393,7 @@ public class RestDelegate {
         return updatedResource;
     }
 
-    public static String getETagFromRequirement(final Requirement aResource)
+    public String getETagFromRequirement(final Requirement aResource)
     {
         String eTag = null;
         // Start of user code getETagFromRequirement
@@ -407,7 +401,7 @@ public class RestDelegate {
         // End of user code
         return eTag;
     }
-    public static String getETagFromRequirementCollection(final RequirementCollection aResource)
+    public String getETagFromRequirementCollection(final RequirementCollection aResource)
     {
         String eTag = null;
         // Start of user code getETagFromRequirementCollection
