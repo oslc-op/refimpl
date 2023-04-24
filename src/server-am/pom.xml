@@ -21,7 +21,7 @@
         <maven.compiler.release>11</maven.compiler.release>
         <version.lyo>5.0.1-SNAPSHOT</version.lyo>
         <jersey.version>2.35</jersey.version>
-        <swagger.version>2.2.0</swagger.version>
+        <swagger.version>2.2.7</swagger.version>
         <swagger-ui.version>3.52.5</swagger-ui.version>
         <servlet.port>8803</servlet.port>
         <application.contextpath>/</application.contextpath>
@@ -46,6 +46,7 @@
                 <enabled>false</enabled>
             </releases>
         </repository>
+        
     </repositories>
     <!-- Start of user code pre_dependencies
     -->
@@ -349,6 +350,7 @@
                     </webResources>
                 </configuration>
             </plugin>
+        
         </plugins>
     </build>
     <!-- Start of user code post_build
