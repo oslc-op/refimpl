@@ -17,7 +17,7 @@
     <maven.compiler.target>11</maven.compiler.target>
 
     <v.kotlin>1.8.20</v.kotlin>
-    <v.lyo>5.0.1-SNAPSHOT</v.lyo>
+    <v.lyo>5.1.0-alpha</v.lyo>
 <!--    <v.lyo.oslc-ui>${v.lyo}</v.lyo.oslc-ui>-->
     <v.jersey>2.35</v.jersey>
     <v.kotlin.coroutines>1.6.0</v.kotlin.coroutines>
