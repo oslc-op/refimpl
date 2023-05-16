@@ -20,7 +20,7 @@
     <v.lyo>5.1.0-alpha</v.lyo>
 <!--    <v.lyo.oslc-ui>${v.lyo}</v.lyo.oslc-ui>-->
     <v.jersey>2.35</v.jersey>
-    <v.kotlin.coroutines>1.6.0</v.kotlin.coroutines>
+    <v.kotlin.coroutines>1.6.4</v.kotlin.coroutines>
   </properties>
 
   <repositories>
