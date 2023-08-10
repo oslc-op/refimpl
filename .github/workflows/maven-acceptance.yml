@@ -86,16 +86,16 @@ jobs:
       #   uses: docker/setup-docker@v2
       - name: Build with Maven
         run: mvn -B package --file src/pom.xml
-      - name: Start Docker Compose
+      - name: Build and Start Docker Compose
         working-directory: src/
         run: |
           docker-compose build
           docker-compose up -d
       - name: Wait for Services to Start
         run: sleep 30  # Adjust as needed
-      - name: Test Endpoint with curl
+      - name: Test RM SPC endpoint with curl
         run: curl -fsSL --user "admin:admin" http://localhost:8800/services/catalog/singleton
         continue-on-error: true  # Continue even if curl command fails
-      - name: Tear Down Docker Compose Services
+      - name: Tear down Docker Compose
         working-directory: src/
         run: docker-compose down
