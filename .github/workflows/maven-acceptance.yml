@@ -94,7 +94,7 @@ jobs:
       - name: Wait for Services to Start
         run: sleep 30  # Adjust as needed
       - name: Test Endpoint with curl
-        run: curl -sSL http://localhost:8800/services/catalog/singleton
+        run: curl -fsSL --user "admin:admin" http://localhost:8800/services/catalog/singleton
         continue-on-error: true  # Continue even if curl command fails
       - name: Tear Down Docker Compose Services
         working-directory: src/
