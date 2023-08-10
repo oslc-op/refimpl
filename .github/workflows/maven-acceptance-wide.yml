@@ -4,10 +4,9 @@
 name: CI acceptance tests
 
 on:
-  push:
-    branches: [master]
-  pull_request:
-    branches: [master]
+  schedule:
+    # run integration tests every Thursday
+    - cron: "31 20 * * *"
   workflow_dispatch:
 
 concurrency:
@@ -21,16 +20,16 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        # jdk: ['11']
-        # distribution: ['temurin', 'corretto', 'microsoft', 'adopt-openj9', 'zulu']
-        # experimental: [false]
+        jdk: ['11']
+        distribution: ['temurin', 'corretto', 'microsoft', 'adopt-openj9', 'zulu']
+        experimental: [false]
         include:
           - jdk: '17'
             distribution: 'zulu'
             experimental: false
-          # - jdk: '19'
-          #   distribution: 'zulu'
-          #   experimental: true
+          - jdk: '19'
+            distribution: 'zulu'
+            experimental: true
     continue-on-error: ${{ matrix.experimental }}
 
     steps:
