@@ -1,4 +1,4 @@
-FROM tomcat:9-jdk11-temurin
+FROM tomcat:10-jre11
 
 # do not write log files, log everything to the Docker daemon
 COPY config/tomcat-log.properties $CATALINA_BASE/conf/logging.properties
