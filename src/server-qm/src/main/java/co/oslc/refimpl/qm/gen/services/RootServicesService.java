@@ -30,8 +30,8 @@ import javax.ws.rs.core.UriInfo;
 import org.eclipse.lyo.oslc4j.core.model.OslcMediaType;
 import org.eclipse.lyo.oslc4j.core.OSLC4JUtils;
 import co.oslc.refimpl.qm.gen.ServerConstants;
-import co.oslc.refimpl.qm.gen.auth.AuthenticationApplication;
 import co.oslc.refimpl.qm.gen.servlet.ServiceProviderCatalogSingleton;
+import co.oslc.refimpl.qm.gen.auth.AuthenticationApplication;;
 
 // Start of user code imports
 // End of user code
@@ -78,7 +78,7 @@ public class RootServicesService {
                 "    <oslc_am:amServiceProviders rdf:resource=\"" + serviceProviderCatalog + "\" />" + "\n" +
                 "    <oslc_rm:rmServiceProviders rdf:resource=\"" + serviceProviderCatalog + "\" />" + "\n" +
                 "    <oslc_cm:cmServiceProviders rdf:resource=\"" + serviceProviderCatalog + "\" />" + "\n" +
-                "    <jfs:oauthRealmName>" + AuthenticationApplication.OAUTH_REALM + "</jfs:oauthRealmName>" + "\n" +
+                "    <jfs:oauthRealmName>" + AuthenticationApplication.getApplication().getRealm(httpServletRequest) + "</jfs:oauthRealmName>" + "\n" +
                 "    <jfs:oauthDomain>" + OSLC4JUtils.getPublicURI() + "</jfs:oauthDomain>" + "\n" +
                 "    <jfs:oauthRequestConsumerKeyUrl rdf:resource=\"" + oauthRequestConsumerKeyUrl + "\"/>" + "\n" +
                 "    <jfs:oauthApprovalModuleUrl rdf:resource=\"" + oauthApprovalModuleUrl + "\"/>" + "\n" +

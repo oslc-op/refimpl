@@ -44,7 +44,6 @@ import org.eclipse.lyo.server.oauth.core.OAuthConfiguration;
 import org.eclipse.lyo.server.oauth.core.OAuthRequest;
 import org.eclipse.lyo.server.oauth.core.token.SimpleTokenStrategy;
 import org.eclipse.lyo.server.oauth.core.AuthenticationException;
-
 import co.oslc.refimpl.qm.gen.auth.AuthenticationApplication;
 
 // Start of user code imports
@@ -131,7 +130,7 @@ public class CredentialsFilter implements Filter {
                     } catch (OAuthException e) {
                         // Start of user code checkOauth1_exception
                         // End of user code
-                        OAuthServlet.handleException(response, e, AuthenticationApplication.OAUTH_REALM);
+                        OAuthServlet.handleException(response, e, authenticationApplication.getRealm(request));
                         return;
                     }
                 } 
@@ -186,7 +185,7 @@ public class CredentialsFilter implements Filter {
     public void init(FilterConfig arg0) throws ServletException {
         OAuthConfiguration config = OAuthConfiguration.getInstance();
         AuthenticationApplication authenticationApplication = AuthenticationApplication.getApplication();
-
+        
         // Validates a user's ID and password.
         config.setApplication(authenticationApplication);
 
