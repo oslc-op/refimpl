@@ -88,7 +88,7 @@ jobs:
         run: mvn -B package --file src/pom.xml
       - name: Start Docker Compose
         working-directory: src/
-        run:
+        run: |
           docker-compose build
           docker-compose up -d
       - name: Wait for Services to Start
