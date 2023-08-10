@@ -99,3 +99,53 @@ jobs:
       - name: Tear down Docker Compose
         working-directory: src/
         run: docker-compose down
+
+
+  docker-compose-e2e-tomcat:
+    runs-on: [ubuntu-latest]
+    timeout-minutes: 15
+    strategy:
+      fail-fast: false
+      matrix:
+        # jdk: ['11']
+        # distribution: ['temurin', 'corretto', 'microsoft', 'adopt-openj9', 'zulu']
+        # experimental: [false]
+        include:
+          - jdk: '17'
+            distribution: 'zulu'
+            experimental: false
+          # - jdk: '19'
+          #   distribution: 'zulu'
+          #   experimental: true
+    continue-on-error: ${{ matrix.experimental }}
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up JDK ${{ matrix.jdk }}
+        uses: actions/setup-java@v3
+        with:
+          distribution: ${{ matrix.distribution }}
+          java-version: ${{ matrix.jdk }}
+      - uses: actions/cache@v3
+        with:
+          path: ~/.m2/repository
+          key: ${{ runner.os }}-${{ matrix.jdk }}_${{ matrix.distribution }}-maven-${{ hashFiles('**/pom.xml') }}
+          restore-keys: |
+            ${{ runner.os }}-${{ matrix.jdk }}_${{ matrix.distribution }}-maven-
+      # - name: Set up Docker
+      #   uses: docker/setup-docker@v2
+      - name: Build with Maven
+        run: mvn -B package --file src/pom.xml
+      - name: Build and Start Docker Compose
+        working-directory: src/
+        run: |
+          docker-compose -f docker-compose.tomcat.yml build
+          docker-compose -f docker-compose.tomcat.yml up -d
+      - name: Wait for Services to Start
+        run: sleep 30  # Adjust as needed
+      - name: Test RM SPC endpoint with curl
+        run: curl -fsSL --user "admin:admin" http://localhost:8800/services/catalog/singleton
+        continue-on-error: true  # Continue even if curl command fails
+      - name: Tear down Docker Compose
+        working-directory: src/
+        run: docker-compose  -f docker-compose.tomcat.yml down

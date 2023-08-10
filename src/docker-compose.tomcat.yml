@@ -1,0 +1,20 @@
+version: "3.9"
+services:
+  server-rm:
+    build:
+      context: server-rm/
+      dockerfile: tomcat.Dockerfile
+    ports:
+      - "8800:8080"
+  server-cm:
+    build: server-cm/
+    ports:
+      - "8801:8080"
+  server-qm:
+    build: server-qm/
+    ports:
+      - "8802:8080"
+  server-am:
+    build: server-am/
+    ports:
+      - "8803:8080"
