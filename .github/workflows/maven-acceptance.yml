@@ -87,7 +87,8 @@ jobs:
       - name: Build with Maven
         run: mvn -B package --file src/pom.xml
       - name: Start Docker Compose
-        run: |
+        working-directory: src/
+        run:
           docker-compose build
           docker-compose up -d
       - name: Wait for Services to Start
@@ -96,4 +97,5 @@ jobs:
         run: curl -sSL http://localhost:8800/services/catalog/singleton
         continue-on-error: true  # Continue even if curl command fails
       - name: Tear Down Docker Compose Services
+        working-directory: src/
         run: docker-compose down
