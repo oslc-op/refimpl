@@ -51,7 +51,7 @@ jobs:
       - name: Allow failures
         run: 'true'
 
-  docker-smoke:
+  docker-compose-e2e:
     runs-on: [ubuntu-latest]
     timeout-minutes: 15
     strategy:
