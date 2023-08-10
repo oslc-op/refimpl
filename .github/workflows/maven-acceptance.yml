@@ -82,8 +82,8 @@ jobs:
           key: ${{ runner.os }}-${{ matrix.jdk }}_${{ matrix.distribution }}-maven-${{ hashFiles('**/pom.xml') }}
           restore-keys: |
             ${{ runner.os }}-${{ matrix.jdk }}_${{ matrix.distribution }}-maven-
-      - name: Set up Docker
-        uses: docker/setup-docker@v2
+      # - name: Set up Docker
+      #   uses: docker/setup-docker@v2
       - name: Build with Maven
         run: mvn -B package --file src/pom.xml
       - name: Start Docker Compose
