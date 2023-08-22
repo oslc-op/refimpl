@@ -28,6 +28,12 @@ jobs:
           - jdk: '17'
             distribution: 'zulu'
             experimental: false
+          - jdk: '20'
+            distribution: 'zulu'
+            experimental: false
+          - jdk: '21-ea'
+            distribution: 'zulu'
+            experimental: false
           # - jdk: '19'
           #   distribution: 'zulu'
           #   experimental: true
