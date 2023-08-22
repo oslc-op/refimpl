@@ -21,7 +21,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        jdk: ['11', '17', '20']
+        jdk: ['17', '20']
         distribution: ['zulu']
         experimental: [false]
         include:

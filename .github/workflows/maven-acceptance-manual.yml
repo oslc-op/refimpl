@@ -24,15 +24,9 @@ jobs:
         # distribution: ['temurin', 'corretto', 'microsoft', 'adopt-openj9', 'zulu']
         # experimental: [false]
         include:
-          - jdk: '11'
+          - jdk: '17'
             distribution: 'temurin'
             experimental: false
-          # - jdk: '17'
-          #   distribution: 'temurin'
-          #   experimental: false
-          # - jdk: '19'
-          #   distribution: 'zulu'
-          #   experimental: true
     continue-on-error: ${{ matrix.experimental }}
 
     steps:

@@ -20,14 +20,14 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        jdk: ['11']
+        jdk: ['17']
         distribution: ['temurin', 'corretto', 'microsoft', 'adopt-openj9', 'zulu']
         experimental: [false]
         include:
-          - jdk: '17'
+          - jdk: '20'
             distribution: 'zulu'
             experimental: false
-          - jdk: '19'
+          - jdk: '21-ea'
             distribution: 'zulu'
             experimental: true
     continue-on-error: ${{ matrix.experimental }}
