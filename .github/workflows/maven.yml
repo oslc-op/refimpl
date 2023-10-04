@@ -34,7 +34,10 @@ jobs:
     continue-on-error: ${{ matrix.experimental }}
 
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout Code
+        uses: actions/checkout@v4
+        with:
+          show-progress: false
       - name: Set up JDK ${{ matrix.jdk }}
         uses: actions/setup-java@v3
         with:
@@ -56,7 +59,7 @@ jobs:
       fail-fast: false
       matrix:
         jdk: ['17']
-        distribution: ['zulu']
+        distribution: ['temurin']
         experimental: [false]
         # include:
         #   - jdk: '21-ea'
@@ -65,7 +68,10 @@ jobs:
     continue-on-error: ${{ matrix.experimental }}
 
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout Code
+        uses: actions/checkout@v4
+        with:
+          show-progress: false
       - name: Set up JDK ${{ matrix.jdk }}
         uses: actions/setup-java@v3
         with:
