@@ -15,7 +15,6 @@
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     <maven.compiler.source>17</maven.compiler.source>
     <maven.compiler.target>17</maven.compiler.target>
-    <maven.compiler.release>17</maven.compiler.release>
 
     <v.kotlin>1.8.20</v.kotlin>
     <v.lyo>6.0.0-SNAPSHOT</v.lyo>
