@@ -16,10 +16,10 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <maven.compiler.source>11</maven.compiler.source>
-        <maven.compiler.target>11</maven.compiler.target>
-        <maven.compiler.release>11</maven.compiler.release>
-        <version.lyo>5.2.0-SNAPSHOT</version.lyo>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
+        <maven.compiler.release>17</maven.compiler.release>
+        <version.lyo>6.0.0-SNAPSHOT</version.lyo>
         <jersey.version>2.35</jersey.version>
         <swagger.version>2.2.7</swagger.version>
         <swagger-ui.version>3.52.5</swagger-ui.version>
@@ -278,6 +278,9 @@
                 <configuration>
                   <webApp>
                     <contextPath>${application.contextpath}</contextPath>
+                    <_initParams>
+                        <org.eclipse.jetty.servlet.Default.useFileMappedBuffer>false</org.eclipse.jetty.servlet.Default.useFileMappedBuffer>
+                    </_initParams>
                   </webApp>
                   <httpConnector>
                     <port>${servlet.port}</port>

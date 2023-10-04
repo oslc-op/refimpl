@@ -37,10 +37,10 @@
         </init-param>
         <load-on-startup>1</load-on-startup>
     </servlet>
-    <!-- Start of user code webxml3
-  -->
-  <!-- TODO: Add additional configurations here to avoid them be overrriden upon future re-generation -->
-  <!-- End of user code
+    <!-- Start of user code webxml_servlet
+    -->
+    <!-- TODO: Add additional configurations here to avoid them be overridden upon future re-generation -->
+    <!-- End of user code
     -->
     <servlet-mapping>
         <servlet-name>JAX-RS Servlet</servlet-name>
@@ -55,9 +55,10 @@
         <filter-name>CredentialsFilter</filter-name>
         <url-pattern>/services/*</url-pattern>
     </filter-mapping>
-    <!-- Start of user code webxml4
-  -->
-  <!-- TODO: Add additional configurations here to avoid them be overrriden upon future re-generation -->
-  <!-- End of user code
+    
+    <!-- Start of user code webxml_final
+    -->
+    <!-- TODO: Add additional configurations here to avoid them be overridden upon future re-generation -->
+    <!-- End of user code
     -->
 </web-app>

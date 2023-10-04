@@ -31,7 +31,7 @@ import org.eclipse.lyo.oslc4j.core.model.OslcMediaType;
 import org.eclipse.lyo.oslc4j.core.OSLC4JUtils;
 import co.oslc.refimpl.cm.gen.ServerConstants;
 import co.oslc.refimpl.cm.gen.servlet.ServiceProviderCatalogSingleton;
-import co.oslc.refimpl.cm.gen.auth.AuthenticationApplication;;
+import co.oslc.refimpl.cm.gen.auth.AuthenticationApplication;
 
 // Start of user code imports
 // End of user code

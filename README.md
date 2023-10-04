@@ -28,7 +28,7 @@ There are multiple options to run the OSLC Server.
 
 This is the simplest option if you don't want to use anything except JDK and a Maven installation. Prerequisites:
 
-- JDK 11
+- JDK 17
 - Maven 3
 
 Follow these steps to start 4 servers:

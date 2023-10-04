@@ -37,9 +37,9 @@
         </init-param>
         <load-on-startup>1</load-on-startup>
     </servlet>
-    <!-- Start of user code webxml3
+    <!-- Start of user code webxml_servlet
     -->
-    <!-- TODO: Add additional configurations here to avoid them be overrriden upon future re-generation -->
+    <!-- TODO: Add additional configurations here to avoid them be overridden upon future re-generation -->
     <!-- End of user code
     -->
     <servlet-mapping>
@@ -55,9 +55,10 @@
         <filter-name>CredentialsFilter</filter-name>
         <url-pattern>/services/*</url-pattern>
     </filter-mapping>
-    <!-- Start of user code webxml4
+    
+    <!-- Start of user code webxml_final
     -->
-    <!-- TODO: Add additional configurations here to avoid them be overrriden upon future re-generation -->
+    <!-- TODO: Add additional configurations here to avoid them be overridden upon future re-generation -->
     <!-- End of user code
     -->
 </web-app>

@@ -13,11 +13,12 @@
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-    <maven.compiler.source>11</maven.compiler.source>
-    <maven.compiler.target>11</maven.compiler.target>
+    <maven.compiler.source>17</maven.compiler.source>
+    <maven.compiler.target>17</maven.compiler.target>
+    <maven.compiler.release>17</maven.compiler.release>
 
     <v.kotlin>1.8.20</v.kotlin>
-    <v.lyo>5.2.0-SNAPSHOT</v.lyo>
+    <v.lyo>6.0.0-SNAPSHOT</v.lyo>
 <!--    <v.lyo.oslc-ui>${v.lyo}</v.lyo.oslc-ui>-->
     <v.jersey>2.35</v.jersey>
     <v.kotlin.coroutines>1.6.4</v.kotlin.coroutines>
