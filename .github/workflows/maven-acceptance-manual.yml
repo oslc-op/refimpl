@@ -36,12 +36,12 @@ jobs:
     continue-on-error: ${{ matrix.experimental }}
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           repository: eclipse/lyo
           ref: "${{ github.event.inputs.lyoBranch }}"
           path: lyo-trunk
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           path: main
       - name: Set up JDK ${{ matrix.jdk }}
