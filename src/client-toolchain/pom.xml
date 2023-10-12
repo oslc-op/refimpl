@@ -19,7 +19,7 @@
     <v.kotlin>1.8.20</v.kotlin>
     <v.lyo>6.0.0-SNAPSHOT</v.lyo>
 <!--    <v.lyo.oslc-ui>${v.lyo}</v.lyo.oslc-ui>-->
-    <v.jersey>2.35</v.jersey>
+    <v.jersey>2.40</v.jersey>
     <v.kotlin.coroutines>1.6.4</v.kotlin.coroutines>
   </properties>
 
