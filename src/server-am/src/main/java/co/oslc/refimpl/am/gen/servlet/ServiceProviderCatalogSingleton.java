@@ -101,11 +101,8 @@ public class ServiceProviderCatalogSingleton
 
     public static ServiceProvider [] getServiceProviders(HttpServletRequest httpServletRequest)
     {
-        synchronized(serviceProviders)
-        {
-            initServiceProviders(httpServletRequest);
-            return serviceProviders.values().toArray(new ServiceProvider[ serviceProviders.size()]);
-        }
+        initServiceProviders(httpServletRequest);
+        return serviceProviders.values().toArray(new ServiceProvider[ serviceProviders.size()]);
     }
 
     public static boolean containsServiceProvider(final String identifier) {
@@ -223,7 +220,7 @@ public class ServiceProviderCatalogSingleton
     * creation to create unique URI paths for each ServiceProvider. 
     *
     */
-    protected static void initServiceProviders (HttpServletRequest httpServletRequest)
+    protected static synchronized void initServiceProviders (HttpServletRequest httpServletRequest)
     {
         try {
             // Start of user code initServiceProviders
