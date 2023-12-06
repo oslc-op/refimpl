@@ -28,8 +28,10 @@ package co.oslc.refimpl.cm.gen;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.ServletContextEvent;
+
 import java.util.List;
 import java.util.ArrayList;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -65,6 +67,7 @@ import org.eclipse.lyo.oslc.domains.config.VersionResource;
 import java.net.URI;
 import java.util.Date;
 import java.util.UUID;
+import java.util.NoSuchElementException;
 
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Response;
@@ -335,7 +338,12 @@ public class RestDelegate {
         
         
         // Start of user code getChangeRequest
-        aResource = changeRequestRepository.getResource(SP_DEFAULT, id);
+        try {
+            aResource = changeRequestRepository.getResource(SP_DEFAULT, id);
+        } catch (NoSuchElementException e) {
+            return null;
+//            throw new WebApplicationException(Response.Status.NOT_FOUND);
+        }
         // End of user code
         return aResource;
     }
