@@ -13,9 +13,9 @@
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-    <maven.compiler.source>11</maven.compiler.source>
-    <maven.compiler.target>11</maven.compiler.target>
-    <groovy.version>4.0.5</groovy.version>
+    <maven.compiler.source>17</maven.compiler.source>
+    <maven.compiler.target>17</maven.compiler.target>
+    <groovy.version>4.0.16</groovy.version>
   </properties>
 
   <build>
@@ -26,7 +26,7 @@
         visit https://github.com/groovy/GMavenPlus/wiki -->
         <groupId>org.codehaus.gmavenplus</groupId>
         <artifactId>gmavenplus-plugin</artifactId>
-        <version>1.13.1</version>
+        <version>3.0.2</version>
         <executions>
           <execution>
             <goals>
@@ -40,7 +40,7 @@
       <!-- Only required if names of spec classes don't match default Surefire patterns (`*Test` etc.) -->
       <plugin>
         <artifactId>maven-surefire-plugin</artifactId>
-        <version>3.0.0-M5</version>
+        <version>3.2.2</version>
         <configuration>
           <useModulePath>false</useModulePath> <!-- https://issues.apache.org/jira/browse/SUREFIRE-1809 -->
           <useFile>false</useFile>
@@ -77,7 +77,7 @@
     <dependency>
       <groupId>org.testcontainers</groupId>
       <artifactId>spock</artifactId>
-      <version>1.18.1</version>
+      <version>1.19.3</version>
       <scope>test</scope>
     </dependency>
     <!-- Mandatory dependencies for using Spock -->
@@ -100,13 +100,13 @@
     <dependency> <!-- enables mocking of classes (in addition to interfaces) -->
       <groupId>net.bytebuddy</groupId>
       <artifactId>byte-buddy</artifactId>
-      <version>1.11.0</version>
+      <version>1.14.10</version>
       <scope>test</scope>
     </dependency>
     <dependency> <!-- enables mocking of classes without default constructor (together with ByteBuddy or CGLIB) -->
       <groupId>org.objenesis</groupId>
       <artifactId>objenesis</artifactId>
-      <version>3.2</version>
+      <version>3.3</version>
       <scope>test</scope>
     </dependency>
     <dependency> <!-- only required if Hamcrest matchers are used -->
