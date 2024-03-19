@@ -28,6 +28,9 @@ jobs:
           - jdk: '22'
             distribution: zulu
             experimental: true
+          - jdk: '23-ea'
+            distribution: zulu
+            experimental: true
     continue-on-error: ${{ matrix.experimental }}
 
     steps:
