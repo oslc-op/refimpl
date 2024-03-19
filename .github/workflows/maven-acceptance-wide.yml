@@ -20,13 +20,13 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        jdk: ['17']
+        jdk: ['17', '21']
         distribution: ['temurin', 'corretto', 'microsoft', 'adopt-openj9', 'zulu']
         experimental: [false]
         include:
-          - jdk: '21'
+          - jdk: '22'
             distribution: 'zulu'
-            experimental: false
+            experimental: true
           # - jdk: '22-ea'
           #   distribution: 'zulu'
           #   experimental: true
