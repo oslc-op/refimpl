@@ -9,9 +9,9 @@ import org.eclipse.lyo.oslc4j.provider.jena.JenaModelHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.ws.rs.WebApplicationException;
-import javax.ws.rs.core.Response;
-import javax.xml.bind.DatatypeConverter;
+import jakarta.ws.rs.WebApplicationException;
+import jakarta.ws.rs.core.Response;
+import jakarta.xml.bind.DatatypeConverter;
 import javax.xml.datatype.DatatypeConfigurationException;
 import java.io.StringWriter;
 import java.lang.reflect.InvocationTargetException;
