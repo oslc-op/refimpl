@@ -25,9 +25,9 @@
 package co.oslc.refimpl.am.gen;
 
 
-import javax.inject.Inject;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.ServletContextEvent;
+import jakarta.inject.Inject;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.ServletContextEvent;
 import java.util.List;
 import java.util.ArrayList;
 import org.slf4j.Logger;
@@ -49,8 +49,8 @@ import java.net.URI;
 import java.util.Date;
 import java.util.UUID;
 
-import javax.ws.rs.WebApplicationException;
-import javax.ws.rs.core.Response;
+import jakarta.ws.rs.WebApplicationException;
+import jakarta.ws.rs.core.Response;
 
 import co.oslc.refimpl.lib.MemResourceRepository;
 import co.oslc.refimpl.lib.ResourceRepository;
