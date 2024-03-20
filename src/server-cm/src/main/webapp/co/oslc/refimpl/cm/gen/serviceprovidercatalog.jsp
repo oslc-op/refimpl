@@ -18,7 +18,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page import="org.eclipse.lyo.oslc4j.core.model.ServiceProviderCatalog" %>
 <%@ page import="org.eclipse.lyo.oslc4j.core.model.ServiceProvider" %>
-<%@page import="javax.ws.rs.core.UriBuilder"%>
+<%@page import="jakarta.ws.rs.core.UriBuilder"%>
 <%@page import="org.eclipse.lyo.oslc4j.core.OSLC4JUtils"%>
 
 <%@ page contentType="text/html" language="java" pageEncoding="UTF-8" %>
