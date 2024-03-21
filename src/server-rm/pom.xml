@@ -148,7 +148,7 @@
         <dependency>
             <groupId>jakarta.servlet.jsp.jstl</groupId>
             <artifactId>jakarta.servlet.jsp.jstl-api</artifactId>
-            <version>1.2.5</version>
+            <version>3.0.0</version>
         </dependency>
         <dependency>
             <groupId>org.glassfish.hk2.external</groupId>
