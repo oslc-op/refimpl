@@ -27,8 +27,8 @@ import java.net.ConnectException
 import java.net.URI
 import java.util.*
 import javax.net.ssl.SSLContext
-import javax.ws.rs.client.ClientBuilder
-import javax.ws.rs.core.Response
+import jakarta.ws.rs.client.ClientBuilder
+import jakarta.ws.rs.core.Response
 import kotlin.collections.HashSet
 import kotlin.system.measureNanoTime
 

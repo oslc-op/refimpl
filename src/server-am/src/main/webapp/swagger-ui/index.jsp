@@ -16,7 +16,7 @@
 --%>
 
 <%@page import="org.eclipse.lyo.oslc4j.core.OSLC4JUtils"%>
-<%@page import="javax.ws.rs.core.UriBuilder"%>
+<%@page import="jakarta.ws.rs.core.UriBuilder"%>
 <%@page import="java.net.URI"%>
 <%@page import="java.io.File"%>
 

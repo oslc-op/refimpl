@@ -19,7 +19,7 @@
 
 package co.oslc.refimpl.cm.gen.clients;
 
-import javax.ws.rs.core.Response;
+import jakarta.ws.rs.core.Response;
 import org.eclipse.lyo.client.OSLCConstants;
 import org.eclipse.lyo.client.OslcClient;
 import org.eclipse.lyo.oslc4j.core.model.ServiceProviderCatalog;

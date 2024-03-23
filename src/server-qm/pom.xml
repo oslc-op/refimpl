@@ -20,8 +20,8 @@
         <maven.compiler.target>17</maven.compiler.target>
         <maven.compiler.release>17</maven.compiler.release>
         <version.lyo>6.0.0-SNAPSHOT</version.lyo>
-        <jersey.version>2.35</jersey.version>
-        <swagger.version>2.2.7</swagger.version>
+        <jersey.version>3.1.5</jersey.version>
+        <swagger.version>2.2.20</swagger.version>
         <swagger-ui.version>3.52.5</swagger-ui.version>
         <servlet.port>8802</servlet.port>
         <application.contextpath>/</application.contextpath>
@@ -128,9 +128,9 @@
         </dependency>
         <!-- Servlet dependencies -->
         <dependency>
-            <groupId>javax.servlet</groupId>
-            <artifactId>javax.servlet-api</artifactId>
-            <version>3.1.0</version>
+            <groupId>jakarta.servlet</groupId>
+            <artifactId>jakarta.servlet-api</artifactId>
+            <version>6.0.0</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
@@ -183,7 +183,7 @@
         <dependency>
             <groupId>org.glassfish.jaxb</groupId>
             <artifactId>jaxb-runtime</artifactId>
-            <version>4.0.2</version>
+            <version>4.0.5</version>
             <scope>runtime</scope>
         </dependency>
         <!-- Lyo dependencies -->
@@ -232,7 +232,7 @@
         <!-- Swagger dependencies -->
         <dependency>
             <groupId>io.swagger.core.v3</groupId>
-            <artifactId>swagger-jaxrs2</artifactId>
+            <artifactId>swagger-jaxrs2-jakarta</artifactId>
             <version>${swagger.version}</version>
             <exclusions>
                 <exclusion>
@@ -244,7 +244,7 @@
         </dependency>
         <dependency>
             <groupId>io.swagger.core.v3</groupId>
-            <artifactId>swagger-jaxrs2-servlet-initializer-v2</artifactId>
+            <artifactId>swagger-jaxrs2-servlet-initializer-v2-jakarta</artifactId>
             <version>${swagger.version}</version>
         </dependency>
         <!-- Start of user code dependencies_final
@@ -266,9 +266,9 @@
             <!-- End of user code
             -->
             <plugin>
-                <groupId>org.eclipse.jetty</groupId>
-                <artifactId>jetty-maven-plugin</artifactId>
-                <version>10.0.7</version>
+                <groupId>org.eclipse.jetty.ee10</groupId>
+                <artifactId>jetty-ee10-maven-plugin</artifactId>
+                <version>12.0.7</version>
                 <configuration>
                   <webApp>
                     <contextPath>${application.contextpath}</contextPath>

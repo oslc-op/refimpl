@@ -26,7 +26,7 @@
 <%@ page import="org.eclipse.lyo.oslc4j.core.model.CreationFactory" %>
 <%@ page import="org.eclipse.lyo.oslc4j.core.model.ResourceShape" %>
 <%@ page import="org.eclipse.lyo.oslc4j.core.model.QueryCapability" %>
-<%@page import="javax.ws.rs.core.UriBuilder"%>
+<%@page import="jakarta.ws.rs.core.UriBuilder"%>
 <%@page import="org.eclipse.lyo.oslc4j.core.OSLC4JUtils"%>
 
 <%@ page contentType="text/html" language="java" pageEncoding="UTF-8" %>

@@ -34,10 +34,10 @@ import java.util.SortedSet;
 import java.util.TreeMap;
 import java.util.TreeSet;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.ws.rs.WebApplicationException;
-import javax.ws.rs.core.Response.Status;
-import javax.ws.rs.core.UriBuilder;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.ws.rs.WebApplicationException;
+import jakarta.ws.rs.core.Response.Status;
+import jakarta.ws.rs.core.UriBuilder;
 
 import org.eclipse.lyo.oslc4j.core.exception.OslcCoreApplicationException;
 import org.eclipse.lyo.oslc4j.core.model.Service;

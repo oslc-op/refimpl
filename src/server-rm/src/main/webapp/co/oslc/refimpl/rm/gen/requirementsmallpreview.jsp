@@ -33,7 +33,7 @@
 <%@page import="java.util.Iterator"%>
 <%@page import="java.util.Map"%>
 <%@page import="javax.xml.namespace.QName"%>
-<%@page import="javax.ws.rs.core.UriBuilder"%>
+<%@page import="jakarta.ws.rs.core.UriBuilder"%>
 
 <%@page import="org.eclipse.lyo.oslc.domains.rm.Requirement"%>
 <%@page import="org.eclipse.lyo.oslc.domains.rm.Oslc_rmDomainConstants"%>

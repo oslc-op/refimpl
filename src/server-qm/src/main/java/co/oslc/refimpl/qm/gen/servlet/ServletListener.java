@@ -31,11 +31,11 @@ import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.servlet.ServletContext;
-import javax.servlet.ServletContextEvent;
-import javax.servlet.ServletContextListener;
-import javax.servlet.ServletRegistration;
-import javax.ws.rs.core.UriBuilder;
+import jakarta.servlet.ServletContext;
+import jakarta.servlet.ServletContextEvent;
+import jakarta.servlet.ServletContextListener;
+import jakarta.servlet.ServletRegistration;
+import jakarta.ws.rs.core.UriBuilder;
 
 import org.eclipse.lyo.oslc4j.core.OSLC4JUtils;
 import co.oslc.refimpl.qm.gen.RestDelegate;
