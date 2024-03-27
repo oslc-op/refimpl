@@ -1,8 +1,8 @@
 
 # OSLC 2020 Reference Implementation
 
-![CI](https://github.com/oslc-op/refimpl/workflows/CI/badge.svg)
-[![](https://img.shields.io/badge/talk-discourse-lightgrey.svg)](https://forum.open-services.net/)
+[![CI build](https://github.com/oslc-op/refimpl/actions/workflows/maven.yml/badge.svg)](https://github.com/oslc-op/refimpl/actions/workflows/maven.yml)
+[![Discourse users](https://img.shields.io/discourse/users?color=28bd84&server=https%3A%2F%2Fforum.open-services.net%2F)](https://forum.open-services.net/)
 [![Gitpod ready-to-code](https://img.shields.io/badge/Gitpod-ready--to--code-blue?logo=gitpod)](https://gitpod.io/#https://github.com/oslc-op/refimpl)
 
 
