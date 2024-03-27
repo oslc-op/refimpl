@@ -149,7 +149,22 @@
             <groupId>jakarta.servlet.jsp.jstl</groupId>
             <artifactId>jakarta.servlet.jsp.jstl-api</artifactId>
             <version>3.0.0</version>
+            <!--If running with the jetty-maven-plugin, you 
+            get warnings about jsp classes being scanned from multiple locations.
+            add the "provided" scope to avoid this warning.
+            -->
+            <!--<scope>provided</scope>-->
         </dependency>
+		<dependency>
+		    <groupId>org.glassfish.web</groupId>
+		    <artifactId>jakarta.servlet.jsp.jstl</artifactId>
+		    <version>3.0.1</version>
+            <!--If running with the jetty-maven-plugin, you 
+            get warnings about jsp classes being scanned from multiple locations.
+            add the "provided" scope to avoid this warning.
+            -->
+            <!--<scope>provided</scope>-->
+		</dependency>
         <dependency>
             <groupId>org.glassfish.hk2.external</groupId>
             <artifactId>jakarta.inject</artifactId>
@@ -311,15 +326,13 @@
             <plugin>
                 <groupId>org.codehaus.cargo</groupId>
                 <artifactId>cargo-maven3-plugin</artifactId>
-                <version>1.10.6</version>
+                <version>1.10.12</version>
                 <configuration>
                     <!--This plugins supports the following containers-->
                     <container>
                         <!--These containers are know to work-->
-                        <containerId>tomcat9x</containerId>
-                        <!-- <containerId>jetty10x</containerId> -->
-                        <!-- <containerId>jetty9x</containerId> -->
-                        <!-- <containerId>tomee8x</containerId> -->
+                        <!--<containerId>tomcat10x</containerId>-->
+                        <containerId>jetty12x</containerId>
                         <!-- <containerId>payara</containerId> -->
                         <!-- <containerId>wildfly26x</containerId> -->
                         <!--These containers are know to fail-->
