@@ -49,9 +49,9 @@
         </repository>
         
     </repositories>
-    <!-- Start of user code pre_dependencies
-    -->
     <profiles>
+        <!-- Start of user code profiles
+        -->
         <profile>
             <id>strict</id>
             <build>
@@ -106,24 +106,34 @@
             </plugins>
             </build>
         </profile>
-	    <profile>
-			<!-- some servlet containers (Tomcat) does not ship with a JSTL impl
-			In such cases, run with this profile-->
-	        <id>with-jstl-impl</id>
-	        <dependencies>
-				<dependency>
-		            <groupId>jakarta.servlet.jsp.jstl</groupId>
-		            <artifactId>jakarta.servlet.jsp.jstl-api</artifactId>
-		            <version>3.0.0</version>
-		        </dependency>
-				<dependency>
-				    <groupId>org.glassfish.web</groupId>
-				    <artifactId>jakarta.servlet.jsp.jstl</artifactId>
-				    <version>3.0.1</version>
-				</dependency>
-	        </dependencies>
-	    </profile>
+        <!-- End of user code
+        -->
+        <profile>
+        <!-- some servlet containers (Tomcat) does not ship with a JSTL impl
+        In such cases, run with this profile-->
+            <id>with-jstl-impl</id>
+            <dependencies>
+              <!-- Start of user code profile_dependencies
+              -->
+              <!-- TODO: Add additional dependencies to this profile here to avoid them be overridden upon future re-generation -->
+              <!-- End of user code
+              -->
+              <dependency>
+                  <groupId>jakarta.servlet.jsp.jstl</groupId>
+                  <artifactId>jakarta.servlet.jsp.jstl-api</artifactId>
+                  <version>3.0.0</version>
+              </dependency>
+              <dependency>
+                  <groupId>org.glassfish.web</groupId>
+                  <artifactId>jakarta.servlet.jsp.jstl</artifactId>
+                  <version>3.0.1</version>
+              </dependency>
+            </dependencies>
+        </profile>
+        
     </profiles>
+    <!-- Start of user code pre_dependencies
+    -->
     <!-- End of user code
     -->
     <dependencies>
@@ -313,8 +323,8 @@
             -->
             <plugin>
                 <groupId>org.eclipse.jetty</groupId>
-			    <artifactId>jetty-maven-plugin</artifactId>
-			    <version>11.0.20</version>
+                <artifactId>jetty-maven-plugin</artifactId>
+                <version>11.0.20</version>
                 <configuration>
                   <webApp>
                     <contextPath>${application.contextpath}</contextPath>
