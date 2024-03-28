@@ -106,6 +106,23 @@
             </plugins>
             </build>
         </profile>
+	    <profile>
+			<!-- some servlet containers (Tomcat) does not ship with a JSTL impl
+			In such cases, run with this profile-->
+	        <id>with-jstl-impl</id>
+	        <dependencies>
+				<dependency>
+		            <groupId>jakarta.servlet.jsp.jstl</groupId>
+		            <artifactId>jakarta.servlet.jsp.jstl-api</artifactId>
+		            <version>3.0.0</version>
+		        </dependency>
+				<dependency>
+				    <groupId>org.glassfish.web</groupId>
+				    <artifactId>jakarta.servlet.jsp.jstl</artifactId>
+				    <version>3.0.1</version>
+				</dependency>
+	        </dependencies>
+	    </profile>
     </profiles>
     <!-- End of user code
     -->
@@ -149,28 +166,16 @@
             <groupId>jakarta.servlet.jsp.jstl</groupId>
             <artifactId>jakarta.servlet.jsp.jstl-api</artifactId>
             <version>3.0.0</version>
-            <!--If running with the jetty-maven-plugin, you 
+            <!--When running with the jetty-maven-plugin, you 
             get warnings about jsp classes being scanned from multiple locations.
-            add the "provided" scope to avoid this warning.
-            -->
-            <!--<scope>provided</scope>-->
+            adding the "provided" scope avoids these warnings.-->
+            <scope>provided</scope>
         </dependency>
-		<dependency>
-		    <groupId>org.glassfish.web</groupId>
-		    <artifactId>jakarta.servlet.jsp.jstl</artifactId>
-		    <version>3.0.1</version>
-            <!--If running with the jetty-maven-plugin, you 
-            get warnings about jsp classes being scanned from multiple locations.
-            add the "provided" scope to avoid this warning.
-            -->
-            <!--<scope>provided</scope>-->
-		</dependency>
         <dependency>
             <groupId>org.glassfish.hk2.external</groupId>
             <artifactId>jakarta.inject</artifactId>
             <version>2.6.1</version>
         </dependency>
-        
         <dependency>
             <groupId>org.glassfish.jersey.core</groupId>
             <artifactId>jersey-server</artifactId>
@@ -307,9 +312,9 @@
             <!-- End of user code
             -->
             <plugin>
-                <groupId>org.eclipse.jetty.ee10</groupId>
-                <artifactId>jetty-ee10-maven-plugin</artifactId>
-                <version>12.0.7</version>
+                <groupId>org.eclipse.jetty</groupId>
+			    <artifactId>jetty-maven-plugin</artifactId>
+			    <version>11.0.20</version>
                 <configuration>
                   <webApp>
                     <contextPath>${application.contextpath}</contextPath>
@@ -331,7 +336,7 @@
                     <!--This plugins supports the following containers-->
                     <container>
                         <!--These containers are know to work-->
-                        <!--<containerId>tomcat10x</containerId>-->
+                        <containerId>tomcat10x</containerId>
                         <containerId>jetty12x</containerId>
                         <!-- <containerId>payara</containerId> -->
                         <!-- <containerId>wildfly26x</containerId> -->
