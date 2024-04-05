@@ -17,9 +17,9 @@
     <maven.compiler.target>17</maven.compiler.target>
 
     <v.kotlin>1.8.20</v.kotlin>
-    <v.lyo>6.0.0.Alpha1</v.lyo>
+    <v.lyo>6.0.0-SNAPSHOT</v.lyo>
 <!--    <v.lyo.oslc-ui>${v.lyo}</v.lyo.oslc-ui>-->
-    <v.jersey>2.35</v.jersey>
+    <v.jersey>3.1.5</v.jersey>
     <v.kotlin.coroutines>1.6.4</v.kotlin.coroutines>
   </properties>
 
@@ -65,7 +65,7 @@
     <dependency>
       <groupId>org.slf4j</groupId>
       <artifactId>slf4j-simple</artifactId>
-      <version>1.7.33</version>
+      <version>1.7.36</version>
       <scope>runtime</scope>
     </dependency>
     <dependency>
@@ -75,8 +75,8 @@
       <exclusions>
         <exclusion>
           <!-- Jakarta API is used in Lyo Client -->
-          <groupId>javax.ws.rs</groupId>
-          <artifactId>javax.ws.rs-api</artifactId>
+          <groupId>jakarta.ws.rs</groupId>
+          <artifactId>jakarta.ws.rs-api</artifactId>
         </exclusion>
       </exclusions>
     </dependency>

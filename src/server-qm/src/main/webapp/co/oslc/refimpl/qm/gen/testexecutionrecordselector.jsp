@@ -21,7 +21,7 @@
 <%@page import="org.eclipse.lyo.oslc4j.core.model.ServiceProvider"%>
 <%@page import="org.eclipse.lyo.oslc.domains.qm.TestExecutionRecord"%>
 <%@page import="org.eclipse.lyo.oslc4j.core.OSLC4JUtils"%>
-<%@page import="javax.ws.rs.core.UriBuilder"%>
+<%@page import="jakarta.ws.rs.core.UriBuilder"%>
 
 <%@ page contentType="text/html" language="java" pageEncoding="UTF-8" %>
 

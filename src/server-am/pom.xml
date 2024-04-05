@@ -19,9 +19,9 @@
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
         <maven.compiler.release>17</maven.compiler.release>
-        <version.lyo>6.0.0.Alpha1</version.lyo>
-        <jersey.version>2.35</jersey.version>
-        <swagger.version>2.2.7</swagger.version>
+        <version.lyo>6.0.0-SNAPSHOT</version.lyo>
+        <jersey.version>3.1.5</jersey.version>
+        <swagger.version>2.2.20</swagger.version>
         <swagger-ui.version>3.52.5</swagger-ui.version>
         <servlet.port>8803</servlet.port>
         <application.contextpath>/</application.contextpath>
@@ -48,9 +48,9 @@
         </repository>
         
     </repositories>
-    <!-- Start of user code pre_dependencies
-    -->
     <profiles>
+        <!-- Start of user code profiles
+        -->
       <profile>
         <id>strict</id>
         <build>
@@ -105,7 +105,34 @@
           </plugins>
         </build>
       </profile>
+        <!-- End of user code
+        -->
+        <profile>
+        <!-- some servlet containers (Tomcat) does not ship with a JSTL impl
+        In such cases, run with this profile-->
+            <id>with-jstl-impl</id>
+            <dependencies>
+              <!-- Start of user code profile_dependencies
+              -->
+              <!-- TODO: Add additional dependencies to this profile here to avoid them be overridden upon future re-generation -->
+              <!-- End of user code
+              -->
+              <dependency>
+                  <groupId>jakarta.servlet.jsp.jstl</groupId>
+                  <artifactId>jakarta.servlet.jsp.jstl-api</artifactId>
+                  <version>3.0.0</version>
+              </dependency>
+              <dependency>
+                  <groupId>org.glassfish.web</groupId>
+                  <artifactId>jakarta.servlet.jsp.jstl</artifactId>
+                  <version>3.0.1</version>
+              </dependency>
+            </dependencies>
+        </profile>
+        
     </profiles>
+    <!-- Start of user code pre_dependencies
+    -->
     <!-- End of user code
     -->
     <dependencies>
@@ -128,22 +155,25 @@
         </dependency>
         <!-- Servlet dependencies -->
         <dependency>
-            <groupId>javax.servlet</groupId>
-            <artifactId>javax.servlet-api</artifactId>
-            <version>3.1.0</version>
+            <groupId>jakarta.servlet</groupId>
+            <artifactId>jakarta.servlet-api</artifactId>
+            <version>6.0.0</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>jakarta.servlet.jsp.jstl</groupId>
             <artifactId>jakarta.servlet.jsp.jstl-api</artifactId>
-            <version>1.2.5</version>
+            <version>3.0.0</version>
+            <!--When running with the jetty-maven-plugin, you 
+            get warnings about jsp classes being scanned from multiple locations.
+            adding the "provided" scope avoids these warnings.-->
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.glassfish.hk2.external</groupId>
             <artifactId>jakarta.inject</artifactId>
             <version>2.6.1</version>
         </dependency>
-        
         <dependency>
             <groupId>org.glassfish.jersey.core</groupId>
             <artifactId>jersey-server</artifactId>
@@ -183,7 +213,7 @@
         <dependency>
             <groupId>org.glassfish.jaxb</groupId>
             <artifactId>jaxb-runtime</artifactId>
-            <version>4.0.2</version>
+            <version>4.0.5</version>
             <scope>runtime</scope>
         </dependency>
         <!-- Lyo dependencies -->
@@ -232,7 +262,7 @@
         <!-- Swagger dependencies -->
         <dependency>
             <groupId>io.swagger.core.v3</groupId>
-            <artifactId>swagger-jaxrs2</artifactId>
+            <artifactId>swagger-jaxrs2-jakarta</artifactId>
             <version>${swagger.version}</version>
             <exclusions>
                 <exclusion>
@@ -244,7 +274,7 @@
         </dependency>
         <dependency>
             <groupId>io.swagger.core.v3</groupId>
-            <artifactId>swagger-jaxrs2-servlet-initializer-v2</artifactId>
+            <artifactId>swagger-jaxrs2-servlet-initializer-v2-jakarta</artifactId>
             <version>${swagger.version}</version>
         </dependency>
         <!-- Start of user code dependencies_final
@@ -268,7 +298,7 @@
             <plugin>
                 <groupId>org.eclipse.jetty</groupId>
                 <artifactId>jetty-maven-plugin</artifactId>
-                <version>10.0.7</version>
+                <version>11.0.20</version>
                 <configuration>
                   <webApp>
                     <contextPath>${application.contextpath}</contextPath>
@@ -285,15 +315,13 @@
             <plugin>
                 <groupId>org.codehaus.cargo</groupId>
                 <artifactId>cargo-maven3-plugin</artifactId>
-                <version>1.10.6</version>
+                <version>1.10.12</version>
                 <configuration>
                     <!--This plugins supports the following containers-->
                     <container>
                         <!--These containers are know to work-->
-                        <containerId>tomcat9x</containerId>
-                        <!-- <containerId>jetty10x</containerId> -->
-                        <!-- <containerId>jetty9x</containerId> -->
-                        <!-- <containerId>tomee8x</containerId> -->
+                        <containerId>tomcat10x</containerId>
+                        <containerId>jetty12x</containerId>
                         <!-- <containerId>payara</containerId> -->
                         <!-- <containerId>wildfly26x</containerId> -->
                         <!--These containers are know to fail-->

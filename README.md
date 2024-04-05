@@ -126,7 +126,7 @@ cd src/
 mvn clean install
 
 cd server-rm/
-mvn clean package
+mvn clean package -Pwith-jstl-impl
 docker build -f tomcat.Dockerfile -t refimpl-server-rm .
 docker run -p 8800:8080 refimpl-server-rm
 ```
@@ -141,16 +141,16 @@ mvn clean install
 # mvn clean verify -Pacceptance
 
 cd server-rm/
-mvn cargo:run
+mvn clean package cargo:run -D"cargo.maven.containerId=tomcat10x" -Pwith-jstl-impl
 
 cd ../server-cm/
-mvn cargo:run
+mvn clean package cargo:run -D"cargo.maven.containerId=tomcat10x" -Pwith-jstl-impl
 
 cd ../server-qm/
-mvn cargo:run
+mvn clean package cargo:run -D"cargo.maven.containerId=tomcat10x" -Pwith-jstl-impl
 
 cd ../server-am/
-mvn cargo:run
+mvn clean package cargo:run -D"cargo.maven.containerId=tomcat10x" -Pwith-jstl-impl
 
 ```
 ## Populate with sample data
