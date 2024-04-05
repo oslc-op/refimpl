@@ -58,7 +58,7 @@ After following these steps, proceed to the steps listed in the next section _Na
 
 If you wish to run 4 OSLC servers as 4 containers similar to how one would deploy them in the cloud, you could follow steps listed in this subsection. Prerequisites:
 
-- JDK 11
+- JDK 17
 - Maven 3
 - Docker CE 19 or equivalent
 - (Optional) Docker Compose
