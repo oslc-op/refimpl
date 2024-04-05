@@ -60,3 +60,116 @@ jobs:
       - name: Run tests on RefImpl
         run: mvn -B -Pacceptance clean verify --file main/src/pom.xml
 
+
+  docker-compose-e2e:
+    runs-on: [ubuntu-latest]
+    timeout-minutes: 15
+    strategy:
+      fail-fast: false
+      matrix:
+        # jdk: ['11']
+        # distribution: ['temurin', 'corretto', 'microsoft', 'adopt-openj9', 'zulu']
+        # experimental: [false]
+        include:
+          - jdk: '17'
+            distribution: 'zulu'
+            experimental: false
+          # - jdk: '19'
+          #   distribution: 'zulu'
+          #   experimental: true
+    continue-on-error: ${{ matrix.experimental }}
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          repository: eclipse/lyo
+          ref: "${{ github.event.inputs.lyoBranch }}"
+          path: lyo-trunk
+      - uses: actions/checkout@v4
+        with:
+          path: main
+      - name: Set up JDK ${{ matrix.jdk }}
+        uses: actions/setup-java@v4
+        with:
+          distribution: ${{ matrix.distribution }}
+          java-version: ${{ matrix.jdk }}
+      - uses: actions/cache@v4
+        with:
+          path: ~/.m2/repository
+          key: ${{ runner.os }}-${{ matrix.jdk }}_${{ matrix.distribution }}-maven-${{ hashFiles('**/pom.xml') }}
+          restore-keys: |
+            ${{ runner.os }}-${{ matrix.jdk }}_${{ matrix.distribution }}-maven-
+      - name: Build Lyo locally (branch ${{ github.event.inputs.lyoBranch }})
+        run: mvn -B clean install --file lyo-trunk/pom.xml -DskipTests -Dmaven.javadoc.skip=true
+      - name: Build with Maven
+        run: mvn -B package --file main/src/pom.xml
+      - name: Build and Start Docker Compose
+        working-directory: main/src/
+        run: |
+          docker-compose build
+          docker-compose up -d
+      - name: Wait for Services to Start
+        run: sleep 30  # Adjust as needed
+      - name: Test RM SPC endpoint with curl
+        run: curl -fsSL --user "admin:admin" http://localhost:8800/services/catalog/singleton
+        continue-on-error: true  # Continue even if curl command fails
+      - name: Tear down Docker Compose
+        working-directory: main/src/
+        run: docker-compose down
+
+
+  docker-compose-e2e-tomcat:
+    runs-on: [ubuntu-latest]
+    timeout-minutes: 15
+    strategy:
+      fail-fast: false
+      matrix:
+        # jdk: ['11']
+        # distribution: ['temurin', 'corretto', 'microsoft', 'adopt-openj9', 'zulu']
+        # experimental: [false]
+        include:
+          - jdk: '17'
+            distribution: 'zulu'
+            experimental: false
+          # - jdk: '19'
+          #   distribution: 'zulu'
+          #   experimental: true
+    continue-on-error: ${{ matrix.experimental }}
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          repository: eclipse/lyo
+          ref: "${{ github.event.inputs.lyoBranch }}"
+          path: lyo-trunk
+      - uses: actions/checkout@v4
+        with:
+          path: main
+      - uses: actions/checkout@v4
+      - name: Set up JDK ${{ matrix.jdk }}
+        uses: actions/setup-java@v4
+        with:
+          distribution: ${{ matrix.distribution }}
+          java-version: ${{ matrix.jdk }}
+      - uses: actions/cache@v4
+        with:
+          path: ~/.m2/repository
+          key: ${{ runner.os }}-${{ matrix.jdk }}_${{ matrix.distribution }}-maven-${{ hashFiles('**/pom.xml') }}
+          restore-keys: |
+            ${{ runner.os }}-${{ matrix.jdk }}_${{ matrix.distribution }}-maven-
+      - name: Build Lyo locally (branch ${{ github.event.inputs.lyoBranch }})
+        run: mvn -B clean install --file lyo-trunk/pom.xml -DskipTests -Dmaven.javadoc.skip=true
+      - name: Build with Maven
+        run: mvn -B package --file main/src/pom.xml -Pwith-jstl-impl
+      - name: Build and Start Docker Compose
+        working-directory: main/src/
+        run: |
+          docker-compose -f docker-compose.tomcat.yml build
+          docker-compose -f docker-compose.tomcat.yml up -d
+      - name: Wait for Services to Start
+        run: sleep 30  # Adjust as needed
+      - name: Test RM SPC endpoint with curl
+        run: curl -fsSL --user "admin:admin" http://localhost:8800/services/catalog/singleton
+      - name: Tear down Docker Compose
+        working-directory: main/src/
+        run: docker-compose  -f docker-compose.tomcat.yml down
