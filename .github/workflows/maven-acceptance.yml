@@ -132,7 +132,7 @@ jobs:
       # - name: Set up Docker
       #   uses: docker/setup-docker@v2
       - name: Build with Maven
-        run: mvn -B package --file src/pom.xml
+        run: mvn -B package --file src/pom.xml -Pwith-jstl-impl
       - name: Build and Start Docker Compose
         working-directory: src/
         run: |

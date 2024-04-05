@@ -7,14 +7,20 @@ services:
     ports:
       - "8800:8080"
   server-cm:
-    build: server-cm/
+    build:
+      context: server-cm/
+      dockerfile: tomcat.Dockerfile
     ports:
       - "8801:8080"
   server-qm:
-    build: server-qm/
+    build:
+      context: server-qm/
+      dockerfile: tomcat.Dockerfile
     ports:
       - "8802:8080"
   server-am:
-    build: server-am/
+    build:
+      context: server-am/
+      dockerfile: tomcat.Dockerfile
     ports:
       - "8803:8080"
