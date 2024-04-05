@@ -158,9 +158,11 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-${{ matrix.jdk }}_${{ matrix.distribution }}-maven-
       - name: Build Lyo locally (branch ${{ github.event.inputs.lyoBranch }})
-        run: mvn -B clean install --file lyo-trunk/pom.xml -DskipTests -Dmaven.javadoc.skip=true
+        working-directory: lyo-trunk/
+        run: mvn -B clean install -DskipTests -Dmaven.javadoc.skip=true
       - name: Build with Maven
-        run: mvn -B package --file main/src/pom.xml -Pwith-jstl-impl
+        working-directory: main/src/
+        run: mvn -B package -Pwith-jstl-impl
       - name: Build and Start Docker Compose
         working-directory: main/src/
         run: |
