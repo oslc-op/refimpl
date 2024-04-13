@@ -25,7 +25,10 @@ jobs:
         experimental: [false]
         include:
           - jdk: '17'
-            distribution: 'zulu'
+            distribution: 'microsoft'
+            experimental: false
+          - jdk: '17'
+            distribution: 'adopt-openj9'
             experimental: false
           - jdk: '23-ea'
             distribution: 'zulu'
