@@ -11,7 +11,7 @@ updates:
     schedule:
       interval: "daily"
   - package-ecosystem: "docker" # See documentation for possible values
-    directory: "/src/" # Location of package manifests
+    directory: "/src/server-am" # Location of package manifests
     open-pull-requests-limit: 30
     schedule:
       interval: "daily"
