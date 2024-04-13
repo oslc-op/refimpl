@@ -28,7 +28,7 @@ jobs:
   analyze:
     name: Analyze
     # doesn't like self-hosted runners
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
     timeout-minutes: 30
     permissions:
       actions: read
