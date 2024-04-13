@@ -7,16 +7,16 @@ version: 2
 updates:
   - package-ecosystem: "maven" # See documentation for possible values
     directory: "/src/" # Location of package manifests
+    open-pull-requests-limit: 30
     schedule:
-      interval: "weekly"
-      day: "thursday"
+      interval: "daily"
   - package-ecosystem: "docker" # See documentation for possible values
     directory: "/src/" # Location of package manifests
+    open-pull-requests-limit: 30
     schedule:
-      interval: "weekly"
-      day: "thursday"
+      interval: "daily"
   - package-ecosystem: "github-actions" # See documentation for possible values
     directory: "/" # Location of package manifests
+    open-pull-requests-limit: 30
     schedule:
-      interval: "weekly"
-      day: "thursday"
+      interval: "daily"
