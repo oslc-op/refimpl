@@ -23,7 +23,7 @@ jobs:
       fail-fast: false
       matrix:
         jdk: ['17']
-        distribution: ['temurin', 'corretto', 'microsoft', 'adopt-openj9', 'zulu']
+        distribution: ['temurin', 'corretto', 'microsoft', 'adopt-openj9', 'zulu', 'liberica' ]
         experimental: [false]
         include:
           - jdk: '21'
