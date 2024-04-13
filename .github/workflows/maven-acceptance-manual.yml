@@ -2,7 +2,7 @@
 # For more information see: https://help.github.com/actions/language-and-framework-guides/building-and-testing-java-with-maven
 
 name: CI acceptance tests (MANUAL)
-
+run-name: "Acceptance tests for branch '${{ github.ref }}' (Lyo branch '${{ github.event.inputs.lyoBranch }}'; comment: ${{ inputs.comment }})"
 on:
   workflow_dispatch:
     inputs:
@@ -10,8 +10,8 @@ on:
         description: 'Lyo branch to test on'
         required: true
         default: 'master'
-      link:
-        description: 'PR/issue link (e.g., to Lyo)'
+      comment:
+        description: 'comment, e.g. PR number'
 
 jobs:
   build:
