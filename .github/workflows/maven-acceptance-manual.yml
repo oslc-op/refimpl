@@ -2,7 +2,7 @@
 # For more information see: https://help.github.com/actions/language-and-framework-guides/building-and-testing-java-with-maven
 
 name: CI acceptance tests (MANUAL)
-run-name: "refimpl@${{ github.ref_name }} (Lyo@${{ github.event.inputs.lyoBranch }}) ${{ inputs.comment }}"
+run-name: "refimpl@${{ github.ref_name }} (Lyo@${{ github.event.inputs.lyoBranch }}; comment: ${{ inputs.comment }})"
 
 on:
   workflow_dispatch:
@@ -13,6 +13,7 @@ on:
         default: 'master'
       comment:
         description: 'comment, e.g. PR number'
+        default: 'n/a'
 
 jobs:
   build:
