@@ -86,8 +86,8 @@ jobs:
       - name: Build and Start Docker Compose
         working-directory: src/
         run: |
-          docker-compose build
-          docker-compose up -d
+          docker compose build
+          docker compose up -d
       - name: Wait for Services to Start
         run: sleep 30  # Adjust as needed
       - name: Test RM SPC endpoint with curl
@@ -95,7 +95,7 @@ jobs:
         continue-on-error: true  # Continue even if curl command fails
       - name: Tear down Docker Compose
         working-directory: src/
-        run: docker-compose down
+        run: docker compose down
 
 
   docker-compose-e2e-tomcat:
@@ -136,12 +136,12 @@ jobs:
       - name: Build and Start Docker Compose
         working-directory: src/
         run: |
-          docker-compose -f docker-compose.tomcat.yml build
-          docker-compose -f docker-compose.tomcat.yml up -d
+          docker compose -f docker-compose.tomcat.yml build
+          docker compose -f docker-compose.tomcat.yml up -d
       - name: Wait for Services to Start
         run: sleep 30  # Adjust as needed
       - name: Test RM SPC endpoint with curl
         run: curl -fsSL --user "admin:admin" http://localhost:8800/services/catalog/singleton
       - name: Tear down Docker Compose
         working-directory: src/
-        run: docker-compose  -f docker-compose.tomcat.yml down
+        run: docker compose  -f docker-compose.tomcat.yml down

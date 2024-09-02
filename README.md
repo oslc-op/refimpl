@@ -70,7 +70,7 @@ cd src/
 mvn clean install
 
 # Using Docker Compose
-docker-compose up --build
+docker compose up --build
 
 # or, only using Docker
 cd server-rm/
