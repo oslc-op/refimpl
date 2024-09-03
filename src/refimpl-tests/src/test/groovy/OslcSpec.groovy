@@ -36,7 +36,7 @@ class OslcSpec extends Specification {
                      .withExposedService(AM_SVC, AM_PORT,
                              Wait.forLogMessage(".*main: Started Server@.*", 1)
                                      .withStartupTimeout(Duration.ofSeconds(STARTUP_TIMEOUT)))
-                    //.withLocalCompose(true)
+                    .withLocalCompose(true)
 //                    .withEnv(System.getenv())
 
     def setupSpec() {
