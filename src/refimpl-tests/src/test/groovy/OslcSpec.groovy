@@ -1,4 +1,4 @@
-import org.testcontainers.containers.DockerComposeContainer
+import org.testcontainers.containers.ComposeContainer
 import org.testcontainers.containers.wait.strategy.Wait
 import org.testcontainers.spock.Testcontainers
 import spock.lang.Specification
@@ -22,8 +22,8 @@ class OslcSpec extends Specification {
 //    static private File composeFile = new File("../docker-compose.yml")
     static private File composeFile = new File("src/test/resources/docker-compose.yml")
 
-    static private DockerComposeContainer environment =
-            new DockerComposeContainer(composeFile)
+    static private ComposeContainer environment =
+            new ComposeContainer(composeFile)
                      .withExposedService(RM_SVC, RM_PORT,
                              Wait.forLogMessage(".*main: Started Server@.*", 1)
                                      .withStartupTimeout(Duration.ofSeconds(STARTUP_TIMEOUT)))
@@ -36,7 +36,7 @@ class OslcSpec extends Specification {
                      .withExposedService(AM_SVC, AM_PORT,
                              Wait.forLogMessage(".*main: Started Server@.*", 1)
                                      .withStartupTimeout(Duration.ofSeconds(STARTUP_TIMEOUT)))
-                    .withLocalCompose(true)
+                    //.withLocalCompose(true)
 //                    .withEnv(System.getenv())
 
     def setupSpec() {
