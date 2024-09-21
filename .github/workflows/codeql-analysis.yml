@@ -30,6 +30,7 @@ jobs:
     # doesn't like self-hosted runners
     runs-on: ubuntu-latest
     timeout-minutes: 30
+    if: ${{ github.actor != 'dependabot[bot]' }}
     permissions:
       actions: read
       contents: read
