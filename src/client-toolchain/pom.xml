@@ -16,7 +16,7 @@
     <maven.compiler.source>17</maven.compiler.source>
     <maven.compiler.target>17</maven.compiler.target>
 
-    <v.kotlin>1.9.23</v.kotlin>
+    <v.kotlin>2.0.20</v.kotlin>
     <v.lyo>6.0.0-SNAPSHOT</v.lyo>
 <!--    <v.lyo.oslc-ui>${v.lyo}</v.lyo.oslc-ui>-->
     <v.jersey>3.1.5</v.jersey>
