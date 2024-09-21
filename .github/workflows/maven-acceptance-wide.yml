@@ -30,10 +30,13 @@ jobs:
           - jdk: '17'
             distribution: 'adopt-openj9'
             experimental: false
-          - jdk: '23-ea'
+          - jdk: '23'
             distribution: 'zulu'
             experimental: true
-    continue-on-error: ${{ matrix.experimental }}
+          - jdk: '24-ea'
+            distribution: 'zulu'
+            experimental: true
+        continue-on-error: ${{ matrix.experimental }}
 
     steps:
       - uses: actions/checkout@v4
