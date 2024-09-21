@@ -25,7 +25,7 @@ jobs:
         distribution: ['temurin']
         experimental: [false]
         include:
-          - jdk: '22'
+          - jdk: '23'
             distribution: 'zulu'
             experimental: true
     continue-on-error: ${{ matrix.experimental }}
