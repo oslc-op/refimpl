@@ -19,7 +19,7 @@
     <maven.compiler.source>17</maven.compiler.source>
     <maven.compiler.target>17</maven.compiler.target>
 
-    <version.lyo>6.0.0-SNAPSHOT</version.lyo>
+    <version.lyo>6.0.0.CR</version.lyo>
 <!--    <version.lyo>5.0.1.CR</version.lyo>-->
     <v.jakarta.servlet.api>6.0.0</v.jakarta.servlet.api>
     <version.jersey>3.1.8</version.jersey>
