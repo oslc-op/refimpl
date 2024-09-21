@@ -12,13 +12,12 @@
 name: "CodeQL"
 
 on:
-  push:
-    branches: [ master ]
+  # push:
+  #   branches: [ master ]
   pull_request:
-    # The branches below must be a subset of the branches above
-    branches: [ master ]
-  schedule:
-    - cron: '33 8 * * 6'
+    branches: [ master, main ]
+  # schedule:
+  #   - cron: '33 8 * * 6'
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -30,6 +29,7 @@ jobs:
     # doesn't like self-hosted runners
     runs-on: ubuntu-latest
     timeout-minutes: 30
+    if: ${{ github.actor != 'dependabot[bot]' }}
     permissions:
       actions: read
       contents: read

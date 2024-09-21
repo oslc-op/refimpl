@@ -28,8 +28,8 @@
         <application.filename>server-rm</application.filename>
         <!-- Start of user code properties
         -->
-        <v.lucene>9.10.0</v.lucene>
-        <v.rest-assured>5.4.0</v.rest-assured>
+        <v.lucene>9.11.1</v.lucene>
+        <v.rest-assured>5.5.0</v.rest-assured>
         <!-- End of user code
         -->
     </properties>
@@ -162,7 +162,7 @@
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-simple</artifactId>
-            <version>1.7.36</version>
+            <version>2.0.16</version>
             <scope>runtime</scope>
         </dependency>
         <!-- Servlet dependencies -->
@@ -336,7 +336,7 @@
             <plugin>
                 <groupId>org.codehaus.cargo</groupId>
                 <artifactId>cargo-maven3-plugin</artifactId>
-                <version>1.10.13</version>
+                <version>1.10.14</version>
                 <configuration>
                     <!--This plugins supports the following containers-->
                     <container>
@@ -370,7 +370,7 @@
                 <!-- Download Swagger UI webjar. -->
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-dependency-plugin</artifactId>
-                <version>3.6.1</version>
+                <version>3.8.0</version>
                 <executions>
                     <execution>
                         <phase>prepare-package</phase>
