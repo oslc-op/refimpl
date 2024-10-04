@@ -20,7 +20,7 @@
     <v.lyo>6.0.0.Final</v.lyo>
 <!--    <v.lyo.oslc-ui>${v.lyo}</v.lyo.oslc-ui>-->
     <v.jersey>3.1.5</v.jersey>
-    <v.kotlin.coroutines>1.8.1</v.kotlin.coroutines>
+    <v.kotlin.coroutines>1.9.0</v.kotlin.coroutines>
   </properties>
 
   <repositories>
