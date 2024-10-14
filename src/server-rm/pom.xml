@@ -28,7 +28,7 @@
         <application.filename>server-rm</application.filename>
         <!-- Start of user code properties
         -->
-        <v.lucene>9.12.0</v.lucene>
+        <v.lucene>10.0.0</v.lucene>
         <v.rest-assured>5.5.0</v.rest-assured>
         <!-- End of user code
         -->
