@@ -20,6 +20,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
+        continue-on-error: ${{ matrix.experimental }}
         jdk: ['17', '21', '22']
         distribution: ['temurin', 'corretto', 'zulu', 'liberica']
         experimental: [false]
@@ -36,7 +37,6 @@ jobs:
           - jdk: '24-ea'
             distribution: 'zulu'
             experimental: true
-        continue-on-error: ${{ matrix.experimental }}
 
     steps:
       - uses: actions/checkout@v4
