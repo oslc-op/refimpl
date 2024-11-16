@@ -2,14 +2,13 @@
   xmlns="http://maven.apache.org/POM/4.0.0"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
-<!--  <parent>
+  <parent>
     <groupId>co.oslc.refimpl</groupId>
     <artifactId>parent</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
-  </parent>-->
-  <groupId>co.oslc.refimpl</groupId>
+    <version>0.3.0-SNAPSHOT</version>
+    <relativePath>../pom.xml</relativePath>
+  </parent>
   <artifactId>lib-common</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
   <name>OSLC RefImpl common library</name>
   <packaging>jar</packaging>
 

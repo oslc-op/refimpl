@@ -1,26 +1,25 @@
-version: "3.9"
 services:
   server-rm:
     build:
-      context: server-rm/
-      dockerfile: tomcat.Dockerfile
+      context: ./
+      dockerfile: ./server-rm/tomcat.Dockerfile
     ports:
       - "8800:8080"
   server-cm:
     build:
-      context: server-cm/
-      dockerfile: tomcat.Dockerfile
+      context: ./
+      dockerfile: ./server-cm/tomcat.Dockerfile
     ports:
       - "8801:8080"
   server-qm:
     build:
-      context: server-qm/
-      dockerfile: tomcat.Dockerfile
+      context: ./
+      dockerfile: ./server-qm/tomcat.Dockerfile
     ports:
       - "8802:8080"
   server-am:
     build:
-      context: server-am/
-      dockerfile: tomcat.Dockerfile
+      context: ./
+      dockerfile: ./server-am/tomcat.Dockerfile
     ports:
       - "8803:8080"

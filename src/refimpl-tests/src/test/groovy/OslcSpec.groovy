@@ -7,19 +7,23 @@ import java.time.Duration
 
 @Testcontainers
 class OslcSpec extends Specification {
+    public static final int STARTUP_TIMEOUT = 120
+
     public static final String RM_SVC = "server-rm"
     public static final String CM_SVC = "server-cm"
     public static final String QM_SVC = "server-qm"
     public static final String AM_SVC = "server-am"
 
+    // static final int RM_PORT = 8800
+    // static final int CM_PORT = 8801
+    // static final int QM_PORT = 8802
+    // static final int AM_PORT = 8803
+    // static private File composeFile = new File("../docker-compose.yml")
+
     static final int RM_PORT = 8080
     static final int CM_PORT = 8080
     static final int QM_PORT = 8080
     static final int AM_PORT = 8080
-
-    public static final int STARTUP_TIMEOUT = 120
-
-//    static private File composeFile = new File("../docker-compose.yml")
     static private File composeFile = new File("src/test/resources/docker-compose.yml")
 
     static private ComposeContainer environment =

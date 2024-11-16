@@ -6,6 +6,12 @@
     <!-- Start of user code header
     -->
     <!-- TODO: Add additional header properties here to avoid them be overrriden upon future re-generation -->
+    <parent>
+      <groupId>co.oslc.refimpl</groupId>
+      <artifactId>parent</artifactId>
+      <version>0.3.0-SNAPSHOT</version>
+      <relativePath>../pom.xml</relativePath>
+    </parent>
     <!-- End of user code
     -->
     <groupId>co.oslc.refimpl</groupId>
@@ -142,7 +148,6 @@
       <dependency>
         <groupId>co.oslc.refimpl</groupId>
         <artifactId>lib-common</artifactId>
-        <version>0.0.1-SNAPSHOT</version>
       </dependency>
         <!-- End of user code
         -->

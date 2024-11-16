@@ -1,4 +1,2 @@
 overlays/
-src/
-target/**/*
-!target/*.war
+target/
