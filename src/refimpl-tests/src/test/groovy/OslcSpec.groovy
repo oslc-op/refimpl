@@ -25,16 +25,16 @@ class OslcSpec extends Specification {
     static private ComposeContainer environment =
             new ComposeContainer(composeFile)
                      .withExposedService(RM_SVC, RM_PORT,
-                             Wait.forLogMessage(".*main: Started Server@.*", 1)
+                             Wait.forLogMessage(".*main: Started oejs.Server@.*", 1)
                                      .withStartupTimeout(Duration.ofSeconds(STARTUP_TIMEOUT)))
                      .withExposedService(CM_SVC, CM_PORT,
-                             Wait.forLogMessage(".*main: Started Server@.*", 1)
+                             Wait.forLogMessage(".*main: Started oejs.Server@.*", 1)
                                      .withStartupTimeout(Duration.ofSeconds(STARTUP_TIMEOUT)))
                      .withExposedService(QM_SVC, QM_PORT,
-                             Wait.forLogMessage(".*main: Started Server@.*", 1)
+                             Wait.forLogMessage(".*main: Started oejs.Server@.*", 1)
                                      .withStartupTimeout(Duration.ofSeconds(STARTUP_TIMEOUT)))
                      .withExposedService(AM_SVC, AM_PORT,
-                             Wait.forLogMessage(".*main: Started Server@.*", 1)
+                             Wait.forLogMessage(".*main: Started oejs.Server@.*", 1)
                                      .withStartupTimeout(Duration.ofSeconds(STARTUP_TIMEOUT)))
                     .withLocalCompose(true)
 //                    .withEnv(System.getenv())
