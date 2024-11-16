@@ -42,7 +42,7 @@
     <requiredAdaptors xsi:type="oslc4j_ai:GenericRequiredAdaptor" serviceProviderCatalogURI="http://your.host.com/adaptor/services/catalog/singleton" name="GenericRequiredAdaptor"/>
     <configuration xsi:type="oslc4j_ai:MavenServerConfiguration" rootServerBaseUrl="http://localhost:8800/" applicationContextPath="/" servletUrlPattern="/services/*" jettyPort="8800">
       <generalConfiguration doNotGenerateFromImportedModels="true" filesBasePath="../src/server-rm/" javaBasePackageName="co.oslc.refimpl.rm.gen"/>
-      <projectConfiguration xsi:type="oslc4j_ai:MavenProjectConfiguration" lyoVersion="6.0.0-SNAPSHOT" groupId="co.oslc.refimpl" artifactId="server-rm" version="0.3.0-SNAPSHOT"/>
+      <projectConfiguration xsi:type="oslc4j_ai:MavenProjectConfiguration" lyoVersion="7.0.0-SNAPSHOT" groupId="co.oslc.refimpl" artifactId="server-rm" version="0.3.0-SNAPSHOT"/>
       <authenticationConfiguration applicationName="RM" oauthRealm="RM"/>
     </configuration>
   </adaptorInterfaces>
@@ -116,7 +116,7 @@
     <requiredAdaptors xsi:type="oslc4j_ai:GenericRequiredAdaptor" serviceProviderCatalogURI="http://your.host.com/adaptor/services/catalog/singleton" name="GenericRequiredAdaptor"/>
     <configuration xsi:type="oslc4j_ai:MavenServerConfiguration" rootServerBaseUrl="http://localhost:8801/" applicationContextPath="/" servletUrlPattern="/services/*" generateJspFilesForOslcUI="true" jettyPort="8801">
       <generalConfiguration doNotGenerateFromImportedModels="true" filesBasePath="../src/server-cm/" javaBasePackageName="co.oslc.refimpl.cm.gen"/>
-      <projectConfiguration xsi:type="oslc4j_ai:MavenProjectConfiguration" lyoVersion="6.0.0-SNAPSHOT" groupId="co.oslc.refimpl" artifactId="server-cm" version="0.3.0-SNAPSHOT"/>
+      <projectConfiguration xsi:type="oslc4j_ai:MavenProjectConfiguration" lyoVersion="7.0.0-SNAPSHOT" groupId="co.oslc.refimpl" artifactId="server-cm" version="0.3.0-SNAPSHOT"/>
       <authenticationConfiguration applicationName="CM" oauthRealm="CM"/>
     </configuration>
   </adaptorInterfaces>
@@ -209,7 +209,7 @@
     <requiredAdaptors xsi:type="oslc4j_ai:GenericRequiredAdaptor" serviceProviderCatalogURI="http://your.host.com/adaptor/services/catalog/singleton" name="GenericRequiredAdaptor"/>
     <configuration xsi:type="oslc4j_ai:MavenServerConfiguration" rootServerBaseUrl="http://localhost:8802/" applicationContextPath="/" servletUrlPattern="/services/*" jettyPort="8802">
       <generalConfiguration doNotGenerateFromImportedModels="true" filesBasePath="../src/server-qm/" javaBasePackageName="co.oslc.refimpl.qm.gen"/>
-      <projectConfiguration xsi:type="oslc4j_ai:MavenProjectConfiguration" lyoVersion="6.0.0-SNAPSHOT" groupId="co.oslc.refimpl" artifactId="server-qm" version="0.3.0-SNAPSHOT"/>
+      <projectConfiguration xsi:type="oslc4j_ai:MavenProjectConfiguration" lyoVersion="7.0.0-SNAPSHOT" groupId="co.oslc.refimpl" artifactId="server-qm" version="0.3.0-SNAPSHOT"/>
       <authenticationConfiguration applicationName="QM" oauthRealm="QM"/>
     </configuration>
   </adaptorInterfaces>
@@ -254,7 +254,7 @@
     <requiredAdaptors xsi:type="oslc4j_ai:GenericRequiredAdaptor" serviceProviderCatalogURI="http://your.host.com/adaptor/services/catalog/singleton" name="GenericRequiredAdaptor"/>
     <configuration xsi:type="oslc4j_ai:MavenServerConfiguration" rootServerBaseUrl="http://localhost:8803/" applicationContextPath="/" servletUrlPattern="/services/*" jettyPort="8803">
       <generalConfiguration doNotGenerateFromImportedModels="true" filesBasePath="../src/server-am/" javaBasePackageName="co.oslc.refimpl.am.gen"/>
-      <projectConfiguration xsi:type="oslc4j_ai:MavenProjectConfiguration" lyoVersion="6.0.0-SNAPSHOT" groupId="co.oslc.refimpl" artifactId="server-am" version="0.3.0-SNAPSHOT"/>
+      <projectConfiguration xsi:type="oslc4j_ai:MavenProjectConfiguration" lyoVersion="7.0.0-SNAPSHOT" groupId="co.oslc.refimpl" artifactId="server-am" version="0.3.0-SNAPSHOT"/>
       <authenticationConfiguration applicationName="AM" oauthRealm="AM"/>
     </configuration>
   </adaptorInterfaces>
