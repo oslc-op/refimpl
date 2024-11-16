@@ -1,10 +1,18 @@
 version: "3.9"
 services:
   server-rm:
-    build: ../../../../server-rm/
+    build:
+      context: ../../../../
+      dockerfile: ../../../../server-rm/Dockerfile
   server-cm:
-    build: ../../../../server-cm/
+    build:
+      context: ../../../../
+      dockerfile: ../../../../server-cm/Dockerfile
   server-qm:
-    build: ../../../../server-qm/
+    build:
+      context: ../../../../
+      dockerfile: ../../../../server-qm/Dockerfile
   server-am:
-    build: ../../../../server-am/
+    build:
+      context: ../../../../
+      dockerfile: ../../../../server-am/Dockerfile
