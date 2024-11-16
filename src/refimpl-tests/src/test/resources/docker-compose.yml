@@ -3,16 +3,16 @@ services:
   server-rm:
     build:
       context: ../../../../
-      dockerfile: ../../../../server-rm/Dockerfile
+      dockerfile: server-rm/Dockerfile
   server-cm:
     build:
       context: ../../../../
-      dockerfile: ../../../../server-cm/Dockerfile
+      dockerfile: server-cm/Dockerfile
   server-qm:
     build:
       context: ../../../../
-      dockerfile: ../../../../server-qm/Dockerfile
+      dockerfile: server-qm/Dockerfile
   server-am:
     build:
       context: ../../../../
-      dockerfile: ../../../../server-am/Dockerfile
+      dockerfile: server-am/Dockerfile
