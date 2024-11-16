@@ -4,7 +4,7 @@
   <name>OSLC 2020 RefImpl (aggregator)</name>
   <groupId>co.oslc.refimpl</groupId>
   <artifactId>parent</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
+  <version>0.3.0-SNAPSHOT</version>
   <packaging>pom</packaging>
 
   <properties>
@@ -21,8 +21,18 @@
     <module>server-qm</module>
     <module>server-am</module>
     <module>client-toolchain</module>
-</modules>
+  </modules>
 
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>co.oslc.refimpl</groupId>
+        <artifactId>lib-common</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
+  
   <profiles>
     <profile>
       <id>acceptance</id>

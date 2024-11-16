@@ -58,41 +58,17 @@ After following these steps, proceed to the steps listed in the next section _Na
 
 If you wish to run 4 OSLC servers as 4 containers similar to how one would deploy them in the cloud, you could follow steps listed in this subsection. Prerequisites:
 
-- JDK 17
-- Maven 3
+- JDK 17 (only for non-Docker builds)
+- Maven 3.9 (only for non-Docker builds)
 - Docker CE 19 or equivalent
-- (Optional) Docker Compose
+- Docker Compose v2
 
 Docker Compose setup was also tested with Rancher Desktop 1.0.1.
 
 ```
 cd src/
-mvn clean install
-
 # Using Docker Compose
 docker compose up --build
-
-# or, only using Docker
-cd server-rm/
-mvn clean package
-docker build -t refimpl-server-rm .
-docker run -d --name=oslc-refimpl-rm --rm -p 8800:8080 refimpl-server-rm
-
-cd ../server-cm/
-mvn clean package
-docker build -t refimpl-server-cm .
-docker run -d --name=oslc-refimpl-cm --rm -p 8801:8080 refimpl-server-cm
-
-cd ../server-qm/
-mvn clean package
-docker build -t refimpl-server-qm .
-docker run -d --name=oslc-refimpl-qm --rm -p 8802:8080 refimpl-server-qm
-
-cd ../server-am/
-mvn clean package
-docker build -t refimpl-server-am .
-docker run -d --name=oslc-refimpl-am --rm  -p 8803:8080 refimpl-server-am
-cd ..
 ```
 
 Make sure all is up and running:
@@ -112,23 +88,12 @@ To see logs:
 
     docker logs oslc-refimpl-am -f
 
-To stop:
-
-    docker stop oslc-refimpl-am
-    docker stop oslc-refimpl-cm
-    docker stop oslc-refimpl-rm
-    docker stop oslc-refimpl-qm
 
 ### Running on Tomcat in Docker
 
 ```bash
 cd src/
-mvn clean install
-
-cd server-rm/
-mvn clean package -Pwith-jstl-impl
-docker build -f tomcat.Dockerfile -t refimpl-server-rm .
-docker run -p 8800:8080 refimpl-server-rm
+docker compose -f docker-compose.tomcat.yml up --build
 ```
 
 ### Running on Tomcat via Maven
