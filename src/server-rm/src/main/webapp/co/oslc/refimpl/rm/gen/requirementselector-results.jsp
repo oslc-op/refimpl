@@ -19,12 +19,16 @@
 
 <%@ page contentType="text/html" language="java" pageEncoding="UTF-8" %>
 
-<c:forEach var="requirement" items="${resources}">
-  <ul>
-    <li>
-      <a href="${requirement.about}"
-        onclick="sendOslcSelectionPostMessage(this, event)"
-        >${requirement.title}</a>
-    </li>
-  </ul>
-</c:forEach>
+<aside>
+  <nav>
+    <ul>
+    <c:forEach var="requirement" items="${resources}">
+      <li>
+        <a href="${requirement.about}"
+          onclick="sendOslcSelectionPostMessage(this, event)"
+          >${requirement.title}</a>
+      </li>
+    </c:forEach>
+    </ul>
+  </nav>
+</aside>
