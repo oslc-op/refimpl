@@ -27,8 +27,15 @@ import jakarta.inject.Singleton;
 import co.oslc.refimpl.rm.gen.RestDelegate;
 import co.oslc.refimpl.rm.gen.ResourcesFactory;
 
+import java.net.URI;
+import java.util.ArrayList;
+import org.eclipse.lyo.oslc4j.trs.server.InmemPagedTrs;
+import org.eclipse.lyo.oslc4j.trs.server.PagedTrs;
+import org.eclipse.lyo.oslc4j.trs.server.PagedTrsFactory;
+import org.eclipse.lyo.oslc4j.trs.server.TrsEventHandler;
 import org.eclipse.lyo.oslc4j.core.OSLC4JUtils;
 // Start of user code imports
+import jakarta.inject.Inject;
 // End of user code
 
 // Start of user code pre_class_code
@@ -59,6 +66,8 @@ public class ApplicationBinder extends AbstractBinder {
         bindFactory(ResourcesFactoryFactory.class).to(ResourcesFactory.class).in(Singleton.class);
     
     
+        bindFactory(InmemTrsEventHandlerFactory.class).to(TrsEventHandler.class).in(Singleton.class);
+        bindFactory(InmemPagedTrsFactory.class).to(PagedTrs.class).in(Singleton.class);
     
         // Start of user code ConfigureFinalize
         // End of user code
@@ -74,5 +83,42 @@ public class ApplicationBinder extends AbstractBinder {
         }
     }
     
+    static class InmemTrsEventHandlerFactory implements Factory<TrsEventHandler> {
+        // Start of user code TrsEventHandlerInitialise
+        // End of user code
     
+        @Override
+        public TrsEventHandler provide() {
+            ArrayList<URI> uris = new ArrayList<URI>();
+            // Start of user code TrsEventHandlerInitialBase
+            //TODO: Provide the initial list of URIs to populate the TRS log with
+            // End of user code
+    
+            InmemPagedTrs inmemTrs = new PagedTrsFactory().getInmemPagedTrs(50, 50, uris);
+            return inmemTrs;
+        }
+    
+        @Override
+        public void dispose(TrsEventHandler instance) {
+            // Start of user code TrsEventHandlerDispose
+            // End of user code
+        }
+    }
+    
+    static class InmemPagedTrsFactory implements Factory<PagedTrs> {
+        @Inject TrsEventHandler trsEventHandler;
+    
+        @Override
+        public PagedTrs provide() {
+            // Start of user code PagedTrsInitialise
+            // End of user code
+            return (InmemPagedTrs) trsEventHandler;
+        }
+    
+        @Override
+        public void dispose(PagedTrs instance) {
+            // Start of user code PagedTrsDispose
+            // End of user code
+        }
+    }
 }

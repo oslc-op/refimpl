@@ -256,6 +256,11 @@
             <version>${version.lyo}</version>
         </dependency>
         <dependency>
+            <groupId>org.eclipse.lyo.trs</groupId>
+            <artifactId>trs-server</artifactId>
+            <version>${version.lyo}</version>
+        </dependency>
+        <dependency>
             <groupId>org.eclipse.lyo.clients</groupId>
             <artifactId>oslc-client</artifactId>
             <version>${version.lyo}</version>
