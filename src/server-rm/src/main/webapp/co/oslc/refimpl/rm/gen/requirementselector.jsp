@@ -29,23 +29,26 @@
   String selectionUri = (String) request.getAttribute("selectionUri");
 %>
 
-<html>
-  <head>
-    <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>RequirementSD</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css">
     <script src="https://unpkg.com/htmx.org@2.0.4" integrity="sha384-HGfztofotfshcF7+8n44JQL2oJmowVChPTg48S+jvZoztPfvwD79OC/LTtG6dMp+" crossorigin="anonymous"></script>
-  </head>
-  <body style="padding: 10px;">
-    <div id="selector-body">
+</head>
+<body>
+  <main class="container">
       <p id="searchMessage">Find a specific OSLC resource through a free-text search.</p>
-
       <div>
-        <input type="search" style="width: 335px" id="searchTerms" name="terms" placeholder="Begin typing to search" autofocus 
-          hx-trigger="keyup changed delay:180ms" hx-get="<%= selectionUri %>" hx-target="#search-results">
+          <input type="search" id="searchTerms" name="terms" placeholder="Begin typing to search" autofocus
+              hx-trigger="input changed delay:120ms, keyup[key=='Enter'], load" 
+              hx-get="<%= selectionUri %>" hx-target="#search-results"
+              hx-ext="aria-busy">
       </div>
-
-      <div id="search-results"></div>
-    </div>
+      <div id="search-results" class="grid"></div>
+  </main>
 
   <script>
   function sendOslcSelectionPostMessage(target, event) {
@@ -57,9 +60,21 @@
         }
       ]
     }
-    window.parent.postMessage("oslc-response:" + JSON.stringify(message), '*');
+    window.parent.postMessage("oslc-response:" + JSON.stringify(message), '*')
     event.preventDefault()
   }
+
+  // use accessible busy indicators
+  htmx.defineExtension('aria-busy', {
+    onEvent : function(name, evt) {
+      var elt = evt.detail.elt;
+      if(name === "htmx:beforeRequest") {
+         elt.setAttribute("aria-busy", "true")
+       } else if(name === "htmx:afterRequest" ) {
+         elt.removeAttribute("aria-busy")
+       }
+    }
+  })
   </script>
   </body>
 </html>
