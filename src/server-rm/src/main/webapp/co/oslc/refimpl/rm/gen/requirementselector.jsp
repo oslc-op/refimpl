@@ -42,7 +42,8 @@
   <main class="container">
       <p id="searchMessage">Find a specific OSLC resource through a free-text search.</p>
       <div>
-          <input type="search" id="searchTerms" name="terms" placeholder="Begin typing to search" autofocus
+          <input type="search" id="searchTerms" name="terms" placeholder="Begin typing to search" 
+              autofocus autocomplete="off"
               hx-trigger="input changed delay:120ms, keyup[key=='Enter'], load" 
               hx-get="<%= selectionUri %>" hx-target="#search-results"
               hx-ext="aria-busy">
