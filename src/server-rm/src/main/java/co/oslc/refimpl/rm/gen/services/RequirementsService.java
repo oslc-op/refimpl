@@ -288,7 +288,7 @@ public class RequirementsService
                     // we need to return HTML fragment
                     RequestDispatcher rd = httpServletRequest.getRequestDispatcher("/co/oslc/refimpl/rm" +
                         "/gen/requirementselector-results.jsp");
-                    httpServletRequest.setAttribute("resources", resources);
+                        httpServletRequest.setAttribute("resources", resources);
                     rd.forward(httpServletRequest, httpServletResponse);
                 } else {
                     // this is really bad, we should not be mixing HTML and JSON without content 
