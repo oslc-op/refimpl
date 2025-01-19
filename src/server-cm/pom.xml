@@ -266,7 +266,7 @@
         <dependency>
             <groupId>org.eclipse.lyo</groupId>
             <artifactId>oslc-domains</artifactId>
-            <version>${version.lyo}</version>
+            <version>7.0.0-SNAPSHOT</version>
         </dependency>
         
         <!-- Swagger dependencies -->
