@@ -60,10 +60,15 @@ code {
   font-size: 80%;
 }
 
-/* 45/11em are the dialog sizes plus bootstrap margins */
 .popover {
-  max-width: calc(45em + 30px);
-  max-height: calc(11em + 50px);
+  max-width: 520px;
+  max-height: 270px;
+}
+
+.popover .popover-body {
+  max-width: 515px;
+  max-height: 215px;
+  overflow: hidden;
 }
 
 #delegatedUI {
