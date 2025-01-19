@@ -24,15 +24,15 @@ function setupUiPreviewOnPopover(oslcLinkElements) {
   oslcLinkElements.popover('dispose');
 
   // Initialize popovers with improved settings
-    oslcLinkElements.popover({
-        container: "body",
-        content: "Loading...",
+  oslcLinkElements.popover({
+    container: "body",
+    content: "Loading...",
     delay: {
       "show": 120,
       "hide": 200  // Increased hide delay to reduce flickering
     },
-        html: true,
-        placement: "auto",
+    html: true,
+    placement: "auto",
     trigger: "hover",
     boundary: 'window',  // Ensures proper positioning relative to viewport
     popperConfig: {
@@ -74,7 +74,7 @@ function setupUiPreviewOnPopover(oslcLinkElements) {
         uiElem
       );
     }, 50);  // Small delay to prevent multiple rapid loads
-    });
+  });
 
   // Clean up on hide
   oslcLinkElements.on("hide.bs.popover", function () {
@@ -83,101 +83,101 @@ function setupUiPreviewOnPopover(oslcLinkElements) {
 }
 
 function attachIframeToHyperlinkElement(compactStructure, uiElem) {
-    uiElem.attr('data-original-title', compactStructure.title);
-    var preview = compactStructure.small;
-    var w = preview.width ? preview.width : "450em";
-    var h = preview.height ? preview.height : "100em";
+  uiElem.attr('data-original-title', compactStructure.title);
+  var preview = compactStructure.small;
+  var w = preview.width ? preview.width : "450em";
+  var h = preview.height ? preview.height : "100em";
   var w = '100%';
   var h = '100%';
-    var iframeHtml = "<iframe src='" + preview.uri + "' ";
+  var iframeHtml = "<iframe src='" + preview.uri + "' ";
   iframeHtml += " style='border:0px; height:" + h + "; width:" + w + "; overflow: hidden'";
-    iframeHtml += "></iframe>";
-    uiElem.attr('data-content', iframeHtml);
-    uiElem.data('bs.popover').setContent();
+  iframeHtml += "></iframe>";
+  uiElem.attr('data-content', iframeHtml);
+  uiElem.data('bs.popover').setContent();
 }
 
 //Perform an asynch GET request to obtain the resource's UI-Preview information (an OSLC Compact resource).
 //callbackFunction is then called once the request response is obtained.
-//The caller should supply this callbackFunction, with any desired paramters under "callbackParamter" 
+//The caller should supply this callbackFunction, with any desired paramters under "callbackParamter"
 //callbackFunction will be called with the following parameters (a) compactStructure, (d) callbackParamter
 //where compactStructure represents more detailed about the OSLC Compact resource.
 function getUiPreviewIframes(resourceUrl, callbackFunction, callbackParamter) {
-    xmlhttp = new XMLHttpRequest();
-    xmlhttp.onload = function () {
-        if (this.status==200) {
-            data = this.responseText;
-            try {
-                var parser = new DOMParser();
-                var xmlDoc = parser.parseFromString(data,"text/xml");
-                var compactStructure = oslcCompactJsonStructure(xmlDoc);
-                callbackFunction(compactStructure, callbackParamter);
-            } catch (e) {
-                iframeHtml = "<b>Error parsing preview dialog info</b>";
-                callbackFunction("Error", callbackParamter);
-            }
-        }
-        else {
-            iframeHtml = "<b>Error loading the preview dialog</b> status:" + this.status;
-            callbackFunction("Error", callbackParamter);
-        }
-    };
-    xmlhttp.open("GET", resourceUrl, true);
-    xmlhttp.setRequestHeader("Accept", "application/x-oslc-compact+xml");
-    xmlhttp.send();
+  xmlhttp = new XMLHttpRequest();
+  xmlhttp.onload = function () {
+    if (this.status == 200) {
+      data = this.responseText;
+      try {
+        var parser = new DOMParser();
+        var xmlDoc = parser.parseFromString(data, "text/xml");
+        var compactStructure = oslcCompactJsonStructure(xmlDoc);
+        callbackFunction(compactStructure, callbackParamter);
+      } catch (e) {
+        iframeHtml = "<b>Error parsing preview dialog info</b>";
+        callbackFunction("Error", callbackParamter);
+      }
+    }
+    else {
+      iframeHtml = "<b>Error loading the preview dialog</b> status:" + this.status;
+      callbackFunction("Error", callbackParamter);
+    }
+  };
+  xmlhttp.open("GET", resourceUrl, true);
+  xmlhttp.setRequestHeader("Accept", "application/x-oslc-compact+xml");
+  xmlhttp.send();
 }
 
 //returns a JSON struct representing a large and small UI-Preview info (uri, title, height and width) based on an OSLC Compact RDF resource.
 function oslcCompactJsonStructure(oslcCompactXmlDocument) {
-    var compactStructure = {};
-    var compact = findFirstChildNode(findFirstChildNode(oslcCompactXmlDocument));
+  var compactStructure = {};
+  var compact = findFirstChildNode(findFirstChildNode(oslcCompactXmlDocument));
 
-    var titleChild = findFirstChildNodeNamed(compact, 'dcterms:title');
-    compactStructure.title = titleChild.textContent;
+  var titleChild = findFirstChildNodeNamed(compact, 'dcterms:title');
+  compactStructure.title = titleChild.textContent;
 
-    var smallPrev = findFirstChildNodeNamed(compact, 'oslc:smallPreview');
-    if (smallPrev !== null) {
-        var preview = findFirstChildNode(smallPrev);
-        if (preview) {
-            compactStructure.small = {};
-            var document = findFirstChildNodeNamed(preview, 'oslc:document');
-            if (document) 
-                compactStructure.small.uri = document.getAttribute('rdf:resource');
-            var height = findFirstChildNodeNamed(preview, 'oslc:hintHeight');
-            compactStructure.small.height = height.textContent;
-            var width = findFirstChildNodeNamed(preview, 'oslc:hintWidth');
-            compactStructure.small.width = width.textContent;
-        }
+  var smallPrev = findFirstChildNodeNamed(compact, 'oslc:smallPreview');
+  if (smallPrev !== null) {
+    var preview = findFirstChildNode(smallPrev);
+    if (preview) {
+      compactStructure.small = {};
+      var document = findFirstChildNodeNamed(preview, 'oslc:document');
+      if (document)
+        compactStructure.small.uri = document.getAttribute('rdf:resource');
+      var height = findFirstChildNodeNamed(preview, 'oslc:hintHeight');
+      compactStructure.small.height = height.textContent;
+      var width = findFirstChildNodeNamed(preview, 'oslc:hintWidth');
+      compactStructure.small.width = width.textContent;
     }
-    var largePrev = findFirstChildNodeNamed(compact, 'oslc:largePreview');
-    if (largePrev !== null) {
-        var preview = findFirstChildNode(largePrev);
-        if (preview) {
-            compactStructure.large = {};
-            var document = findFirstChildNodeNamed(preview, 'oslc:document');
-            if (document)
-                compactStructure.large.uri = document.getAttribute('rdf:resource');
-            var height = findFirstChildNodeNamed(preview, 'oslc:hintHeight');
-            compactStructure.large.height = height.textContent;
-            var width = findFirstChildNodeNamed(preview, 'oslc:hintWidth');
-            compactStructure.large.width = width.textContent;
-        }
+  }
+  var largePrev = findFirstChildNodeNamed(compact, 'oslc:largePreview');
+  if (largePrev !== null) {
+    var preview = findFirstChildNode(largePrev);
+    if (preview) {
+      compactStructure.large = {};
+      var document = findFirstChildNodeNamed(preview, 'oslc:document');
+      if (document)
+        compactStructure.large.uri = document.getAttribute('rdf:resource');
+      var height = findFirstChildNodeNamed(preview, 'oslc:hintHeight');
+      compactStructure.large.height = height.textContent;
+      var width = findFirstChildNodeNamed(preview, 'oslc:hintWidth');
+      compactStructure.large.width = width.textContent;
     }
-    return compactStructure;
+  }
+  return compactStructure;
 }
 
 function findFirstChildNode(e) {
-    for (i = 0; i < e.childNodes.length; i++) {
-        if (e.childNodes[i].nodeType === Node.ELEMENT_NODE) {
-            return e.childNodes[i];
-        }
+  for (i = 0; i < e.childNodes.length; i++) {
+    if (e.childNodes[i].nodeType === Node.ELEMENT_NODE) {
+      return e.childNodes[i];
     }
+  }
 }
 
 function findFirstChildNodeNamed(e, nodeName) {
-    for (i = 0; i < e.childNodes.length; i++) {
-        if (e.childNodes[i].nodeType === Node.ELEMENT_NODE
-                && e.childNodes[i].nodeName === nodeName) {
-            return e.childNodes[i];
-        }
+  for (i = 0; i < e.childNodes.length; i++) {
+    if (e.childNodes[i].nodeType === Node.ELEMENT_NODE
+      && e.childNodes[i].nodeName === nodeName) {
+      return e.childNodes[i];
     }
+  }
 }
