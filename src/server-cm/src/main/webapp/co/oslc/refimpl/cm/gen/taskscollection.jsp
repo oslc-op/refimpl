@@ -67,14 +67,17 @@
     <div class="page-header">
       <h1>Query Capability &quot;Task QC&quot; results</h1>
       <div class="alert alert-secondary" role="alert">
-          Number of elements:&nbsp;
-          <%= resources.size()%>
+          Showing&nbsp;${resources.size()} resources on this page
           <% if (nextPageUri != null) { %><p><a href="<%= nextPageUri %>">Next Page</a></p><% } %>
       </div>
     </div>
-        <% for (Task aResource : resources) { %>
-        <p><a href="<%= aResource.getAbout() %>" class="oslc-resource-link"><%=aResource.toString()%></a><br /></p>
-        <% } %>
+        <c:forEach items="${resources}" var="res">
+          <div class="card mb-3">
+            <div class="card-body">
+              <a href="${fn:escapeXml(res.getAbout())}" class="oslc-resource-link">${fn:escapeXml(res.toString())}</a>
+            </div>
+          </div>
+        </c:forEach>
       </div>
   <footer class="footer">
       <div class="container">

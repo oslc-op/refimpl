@@ -67,6 +67,17 @@ public class ServletListener implements ServletContextListener  {
         String fallbackBase = "http://localhost:8080";
         String servletName = "JAX-RS Servlet";
 
+        logger.info("""
+        \n
+              :::::::::: ::::::::  :::      ::::::::::: :::::::::   ::::::::  ::::::::::          :::     :::   :::  ::::::::\s
+             :+:       :+:    :+: :+:          :+:     :+:    :+: :+:    :+: :+:                 :+:     :+:   :+: :+:    :+:\s
+            +:+       +:+        +:+          +:+     +:+    +:+ +:+        +:+                 +:+      +:+ +:+  +:+    +:+ \s
+           +#++:++#  +#+        +#+          +#+     +#++:++#+  +#++:++#++ +#++:++#            +#+       +#++:   +#+    +:+  \s
+          +#+       +#+        +#+          +#+     +#+               +#+ +#+                 +#+        +#+    +#+    +#+   \s
+         #+#       #+#    #+# #+#          #+#     #+#        #+#    #+# #+#                 #+#        #+#    #+#    #+#    \s
+        ########## ########  ######### ########## ###         ########  ##########          ########## ###     ########      \s            
+        """);
+            
         // Start of user code contextInitialized_init
         JenaSystem.init();
         OSLC4JUtils.setLyoStorePagingPreciseLimit(false);
