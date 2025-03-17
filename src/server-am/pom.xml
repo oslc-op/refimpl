@@ -28,7 +28,7 @@
         <version.lyo>7.0.0-SNAPSHOT</version.lyo>
         <jersey.version>3.1.10</jersey.version>
         <swagger.version>2.2.28</swagger.version>
-        <swagger-ui.version>5.18.3</swagger-ui.version>
+        <swagger-ui.version>5.20.1</swagger-ui.version>
         <servlet.port>8803</servlet.port>
         <application.contextpath>/</application.contextpath>
         <application.filename>server-am</application.filename>
