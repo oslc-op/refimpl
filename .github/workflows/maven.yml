@@ -21,14 +21,21 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        jdk: ['17', '21']
-        distribution: ['temurin']
-        experimental: [false]
         include:
-          - jdk: '23'
-            distribution: 'zulu'
-            experimental: true
-          - jdk: '24-ea'
+          # LTS-1 Temurin
+          - jdk: '17'
+            distribution: 'temurin'
+            experimental: false
+          # LTS Liberica
+          - jdk: '21'
+            distribution: 'liberica'
+            experimental: false
+          # Latest release Oracle
+          - jdk: '24'
+            distribution: 'oracle'
+            experimental: false
+          # Next release Zulu
+          - jdk: '25-ea'
             distribution: 'zulu'
             experimental: true
     continue-on-error: ${{ matrix.experimental }}
@@ -50,7 +57,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-${{ matrix.jdk }}_${{ matrix.distribution }}-maven-
       - name: Build with Maven
-        run: mvn -B verify --file src/pom.xml
+        run: mvn -B verify --file src/pom.xml -P !strict
 
   maven-enforcer:
     runs-on: ubuntu-latest
@@ -86,7 +93,7 @@ jobs:
       - name: maven-enforcer-plugin chec
         run: |
           mvn -B install --file src/pom.xml
-          mvn -B verify --file src/server-am/pom.xml -Pstrict
-          mvn -B verify --file src/server-cm/pom.xml -Pstrict
-          mvn -B verify --file src/server-qm/pom.xml -Pstrict
-          mvn -B verify --file src/server-rm/pom.xml -Pstrict
+          mvn -B verify --file src/server-am/pom.xml
+          mvn -B verify --file src/server-cm/pom.xml
+          mvn -B verify --file src/server-qm/pom.xml
+          mvn -B verify --file src/server-rm/pom.xml
