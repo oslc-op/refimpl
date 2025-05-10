@@ -57,7 +57,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-${{ matrix.jdk }}_${{ matrix.distribution }}-maven-
       - name: Build with Maven
-        run: mvn -B verify --file src/pom.xml -P !strict
+        run: mvn -B verify --file src/pom.xml -P '!strict'
 
   maven-enforcer:
     runs-on: ubuntu-latest
