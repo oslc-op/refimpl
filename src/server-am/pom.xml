@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0"
-  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <!-- Start of user code header
-    -->
-  <!-- TODO: Add additional header properties here to avoid them be overrriden upon future
-  re-generation -->
+  -->
+  <!-- TODO: Add additional header properties here to avoid them be overrriden upon future re-generation -->
   <parent>
     <groupId>co.oslc.refimpl</groupId>
     <artifactId>parent</artifactId>
@@ -14,7 +13,7 @@
     <relativePath>../pom.xml</relativePath>
   </parent>
   <!-- End of user code
-    -->
+  -->
   <groupId>co.oslc.refimpl</groupId>
   <artifactId>server-am</artifactId>
   <version>0.3.0-SNAPSHOT</version>
@@ -34,18 +33,17 @@
     <application.contextpath>/</application.contextpath>
     <application.filename>server-am</application.filename>
     <!-- Start of user code properties
-        -->
+    -->
     <!-- TODO: Add additional properties here to avoid them be overrriden upon future re-generation -->
     <!-- End of user code
-        -->
+    -->
   </properties>
   <repositories>
     <!-- Start of user code repositories
-        -->
-    <!-- TODO: Add additional repositories here to avoid them be overrriden upon future
-    re-generation -->
+    -->
+    <!-- TODO: Add additional repositories here to avoid them be overrriden upon future re-generation -->
     <!-- End of user code
-        -->
+    -->
     <repository>
       <id>lyo-snapshots</id>
       <name>Eclipse Lyo Snapshots</name>
@@ -58,7 +56,7 @@
   </repositories>
   <profiles>
     <!-- Start of user code profiles
-        -->
+    -->
     <profile>
       <id>strict</id>
       <activation>
@@ -92,16 +90,14 @@
 
                         <!-- https://github.com/eclipse/lyo/pull/220 -->
                         <!--                    <exclude>log4j:log4j</exclude>-->
-                        <!--log4j
-                        v2 is not used, just for the future-->
+                        <!--log4j v2 is not used, just for the future-->
                         <exclude>org.apache.logging.log4j:log4j-core</exclude>
                       </excludes>
                     </bannedDependencies>
-                    <banDuplicatePomDependencyVersions />
+                    <banDuplicatePomDependencyVersions/>
                     <requireUpperBoundDeps>
                       <excludes>
-                        <!--jersey
-                        and jena via commons-compress-->
+                        <!--jersey and jena via commons-compress-->
                         <exclude>org.osgi:org.osgi.core</exclude>
                       </excludes>
                     </requireUpperBoundDeps>
@@ -119,18 +115,17 @@
       </build>
     </profile>
     <!-- End of user code
-        -->
+    -->
     <profile>
       <!-- some servlet containers (Tomcat) does not ship with a JSTL impl
-        In such cases, run with this profile-->
+      In such cases, run with this profile-->
       <id>with-jstl-impl</id>
       <dependencies>
         <!-- Start of user code profile_dependencies
-              -->
-        <!-- TODO: Add additional dependencies to this profile here to avoid them be overridden upon
-        future re-generation -->
+        -->
+        <!-- TODO: Add additional dependencies to this profile here to avoid them be overridden upon future re-generation -->
         <!-- End of user code
-              -->
+        -->
         <dependency>
           <groupId>jakarta.servlet.jsp.jstl</groupId>
           <artifactId>jakarta.servlet.jsp.jstl-api</artifactId>
@@ -146,7 +141,7 @@
 
   </profiles>
   <!-- Start of user code pre_dependencies
-    -->
+  -->
   <dependencyManagement>
     <dependencies>
       <dependency>
@@ -159,18 +154,18 @@
   </dependencyManagement>
 
   <!-- End of user code
-    -->
+  -->
   <dependencies>
     <!-- Specific dependencies -->
     <!-- Start of user code dependencies
-        -->
+    -->
     <dependency>
       <groupId>co.oslc.refimpl</groupId>
       <artifactId>lib-common</artifactId>
       <version>${project.version}</version>
     </dependency>
     <!-- End of user code
-        -->
+    -->
     <!-- General dependencies -->
     <dependency>
       <groupId>org.slf4j</groupId>
@@ -189,10 +184,9 @@
       <groupId>jakarta.servlet.jsp.jstl</groupId>
       <artifactId>jakarta.servlet.jsp.jstl-api</artifactId>
       <version>3.0.0</version>
-      <!--When
-      running with the jetty-maven-plugin, you 
-            get warnings about jsp classes being scanned from multiple locations.
-            adding the "provided" scope avoids these warnings.-->
+      <!--When running with the jetty-maven-plugin, you 
+      get warnings about jsp classes being scanned from multiple locations.
+      adding the "provided" scope avoids these warnings.-->
       <scope>provided</scope>
     </dependency>
     <dependency>
@@ -201,10 +195,8 @@
       <version>${jersey.version}</version>
       <exclusions>
         <exclusion>
-          <!--we
-          have a proper javax.inject:javax.inject dependency-->
-          <!--also
-          see https://stackoverflow.com/questions/25212944/why-does-hk2-repackage-everything-->
+          <!--we have a proper javax.inject:javax.inject dependency-->
+          <!--also see https://stackoverflow.com/questions/25212944/why-does-hk2-repackage-everything-->
           <groupId>org.glassfish.hk2.external</groupId>
           <artifactId>javax.inject</artifactId>
         </exclusion>
@@ -216,8 +208,7 @@
       <version>${jersey.version}</version>
       <exclusions>
         <exclusion>
-          <!--we
-          have a proper javax.inject:javax.inject dependency-->
+          <!--we have a proper javax.inject:javax.inject dependency-->
           <groupId>org.glassfish.hk2.external</groupId>
           <artifactId>javax.inject</artifactId>
         </exclusion>
@@ -290,8 +281,7 @@
       <version>${swagger.version}</version>
       <exclusions>
         <exclusion>
-          <!--should
-          be <provided>-->
+          <!--should be <provided>-->
           <groupId>jakarta.activation</groupId>
           <artifactId>jakarta.activation-api</artifactId>
         </exclusion>
@@ -303,24 +293,23 @@
       <version>${swagger.version}</version>
     </dependency>
     <!-- Start of user code dependencies_final
-        -->
-    <!-- TODO: Add additional dependencies here to avoid them be overridden upon future
-    re-generation -->
+    -->
+    <!-- TODO: Add additional dependencies here to avoid them be overridden upon future re-generation -->
     <!-- End of user code
-        -->
+    -->
   </dependencies>
   <!-- Start of user code post_dependencies
-    -->
+  -->
   <!-- End of user code
-    -->
+  -->
   <build>
     <finalName>${application.filename}</finalName>
     <plugins>
       <!-- Start of user code plugins
-            -->
+      -->
       <!-- TODO: Add additional plugins here to avoid them be overrriden upon future re-generation -->
       <!-- End of user code
-            -->
+      -->
       <plugin>
         <groupId>org.eclipse.jetty</groupId>
         <artifactId>jetty-maven-plugin</artifactId>
@@ -329,7 +318,8 @@
           <webApp>
             <contextPath>${application.contextpath}</contextPath>
             <_initParams>
-              <org.eclipse.jetty.servlet.Default.useFileMappedBuffer>false</org.eclipse.jetty.servlet.Default.useFileMappedBuffer>
+              <org.eclipse.jetty.servlet.Default.useFileMappedBuffer>false
+              </org.eclipse.jetty.servlet.Default.useFileMappedBuffer>
             </_initParams>
           </webApp>
           <httpConnector>
@@ -343,17 +333,14 @@
         <artifactId>cargo-maven3-plugin</artifactId>
         <version>1.10.19</version>
         <configuration>
-          <!--This
-          plugins supports the following containers-->
+          <!--This plugins supports the following containers-->
           <container>
-            <!--These
-            containers are know to work-->
+            <!--These containers are know to work-->
             <containerId>tomcat10x</containerId>
             <containerId>jetty12x</containerId>
             <!-- <containerId>payara</containerId> -->
             <!-- <containerId>wildfly26x</containerId> -->
-            <!--These
-            containers are know to fail-->
+            <!--These containers are know to fail-->
             <!-- Context Root Not Found -->
             <!-- <containerId>liberty</containerId> -->
           </container>
@@ -407,7 +394,8 @@
           <webResources combine.children="append">
             <resource>
               <directory>
-                ${project.build.directory}/swagger-ui/META-INF/resources/webjars/swagger-ui/${swagger-ui.version}</directory>
+                ${project.build.directory}/swagger-ui/META-INF/resources/webjars/swagger-ui/${swagger-ui.version}
+              </directory>
               <includes>
                 <include>**/*.*</include>
               </includes>
@@ -420,7 +408,7 @@
     </plugins>
   </build>
   <!-- Start of user code post_build
-    -->
+  -->
   <!-- End of user code
-    -->
+  -->
 </project>
