@@ -1,0 +1,9 @@
+resources:
+- server-am-deployment.yaml
+- server-am-service.yaml
+- server-cm-deployment.yaml
+- server-cm-service.yaml
+- server-qm-deployment.yaml
+- server-qm-service.yaml
+- server-rm-deployment.yaml
+- server-rm-service.yaml

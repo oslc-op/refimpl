@@ -1,0 +1,18 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: server-cm-ingress
+  annotations:
+    traefik.ingress.kubernetes.io/router.entrypoints: web8801
+spec:
+  rules:
+  - host: server-cm.localhost
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: server-cm
+            port:
+              number: 8080

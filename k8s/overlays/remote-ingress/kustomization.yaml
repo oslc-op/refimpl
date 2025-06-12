@@ -1,0 +1,6 @@
+resources:
+- ../../base
+- ../../server-am-ingress.yaml
+- ../../server-cm-ingress.yaml
+- ../../server-qm-ingress.yaml
+- ../../server-rm-ingress.yaml

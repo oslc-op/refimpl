@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: server-qm-deployment
+  labels:
+    app: server-qm
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: server-qm
+  template:
+    metadata:
+      labels:
+        app: server-qm
+    spec:
+      containers:
+      - name: server-qm
+        image: localhost/server-qm:latest
+        imagePullPolicy: Never
+        ports:
+        - containerPort: 8080
+        resources:
+          limits:
+            cpu: 500m
+            memory: 384Mi
+          requests:
+            cpu: 500m
+            memory: 384Mi

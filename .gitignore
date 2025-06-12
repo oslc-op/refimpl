@@ -28,3 +28,5 @@ buildNumber.properties
 #Misc
 .DS_Store
 /.project
+
+!k8s/overlays/
