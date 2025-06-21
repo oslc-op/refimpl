@@ -18,7 +18,7 @@
     <maven.compiler.target>17</maven.compiler.target>
 
     <v.kotlin>2.1.20</v.kotlin>
-    <v.lyo>7.0.0-SNAPSHOT</v.lyo>
+    <v.lyo>7.0.0.Alpha3</v.lyo>
     <v.jersey>3.1.5</v.jersey>
     <v.kotlin.coroutines>1.10.2</v.kotlin.coroutines>
   </properties>
