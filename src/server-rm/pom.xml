@@ -43,6 +43,17 @@
     <repositories>
         <!-- Start of user code repositories
     -->
+    <repository>
+    <name>Central Portal Snapshots</name>
+    <id>central-portal-snapshots</id>
+    <url>https://central.sonatype.com/repository/maven-snapshots/</url>
+    <releases>
+      <enabled>false</enabled>
+    </releases>
+    <snapshots>
+      <enabled>true</enabled>
+    </snapshots>
+  </repository>
     <!-- TODO: Add additional repositories here to avoid them be overrriden upon future re-generation -->
     <!-- End of user code
         -->
