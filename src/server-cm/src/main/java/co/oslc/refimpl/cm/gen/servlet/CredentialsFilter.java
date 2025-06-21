@@ -72,16 +72,28 @@ public class CredentialsFilter implements Filter {
      * @return true - the resource is protected, otherwise false
      */
     private boolean isProtectedResource(HttpServletRequest httpRequest) {
+        // Only for debugging!
         if (ignoreResourceProtection) {
             return false;
         }
+
         String pathInfo = httpRequest.getPathInfo();
 
         //'protectedResource' defines the basic set of requests that needs to be protected. 
         //You can override this defintion in the user protected code block below.
+        // Do not protect OSLC resources needed for initial discovery
         boolean protectedResource = !pathInfo.startsWith("/rootservices") && !pathInfo.startsWith("/oauth");
+        // Do not protect CORS preflight requests
+        if (protectedResource) {
+            String method = httpRequest.getMethod();
+            if ("OPTIONS".equalsIgnoreCase(method)) {
+                protectedResource = false;
+            }
+        }
+        // Here you can override or extend the checks
         // Start of user code isProtectedResource
         // End of user code
+
         return protectedResource;
     }
 
