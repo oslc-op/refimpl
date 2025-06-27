@@ -26,8 +26,6 @@
         <maven.compiler.target>17</maven.compiler.target>
         <maven.compiler.release>17</maven.compiler.release>
         <version.lyo>7.0.0-SNAPSHOT</version.lyo>
-        <jersey.version>3.1.10</jersey.version>
-        <swagger.version>2.2.28</swagger.version>
         <swagger-ui.version>5.18.2</swagger-ui.version>
         <servlet.port>8802</servlet.port>
         <application.contextpath>/</application.contextpath>
@@ -42,19 +40,19 @@
         <!-- Start of user code repositories
     -->
     <!-- TODO: Add additional repositories here to avoid them be overrriden upon future re-generation -->
-    <repository>
-    <name>Central Portal Snapshots</name>
-    <id>central-portal-snapshots</id>
-    <url>https://central.sonatype.com/repository/maven-snapshots/</url>
-    <releases>
-      <enabled>false</enabled>
-    </releases>
-    <snapshots>
-      <enabled>true</enabled>
-    </snapshots>
-  </repository>
     <!-- End of user code
         -->
+        <repository>
+            <name>Central Portal Snapshots</name>
+            <id>central-portal-snapshots</id>
+            <url>https://central.sonatype.com/repository/maven-snapshots/</url>
+            <releases>
+                <enabled>false</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
         <repository>
             <id>lyo-snapshots</id>
             <name>Eclipse Lyo Snapshots</name>
@@ -140,12 +138,10 @@
               <dependency>
                   <groupId>jakarta.servlet.jsp.jstl</groupId>
                   <artifactId>jakarta.servlet.jsp.jstl-api</artifactId>
-                  <version>3.0.0</version>
               </dependency>
               <dependency>
                   <groupId>org.glassfish.web</groupId>
                   <artifactId>jakarta.servlet.jsp.jstl</artifactId>
-                  <version>3.0.1</version>
               </dependency>
             </dependencies>
         </profile>
@@ -153,8 +149,10 @@
     </profiles>
     <!-- Start of user code pre_dependencies
   -->
-  <dependencyManagement>
-    <dependencies>
+  <!-- End of user code
+    -->
+   <dependencyManagement>
+      <dependencies>
         <dependency>
           <groupId>org.eclipse.lyo</groupId>
           <artifactId>lyo-bom</artifactId>
@@ -162,10 +160,8 @@
           <scope>import</scope>
           <type>pom</type>
         </dependency>
-    </dependencies>
-  </dependencyManagement>
-  <!-- End of user code
-    -->
+      </dependencies>
+    </dependencyManagement>
     <dependencies>
         <!-- Specific dependencies -->
         <!-- Start of user code dependencies
@@ -180,20 +176,17 @@
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-simple</artifactId>
-            <version>2.0.17</version>
             <scope>runtime</scope>
         </dependency>
         <!-- Servlet dependencies -->
         <dependency>
             <groupId>jakarta.servlet</groupId>
             <artifactId>jakarta.servlet-api</artifactId>
-            <version>6.0.0</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>jakarta.servlet.jsp.jstl</groupId>
             <artifactId>jakarta.servlet.jsp.jstl-api</artifactId>
-            <version>3.0.0</version>
             <!--When running with the jetty-maven-plugin, you 
             get warnings about jsp classes being scanned from multiple locations.
             adding the "provided" scope avoids these warnings.-->
@@ -202,7 +195,6 @@
         <dependency>
             <groupId>org.glassfish.jersey.core</groupId>
             <artifactId>jersey-server</artifactId>
-            <version>${jersey.version}</version>
             <exclusions>
                 <exclusion>
                     <!--we have a proper javax.inject:javax.inject dependency-->
@@ -215,7 +207,6 @@
         <dependency>
             <groupId>org.glassfish.jersey.containers</groupId>
             <artifactId>jersey-container-servlet</artifactId>
-            <version>${jersey.version}</version>
             <exclusions>
                 <exclusion>
                     <!--we have a proper javax.inject:javax.inject dependency-->
@@ -227,55 +218,45 @@
         <dependency>
             <groupId>org.glassfish.jersey.media</groupId>
             <artifactId>jersey-media-multipart</artifactId>
-            <version>${jersey.version}</version>
         </dependency>
         <dependency>
             <groupId>org.glassfish.jersey.inject</groupId>
             <artifactId>jersey-hk2</artifactId>
-            <version>${jersey.version}</version>
         </dependency>
         
         <dependency>
             <groupId>org.glassfish.jaxb</groupId>
             <artifactId>jaxb-runtime</artifactId>
-            <version>4.0.5</version>
             <scope>runtime</scope>
         </dependency>
         <!-- Lyo dependencies -->
         <dependency>
             <groupId>org.eclipse.lyo.oslc4j.core</groupId>
             <artifactId>oslc4j-core</artifactId>
-            <version>${version.lyo}</version>
         </dependency>
         <dependency>
             <groupId>org.eclipse.lyo.oslc4j.core</groupId>
             <artifactId>oslc4j-jena-provider</artifactId>
-            <version>${version.lyo}</version>
         </dependency>
         <dependency>
             <groupId>org.eclipse.lyo.oslc4j.core</groupId>
             <artifactId>oslc4j-json4j-provider</artifactId>
-            <version>${version.lyo}</version>
         </dependency>
         <dependency>
             <groupId>org.eclipse.lyo.clients</groupId>
             <artifactId>oslc-client</artifactId>
-            <version>${version.lyo}</version>
         </dependency>
         <dependency>
             <groupId>org.eclipse.lyo.server</groupId>
             <artifactId>oauth-core</artifactId>
-            <version>${version.lyo}</version>
         </dependency>
         <dependency>
             <groupId>org.eclipse.lyo.server</groupId>
             <artifactId>oauth-consumer-store</artifactId>
-            <version>${version.lyo}</version>
         </dependency>
         <dependency>
             <groupId>org.eclipse.lyo.server</groupId>
             <artifactId>oauth-webapp</artifactId>
-            <version>${version.lyo}</version>
             <type>war</type>
         </dependency>
         <dependency>
@@ -288,7 +269,6 @@
         <dependency>
             <groupId>io.swagger.core.v3</groupId>
             <artifactId>swagger-jaxrs2-jakarta</artifactId>
-            <version>${swagger.version}</version>
             <exclusions>
                 <exclusion>
                     <!--should be <provided>-->
@@ -300,7 +280,6 @@
         <dependency>
             <groupId>io.swagger.core.v3</groupId>
             <artifactId>swagger-jaxrs2-servlet-initializer-v2-jakarta</artifactId>
-            <version>${swagger.version}</version>
         </dependency>
         <!-- Start of user code dependencies_final
     -->
