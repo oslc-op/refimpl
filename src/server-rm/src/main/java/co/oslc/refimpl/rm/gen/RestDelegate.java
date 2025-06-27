@@ -239,9 +239,7 @@ public class RestDelegate {
     public Requirement createRequirement(HttpServletRequest httpServletRequest, final Requirement aResource, final String serviceProviderId)
     {
         Requirement newResource = null;
-        if (aResource.getIdentifier() == null || aResource.getTitle() == null) {
-            throw new WebApplicationException("Identifier and title are mandatory", Response.Status.BAD_REQUEST);
-        }
+        
         
         // Start of user code createRequirement
         final Map<String, Requirement> requirements = requirementsForSP(serviceProviderId);
