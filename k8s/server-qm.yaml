@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: server-qm
+  name: server-qm-deployment
+spec:
+  selector:
+    matchLabels:
+      app: server-qm
+  template:
+    metadata:
+      labels:
+        app: server-qm
+    spec:
+      containers:
+      - image: localhost/server-qm:latest
+        name: server-qm
+        ports:
+        - containerPort: 8080
+          protocol: TCP
+        resources:
+          limits:
+            cpu: 500m
+            memory: 384Mi
+          requests:
+            cpu: 500m
+            memory: 384Mi
+      imagePullSecrets:
+      - name: regcred
+      restartPolicy: Always
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: server-qm
+  name: server-qm
+spec:
+  ports:
+  - port: 8080
+    protocol: TCP
+  selector:
+    app: server-qm

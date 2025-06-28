@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: server-am
+  name: server-am-deployment
+spec:
+  selector:
+    matchLabels:
+      app: server-am
+  template:
+    metadata:
+      labels:
+        app: server-am
+    spec:
+      containers:
+      - image: localhost/server-am:latest
+        name: server-am
+        ports:
+        - containerPort: 8080
+          protocol: TCP
+        resources:
+          limits:
+            cpu: 500m
+            memory: 384Mi
+          requests:
+            cpu: 500m
+            memory: 384Mi
+      imagePullSecrets:
+      - name: regcred
+      restartPolicy: Always
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: server-am
+  name: server-am
+spec:
+  ports:
+  - port: 8080
+    protocol: TCP
+  selector:
+    app: server-am

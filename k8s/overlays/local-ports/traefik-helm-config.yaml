@@ -1,0 +1,25 @@
+apiVersion: helm.cattle.io/v1
+kind: HelmChartConfig
+metadata:
+  name: traefik
+  namespace: kube-system
+spec:
+  valuesContent: |-
+    additionalArguments:
+      - "--entrypoints.web8800.address=:8800"
+      - "--entrypoints.web8801.address=:8801"
+      - "--entrypoints.web8802.address=:8802"
+      - "--entrypoints.web8803.address=:8803"
+    ports:
+      web8800:
+        port: 8800
+        expose: true
+      web8801:
+        port: 8801
+        expose: true
+      web8802:
+        port: 8802
+        expose: true
+      web8803:
+        port: 8803
+        expose: true
