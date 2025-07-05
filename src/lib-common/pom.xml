@@ -18,7 +18,6 @@
     <maven.compiler.source>17</maven.compiler.source>
     <maven.compiler.target>17</maven.compiler.target>
 
-    <version.lyo>7.0.0.Alpha3</version.lyo>
     <v.jakarta.servlet.api>6.0.0</v.jakarta.servlet.api>
     <version.jersey>3.1.10</version.jersey>
   </properties>
@@ -46,68 +45,46 @@
     <dependency>
       <groupId>org.eclipse.lyo.oslc4j.core</groupId>
       <artifactId>oslc4j-core</artifactId>
-      <version>${version.lyo}</version>
     </dependency>
     <dependency>
       <groupId>org.eclipse.lyo</groupId>
       <artifactId>oslc-domains</artifactId>
-      <version>${version.lyo}</version>
     </dependency>
     <dependency>
       <groupId>org.eclipse.lyo.oslc4j.core</groupId>
       <artifactId>oslc4j-jena-provider</artifactId>
-      <version>${version.lyo}</version>
     </dependency>
     <dependency>
       <groupId>org.eclipse.lyo.oslc4j.core</groupId>
       <artifactId>oslc4j-json4j-provider</artifactId>
-      <version>${version.lyo}</version>
     </dependency>
     <dependency>
       <groupId>org.eclipse.lyo.clients</groupId>
       <artifactId>oslc-client</artifactId>
-      <version>${version.lyo}</version>
     </dependency>
 
     <!-- Servlet-related dependencies -->
     <dependency>
       <groupId>org.glassfish.jersey.core</groupId>
       <artifactId>jersey-server</artifactId>
-      <version>${version.jersey}</version>
-      <exclusions>
-        <exclusion>
-          <groupId>jakarta.ws.rs</groupId>
-          <artifactId>jakarta.ws.rs-api</artifactId>
-        </exclusion>
-      </exclusions>
     </dependency>
     <dependency>
       <groupId>org.glassfish.jersey.containers</groupId>
       <artifactId>jersey-container-servlet</artifactId>
-      <version>${version.jersey}</version>
-      <exclusions>
-        <exclusion>
-          <groupId>jakarta.ws.rs</groupId>
-          <artifactId>jakarta.ws.rs-api</artifactId>
-        </exclusion>
-      </exclusions>
     </dependency>
     <dependency>
       <groupId>jakarta.servlet</groupId>
       <artifactId>jakarta.servlet-api</artifactId>
-      <version>${v.jakarta.servlet.api}</version>
       <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>jakarta.servlet.jsp.jstl</groupId>
       <artifactId>jakarta.servlet.jsp.jstl-api</artifactId>
-      <version>3.0.0</version>
       <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>jakarta.ws.rs</groupId>
       <artifactId>jakarta.ws.rs-api</artifactId>
-      <version>4.0.0</version>
       <scope>provided</scope>
     </dependency>
 
