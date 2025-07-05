@@ -244,14 +244,55 @@ class ServiceProviderCatalogTraverser(private val spCatalog: String, private val
 }
 
 fun <T : AbstractResource> doGetResource(client: IOslcClient, catalogURI: URI, clazz: Class<T>): T? {
-    val response = client.getResource(catalogURI.toString())
+    val maxRetries = 5
+    var lastException: Exception? = null
 
-    if (response.status != HttpStatus.SC_OK) {
-        println("Cannot read $catalogURI (HTTP ${response.status})")
-        throw IllegalStateException()
+    for (attempt in 1..maxRetries) {
+        try {
+            val response = client.getResource(catalogURI.toString())
+
+            when {
+                response.status == HttpStatus.SC_OK -> {
+                    return response.readEntity(clazz)
+                }
+                response.status >= 500 -> {
+                    // Server error - retry
+                    val delayMs = (1000 * Math.pow(2.0, (attempt - 1).toDouble())).toLong()
+                    println("Server error ${response.status} for $catalogURI, retrying in ${delayMs}ms (attempt $attempt/$maxRetries)")
+                    if (attempt < maxRetries) {
+                        Thread.sleep(delayMs)
+                        continue
+                    } else {
+                        println("Cannot read $catalogURI (HTTP ${response.status}) - max retries exceeded")
+                        throw IllegalStateException("Max retries exceeded for $catalogURI")
+                    }
+                }
+                else -> {
+                    // Client error (4xx) - don't retry
+                    println("Cannot read $catalogURI (HTTP ${response.status}) - client error, not retrying")
+                    throw IllegalStateException("Client error ${response.status} for $catalogURI")
+                }
+            }
+        } catch (e: ConnectException) {
+            lastException = e
+            val delayMs = (1000 * Math.pow(2.0, (attempt - 1).toDouble())).toLong()
+            println("Connection failed for $catalogURI, retrying in ${delayMs}ms (attempt $attempt/$maxRetries)")
+            if (attempt < maxRetries) {
+                Thread.sleep(delayMs)
+                continue
+            } else {
+                println("Cannot connect to $catalogURI - max retries exceeded")
+                throw IllegalStateException("Max retries exceeded for $catalogURI", e)
+            }
+        } catch (e: Exception) {
+            // For other exceptions, don't retry
+            println("Unexpected error reading $catalogURI: ${e.message}")
+            throw e
+        }
     }
 
-    return response.readEntity(clazz)
+    // This should never be reached, but just in case
+    throw IllegalStateException("Failed to get resource after $maxRetries attempts", lastException)
 }
 
 class CreationFactoryPopulator<T : AbstractResource>(private val client: IOslcClient,
@@ -303,27 +344,56 @@ fun <T : AbstractResource> postResources(client: IOslcClient, cf: CreationFactor
         scope.async {
             val cfURI = cf.creation.toString()
             var response: Response? = null
-            for (i in 1..5) { //retry up to 5 times
+            val maxRetries = 5
+
+            for (attempt in 1..maxRetries) {
                 try {
                     response = client.createResource(cfURI, r, "text/turtle")
                     if (response != null) {
-                        if (response.status < 400) {
-                            val headers = response.headers
-                            val location: MutableList<Any>? = headers["Location"]
-                            if (location != null) {
-                                val url: String = location.single() as String
-                                println("$url created via $cfURI")
-                            } else {
-                                println("WARNING! A Resource was created but no Location was given")
+                        when {
+                            response.status < 400 -> {
+                                val headers = response.headers
+                                val location: MutableList<Any>? = headers["Location"]
+                                if (location != null) {
+                                    val url: String = location.single() as String
+                                    println("$url created via $cfURI")
+                                } else {
+                                    println("WARNING! A Resource was created but no Location was given")
+                                }
+                                break
                             }
-
-                        } else {
-                            println("Failed to create a resource via $cfURI")
+                            response.status >= 500 -> {
+                                // Server error - retry
+                                val delayMs = (500 * Math.pow(2.0, (attempt - 1).toDouble())).toLong()
+                                println("Server error ${response.status} creating resource via $cfURI, retrying in ${delayMs}ms (attempt $attempt/$maxRetries)")
+                                if (attempt < maxRetries) {
+                                    Thread.sleep(delayMs)
+                                    continue
+                                } else {
+                                    println("Failed to create a resource via $cfURI after $maxRetries attempts")
+                                    break
+                                }
+                            }
+                            else -> {
+                                // Client error (4xx) - don't retry
+                                println("Failed to create a resource via $cfURI (HTTP ${response.status})")
+                                break
+                            }
                         }
-                        break
                     }
                 } catch (e: ConnectException) {
-                    println("Connection failed, retrying... ($cfURI)")
+                    val delayMs = (500 * Math.pow(2.0, (attempt - 1).toDouble())).toLong()
+                    println("Connection failed creating resource via $cfURI, retrying in ${delayMs}ms (attempt $attempt/$maxRetries)")
+                    if (attempt < maxRetries) {
+                        Thread.sleep(delayMs)
+                        continue
+                    } else {
+                        println("Failed to create a resource via $cfURI after $maxRetries connection attempts")
+                        break
+                    }
+                } catch (e: Exception) {
+                    println("Unexpected error creating resource via $cfURI: ${e.message}")
+                    break
                 }
             }
             Pair(response, r)
