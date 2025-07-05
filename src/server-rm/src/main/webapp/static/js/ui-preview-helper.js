@@ -71,7 +71,9 @@ function setupUiPreviewOnPopover(oslcLinkElements) {
       }
     `;
     document.head.appendChild(style);
-  }  // Initialize popovers with improved settings for each element
+  }
+
+ // Initialize Bootstrap 5 popovers
   elements.forEach(element => {
     let loadingTimeout;
     let hideTimeout;

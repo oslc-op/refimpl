@@ -47,7 +47,7 @@
   <script src="<c:url value="/static/js/ui-preview-helper.js"/>"></script>
   <script type="text/javascript">
     document.addEventListener('DOMContentLoaded', function() {
-        setupUiPreviewOnPopover(document.querySelectorAll("a.oslc-resource-link"));
+      setupUiPreviewOnPopover(document.querySelectorAll("a.oslc-resource-link"));
     });
   </script>
 
