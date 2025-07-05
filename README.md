@@ -2,6 +2,7 @@
 # OSLC 2020 Reference Implementation
 
 [![CI build](https://github.com/oslc-op/refimpl/actions/workflows/maven.yml/badge.svg)](https://github.com/oslc-op/refimpl/actions/workflows/maven.yml)
+[![Docker](https://github.com/oslc-op/refimpl/actions/workflows/docker.yml/badge.svg)](https://github.com/oslc-op/refimpl/actions/workflows/docker.yml)
 [![Discourse users](https://img.shields.io/discourse/users?color=28bd84&server=https%3A%2F%2Fforum.open-services.net%2F)](https://forum.open-services.net/)
 [![Gitpod ready-to-code](https://img.shields.io/badge/Gitpod-ready--to--code-blue?logo=gitpod)](https://gitpod.io/#https://github.com/oslc-op/refimpl)
 
@@ -87,6 +88,26 @@ After following these steps, proceed to the steps listed in the next section _Na
 To see logs:
 
     docker logs oslc-refimpl-am -f
+
+### Using Pre-built Docker Images
+
+Pre-built Docker images are available from GitHub Container Registry for both x86_64 (amd64) and ARM64 architectures:
+
+```bash
+# Run individual servers with latest images
+docker run -p 8800:8080 ghcr.io/oslc-op/refimpl/server-rm:latest
+docker run -p 8801:8080 ghcr.io/oslc-op/refimpl/server-cm:latest
+docker run -p 8802:8080 ghcr.io/oslc-op/refimpl/server-qm:latest
+docker run -p 8803:8080 ghcr.io/oslc-op/refimpl/server-am:latest
+
+# Or run specific versions
+docker run -p 8800:8080 ghcr.io/oslc-op/refimpl/server-rm:0.3.0
+docker run -p 8801:8080 ghcr.io/oslc-op/refimpl/server-cm:0.3.0
+docker run -p 8802:8080 ghcr.io/oslc-op/refimpl/server-qm:0.3.0
+docker run -p 8803:8080 ghcr.io/oslc-op/refimpl/server-am:0.3.0
+```
+
+> **Note:** Images are automatically rebuilt weekly to ensure the latest security updates from base images.
 
 
 ### Running on Tomcat in Docker
