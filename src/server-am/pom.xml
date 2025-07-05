@@ -151,7 +151,7 @@
   -->
   <!-- End of user code
     -->
-    <dependencyManagement>
+   <dependencyManagement>
       <dependencies>
         <dependency>
           <groupId>org.eclipse.lyo</groupId>

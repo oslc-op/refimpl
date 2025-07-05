@@ -52,15 +52,16 @@
 
   <title><%= aTestPlan.toString() %></title>
 
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
-  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>
   <link href="<c:url value="/static/css/adaptor.css"/>" rel="stylesheet">
 
   <script src="<c:url value="/static/js/ui-preview-helper.js"/>"></script>
   <script type="text/javascript">
-    $(function () {setupUiPreviewOnPopover($("a.oslc-resource-link"));});
+    document.addEventListener('DOMContentLoaded', function() {
+      setupUiPreviewOnPopover(document.querySelectorAll("a.oslc-resource-link"));
+    });
   </script>
 </head>
 
@@ -69,7 +70,7 @@
   <nav class="navbar navbar-expand-lg sticky-top navbar-light bg-light">
     <div class="container">
       <a class="navbar-brand" href="<c:url value="/"/>"><%= application.getServletContextName() %></a>
-      <ul class="navbar-nav mr-auto">
+      <ul class="navbar-nav me-auto">
         <li class="nav-item"><a class="nav-link" href="<c:url value="<%= catalogUrl %>"/>">Service Provider Catalog</a></li>
         <li class="nav-item"><a class="nav-link" href="<c:url value="/swagger-ui/index.jsp"/>">Swagger UI</a></li>
       </ul>
@@ -101,7 +102,7 @@
           <% Method method = null; %>
           <dl class="row">
             <% method = TestPlan.class.getMethod("getContributor"); %>
-            <dt  class="col-sm-2 text-right"><a href="<%=method.getAnnotation(OslcPropertyDefinition.class).value() %>"><%=method.getAnnotation(OslcName.class).value()%></a></dt>
+            <dt  class="col-sm-2 text-end"><a href="<%=method.getAnnotation(OslcPropertyDefinition.class).value() %>"><%=method.getAnnotation(OslcName.class).value()%></a></dt>
             <dd class="col-sm-9">
             <ul>
             <%
@@ -126,7 +127,7 @@
           </dl>
           <dl class="row">
             <% method = TestPlan.class.getMethod("getCreated"); %>
-            <dt  class="col-sm-2 text-right"><a href="<%=method.getAnnotation(OslcPropertyDefinition.class).value() %>"><%=method.getAnnotation(OslcName.class).value()%></a></dt>
+            <dt  class="col-sm-2 text-end"><a href="<%=method.getAnnotation(OslcPropertyDefinition.class).value() %>"><%=method.getAnnotation(OslcName.class).value()%></a></dt>
             <dd class="col-sm-9">
             <%
             if (aTestPlan.getCreated() == null) {
@@ -141,7 +142,7 @@
           </dl>
           <dl class="row">
             <% method = TestPlan.class.getMethod("getCreator"); %>
-            <dt  class="col-sm-2 text-right"><a href="<%=method.getAnnotation(OslcPropertyDefinition.class).value() %>"><%=method.getAnnotation(OslcName.class).value()%></a></dt>
+            <dt  class="col-sm-2 text-end"><a href="<%=method.getAnnotation(OslcPropertyDefinition.class).value() %>"><%=method.getAnnotation(OslcName.class).value()%></a></dt>
             <dd class="col-sm-9">
             <ul>
             <%
@@ -166,7 +167,7 @@
           </dl>
           <dl class="row">
             <% method = TestPlan.class.getMethod("getDescription"); %>
-            <dt  class="col-sm-2 text-right"><a href="<%=method.getAnnotation(OslcPropertyDefinition.class).value() %>"><%=method.getAnnotation(OslcName.class).value()%></a></dt>
+            <dt  class="col-sm-2 text-end"><a href="<%=method.getAnnotation(OslcPropertyDefinition.class).value() %>"><%=method.getAnnotation(OslcName.class).value()%></a></dt>
             <dd class="col-sm-9">
             <%
             if (aTestPlan.getDescription() == null) {
@@ -181,7 +182,7 @@
           </dl>
           <dl class="row">
             <% method = TestPlan.class.getMethod("getIdentifier"); %>
-            <dt  class="col-sm-2 text-right"><a href="<%=method.getAnnotation(OslcPropertyDefinition.class).value() %>"><%=method.getAnnotation(OslcName.class).value()%></a></dt>
+            <dt  class="col-sm-2 text-end"><a href="<%=method.getAnnotation(OslcPropertyDefinition.class).value() %>"><%=method.getAnnotation(OslcName.class).value()%></a></dt>
             <dd class="col-sm-9">
             <%
             if (aTestPlan.getIdentifier() == null) {
@@ -196,7 +197,7 @@
           </dl>
           <dl class="row">
             <% method = TestPlan.class.getMethod("getModified"); %>
-            <dt  class="col-sm-2 text-right"><a href="<%=method.getAnnotation(OslcPropertyDefinition.class).value() %>"><%=method.getAnnotation(OslcName.class).value()%></a></dt>
+            <dt  class="col-sm-2 text-end"><a href="<%=method.getAnnotation(OslcPropertyDefinition.class).value() %>"><%=method.getAnnotation(OslcName.class).value()%></a></dt>
             <dd class="col-sm-9">
             <%
             if (aTestPlan.getModified() == null) {
@@ -211,7 +212,7 @@
           </dl>
           <dl class="row">
             <% method = TestPlan.class.getMethod("getSubject"); %>
-            <dt  class="col-sm-2 text-right"><a href="<%=method.getAnnotation(OslcPropertyDefinition.class).value() %>"><%=method.getAnnotation(OslcName.class).value()%></a></dt>
+            <dt  class="col-sm-2 text-end"><a href="<%=method.getAnnotation(OslcPropertyDefinition.class).value() %>"><%=method.getAnnotation(OslcName.class).value()%></a></dt>
             <dd class="col-sm-9">
             <ul>
             <%
@@ -226,7 +227,7 @@
           </dl>
           <dl class="row">
             <% method = TestPlan.class.getMethod("getTitle"); %>
-            <dt  class="col-sm-2 text-right"><a href="<%=method.getAnnotation(OslcPropertyDefinition.class).value() %>"><%=method.getAnnotation(OslcName.class).value()%></a></dt>
+            <dt  class="col-sm-2 text-end"><a href="<%=method.getAnnotation(OslcPropertyDefinition.class).value() %>"><%=method.getAnnotation(OslcName.class).value()%></a></dt>
             <dd class="col-sm-9">
             <%
             if (aTestPlan.getTitle() == null) {
@@ -241,7 +242,7 @@
           </dl>
           <dl class="row">
             <% method = TestPlan.class.getMethod("getType"); %>
-            <dt  class="col-sm-2 text-right"><a href="<%=method.getAnnotation(OslcPropertyDefinition.class).value() %>"><%=method.getAnnotation(OslcName.class).value()%></a></dt>
+            <dt  class="col-sm-2 text-end"><a href="<%=method.getAnnotation(OslcPropertyDefinition.class).value() %>"><%=method.getAnnotation(OslcName.class).value()%></a></dt>
             <dd class="col-sm-9">
             <ul>
             <%
@@ -260,7 +261,7 @@
           </dl>
           <dl class="row">
             <% method = TestPlan.class.getMethod("getInstanceShape"); %>
-            <dt  class="col-sm-2 text-right"><a href="<%=method.getAnnotation(OslcPropertyDefinition.class).value() %>"><%=method.getAnnotation(OslcName.class).value()%></a></dt>
+            <dt  class="col-sm-2 text-end"><a href="<%=method.getAnnotation(OslcPropertyDefinition.class).value() %>"><%=method.getAnnotation(OslcName.class).value()%></a></dt>
             <dd class="col-sm-9">
             <ul>
             <%
@@ -279,7 +280,7 @@
           </dl>
           <dl class="row">
             <% method = TestPlan.class.getMethod("getServiceProvider"); %>
-            <dt  class="col-sm-2 text-right"><a href="<%=method.getAnnotation(OslcPropertyDefinition.class).value() %>"><%=method.getAnnotation(OslcName.class).value()%></a></dt>
+            <dt  class="col-sm-2 text-end"><a href="<%=method.getAnnotation(OslcPropertyDefinition.class).value() %>"><%=method.getAnnotation(OslcName.class).value()%></a></dt>
             <dd class="col-sm-9">
             <ul>
             <%
@@ -298,7 +299,7 @@
           </dl>
           <dl class="row">
             <% method = TestPlan.class.getMethod("getUsesTestCase"); %>
-            <dt  class="col-sm-2 text-right"><a href="<%=method.getAnnotation(OslcPropertyDefinition.class).value() %>"><%=method.getAnnotation(OslcName.class).value()%></a></dt>
+            <dt  class="col-sm-2 text-end"><a href="<%=method.getAnnotation(OslcPropertyDefinition.class).value() %>"><%=method.getAnnotation(OslcName.class).value()%></a></dt>
             <dd class="col-sm-9">
             <ul>
             <%
@@ -323,7 +324,7 @@
           </dl>
           <dl class="row">
             <% method = TestPlan.class.getMethod("getValidatesRequirementCollection"); %>
-            <dt  class="col-sm-2 text-right"><a href="<%=method.getAnnotation(OslcPropertyDefinition.class).value() %>"><%=method.getAnnotation(OslcName.class).value()%></a></dt>
+            <dt  class="col-sm-2 text-end"><a href="<%=method.getAnnotation(OslcPropertyDefinition.class).value() %>"><%=method.getAnnotation(OslcName.class).value()%></a></dt>
             <dd class="col-sm-9">
             <ul>
             <%
@@ -348,7 +349,7 @@
           </dl>
           <dl class="row">
             <% method = TestPlan.class.getMethod("getRelatedChangeRequest"); %>
-            <dt  class="col-sm-2 text-right"><a href="<%=method.getAnnotation(OslcPropertyDefinition.class).value() %>"><%=method.getAnnotation(OslcName.class).value()%></a></dt>
+            <dt  class="col-sm-2 text-end"><a href="<%=method.getAnnotation(OslcPropertyDefinition.class).value() %>"><%=method.getAnnotation(OslcName.class).value()%></a></dt>
             <dd class="col-sm-9">
             <ul>
             <%
@@ -385,7 +386,7 @@
                 Object value = entry.getValue();
             %>
             <dl class="row">
-                <dt  class="col-sm-2 text-right"><a href="<%=key.getNamespaceURI() + key.getLocalPart() %>"><%=key.getLocalPart()%></a></dt>
+                <dt  class="col-sm-2 text-end"><a href="<%=key.getNamespaceURI() + key.getLocalPart() %>"><%=key.getLocalPart()%></a></dt>
                 <dd class="col-sm-9"><%= value.toString()%></dd>
             </dl>
             <%

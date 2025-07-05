@@ -1,6 +1,6 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <name>OSLC 2020 RefImpl (aggregator)</name>
   <groupId>co.oslc.refimpl</groupId>
@@ -13,6 +13,7 @@
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     <maven.compiler.source>17</maven.compiler.source>
     <maven.compiler.target>17</maven.compiler.target>
+    <version.lyo>7.0.0-SNAPSHOT</version.lyo>
   </properties>
 
   <modules>
@@ -27,21 +28,17 @@
   <dependencyManagement>
     <dependencies>
       <dependency>
+        <groupId>org.eclipse.lyo</groupId>
+        <artifactId>lyo-bom</artifactId>
+        <version>${version.lyo}</version>
+        <scope>import</scope>
+        <type>pom</type>
+      </dependency>
+
+      <dependency>
         <groupId>co.oslc.refimpl</groupId>
         <artifactId>lib-common</artifactId>
         <version>${project.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>io.github.classgraph</groupId>
-        <artifactId>classgraph</artifactId>
-        <version>4.8.179</version>
-      </dependency>
-      <dependency>
-        <groupId>com.fasterxml.jackson</groupId>
-        <artifactId>jackson-bom</artifactId>
-        <version>2.19.0</version>
-        <scope>import</scope>
-        <type>pom</type>
       </dependency>
       <dependency>
         <groupId>org.yaml</groupId>
@@ -76,4 +73,18 @@
       </plugin>
     </plugins>
   </build>
+
+  <repositories>
+    <repository>
+      <name>Central Portal Snapshots</name>
+      <id>central-portal-snapshots</id>
+      <url>https://central.sonatype.com/repository/maven-snapshots/</url>
+      <releases>
+        <enabled>false</enabled>
+      </releases>
+      <snapshots>
+        <enabled>true</enabled>
+      </snapshots>
+    </repository>
+  </repositories>
 </project>
