@@ -23,6 +23,7 @@
 
 package co.oslc.refimpl.qm.gen.servlet;
 
+// spotless:off
 import java.net.MalformedURLException;
 import java.util.NoSuchElementException;
 import java.util.Locale;
@@ -42,6 +43,7 @@ import co.oslc.refimpl.qm.gen.RestDelegate;
 
 // Start of user code imports
 // End of user code
+// spotless:on
 
 /**
  * During the initialization of this ServletListener, the base URI for the OSLC resources produced by this server is configured through the OSLC4J method setPublicURI().

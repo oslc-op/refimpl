@@ -17,10 +17,12 @@
 
 package co.oslc.refimpl.am.gen;
 
+// spotless:off
 import org.eclipse.lyo.oslc4j.core.model.OslcConstants;
 
 // Start of user code imports
 // End of user code
+// spotless:on
 
 public interface ServerConstants
 {

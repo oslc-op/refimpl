@@ -25,6 +25,7 @@
 package co.oslc.refimpl.qm.gen;
 
 
+// spotless:off
 import jakarta.inject.Inject;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.ServletContextEvent;
@@ -74,6 +75,7 @@ import jakarta.ws.rs.core.Response;
 import co.oslc.refimpl.lib.MemResourceRepository;
 import co.oslc.refimpl.lib.ResourceRepository;
 // End of user code
+// spotless:on
 
 // Start of user code pre_class_code
 // End of user code

@@ -16,6 +16,7 @@
 
 package co.oslc.refimpl.qm.gen.auth;
 
+// spotless:off
 import java.util.Base64;
 import java.util.AbstractMap.SimpleEntry;
 import java.util.Optional;
@@ -36,6 +37,7 @@ import org.eclipse.lyo.server.oauth.core.AuthenticationException;
 
 // Start of user code imports
 // End of user code
+// spotless:on
 
 // Start of user code pre_class_code
 // End of user code

@@ -27,6 +27,7 @@
 
 package co.oslc.refimpl.rm.gen.servlet;
 
+// spotless:off
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.SortedMap;
@@ -50,6 +51,7 @@ import co.oslc.refimpl.rm.gen.ServiceProviderInfo;
 
 // Start of user code imports
 // End of user code
+// spotless:on
 
 /**
  * This is the OSLC service provider catalog for the adapter.  Service providers are
@@ -236,8 +238,9 @@ public class ServiceProviderCatalogSingleton
                     register(aServiceProvider);
                 }
             }
+        } catch (WebApplicationException e) {
+            throw e;
         } catch (Exception e) {
-            e.printStackTrace();
             throw new WebApplicationException(e,Status.INTERNAL_SERVER_ERROR);
         }
     }

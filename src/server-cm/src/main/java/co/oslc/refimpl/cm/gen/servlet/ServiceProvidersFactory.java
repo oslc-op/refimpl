@@ -27,6 +27,7 @@
 
 package co.oslc.refimpl.cm.gen.servlet;
 
+// spotless:off
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Date;
@@ -56,6 +57,7 @@ import co.oslc.refimpl.cm.gen.services.Change_requestsService;
 
 // Start of user code imports
 // End of user code
+// spotless:on
 
 public class ServiceProvidersFactory
 {

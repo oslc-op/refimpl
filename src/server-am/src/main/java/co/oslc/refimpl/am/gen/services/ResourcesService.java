@@ -22,6 +22,7 @@
 
 package co.oslc.refimpl.am.gen.services;
 
+// spotless:off
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.URI;
@@ -95,6 +96,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 
 // Start of user code imports
 // End of user code
+// spotless:on
 
 // Start of user code pre_class_code
 // End of user code

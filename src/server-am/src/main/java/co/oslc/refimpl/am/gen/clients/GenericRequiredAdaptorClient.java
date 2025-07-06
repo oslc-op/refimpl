@@ -19,6 +19,7 @@
 
 package co.oslc.refimpl.am.gen.clients;
 
+// spotless:off
 import jakarta.ws.rs.core.Response;
 import org.eclipse.lyo.client.OSLCConstants;
 import org.eclipse.lyo.client.OslcClient;
@@ -26,6 +27,7 @@ import org.eclipse.lyo.oslc4j.core.model.ServiceProviderCatalog;
 
 // Start of user code imports
 // End of user code
+// spotless:on
 
 
 // Start of user code pre_class_code

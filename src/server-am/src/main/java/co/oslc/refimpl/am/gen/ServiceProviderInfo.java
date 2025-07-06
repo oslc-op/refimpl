@@ -20,8 +20,10 @@
 
 package co.oslc.refimpl.am.gen;
 
+// spotless:off
 // Start of user code imports
 // End of user code
+// spotless:on
 
 // Start of user code pre_class_code
 // End of user code
