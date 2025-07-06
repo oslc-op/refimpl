@@ -25,6 +25,7 @@
 package co.oslc.refimpl.rm.gen;
 
 
+// spotless:off
 import jakarta.inject.Inject;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.ServletContextEvent;
@@ -82,6 +83,7 @@ import org.apache.lucene.store.Directory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 // End of user code
+// spotless:on
 
 // Start of user code pre_class_code
 // End of user code

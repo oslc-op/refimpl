@@ -17,6 +17,7 @@
 
 package co.oslc.refimpl.am.gen.servlet;
 
+// spotless:off
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.glassfish.hk2.api.Factory;
@@ -30,6 +31,7 @@ import co.oslc.refimpl.am.gen.ResourcesFactory;
 import org.eclipse.lyo.oslc4j.core.OSLC4JUtils;
 // Start of user code imports
 // End of user code
+// spotless:on
 
 // Start of user code pre_class_code
 // End of user code

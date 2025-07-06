@@ -16,6 +16,7 @@
 
 package co.oslc.refimpl.qm.gen.services;
 
+// spotless:off
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.ws.rs.GET;
@@ -35,6 +36,7 @@ import co.oslc.refimpl.qm.gen.auth.AuthenticationApplication;
 
 // Start of user code imports
 // End of user code
+// spotless:on
 
 /**
  * Jazz Root Services Service, see:

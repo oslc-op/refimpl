@@ -25,6 +25,7 @@
 
 package co.oslc.refimpl.am.gen.services;
 
+// spotless:off
 import java.io.IOException;
 
 import jakarta.servlet.RequestDispatcher;
@@ -54,6 +55,7 @@ import co.oslc.refimpl.am.gen.servlet.ServiceProviderCatalogSingleton;
 
 // Start of user code imports
 // End of user code
+// spotless:on
 
 @OslcService(OslcConstants.OSLC_CORE_DOMAIN)
 @Path("serviceProviders")

@@ -20,6 +20,7 @@
 package co.oslc.refimpl.am.gen;
 
 
+// spotless:off
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.HashMap;
@@ -34,6 +35,7 @@ import org.eclipse.lyo.oslc.domains.am.Resource;
 
 // Start of user code imports
 // End of user code
+// spotless:on
 
 // Start of user code pre_class_code
 // End of user code
