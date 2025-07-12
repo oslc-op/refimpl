@@ -15,7 +15,7 @@
  */
 // End of user code
 
-package co.oslc.refimpl.rm.gen.servlet;
+package co.oslc.refimpl.am.gen.servlet;
 
 import java.util.Set;
 

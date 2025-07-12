@@ -64,7 +64,7 @@ public class ServletListener implements ServletContextListener  {
     @Override
     public void contextInitialized(final ServletContextEvent servletContextEvent)
     {
-        //These are default values. You can modify any of them early in this method.
+        //These are fallback defaults. We recommend you do not modify them. Instead, set the 'baseurl' property.
         String basePathKey = "baseurl";
         String fallbackBase = "http://localhost:8080";
         String servletName = "JAX-RS Servlet";
@@ -93,7 +93,7 @@ public class ServletListener implements ServletContextListener  {
         try {
             servletUrlPattern = getServletUrlPattern(servletContext, servletName);
         } catch (Exception e1) {
-            logger.error("servletListner encountered problems identifying the servlet URL pattern.", e1);
+            logger.error("servletListener encountered problems identifying the servlet URL pattern.", e1);
         }
         try {
             logger.info("Setting public URI: " + baseUrl);
@@ -101,9 +101,9 @@ public class ServletListener implements ServletContextListener  {
             logger.info("Setting servlet path: " + servletUrlPattern);
             OSLC4JUtils.setServletPath(servletUrlPattern);
         } catch (MalformedURLException e) {
-            logger.error("servletListner encountered MalformedURLException.", e);
+            logger.error("servletListener encountered MalformedURLException.", e);
         } catch (IllegalArgumentException e) {
-            logger.error("servletListner encountered IllegalArgumentException.", e);
+            logger.error("servletListener encountered IllegalArgumentException.", e);
         }
 
         logger.info("servletListner contextInitialized.");

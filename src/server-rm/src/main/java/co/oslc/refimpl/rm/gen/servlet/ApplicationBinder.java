@@ -18,26 +18,24 @@
 package co.oslc.refimpl.rm.gen.servlet;
 
 // spotless:off
-import jakarta.ws.rs.core.UriBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.glassfish.hk2.api.Factory;
 import org.glassfish.hk2.utilities.binding.AbstractBinder;
 
+import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
+import jakarta.ws.rs.core.UriBuilder;
+import jakarta.servlet.ServletContext;
 
 import co.oslc.refimpl.rm.gen.RestDelegate;
 import co.oslc.refimpl.rm.gen.ResourcesFactory;
+import static co.oslc.refimpl.rm.gen.servlet.ServletListener.getConfigurationProperty;
+import static co.oslc.refimpl.rm.gen.servlet.ServletListener.getServletUrlPattern;
+import java.util.Set;
 
 import org.eclipse.lyo.oslc4j.core.OSLC4JUtils;
 // Start of user code imports
-import jakarta.servlet.ServletContext;
-import jakarta.inject.Inject;
-
-import java.util.Set;
-
-import static co.oslc.refimpl.rm.gen.servlet.ServletListener.getConfigurationProperty;
-import static co.oslc.refimpl.rm.gen.servlet.ServletListener.getServletUrlPattern;
 // End of user code
 // spotless:on
 
@@ -53,55 +51,6 @@ public class ApplicationBinder extends AbstractBinder {
     // End of user code
 
     // Start of user code class_methods
-    /**
-     * This factory is responsible for creating and configuring the LyoConfiguration object.
-     * Jersey's HK2 framework will manage this factory.
-     */
-    public static class LyoConfigurationFactory implements Factory<LyoGeneratedAppConfig> {
-        private static final Logger logger = LoggerFactory.getLogger(LyoConfigurationFactory.class);
-
-        private final LyoGeneratedAppConfig instance;
-
-        /**
-         * The ServletContext is injected by Jersey/HK2. This constructor
-         * is called only once because we bound it as a Singleton.
-         */
-        @Inject
-        public LyoConfigurationFactory(ServletContext context) {
-            String basePathKey = "baseurl";
-            String fallbackBase = "http://localhost:8080";
-            String servletName = "JAX-RS Servlet";
-
-            String basePathProperty = getConfigurationProperty(basePathKey, fallbackBase, context, ServletListener.class);
-            UriBuilder builder = UriBuilder.fromUri(basePathProperty);
-            String baseUrl = builder.path(context.getContextPath()).build().toString();
-            String servletUrlPattern = "services/";
-            try {
-                servletUrlPattern = getServletUrlPattern(context, servletName);
-            } catch (Exception e1) {
-                logger.error("servletListner encountered problems identifying the servlet URL pattern.", e1);
-            }
-            String corsFriendsString = getConfigurationProperty("cors.friends", "", context, ServletListener.class);
-            this.instance = new LyoGeneratedAppConfig(baseUrl, servletUrlPattern, Set.of(corsFriendsString.split(";")));
-        }
-
-        /**
-         * This method is called whenever a component requests an
-         * injection of LyoConfiguration. It returns the singleton instance.
-         */
-        @Override
-        public LyoGeneratedAppConfig provide() {
-            return instance;
-        }
-
-        /**
-         * Called when the application shuts down.
-         */
-        @Override
-        public void dispose(LyoGeneratedAppConfig instance) {
-            // Perform cleanup if necessary
-        }
-    }
     // End of user code
 
     public ApplicationBinder()
@@ -119,6 +68,8 @@ public class ApplicationBinder extends AbstractBinder {
 //            .in(Singleton.class)
         ;
         // End of user code
+        bindFactory(LyoConfigurationFactory.class)
+                .to(LyoGeneratedAppConfig.class);
         bindAsContract(RestDelegate.class).in(Singleton.class);
         bindFactory(ResourcesFactoryFactory.class).to(ResourcesFactory.class).in(Singleton.class);
     
@@ -137,6 +88,43 @@ public class ApplicationBinder extends AbstractBinder {
         public void dispose(ResourcesFactory instance) {
         }
     }
+
+    public static class LyoConfigurationFactory implements Factory<LyoGeneratedAppConfig> {
+        private static final Logger logger = LoggerFactory.getLogger(LyoConfigurationFactory.class);
+
+        private final LyoGeneratedAppConfig instance;
+
+        @Inject
+        public LyoConfigurationFactory(ServletContext context) {
+            // TODO: refactor to avoid duplication with contextInitialized()
+            String basePathKey = "baseurl";
+            String fallbackBase = "http://localhost:8080";
+            String servletName = "JAX-RS Servlet";
+
+            String basePathProperty = getConfigurationProperty(basePathKey, fallbackBase, context, ServletListener.class);
+            UriBuilder builder = UriBuilder.fromUri(basePathProperty);
+            String baseUrl = builder.path(context.getContextPath()).build().toString();
+            String servletUrlPattern = "services/";
+            try {
+                servletUrlPattern = getServletUrlPattern(context, servletName);
+            } catch (Exception e1) {
+                logger.error("servletListener encountered problems identifying the servlet URL pattern.", e1);
+            }
+            String corsFriendsString = getConfigurationProperty("cors.friends", "", context, ServletListener.class);
+            this.instance = new LyoGeneratedAppConfig(baseUrl, servletUrlPattern, Set.of(corsFriendsString.split(";")));
+        }
+
+        @Override
+        public LyoGeneratedAppConfig provide() {
+            return instance;
+        }
+
+        @Override
+        public void dispose(LyoGeneratedAppConfig instance) {
+            // Noop
+        }
+    }
+
     
     
 }

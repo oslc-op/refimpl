@@ -9,20 +9,21 @@
         <param-name>co.oslc.refimpl.rm.gen.servlet.baseurl</param-name>
         <param-value>http://localhost:8800/</param-value>
         <!-- Start of user code webxml_baseurl
-        -->
-        <!-- TODO: Add additional configurations here to avoid them be overrriden upon future re-generation -->
-        <!-- End of user code
-        -->
-    </context-param>
-    <context-param>
-      <description>CORS friends</description>
-      <param-name>co.oslc.refimpl.rm.gen.servlet.cors.friends</param-name>
-      <param-value>https://example.com;https://oslc-browser.oslc.ldsw.eu</param-value>
-      <!-- Start of user code webxml_baseurl
       -->
       <!-- TODO: Add additional configurations here to avoid them be overrriden upon future re-generation -->
       <!-- End of user code
-      -->
+        -->
+    </context-param>
+    <context-param>
+        <description>CORS friends</description>
+        <param-name>co.oslc.refimpl.rm.gen.servlet.cors.friends</param-name>
+        <!-- Valid options: '*' (for any origin), a semicolon-separated list of origins (e.g. 'https://rm.example.com;https://cm.example.com') -->
+        <!-- Start of user code cors_friends
+        -->
+        <!-- NOTE: Delete the contents of the protected block to re-generate the default value -->
+        <param-value>*</param-value>
+        <!-- End of user code
+        -->
     </context-param>
     <!-- Start of user code webxml1
     -->
