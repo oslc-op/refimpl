@@ -105,8 +105,18 @@ public class ApplicationBinder extends AbstractBinder {
             } catch (Exception e1) {
                 logger.error("servletListener encountered problems identifying the servlet URL pattern.", e1);
             }
+
             String corsFriendsString = getConfigurationProperty("cors.friends", "", context, ServletListener.class);
-            this.instance = new LyoGeneratedAppConfig(baseUrl, servletUrlPattern, Set.of(corsFriendsString.split(";")));
+            Set<String> corsFriends;
+            if (corsFriendsString == null || corsFriendsString.isEmpty()) {
+                corsFriends = Set.of();
+            } else {
+                corsFriends = java.util.Arrays.stream(corsFriendsString.split(";"))
+                    .map(String::trim)
+                    .filter(s -> !s.isEmpty())
+                    .collect(java.util.stream.Collectors.toSet());
+            }
+            this.instance = new LyoGeneratedAppConfig(baseUrl, servletUrlPattern, corsFriends);
         }
 
         @Override

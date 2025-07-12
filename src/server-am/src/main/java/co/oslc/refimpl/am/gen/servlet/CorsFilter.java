@@ -54,7 +54,7 @@ public class CorsFilter implements ContainerResponseFilter {
         
         String originAllow = "*";
         final String requestOrigin = requestContext.getHeaderString("Origin");
-        if (requestOrigin != null) {
+        if (requestOrigin != null && !requestOrigin.isBlank()) {
             if (!config.corsFriends().contains("*") && !config.corsFriends().contains(requestOrigin) ) {
                 return;
             }
