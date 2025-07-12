@@ -91,7 +91,7 @@ public class ServletListener implements ServletContextListener  {
         String baseUrl = builder.path(servletContext.getContextPath()).build().toString();
         String servletUrlPattern = "services/";
         try {
-            servletUrlPattern = getServletUrlPattern(servletContextEvent, servletName);
+            servletUrlPattern = getServletUrlPattern(servletContext, servletName);
         } catch (Exception e1) {
             logger.error("servletListner encountered problems identifying the servlet URL pattern.", e1);
         }
@@ -147,7 +147,7 @@ public class ServletListener implements ServletContextListener  {
      * @param klass Class of the ServletListener
      * @return value, if found, from ENV, JVM, or Servlet Context (in this order)
      */
-    private static String getConfigurationProperty(String key, String defaultValue, final ServletContext servletContext, Class klass) {
+    public static String getConfigurationProperty(String key, String defaultValue, final ServletContext servletContext, Class klass) {
         String value = getConfigurationPropertyFromEnvironment(generateEnvironmentKey(key))
             .orElseGet(() -> getConfigurationPropertyFromSystemProperties(generateFullyQualifiedKey(klass, key))
                 .orElseGet(() -> getConfigurationPropertyFromContext(servletContext, generateFullyQualifiedKey(klass, key))
@@ -199,9 +199,7 @@ public class ServletListener implements ServletContextListener  {
         return Optional.of(value);
     }
 
-    private static String getServletUrlPattern(final ServletContextEvent servletContextEvent, String servletName) throws Exception {
-        final ServletContext servletContext = servletContextEvent.getServletContext();
-
+    static String getServletUrlPattern(final ServletContext servletContext, String servletName) throws Exception {
         ServletRegistration servletRegistration = servletContext.getServletRegistration(servletName);
         if (servletRegistration == null) {
             throw new NoSuchElementException("no servlet with name \"" + servletName + "\" is found.");
