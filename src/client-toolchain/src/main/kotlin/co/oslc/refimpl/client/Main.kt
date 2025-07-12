@@ -119,7 +119,7 @@ fun main(args: Array<String>) = mainBody {
         var cmChangeReq: List<Link> = emptyList()
         if (initRM) {
             rmRequirements = CreationFactoryPopulator(
-                client, rmTraverser, N_RESOURCES, SimpleResourceGen(::genRequirement),
+                client, rmTraverser, N_RESOURCES, SimpleResourceGenWithBaseUri(::genRequirementWithBaseUri, this.rm),
                 Requirement::class.java
             ).populate()
             val rmRequirementColl = CreationFactoryPopulator(
