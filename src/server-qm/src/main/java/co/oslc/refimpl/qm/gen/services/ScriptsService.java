@@ -137,15 +137,6 @@ public class ScriptsService
         super();
     }
 
-    private void addCORSHeaders (final HttpServletResponse httpServletResponse) {
-        //UI preview can be blocked by CORS policy.
-        //add select CORS headers to every response that is embedded in an iframe.
-        httpServletResponse.addHeader("Access-Control-Allow-Origin", "*");
-        httpServletResponse.addHeader("Access-Control-Allow-Methods", "GET, OPTIONS, HEAD");
-        httpServletResponse.addHeader("Access-Control-Allow-Headers", "origin, content-type, accept, authorization");
-        httpServletResponse.addHeader("Access-Control-Allow-Credentials", "true");
-    }
-
     @OslcQueryCapability
     (
         title = "TestScriptQC",

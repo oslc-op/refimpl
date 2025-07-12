@@ -14,6 +14,17 @@
         <!-- End of user code
         -->
     </context-param>
+    <context-param>
+        <description>CORS friends</description>
+        <param-name>co.oslc.refimpl.qm.gen.servlet.cors.friends</param-name>
+        <!-- Valid options: '*' (for any origin), a semicolon-separated list of origins (e.g. 'https://rm.example.com;https://cm.example.com') -->
+        <!-- Start of user code cors_friends
+        -->
+        <!-- NOTE: Delete the contents of the protected block to re-generate the default value -->
+        <param-value>*</param-value>
+        <!-- End of user code
+        -->
+    </context-param>
     <!-- Start of user code webxml1
   -->
   <!-- TODO: Add additional configurations here to avoid them be overrriden upon future re-generation -->
