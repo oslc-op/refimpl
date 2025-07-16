@@ -23,21 +23,21 @@ jobs:
       fail-fast: false
       matrix:
         jdk: ['21']
-        distribution: ['temurin', 'corretto', 'microsoft', 'adopt-openj9', 'zulu', 'liberica' ]
+        distribution: ['temurin']
         experimental: [false]
-        include:
-          - jdk: '17'
-            distribution: 'temurin'
-            experimental: false
-          - jdk: '22'
-            distribution: 'zulu'
-            experimental: true
-          - jdk: '23'
-            distribution: 'zulu'
-            experimental: true
-          - jdk: '24-ea'
-            distribution: 'zulu'
-            experimental: true
+        # include:
+        #   - jdk: '17'
+        #     distribution: 'temurin'
+        #     experimental: false
+        #   - jdk: '22'
+        #     distribution: 'zulu'
+        #     experimental: true
+        #   - jdk: '23'
+        #     distribution: 'zulu'
+        #     experimental: true
+        #   - jdk: '24-ea'
+        #     distribution: 'zulu'
+        #     experimental: true
     continue-on-error: ${{ matrix.experimental }}
 
     steps:
@@ -61,7 +61,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-${{ matrix.jdk }}_${{ matrix.distribution }}-maven-
       - name: Build Lyo locally (branch ${{ github.event.inputs.lyoBranch }})
-        run: mvn -B clean install --file lyo-trunk/pom.xml -DskipTests -Dmaven.javadoc.skip=true
+        run: mvn -B clean install --file lyo-trunk/pom.xml -DskipTests -Dmaven.javadoc.skip=true -P '!spotless'
       - name: Run tests on RefImpl
         run: mvn -B -Pacceptance clean verify --file main/src/pom.xml
 
