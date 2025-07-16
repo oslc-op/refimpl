@@ -163,7 +163,7 @@ jobs:
             ${{ runner.os }}-${{ matrix.jdk }}_${{ matrix.distribution }}-maven-
       - name: Build Lyo locally (branch ${{ github.event.inputs.lyoBranch }})
         working-directory: lyo-trunk/
-        run: mvn -B clean install -DskipTests -Dmaven.javadoc.skip=true
+        run: mvn -B clean install -DskipTests -Dmaven.javadoc.skip=true -P '!spotless'
       - name: Build with Maven
         working-directory: main/src/
         run: mvn -B package -Pwith-jstl-impl
