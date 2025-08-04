@@ -2,7 +2,7 @@ name: "Docker Build and Push (OSLC RefImpl)"
 
 on:
   push:
-    branches: [master]
+    branches: [main]
     paths:
       - 'src/**'
       - '.github/workflows/docker.yml'
