@@ -18,7 +18,7 @@
     <maven.compiler.target>17</maven.compiler.target>
 
     <v.kotlin>2.2.0</v.kotlin>
-    <v.jersey>3.1.5</v.jersey>
+    <v.jersey>3.1.10</v.jersey>
     <v.kotlin.coroutines>1.10.2</v.kotlin.coroutines>
   </properties>
 
