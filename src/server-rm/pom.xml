@@ -34,7 +34,7 @@
         <!-- Start of user code properties
     -->
         <v.lucene>9.12.0</v.lucene>
-        <v.rest-assured>5.5.1</v.rest-assured>
+        <v.rest-assured>5.5.5</v.rest-assured>
     <!-- End of user code
         -->
     </properties>
@@ -78,7 +78,7 @@
           <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-enforcer-plugin</artifactId>
-            <version>3.5.0</version>
+            <version>3.6.1</version>
             <executions>
               <execution>
                 <id>enforce-maven</id>
