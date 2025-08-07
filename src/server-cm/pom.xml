@@ -301,8 +301,11 @@
         <plugins>
             <!-- Start of user code plugins
       -->
-      <!-- TODO: Add additional plugins here to avoid them be overrriden upon future re-generation -->
-      <!-- End of user code
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-enforcer-plugin</artifactId>
+            </plugin>
+            <!-- End of user code
             -->
             <plugin>
                 <groupId>org.eclipse.jetty</groupId>
@@ -395,7 +398,6 @@
                     </webResources>
                 </configuration>
             </plugin>
-        
         </plugins>
     </build>
     <!-- Start of user code post_build
