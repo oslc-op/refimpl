@@ -296,7 +296,10 @@
         <plugins>
             <!-- Start of user code plugins
       -->
-      <!-- TODO: Add additional plugins here to avoid them be overrriden upon future re-generation -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-enforcer-plugin</artifactId>
+            </plugin>
       <!-- End of user code
             -->
             <plugin>
