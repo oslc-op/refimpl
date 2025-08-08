@@ -63,13 +63,9 @@ public class ApplicationBinder extends AbstractBinder {
         log.info("HK2 contract binding start");
     
         // Start of user code ConfigureInitialise
-        bindFactory(LyoConfigurationFactory.class)
-            .to(LyoGeneratedAppConfig.class)
-//            .in(Singleton.class)
-        ;
         // End of user code
-        bindFactory(LyoConfigurationFactory.class)
-                .to(LyoGeneratedAppConfig.class);
+        bindFactory(LyoAppConfigurationFactory.class)
+                .to(LyoAppConfiguration.class);
         bindAsContract(RestDelegate.class).in(Singleton.class);
         bindFactory(ResourcesFactoryFactory.class).to(ResourcesFactory.class).in(Singleton.class);
     
@@ -89,29 +85,14 @@ public class ApplicationBinder extends AbstractBinder {
         }
     }
 
-    public static class LyoConfigurationFactory implements Factory<LyoGeneratedAppConfig> {
-        private static final Logger logger = LoggerFactory.getLogger(LyoConfigurationFactory.class);
+    public static class LyoAppConfigurationFactory implements Factory<LyoAppConfiguration> {
+        private static final Logger logger = LoggerFactory.getLogger(LyoAppConfigurationFactory.class);
 
-        private final LyoGeneratedAppConfig instance;
+        private final LyoAppConfiguration instance;
 
         @Inject
-        public LyoConfigurationFactory(ServletContext context) {
-            // TODO: refactor to avoid duplication with contextInitialized()
-            String basePathKey = "baseurl";
-            String fallbackBase = "http://localhost:8080";
-            String servletName = "JAX-RS Servlet";
-
-            String basePathProperty = getConfigurationProperty(basePathKey, fallbackBase, context, ServletListener.class);
-            UriBuilder builder = UriBuilder.fromUri(basePathProperty);
-            String baseUrl = builder.path(context.getContextPath()).build().toString();
-            String servletUrlPattern = "services/";
-            try {
-                servletUrlPattern = getServletUrlPattern(context, servletName);
-            } catch (Exception e1) {
-                logger.error("servletListener encountered problems identifying the servlet URL pattern.", e1);
-            }
-
-            String corsFriendsString = getConfigurationProperty("cors.friends", "", context, ServletListener.class);
+        public LyoAppConfigurationFactory(ServletContext context) {
+            String corsFriendsString = getConfigurationProperty("cors.friends", "*", context, ServletListener.class);
             Set<String> corsFriends;
             if (corsFriendsString == null || corsFriendsString.isEmpty()) {
                 corsFriends = Set.of();
@@ -121,16 +102,16 @@ public class ApplicationBinder extends AbstractBinder {
                     .filter(s -> !s.isEmpty())
                     .collect(java.util.stream.Collectors.toSet());
             }
-            this.instance = new LyoGeneratedAppConfig(baseUrl, servletUrlPattern, corsFriends);
+            this.instance = new LyoAppConfiguration(OSLC4JUtils.getPublicURI(), OSLC4JUtils.getServletPath(), corsFriends);
         }
 
         @Override
-        public LyoGeneratedAppConfig provide() {
+        public LyoAppConfiguration provide() {
             return instance;
         }
 
         @Override
-        public void dispose(LyoGeneratedAppConfig instance) {
+        public void dispose(LyoAppConfiguration instance) {
             // Noop
         }
     }
