@@ -40,7 +40,7 @@ public class CorsFilter implements ContainerResponseFilter {
     // End of user code
 
     @Inject
-    private LyoGeneratedAppConfig config;
+    private LyoAppConfiguration config;
 
     // Start of user code class_methods
     // End of user code

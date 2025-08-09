@@ -15,9 +15,9 @@
  */
 // End of user code
 
-package co.oslc.refimpl.qm.gen.servlet;
+package co.oslc.refimpl.cm.gen.servlet;
 
 import java.util.Set;
 
-public record LyoGeneratedAppConfig(String baseUrl, String servletPath, Set<String> corsFriends) {
+public record LyoAppConfiguration(String baseUrl, String servletPath, Set<String> corsFriends) {
 }
