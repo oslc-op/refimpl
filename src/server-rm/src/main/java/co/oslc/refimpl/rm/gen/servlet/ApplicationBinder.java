@@ -84,15 +84,14 @@ public class ApplicationBinder extends AbstractBinder {
         public void dispose(ResourcesFactory instance) {
         }
     }
-
     public static class LyoAppConfigurationFactory implements Factory<LyoAppConfiguration> {
         private static final Logger logger = LoggerFactory.getLogger(LyoAppConfigurationFactory.class);
-
+    
         private final LyoAppConfiguration instance;
-
+    
         @Inject
         public LyoAppConfigurationFactory(ServletContext context) {
-            String corsFriendsString = getConfigurationProperty("cors.friends", "*", context, ServletListener.class);
+            String corsFriendsString = getConfigurationProperty("cors.friends", "", context, ServletListener.class);
             Set<String> corsFriends;
             if (corsFriendsString == null || corsFriendsString.isEmpty()) {
                 corsFriends = Set.of();
@@ -104,18 +103,17 @@ public class ApplicationBinder extends AbstractBinder {
             }
             this.instance = new LyoAppConfiguration(OSLC4JUtils.getPublicURI(), OSLC4JUtils.getServletPath(), corsFriends);
         }
-
+    
         @Override
         public LyoAppConfiguration provide() {
             return instance;
         }
-
+    
         @Override
         public void dispose(LyoAppConfiguration instance) {
             // Noop
         }
     }
-
     
     
 }
