@@ -91,7 +91,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          repository: eclipse/lyo
+          repository: "${{ github.event.inputs.lyoRepo }}"
           ref: "${{ github.event.inputs.lyoBranch }}"
           path: lyo-trunk
       - uses: actions/checkout@v4
@@ -148,7 +148,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          repository: eclipse/lyo
+          repository: "${{ github.event.inputs.lyoRepo }}"
           ref: "${{ github.event.inputs.lyoBranch }}"
           path: lyo-trunk
       - uses: actions/checkout@v4
