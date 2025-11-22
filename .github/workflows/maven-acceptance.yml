@@ -21,13 +21,13 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        jdk: ['17', '21']
+        jdk: ['21', '25']
         distribution: ['temurin']
         experimental: [false]
-        include:
-          - jdk: '23'
-            distribution: 'zulu'
-            experimental: true
+        # include:
+        #   - jdk: '23'
+        #     distribution: 'zulu'
+        #     experimental: true
     continue-on-error: ${{ matrix.experimental }}
 
     steps:
@@ -58,12 +58,9 @@ jobs:
         # distribution: ['temurin', 'corretto', 'microsoft', 'adopt-openj9', 'zulu']
         # experimental: [false]
         include:
-          - jdk: '17'
-            distribution: 'zulu'
+          - jdk: '21'
+            distribution: 'temurin'
             experimental: false
-          # - jdk: '19'
-          #   distribution: 'zulu'
-          #   experimental: true
     continue-on-error: ${{ matrix.experimental }}
 
     steps:
@@ -108,12 +105,9 @@ jobs:
         # distribution: ['temurin', 'corretto', 'microsoft', 'adopt-openj9', 'zulu']
         # experimental: [false]
         include:
-          - jdk: '17'
-            distribution: 'zulu'
+          - jdk: '21'
+            distribution: 'temurin'
             experimental: false
-          # - jdk: '19'
-          #   distribution: 'zulu'
-          #   experimental: true
     continue-on-error: ${{ matrix.experimental }}
 
     steps:
