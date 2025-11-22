@@ -71,8 +71,8 @@ jobs:
         # distribution: ['temurin', 'corretto', 'microsoft', 'adopt-openj9', 'zulu']
         # experimental: [false]
         include:
-          - jdk: '17'
-            distribution: 'zulu'
+          - jdk: '21'
+            distribution: 'temurin'
             experimental: false
           # - jdk: '19'
           #   distribution: 'zulu'
@@ -128,8 +128,8 @@ jobs:
         # distribution: ['temurin', 'corretto', 'microsoft', 'adopt-openj9', 'zulu']
         # experimental: [false]
         include:
-          - jdk: '17'
-            distribution: 'zulu'
+          - jdk: '21'
+            distribution: 'temurin'
             experimental: false
           # - jdk: '19'
           #   distribution: 'zulu'
