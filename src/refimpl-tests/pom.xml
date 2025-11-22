@@ -84,6 +84,13 @@
       <version>1.21.3</version>
       <scope>test</scope>
     </dependency>
+    <!-- Playwright -->
+    <dependency>
+      <groupId>com.microsoft.playwright</groupId>
+      <artifactId>playwright</artifactId>
+      <version>1.49.0</version>
+      <scope>test</scope>
+    </dependency>
     <!-- Mandatory dependencies for using Spock -->
     <dependency>
       <groupId>org.spockframework</groupId>
