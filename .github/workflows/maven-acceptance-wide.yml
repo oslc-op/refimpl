@@ -20,22 +20,25 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        jdk: ['17', '21', '22']
-        distribution: ['temurin', 'corretto', 'zulu', 'liberica']
+        jdk: ['21', '25']
+        distribution: ['temurin']
         experimental: [false]
         include:
-          - jdk: '17'
+          - jdk: '21'
+            distribution: 'corretto'
+            experimental: false
+          - jdk: '21'
+            distribution: 'liberica'
+            experimental: false
+          - jdk: '21'
             distribution: 'microsoft'
             experimental: false
-          - jdk: '17'
-            distribution: 'adopt-openj9'
+          - jdk: '21'
+            distribution: 'zulu'
             experimental: false
-          - jdk: '23'
-            distribution: 'zulu'
-            experimental: true
-          - jdk: '24-ea'
-            distribution: 'zulu'
-            experimental: true
+          # - jdk: '24-ea'
+          #   distribution: 'zulu'
+          #   experimental: true
 
     steps:
       - uses: actions/checkout@v4

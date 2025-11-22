@@ -24,21 +24,21 @@ jobs:
       matrix:
         include:
           # LTS-1 Temurin
-          - jdk: '17'
+          - jdk: '21'
             distribution: 'temurin'
             experimental: false
           # LTS Liberica
-          - jdk: '21'
+          - jdk: '25'
             distribution: 'liberica'
             experimental: false
           # Latest release Oracle
-          - jdk: '24'
-            distribution: 'oracle'
-            experimental: false
+          # - jdk: '24'
+          #   distribution: 'oracle'
+          #   experimental: false
           # Next release Zulu
-          - jdk: '25-ea'
-            distribution: 'zulu'
-            experimental: true
+          # - jdk: '25-ea'
+          #   distribution: 'zulu'
+          #   experimental: true
     continue-on-error: ${{ matrix.experimental }}
 
     steps:
@@ -66,7 +66,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        jdk: ['17']
+        jdk: ['21']
         distribution: ['temurin']
         experimental: [false]
         # include:

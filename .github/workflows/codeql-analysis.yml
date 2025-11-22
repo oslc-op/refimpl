@@ -61,14 +61,14 @@ jobs:
         path: ~/.m2/repository
         key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
         restore-keys: |
-          ${{ runner.os }}-${{ matrix.jdk }}_${{ matrix.distribution }}-maven-
+          ${{ runner.os }}-maven-
 
     # Autobuild attempts to build any compiled languages  (C/C++, C#, or Java).
     # If this step fails, then you should remove it and run the build manually (see below)
     - uses: actions/setup-java@v5
       with:
         distribution: 'temurin' # See 'Supported distributions' for available options
-        java-version: '17'
+        java-version: '21'
     - name: Autobuild
       uses: github/codeql-action/autobuild@v4
 
