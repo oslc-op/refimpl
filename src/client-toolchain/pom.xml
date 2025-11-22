@@ -18,7 +18,7 @@
     <maven.compiler.target>17</maven.compiler.target>
 
     <v.kotlin>2.2.21</v.kotlin>
-    <v.jersey>3.1.5</v.jersey>
+    <!-- <v.jersey>3.1.5</v.jersey> -->
     <v.kotlin.coroutines>1.10.2</v.kotlin.coroutines>
   </properties>
 
@@ -53,7 +53,6 @@
     <dependency>
       <groupId>org.apache.commons</groupId>
       <artifactId>commons-lang3</artifactId>
-      <version>3.18.0</version>
     </dependency>
     <dependency>
       <groupId>com.xenomachina</groupId>
@@ -79,7 +78,6 @@
     <dependency>
       <groupId>org.glassfish.jersey.core</groupId>
       <artifactId>jersey-client</artifactId>
-      <version>${v.jersey}</version>
       <exclusions>
         <exclusion>
           <!-- Jakarta API is used in Lyo Client -->
@@ -91,12 +89,10 @@
     <dependency>
       <groupId>org.glassfish.jersey.inject</groupId>
       <artifactId>jersey-hk2</artifactId>
-      <version>${v.jersey}</version>
     </dependency>
     <dependency>
       <groupId>org.glassfish.jersey.connectors</groupId>
       <artifactId>jersey-apache-connector</artifactId>
-      <version>${v.jersey}</version>
     </dependency>
     <dependency>
       <groupId>org.jetbrains.kotlin</groupId>
