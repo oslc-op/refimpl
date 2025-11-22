@@ -43,7 +43,7 @@ jobs:
 
     steps:
       - name: Checkout Code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           show-progress: false
       - name: Set up JDK ${{ matrix.jdk }}
@@ -77,7 +77,7 @@ jobs:
 
     steps:
       - name: Checkout Code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           show-progress: false
       - name: Set up JDK ${{ matrix.jdk }}
