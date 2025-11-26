@@ -51,14 +51,6 @@
                 <enabled>true</enabled>
             </snapshots>
         </repository>
-        <repository>
-            <id>lyo-snapshots</id>
-            <name>Eclipse Lyo Snapshots</name>
-            <url>https://repo.eclipse.org/content/repositories/lyo-snapshots/</url>
-            <releases>
-                <enabled>false</enabled>
-            </releases>
-        </repository>
         
     </repositories>
     <profiles>
@@ -391,7 +383,7 @@
                     </webResources>
                 </configuration>
             </plugin>
-        
+            
         </plugins>
     </build>
     <!-- Start of user code post_build
