@@ -66,7 +66,8 @@ class SwaggerSpec extends Specification {
         def serviceHost = environment.getServiceHost(svc, port)
         def servicePort = environment.getServicePort(svc, port)
         def swaggerUrl = "http://${serviceHost}:${servicePort}/swagger-ui/index.jsp"
-        def page = browser.newPage()
+        def context = browser.newContext(new Browser.NewContextOptions().setHttpCredentials("admin", "admin"))
+        def page = context.newPage()
 
         when:
         page.navigate(swaggerUrl)
@@ -80,9 +81,6 @@ class SwaggerSpec extends Specification {
         def expectedHeading = "${prefix} 1.0.0 OAS 3.0"
 
         // Wait for the heading to appear.
-        // Note: There may be a basic auth prompt for the swagger UI page to fetch the YAML.
-        // If that happens, this wait might fail if the YAML isn't loaded.
-        // We assume for now that the environment is configured to allow access or credentials are not needed for localhost.
         page.getByRole(AriaRole.HEADING, new Page.GetByRoleOptions().setName(expectedHeading)).waitFor()
 
         // Check the input box for the YAML URL
@@ -103,6 +101,7 @@ class SwaggerSpec extends Specification {
 
         cleanup:
         page.close()
+        context.close()
 
         where:
         svc    | port
