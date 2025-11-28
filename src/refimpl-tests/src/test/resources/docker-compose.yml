@@ -4,15 +4,23 @@ services:
     build:
       context: ../../../../
       dockerfile: server-rm/Dockerfile
+    ports:
+      - "8800:8080"
   server-cm:
     build:
       context: ../../../../
       dockerfile: server-cm/Dockerfile
+    ports:
+      - "8801:8080"
   server-qm:
     build:
       context: ../../../../
       dockerfile: server-qm/Dockerfile
+    ports:
+      - "8802:8080"
   server-am:
     build:
       context: ../../../../
       dockerfile: server-am/Dockerfile
+    ports:
+      - "8803:8080"
