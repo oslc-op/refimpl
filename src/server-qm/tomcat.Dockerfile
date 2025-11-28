@@ -4,7 +4,7 @@ COPY . /src
 WORKDIR /src
 RUN mvn -B --no-transfer-progress -DskipTests clean package -pl server-qm -am -Pwith-jstl-impl
 
-FROM docker.io/library/tomcat:10-jre25
+FROM docker.io/library/tomcat:11-jre25
 
 # do not write log files, log everything to the Docker daemon
 COPY --from=build /src/server-qm/config/tomcat-log.properties $CATALINA_BASE/conf/logging.properties
