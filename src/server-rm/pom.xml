@@ -29,6 +29,7 @@
         <servlet.port>8800</servlet.port>
         <application.contextpath>/</application.contextpath>
         <application.filename>server-rm</application.filename>
+        
         <!-- Start of user code properties
     -->
         <v.lucene>9.12.0</v.lucene>
@@ -321,6 +322,16 @@
       <!-- End of user code
             -->
             <plugin>
+              <groupId>org.apache.maven.plugins</groupId>
+              <artifactId>maven-compiler-plugin</artifactId>
+              <version>3.14.1</version>
+              <configuration>
+                <compilerArgument>
+                  -Xlint:fallthrough,unchecked,removal,deprecation,dep-ann,varargs,overloads,serial,try,finally
+                </compilerArgument>
+              </configuration>
+            </plugin>
+            <plugin>
                 <groupId>org.eclipse.jetty</groupId>
                 <artifactId>jetty-maven-plugin</artifactId>
                 <version>11.0.20</version>
@@ -412,6 +423,10 @@
                 </configuration>
             </plugin>
             
+            <!-- Start of user code plugins
+            -->
+            <!-- End of user code
+            -->
         </plugins>
     </build>
     <!-- Start of user code post_build
