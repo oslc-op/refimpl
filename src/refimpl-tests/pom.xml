@@ -14,39 +14,16 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     <maven.compiler.release>21</maven.compiler.release>
-    <groovy.version>4.0.28</groovy.version>
   </properties>
 
   <build>
     <plugins>
-      <!-- Mandatory plugins for using Spock -->
-      <plugin>
-        <!-- The gmavenplus plugin is used to compile Groovy code. To learn more about this plugin,
-        visit https://github.com/groovy/GMavenPlus/wiki -->
-        <groupId>org.codehaus.gmavenplus</groupId>
-        <artifactId>gmavenplus-plugin</artifactId>
-        <version>4.2.1</version>
-        <executions>
-          <execution>
-            <goals>
-              <goal>compile</goal>
-              <goal>compileTests</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
-      <!-- Optional plugins for using Spock -->
-      <!-- Only required if names of spec classes don't match default Surefire patterns (`*Test` etc.) -->
       <plugin>
         <artifactId>maven-surefire-plugin</artifactId>
         <version>3.5.3</version>
         <configuration>
           <useModulePath>false</useModulePath> <!-- https://issues.apache.org/jira/browse/SUREFIRE-1809 -->
           <useFile>false</useFile>
-          <includes>
-            <include>**/*Test</include>
-            <include>**/*Spec</include>
-          </includes>
         </configuration>
       </plugin>
     </plugins>
@@ -55,9 +32,9 @@
   <dependencyManagement>
     <dependencies>
       <dependency>
-        <groupId>org.spockframework</groupId>
-        <artifactId>spock-bom</artifactId>
-        <version>2.3-groovy-4.0</version>
+        <groupId>org.junit</groupId>
+        <artifactId>junit-bom</artifactId>
+        <version>5.11.3</version>
         <type>pom</type>
         <scope>import</scope>
       </dependency>
@@ -80,7 +57,7 @@
     </dependency>
     <dependency>
       <groupId>org.testcontainers</groupId>
-      <artifactId>spock</artifactId>
+      <artifactId>junit-jupiter</artifactId>
       <version>1.21.3</version>
       <scope>test</scope>
     </dependency>
@@ -91,39 +68,10 @@
       <version>1.49.0</version>
       <scope>test</scope>
     </dependency>
-    <!-- Mandatory dependencies for using Spock -->
+    <!-- JUnit 5 -->
     <dependency>
-      <groupId>org.spockframework</groupId>
-      <artifactId>spock-core</artifactId>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.spockframework</groupId>
-      <artifactId>spock-junit4</artifactId>
-      <scope>test</scope>
-    </dependency>
-    <!-- Optional dependencies for using Spock -->
-    <dependency> <!-- use a specific Groovy version rather than the one specified by spock-core -->
-      <groupId>org.apache.groovy</groupId>
-      <artifactId>groovy</artifactId>
-      <version>${groovy.version}</version>
-    </dependency>
-    <dependency> <!-- enables mocking of classes (in addition to interfaces) -->
-      <groupId>net.bytebuddy</groupId>
-      <artifactId>byte-buddy</artifactId>
-      <version>1.17.6</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency> <!-- enables mocking of classes without default constructor (together with ByteBuddy or CGLIB) -->
-      <groupId>org.objenesis</groupId>
-      <artifactId>objenesis</artifactId>
-      <version>3.4</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency> <!-- only required if Hamcrest matchers are used -->
-      <groupId>org.hamcrest</groupId>
-      <artifactId>hamcrest-core</artifactId>
-      <version>3.0</version>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter</artifactId>
       <scope>test</scope>
     </dependency>
   </dependencies>
