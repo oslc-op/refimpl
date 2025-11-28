@@ -2,6 +2,7 @@ import com.microsoft.playwright.Browser
 import com.microsoft.playwright.BrowserType
 import com.microsoft.playwright.Page
 import com.microsoft.playwright.Playwright
+import com.microsoft.playwright.options.AriaRole
 import org.testcontainers.containers.ComposeContainer
 import org.testcontainers.containers.wait.strategy.Wait
 import org.testcontainers.spock.Testcontainers
@@ -72,6 +73,29 @@ class SwaggerSpec extends Specification {
         def title = page.title()
         // Wait for the Swagger UI to load
         page.waitForSelector("#swagger-ui")
+
+        // 1. Check that the yaml document is loaded
+        // Expected heading format: "RM 1.0.0 OAS 3.0"
+        def prefix = svc.replace("server-", "").toUpperCase()
+        def expectedHeading = "${prefix} 1.0.0 OAS 3.0"
+
+        // Wait for the heading to appear.
+        // Note: There may be a basic auth prompt for the swagger UI page to fetch the YAML.
+        // If that happens, this wait might fail if the YAML isn't loaded.
+        // We assume for now that the environment is configured to allow access or credentials are not needed for localhost.
+        page.getByRole(AriaRole.HEADING, new Page.GetByRoleOptions().setName(expectedHeading)).waitFor()
+
+        // Check the input box for the YAML URL
+        def expectedYamlUrl = "http://${serviceHost}:${servicePort}/services/openapi.yaml"
+        def inputBox = page.getByRole(AriaRole.TEXTBOX)
+        assert inputBox.inputValue() == expectedYamlUrl
+
+        // 2. Confirm that the following endpoint is available on the page
+        // /serviceProviders/{serviceProviderId}/service2/requirementCollections/selector
+        // This is only for RM.
+        if (svc == RM_SVC) {
+            page.getByRole(AriaRole.BUTTON, new Page.GetByRoleOptions().setName("GET /serviceProviders/{serviceProviderId}/service2/requirementCollections/selector")).waitFor()
+        }
 
         then:
         title == "Swagger UI"
