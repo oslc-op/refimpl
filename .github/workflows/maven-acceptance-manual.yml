@@ -56,7 +56,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-${{ matrix.jdk }}_${{ matrix.distribution }}-maven-
       - name: Build Lyo locally (branch ${{ github.event.inputs.lyoBranch }})
-        run: mvn -B clean install --file lyo-trunk/pom.xml -DskipTests -Dmaven.javadoc.skip=true -P '!spotless'
+        run: mvn -B clean install --file lyo-trunk/pom.xml -DskipTests -Dmaven.javadoc.skip=true -P '!spotless' -P'!spotbugs'
       - name: Run tests on RefImpl
         run: mvn -B -Pacceptance clean verify --file main/src/pom.xml
 
