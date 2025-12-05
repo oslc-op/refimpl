@@ -29,11 +29,22 @@ import jakarta.ws.rs.core.UriBuilder;
 import jakarta.servlet.ServletContext;
 
 import co.oslc.refimpl.rm.gen.RestDelegate;
+import co.oslc.refimpl.rm.gen.ServiceProviderInfo;
 import co.oslc.refimpl.rm.gen.ResourcesFactory;
 import static co.oslc.refimpl.rm.gen.servlet.ServletListener.getConfigurationProperty;
 import static co.oslc.refimpl.rm.gen.servlet.ServletListener.getServletUrlPattern;
 import java.util.Set;
 
+import java.net.URI;
+import java.util.ArrayList;
+import java.util.Map;
+
+import org.eclipse.lyo.oslc4j.trs.server.InmemPagedTrs;
+import org.eclipse.lyo.oslc4j.trs.server.PagedTrs;
+import org.eclipse.lyo.oslc4j.trs.server.PagedTrsFactory;
+import org.eclipse.lyo.oslc4j.trs.server.TrsEventHandler;
+import org.eclipse.lyo.oslc.domains.rm.Requirement;
+import org.eclipse.lyo.oslc.domains.rm.RequirementCollection;
 import org.eclipse.lyo.oslc4j.core.OSLC4JUtils;
 // Start of user code imports
 // End of user code
@@ -70,6 +81,8 @@ public class ApplicationBinder extends AbstractBinder {
         bindFactory(ResourcesFactoryFactory.class).to(ResourcesFactory.class).in(Singleton.class);
     
     
+        bindFactory(InmemTrsEventHandlerFactory.class).to(TrsEventHandler.class).in(Singleton.class);
+        bindFactory(InmemPagedTrsFactory.class).to(PagedTrs.class).in(Singleton.class);
     
         // Start of user code ConfigureFinalize
         // End of user code
@@ -115,5 +128,50 @@ public class ApplicationBinder extends AbstractBinder {
         }
     }
     
+    static class InmemTrsEventHandlerFactory implements Factory<TrsEventHandler> {
+        // Start of user code TrsEventHandlerInitialise
+        // End of user code
     
+        @Override
+        public TrsEventHandler provide() {
+            ArrayList<URI> uris = new ArrayList<URI>();
+            // Start of user code TrsEventHandlerInitialBase
+            //TODO: Provide the initial list of URIs to populate the TRS log with
+            Map<String, Requirement> requirements = RestDelegate.requirementsForSP(RestDelegate.SP_DEFAULT);
+            for (Requirement requirement : requirements.values()) {
+                uris.add(requirement.getAbout());
+            }
+            Map<String, RequirementCollection> requirementCollections = RestDelegate.requirementCollectionsForSP(RestDelegate.SP_DEFAULT);
+            for (RequirementCollection requirementCollection : requirementCollections.values()) {
+                uris.add(requirementCollection.getAbout());
+            }
+            // End of user code
+    
+            InmemPagedTrs inmemTrs = new PagedTrsFactory().getInmemPagedTrs(5, 5, uris);
+            return inmemTrs;
+        }
+    
+        @Override
+        public void dispose(TrsEventHandler instance) {
+            // Start of user code TrsEventHandlerDispose
+            // End of user code
+        }
+    }
+    
+    static class InmemPagedTrsFactory implements Factory<PagedTrs> {
+        @Inject TrsEventHandler trsEventHandler;
+    
+        @Override
+        public PagedTrs provide() {
+            // Start of user code PagedTrsInitialise
+            // End of user code
+            return (InmemPagedTrs) trsEventHandler;
+        }
+    
+        @Override
+        public void dispose(PagedTrs instance) {
+            // Start of user code PagedTrsDispose
+            // End of user code
+        }
+    }
 }

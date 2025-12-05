@@ -38,6 +38,7 @@
       <resourceTypes href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#_pnz6IJUdEeq-KoPaR9_Cfg"/>
       <resourceTypes href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#_pn2WYZUdEeq-KoPaR9_Cfg"/>
     </webServices>
+    <trsService xsi:type="oslc4j_ai:InmemPagedTrsService" basePageLimit="50" changeLogPageLimit="50"/>
     <specification/>
     <requiredAdaptors xsi:type="oslc4j_ai:GenericRequiredAdaptor" serviceProviderCatalogURI="http://your.host.com/adaptor/services/catalog/singleton" name="GenericRequiredAdaptor"/>
     <configuration xsi:type="oslc4j_ai:MavenServerConfiguration" rootServerBaseUrl="http://localhost:8800/" applicationContextPath="/" servletUrlPattern="/services/*" jettyPort="8800">
