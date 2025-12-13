@@ -29,7 +29,6 @@
         <servlet.port>8800</servlet.port>
         <application.contextpath>/</application.contextpath>
         <application.filename>server-rm</application.filename>
-        
         <!-- Start of user code properties
     -->
         <v.lucene>9.12.0</v.lucene>
@@ -248,6 +247,10 @@
             <artifactId>oslc4j-json4j-provider</artifactId>
         </dependency>
         <dependency>
+            <groupId>org.eclipse.lyo.trs</groupId>
+            <artifactId>trs-server</artifactId>
+        </dependency>
+        <dependency>
             <groupId>org.eclipse.lyo.clients</groupId>
             <artifactId>oslc-client</artifactId>
         </dependency>
@@ -314,13 +317,11 @@
         <finalName>${application.filename}</finalName>
         <plugins>
             <!-- Start of user code plugins
-      -->
+            -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-enforcer-plugin</artifactId>
             </plugin>
-      <!-- End of user code
-            -->
             <plugin>
               <groupId>org.apache.maven.plugins</groupId>
               <artifactId>maven-compiler-plugin</artifactId>
@@ -331,6 +332,8 @@
                 </compilerArgument>
               </configuration>
             </plugin>
+            <!-- End of user code
+            -->
             <plugin>
                 <groupId>org.eclipse.jetty</groupId>
                 <artifactId>jetty-maven-plugin</artifactId>
@@ -423,10 +426,6 @@
                 </configuration>
             </plugin>
             
-            <!-- Start of user code plugins
-            -->
-            <!-- End of user code
-            -->
         </plugins>
     </build>
     <!-- Start of user code post_build

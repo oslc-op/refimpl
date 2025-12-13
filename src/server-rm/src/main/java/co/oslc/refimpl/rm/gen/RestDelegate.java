@@ -43,6 +43,7 @@ import org.eclipse.lyo.oslc.domains.Person;
 import org.eclipse.lyo.oslc.domains.rm.Requirement;
 import org.eclipse.lyo.oslc.domains.rm.RequirementCollection;
 
+import org.eclipse.lyo.oslc4j.trs.server.TrsEventHandler;
 
 
 // Start of user code imports
@@ -93,7 +94,7 @@ public class RestDelegate {
     private static final Logger log = LoggerFactory.getLogger(RestDelegate.class);
 
     
-    
+    @Inject TrsEventHandler trsEventHandler;
     @Inject ResourcesFactory resourcesFactory;
     // Start of user code class_attributes
     public static final String SP_DEFAULT = "sp_single";
@@ -251,6 +252,7 @@ public class RestDelegate {
         log.info("Created {}", aResource.getShortTitle());
         newResource = aResource;
         addToIndex(newResource, serviceProviderId);
+        trsEventHandler.onCreated(newResource);
         // End of user code
         return newResource;
     }
@@ -314,6 +316,7 @@ public class RestDelegate {
         newResource = aResource;
         // TODO Andrew@2019-09-24: add to index
 //        addToIndex(newResource, serviceProviderId);
+        trsEventHandler.onCreated(newResource);
         // End of user code
         return newResource;
     }
@@ -351,7 +354,9 @@ public class RestDelegate {
         
         // Start of user code deleteRequirement
         final Map<String, Requirement> requirements = requirementsForSP(serviceProviderId);
-        deleted = requirements.remove(resourceId) != null;
+        Requirement requirement = requirements.remove(resourceId);
+        deleted = requirement != null;
+        trsEventHandler.onDeleted(requirement.getAbout());
         // End of user code
         return deleted;
     }
@@ -361,7 +366,9 @@ public class RestDelegate {
         
         // Start of user code deleteRequirementCollection
         final Map<String, RequirementCollection> repository = requirementCollectionsForSP(serviceProviderId);
-        deleted = repository.remove(resourceId) != null;
+        RequirementCollection requirementCollection = repository.remove(resourceId);
+        deleted = requirementCollection != null;
+        trsEventHandler.onDeleted(requirementCollection.getAbout());
         // End of user code
         return deleted;
     }
@@ -377,6 +384,7 @@ public class RestDelegate {
         final Map<String, Requirement> repository = requirementsForSP(serviceProviderId);
         repository.put(resourceId, aResource);
         updatedResource = aResource;
+        trsEventHandler.onModified(updatedResource);
         // End of user code
         return updatedResource;
     }
@@ -391,6 +399,7 @@ public class RestDelegate {
         final Map<String, RequirementCollection> repository = requirementCollectionsForSP(serviceProviderId);
         repository.put(resourceId, aResource);
         updatedResource = aResource;
+        trsEventHandler.onModified(updatedResource);
         // End of user code
         return updatedResource;
     }
