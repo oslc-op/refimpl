@@ -15,10 +15,10 @@ COPY client-toolchain/pom.xml client-toolchain/pom.xml
 COPY lib-common/ lib-common/
 COPY server-rm/ server-rm/
 
-# Build Quarkus uber-jar (single JAR with all dependencies)
-RUN mvn -B --no-transfer-progress -DskipTests clean package -pl server-rm -am -Dquarkus.package.jar.type=uber-jar
+# Build only the specific module and its dependencies
+RUN mvn -B --no-transfer-progress -DskipTests clean package -pl server-rm -am
 
-FROM registry.access.redhat.com/ubi8/openjdk-21-runtime:1.20
+FROM docker.io/library/jetty:12-jre21-eclipse-temurin
 
 # Add metadata
 LABEL org.opencontainers.image.title="OSLC RefImpl RM Server"
@@ -27,14 +27,11 @@ LABEL org.opencontainers.image.source="https://github.com/oslc-op/refimpl"
 LABEL org.opencontainers.image.vendor="OSLC Open Project"
 LABEL org.opencontainers.image.licenses="EPL-2.0"
 
-ENV LANGUAGE='en_US:en'
+# WARNING DO NOT CHANGE WORKDIR or set it back to what it was before
+# $JETTY_BASE must be correct before starting Jetty
 
-WORKDIR /deployments
+COPY --from=build /src/server-rm/target/*.war /var/lib/jetty/webapps/ROOT.war
 
-# Copy the Quarkus uber-jar
-COPY --from=build --chown=185 /src/server-rm/target/*-runner.jar /deployments/quarkus-run.jar
+RUN java -jar "$JETTY_HOME/start.jar" --add-modules=ee9-deploy,ee9-jsp,ee9-jstl
 
-EXPOSE 8800
-USER 185
-
-ENTRYPOINT ["java", "-jar", "/deployments/quarkus-run.jar"]
+EXPOSE 8080

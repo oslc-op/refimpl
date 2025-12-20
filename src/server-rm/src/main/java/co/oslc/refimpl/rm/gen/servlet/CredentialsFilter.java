@@ -81,15 +81,11 @@ public class CredentialsFilter implements Filter {
         }
 
         String pathInfo = httpRequest.getPathInfo();
-        String requestURI = httpRequest.getRequestURI();
 
         //'protectedResource' defines the basic set of requests that needs to be protected. 
         //You can override this defintion in the user protected code block below.
-        // Do not protect the home page, OSLC resources needed for initial discovery, or static resources
-        if (pathInfo == null || "/".equals(requestURI) || requestURI.endsWith("/")) {
-            return false;  // Home page is not protected
-        }
-        boolean protectedResource = !pathInfo.startsWith("/rootservices") && !pathInfo.startsWith("/oauth") && !pathInfo.startsWith("/static");
+        // Do not protect OSLC resources needed for initial discovery
+        boolean protectedResource = !pathInfo.startsWith("/rootservices") && !pathInfo.startsWith("/oauth");
         // Do not protect CORS preflight requests
         if (protectedResource) {
             String method = httpRequest.getMethod();

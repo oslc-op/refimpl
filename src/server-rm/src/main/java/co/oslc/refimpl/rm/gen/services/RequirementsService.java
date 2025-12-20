@@ -85,7 +85,6 @@ import org.eclipse.lyo.oslc4j.core.model.AbstractResource;
 
 import co.oslc.refimpl.rm.gen.RestDelegate;
 import co.oslc.refimpl.rm.gen.ServerConstants;
-import co.oslc.refimpl.rm.gen.util.ServletUtil;
 import org.eclipse.lyo.oslc.domains.rm.Oslc_rmDomainConstants;
 import org.eclipse.lyo.oslc.domains.rm.Oslc_rmDomainConstants;
 import co.oslc.refimpl.rm.gen.servlet.ServiceProviderCatalogSingleton;
@@ -94,8 +93,6 @@ import org.eclipse.lyo.oslc.domains.rm.Requirement;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.quarkus.qute.Template;
-import io.quarkus.qute.TemplateInstance;
 
 // Start of user code imports
 // End of user code
@@ -111,7 +108,6 @@ public class RequirementsService
     @Context private HttpServletResponse httpServletResponse;
     @Context private UriInfo uriInfo;
     @Inject  private RestDelegate delegate;
-    @Inject  Template requirementSelector;
 
     private static final Logger log = LoggerFactory.getLogger(RequirementsService.class);
 
@@ -191,74 +187,72 @@ public class RequirementsService
         return resources.toArray(new Requirement [resources.size()]);
     }
 
-    // NOTE: HTML representation disabled in Quarkus migration as JSP forwarding is not supported. Quarkus uses Qute templates instead. For now, only RDF representations are supported.
-    // @GET
-    // @Path("query")
-    // @Produces({ MediaType.TEXT_HTML })
-    // @Operation(
-    //     summary = "Query capability for resources of type {" + Oslc_rmDomainConstants.REQUIREMENT_LOCALNAME + "}",
-    //     description = "Query capability for resources of type {" + "<a href=\"" + Oslc_rmDomainConstants.REQUIREMENT_TYPE + "\">" + Oslc_rmDomainConstants.REQUIREMENT_LOCALNAME + "</a>" + "}" +
-    //         ", with respective resource shapes {" + "<a href=\"" + "../services/" + OslcConstants.PATH_RESOURCE_SHAPES + "/" + Oslc_rmDomainConstants.REQUIREMENT_PATH + "\">" + Oslc_rmDomainConstants.REQUIREMENT_LOCALNAME + "</a>" + "}",
-    //     responses = { 
-    //         @ApiResponse(description = "default response", content = {@Content(mediaType = OslcMediaType.APPLICATION_RDF_XML), @Content(mediaType = OslcMediaType.APPLICATION_XML), @Content(mediaType = OslcMediaType.APPLICATION_JSON), @Content(mediaType = OslcMediaType.TEXT_TURTLE), @Content(mediaType = MediaType.TEXT_HTML)})
-    //     }
-    // )
-    // public void queryRequirementsAsHtml(
-    //                                 @PathParam("serviceProviderId") final String serviceProviderId ,
-    //                                    @QueryParam("oslc.where") final String where,
-    //                                    @QueryParam("oslc.prefix") final String prefix,
-    //                                    @QueryParam("oslc.paging") final String pagingString,
-    //                                    @QueryParam("page") final String pageString,
-    //                                    @QueryParam("oslc.pageSize") final String pageSizeString) throws ServletException, IOException
-    // {
-    //     boolean paging=false;
-    //     int page=0;
-    //     int pageSize=20;
-    //     if (null != pagingString) {
-    //         paging = Boolean.parseBoolean(pagingString);
-    //     }
-    //     if (null != pageString) {
-    //         page = Integer.parseInt(pageString);
-    //     }
-    //     if (null != pageSizeString) {
-    //         pageSize = Integer.parseInt(pageSizeString);
-    //     }
-    //
-    //     // Start of user code queryRequirementsAsHtml
-    //     // End of user code
-    //
-    //     List<Requirement> resources = delegate.queryRequirements(httpServletRequest, serviceProviderId, where, prefix, paging, page, pageSize);
-    //
-    //     if (resources!= null) {
-    //         // Start of user code queryRequirementsAsHtml_setAttributes
-    //         // End of user code
-    //
-    //         UriBuilder uriBuilder = UriBuilder.fromUri(uriInfo.getAbsolutePath())
-    //             .queryParam("oslc.paging", "true")
-    //             .queryParam("oslc.pageSize", pageSize)
-    //             .queryParam("page", page);
-    //         if (null != where) {
-    //             uriBuilder.queryParam("oslc.where", where);
-    //         }
-    //         if (null != prefix) {
-    //             uriBuilder.queryParam("oslc.prefix", prefix);
-    //         }
-    //         httpServletRequest.setAttribute("queryUri", uriBuilder.build().toString());
-    //
-    //     if ((OSLC4JUtils.hasLyoStorePagingPreciseLimit() && resources.size() >= pageSize) 
-    //         || (!OSLC4JUtils.hasLyoStorePagingPreciseLimit() && resources.size() > pageSize)) {
-    //             resources = resources.subList(0, pageSize);
-    //             uriBuilder.replaceQueryParam("page", page + 1);
-    //             httpServletRequest.setAttribute(OSLC4JConstants.OSLC4J_NEXT_PAGE, uriBuilder.build().toString());
-    //         }
-    //         HttpServletRequest originalRequest = ServletUtil.unwrapRequest(httpServletRequest);
-    //         originalRequest.setAttribute("resources", resources);
-    //         RequestDispatcher rd = originalRequest.getRequestDispatcher("/co/oslc/refimpl/rm/gen/requirementscollection.jsp");
-    //         rd.forward(originalRequest,httpServletResponse);
-    //         return;
-    //     }
-    //     throw new WebApplicationException(Status.NOT_FOUND);
-    // }
+    @GET
+    @Path("query")
+    @Produces({ MediaType.TEXT_HTML })
+    @Operation(
+        summary = "Query capability for resources of type {" + Oslc_rmDomainConstants.REQUIREMENT_LOCALNAME + "}",
+        description = "Query capability for resources of type {" + "<a href=\"" + Oslc_rmDomainConstants.REQUIREMENT_TYPE + "\">" + Oslc_rmDomainConstants.REQUIREMENT_LOCALNAME + "</a>" + "}" +
+            ", with respective resource shapes {" + "<a href=\"" + "../services/" + OslcConstants.PATH_RESOURCE_SHAPES + "/" + Oslc_rmDomainConstants.REQUIREMENT_PATH + "\">" + Oslc_rmDomainConstants.REQUIREMENT_LOCALNAME + "</a>" + "}",
+        responses = {
+            @ApiResponse(description = "default response", content = {@Content(mediaType = OslcMediaType.APPLICATION_RDF_XML), @Content(mediaType = OslcMediaType.APPLICATION_XML), @Content(mediaType = OslcMediaType.APPLICATION_JSON), @Content(mediaType = OslcMediaType.TEXT_TURTLE), @Content(mediaType = MediaType.TEXT_HTML)})
+        }
+    )
+    public void queryRequirementsAsHtml(
+                                    @PathParam("serviceProviderId") final String serviceProviderId ,
+                                       @QueryParam("oslc.where") final String where,
+                                       @QueryParam("oslc.prefix") final String prefix,
+                                       @QueryParam("oslc.paging") final String pagingString,
+                                       @QueryParam("page") final String pageString,
+                                       @QueryParam("oslc.pageSize") final String pageSizeString) throws ServletException, IOException
+    {
+        boolean paging=false;
+        int page=0;
+        int pageSize=20;
+        if (null != pagingString) {
+            paging = Boolean.parseBoolean(pagingString);
+        }
+        if (null != pageString) {
+            page = Integer.parseInt(pageString);
+        }
+        if (null != pageSizeString) {
+            pageSize = Integer.parseInt(pageSizeString);
+        }
+
+        // Start of user code queryRequirementsAsHtml
+        // End of user code
+
+        List<Requirement> resources = delegate.queryRequirements(httpServletRequest, serviceProviderId, where, prefix, paging, page, pageSize);
+
+        if (resources!= null) {
+            // Start of user code queryRequirementsAsHtml_setAttributes
+            // End of user code
+
+            UriBuilder uriBuilder = UriBuilder.fromUri(uriInfo.getAbsolutePath())
+                .queryParam("oslc.paging", "true")
+                .queryParam("oslc.pageSize", pageSize)
+                .queryParam("page", page);
+            if (null != where) {
+                uriBuilder.queryParam("oslc.where", where);
+            }
+            if (null != prefix) {
+                uriBuilder.queryParam("oslc.prefix", prefix);
+            }
+            httpServletRequest.setAttribute("queryUri", uriBuilder.build().toString());
+
+        if ((OSLC4JUtils.hasLyoStorePagingPreciseLimit() && resources.size() >= pageSize)
+            || (!OSLC4JUtils.hasLyoStorePagingPreciseLimit() && resources.size() > pageSize)) {
+                resources = resources.subList(0, pageSize);
+                uriBuilder.replaceQueryParam("page", page + 1);
+                httpServletRequest.setAttribute(OSLC4JConstants.OSLC4J_NEXT_PAGE, uriBuilder.build().toString());
+            }
+            httpServletRequest.setAttribute("resources", resources);
+            RequestDispatcher rd = httpServletRequest.getRequestDispatcher("/co/oslc/refimpl/rm/gen/requirementscollection.jsp");
+            rd.forward(httpServletRequest,httpServletResponse);
+            return;
+        }
+        throw new WebApplicationException(Status.NOT_FOUND);
+    }
 
     @OslcDialog
     (
@@ -272,9 +266,8 @@ public class RequirementsService
     )
     @GET
     @Path("selector")
-    @Produces({ MediaType.TEXT_HTML, MediaType.APPLICATION_JSON })
     @Consumes({ MediaType.TEXT_HTML, MediaType.WILDCARD })
-    public Object RequirementSelector(
+    public Response RequirementSelector(
         @QueryParam("terms") final String terms
         , @PathParam("serviceProviderId") final String serviceProviderId
         ) throws ServletException, IOException, JSONException
@@ -282,11 +275,12 @@ public class RequirementsService
         // Start of user code RequirementSelector_init
             // End of user code
 
-        String selectionUri = UriBuilder.fromUri(OSLC4JUtils.getServletURI()).path(uriInfo.getPath()).build().toString();
+        httpServletRequest.setAttribute("selectionUri",UriBuilder.fromUri(OSLC4JUtils.getServletURI()).path(uriInfo.getPath()).build().toString());
         // Start of user code RequirementSelector_setAttributes
             // End of user code
 
         if (terms != null ) {
+            httpServletRequest.setAttribute("terms", terms);
             final List<Requirement> resources = delegate.RequirementSelector(httpServletRequest, serviceProviderId, terms);
             if (resources!= null) {
                 JSONArray resourceArray = new JSONArray();
@@ -307,8 +301,9 @@ public class RequirementsService
             throw new WebApplicationException(Status.INTERNAL_SERVER_ERROR);
 
         } else {
-            // Use Qute template instead of JSP
-            return requirementSelector.data("selectionUri", selectionUri);
+            RequestDispatcher rd = httpServletRequest.getRequestDispatcher("/co/oslc/refimpl/rm/gen/requirementselector.jsp");
+            rd.forward(httpServletRequest, httpServletResponse);
+            return null;
         }
     }
 
@@ -364,12 +359,11 @@ public class RequirementsService
         // Start of user code RequirementCreator
         // End of user code
 
-        HttpServletRequest originalRequest = ServletUtil.unwrapRequest(httpServletRequest);
-        originalRequest.setAttribute("creatorUri", UriBuilder.fromUri(OSLC4JUtils.getServletURI()).path(uriInfo.getPath()).build().toString());
-        originalRequest.setAttribute("serviceProviderId", serviceProviderId);
+        httpServletRequest.setAttribute("creatorUri", UriBuilder.fromUri(OSLC4JUtils.getServletURI()).path(uriInfo.getPath()).build().toString());
+        httpServletRequest.setAttribute("serviceProviderId", serviceProviderId);
 
-        RequestDispatcher rd = originalRequest.getRequestDispatcher("/co/oslc/refimpl/rm/gen/requirementcreator.jsp");
-        rd.forward(originalRequest, httpServletResponse);
+        RequestDispatcher rd = httpServletRequest.getRequestDispatcher("/co/oslc/refimpl/rm/gen/requirementcreator.jsp");
+        rd.forward(httpServletRequest, httpServletResponse);
         return null;
     }
 

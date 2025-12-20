@@ -52,7 +52,6 @@ import org.eclipse.lyo.oslc4j.core.model.ServiceProvider;
 
 import co.oslc.refimpl.rm.gen.RestDelegate;
 import co.oslc.refimpl.rm.gen.servlet.ServiceProviderCatalogSingleton;
-import co.oslc.refimpl.rm.gen.util.ServletUtil;
 
 // Start of user code imports
 // End of user code
@@ -118,23 +117,21 @@ public class ServiceProviderService
      *
      * @param serviceProviderId
      */
-    // NOTE: HTML representation disabled in Quarkus migration as JSP forwarding is not supported. Quarkus uses Qute templates instead. For now, only RDF representations are supported.
-    // @GET
-    // @Path("{serviceProviderId}")
-    // @Produces(MediaType.TEXT_HTML)
-    // public void getHtmlServiceProvider(@PathParam("serviceProviderId") final String serviceProviderId) throws ServletException, IOException
-    // {
-    //     ServiceProvider serviceProvider = ServiceProviderCatalogSingleton.getServiceProvider(httpServletRequest, serviceProviderId);
-    //     Service [] services = serviceProvider.getServices();
-    // 
-    //     HttpServletRequest originalRequest = ServletUtil.unwrapRequest(httpServletRequest);
-    //     originalRequest.setAttribute("serviceProvider", serviceProvider);
-    //     originalRequest.setAttribute("services", services);
-    //     // Start of user code getHtmlServiceProvider_setAttributes
-    //     // End of user code
-    // 
-    //     RequestDispatcher rd = originalRequest.getRequestDispatcher("/co/oslc/refimpl/rm/gen/serviceprovider.jsp");
-    //     rd.forward(originalRequest, httpServletResponse);
-    //     return;
-    // }
+    @GET
+    @Path("{serviceProviderId}")
+    @Produces(MediaType.TEXT_HTML)
+    public void getHtmlServiceProvider(@PathParam("serviceProviderId") final String serviceProviderId) throws ServletException, IOException
+    {
+        ServiceProvider serviceProvider = ServiceProviderCatalogSingleton.getServiceProvider(httpServletRequest, serviceProviderId);
+        Service [] services = serviceProvider.getServices();
+
+        httpServletRequest.setAttribute("serviceProvider", serviceProvider);
+        httpServletRequest.setAttribute("services", services);
+        // Start of user code getHtmlServiceProvider_setAttributes
+        // End of user code
+
+        RequestDispatcher rd = httpServletRequest.getRequestDispatcher("/co/oslc/refimpl/rm/gen/serviceprovider.jsp");
+        rd.forward(httpServletRequest, httpServletResponse);
+        return;
+    }
 }

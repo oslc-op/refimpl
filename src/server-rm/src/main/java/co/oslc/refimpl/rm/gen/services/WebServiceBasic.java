@@ -83,7 +83,6 @@ import org.eclipse.lyo.oslc4j.core.model.AbstractResource;
 
 import co.oslc.refimpl.rm.gen.RestDelegate;
 import co.oslc.refimpl.rm.gen.ServerConstants;
-import co.oslc.refimpl.rm.gen.util.ServletUtil;
 import org.eclipse.lyo.oslc.domains.rm.Oslc_rmDomainConstants;
 import org.eclipse.lyo.oslc.domains.rm.Oslc_rmDomainConstants;
 import co.oslc.refimpl.rm.gen.servlet.ServiceProviderCatalogSingleton;
@@ -156,45 +155,43 @@ public class WebServiceBasic
         throw new WebApplicationException(Status.NOT_FOUND);
     }
 
-    // NOTE: HTML representation disabled in Quarkus migration as JSP forwarding is not supported. Quarkus uses Qute templates instead. For now, only RDF representations are supported.
-    // @GET
-    // @Path("Requirement/{serviceProviderId}/{resourceId}")
-    // @Produces({ MediaType.TEXT_HTML })
-    // @Operation(
-    //     summary = "GET for resources of type {'" + Oslc_rmDomainConstants.REQUIREMENT_LOCALNAME + "'}",
-    //     description = "GET for resources of type {'" + "<a href=\"" + Oslc_rmDomainConstants.REQUIREMENT_TYPE + "\">" + Oslc_rmDomainConstants.REQUIREMENT_LOCALNAME + "</a>" + "'}" +
-    //         ", with respective resource shapes {'" + "<a href=\"" + "../services/" + OslcConstants.PATH_RESOURCE_SHAPES + "/" + Oslc_rmDomainConstants.REQUIREMENT_PATH + "\">" + Oslc_rmDomainConstants.REQUIREMENT_LOCALNAME + "</a>" + "'}",
-    //     responses = {@ApiResponse(description = "default response",
-    //         content = {@Content(mediaType = OslcMediaType.APPLICATION_RDF_XML), @Content(
-    //             mediaType = OslcMediaType.APPLICATION_XML), @Content(
-    //             mediaType = OslcMediaType.APPLICATION_JSON), @Content(
-    //             mediaType = OslcMediaType.TEXT_TURTLE), @Content(
-    //             mediaType = MediaType.TEXT_HTML), @Content(
-    //             mediaType = OslcMediaType.APPLICATION_X_OSLC_COMPACT_XML)})
-    //     }
-    // )
-    // public void getRequirementAsHtml(
-    //     @PathParam("serviceProviderId") final String serviceProviderId, @PathParam("resourceId") final String resourceId
-    //     ) throws ServletException, IOException, URISyntaxException
-    // {
-    //     // Start of user code getRequirementAsHtml_init
-    //     // End of user code
-    //
-    //     final Requirement aRequirement = delegate.getRequirement(httpServletRequest, serviceProviderId, resourceId);
-    //
-    //     if (aRequirement != null) {
-    //         HttpServletRequest originalRequest = ServletUtil.unwrapRequest(httpServletRequest);
-    //         originalRequest.setAttribute("aRequirement", aRequirement);
-    //         // Start of user code getRequirementAsHtml_setAttributes
-    //         // End of user code
-    //
-    //         RequestDispatcher rd = originalRequest.getRequestDispatcher("/co/oslc/refimpl/rm/gen/requirement.jsp");
-    //         rd.forward(originalRequest,httpServletResponse);
-    //         return;
-    //     }
-    //
-    //     throw new WebApplicationException(Status.NOT_FOUND);
-    // }
+    @GET
+    @Path("Requirement/{serviceProviderId}/{resourceId}")
+    @Produces({ MediaType.TEXT_HTML })
+    @Operation(
+        summary = "GET for resources of type {'" + Oslc_rmDomainConstants.REQUIREMENT_LOCALNAME + "'}",
+        description = "GET for resources of type {'" + "<a href=\"" + Oslc_rmDomainConstants.REQUIREMENT_TYPE + "\">" + Oslc_rmDomainConstants.REQUIREMENT_LOCALNAME + "</a>" + "'}" +
+            ", with respective resource shapes {'" + "<a href=\"" + "../services/" + OslcConstants.PATH_RESOURCE_SHAPES + "/" + Oslc_rmDomainConstants.REQUIREMENT_PATH + "\">" + Oslc_rmDomainConstants.REQUIREMENT_LOCALNAME + "</a>" + "'}",
+        responses = {@ApiResponse(description = "default response",
+            content = {@Content(mediaType = OslcMediaType.APPLICATION_RDF_XML), @Content(
+                mediaType = OslcMediaType.APPLICATION_XML), @Content(
+                mediaType = OslcMediaType.APPLICATION_JSON), @Content(
+                mediaType = OslcMediaType.TEXT_TURTLE), @Content(
+                mediaType = MediaType.TEXT_HTML), @Content(
+                mediaType = OslcMediaType.APPLICATION_X_OSLC_COMPACT_XML)})
+        }
+    )
+    public void getRequirementAsHtml(
+        @PathParam("serviceProviderId") final String serviceProviderId, @PathParam("resourceId") final String resourceId
+        ) throws ServletException, IOException, URISyntaxException
+    {
+        // Start of user code getRequirementAsHtml_init
+        // End of user code
+
+        final Requirement aRequirement = delegate.getRequirement(httpServletRequest, serviceProviderId, resourceId);
+
+        if (aRequirement != null) {
+            httpServletRequest.setAttribute("aRequirement", aRequirement);
+            // Start of user code getRequirementAsHtml_setAttributes
+            // End of user code
+
+            RequestDispatcher rd = httpServletRequest.getRequestDispatcher("/co/oslc/refimpl/rm/gen/requirement.jsp");
+            rd.forward(httpServletRequest,httpServletResponse);
+            return;
+        }
+
+        throw new WebApplicationException(Status.NOT_FOUND);
+    }
 
     @GET
     @Path("Requirement/{serviceProviderId}/{resourceId}")
@@ -255,61 +252,57 @@ public class WebServiceBasic
         throw new WebApplicationException(Status.NOT_FOUND);
     }
 
-    // NOTE: HTML representation disabled in Quarkus migration as JSP forwarding is not supported. Quarkus uses Qute templates instead. For now, only RDF representations are supported.
-    // @GET
-    // @Path("Requirement/{serviceProviderId}/{resourceId}/smallPreview")
-    // @Produces({ MediaType.TEXT_HTML })
-    // public void getRequirementAsHtmlSmallPreview(
-    //     @PathParam("serviceProviderId") final String serviceProviderId, @PathParam("resourceId") final String resourceId
-    //     ) throws ServletException, IOException, URISyntaxException
-    // {
-    //     // Start of user code getRequirementAsHtmlSmallPreview_init
-    //     // End of user code
-    //
-    //     final Requirement aRequirement = delegate.getRequirement(httpServletRequest, serviceProviderId, resourceId);
-    //
-    //     if (aRequirement != null) {
-    //         HttpServletRequest originalRequest = ServletUtil.unwrapRequest(httpServletRequest);
-    //         originalRequest.setAttribute("aRequirement", aRequirement);
-    //         // Start of user code getRequirementAsHtmlSmallPreview_setAttributes
-    //         // End of user code
-    //
-    //         RequestDispatcher rd = originalRequest.getRequestDispatcher("/co/oslc/refimpl/rm/gen/requirementsmallpreview.jsp");
-    //         httpServletResponse.addHeader(ServerConstants.HDR_OSLC_VERSION, ServerConstants.OSLC_VERSION_V2);
-    //         rd.forward(originalRequest, httpServletResponse);
-    //         return;
-    //     }
-    //
-    //     throw new WebApplicationException(Status.NOT_FOUND);
-    // }
+    @GET
+    @Path("Requirement/{serviceProviderId}/{resourceId}/smallPreview")
+    @Produces({ MediaType.TEXT_HTML })
+    public void getRequirementAsHtmlSmallPreview(
+        @PathParam("serviceProviderId") final String serviceProviderId, @PathParam("resourceId") final String resourceId
+        ) throws ServletException, IOException, URISyntaxException
+    {
+        // Start of user code getRequirementAsHtmlSmallPreview_init
+        // End of user code
 
-    // NOTE: HTML representation disabled in Quarkus migration as JSP forwarding is not supported. Quarkus uses Qute templates instead. For now, only RDF representations are supported.
-    // @GET
-    // @Path("Requirement/{serviceProviderId}/{resourceId}/largePreview")
-    // @Produces({ MediaType.TEXT_HTML })
-    // public void getRequirementAsHtmlLargePreview(
-    //     @PathParam("serviceProviderId") final String serviceProviderId, @PathParam("resourceId") final String resourceId
-    //     ) throws ServletException, IOException, URISyntaxException
-    // {
-    //     // Start of user code getRequirementAsHtmlLargePreview_init
-    //     // End of user code
-    //
-    //     final Requirement aRequirement = delegate.getRequirement(httpServletRequest, serviceProviderId, resourceId);
-    //
-    //     if (aRequirement != null) {
-    //         HttpServletRequest originalRequest = ServletUtil.unwrapRequest(httpServletRequest);
-    //         originalRequest.setAttribute("aRequirement", aRequirement);
-    //         // Start of user code getRequirementAsHtmlLargePreview_setAttributes
-    //         // End of user code
-    //
-    //         RequestDispatcher rd = originalRequest.getRequestDispatcher("/co/oslc/refimpl/rm/gen/requirementlargepreview.jsp");
-    //         httpServletResponse.addHeader(ServerConstants.HDR_OSLC_VERSION, ServerConstants.OSLC_VERSION_V2);
-    //         rd.forward(originalRequest, httpServletResponse);
-    //         return;
-    //     }
-    //
-    //     throw new WebApplicationException(Status.NOT_FOUND);
-    // }
+        final Requirement aRequirement = delegate.getRequirement(httpServletRequest, serviceProviderId, resourceId);
+
+        if (aRequirement != null) {
+            httpServletRequest.setAttribute("aRequirement", aRequirement);
+            // Start of user code getRequirementAsHtmlSmallPreview_setAttributes
+            // End of user code
+
+            RequestDispatcher rd = httpServletRequest.getRequestDispatcher("/co/oslc/refimpl/rm/gen/requirementsmallpreview.jsp");
+            httpServletResponse.addHeader(ServerConstants.HDR_OSLC_VERSION, ServerConstants.OSLC_VERSION_V2);
+            rd.forward(httpServletRequest, httpServletResponse);
+            return;
+        }
+
+        throw new WebApplicationException(Status.NOT_FOUND);
+    }
+
+    @GET
+    @Path("Requirement/{serviceProviderId}/{resourceId}/largePreview")
+    @Produces({ MediaType.TEXT_HTML })
+    public void getRequirementAsHtmlLargePreview(
+        @PathParam("serviceProviderId") final String serviceProviderId, @PathParam("resourceId") final String resourceId
+        ) throws ServletException, IOException, URISyntaxException
+    {
+        // Start of user code getRequirementAsHtmlLargePreview_init
+        // End of user code
+
+        final Requirement aRequirement = delegate.getRequirement(httpServletRequest, serviceProviderId, resourceId);
+
+        if (aRequirement != null) {
+            httpServletRequest.setAttribute("aRequirement", aRequirement);
+            // Start of user code getRequirementAsHtmlLargePreview_setAttributes
+            // End of user code
+
+            RequestDispatcher rd = httpServletRequest.getRequestDispatcher("/co/oslc/refimpl/rm/gen/requirementlargepreview.jsp");
+            httpServletResponse.addHeader(ServerConstants.HDR_OSLC_VERSION, ServerConstants.OSLC_VERSION_V2);
+            rd.forward(httpServletRequest, httpServletResponse);
+            return;
+        }
+
+        throw new WebApplicationException(Status.NOT_FOUND);
+    }
     @GET
     @Path("RequirementCollection/{serviceProviderId}/{resourceId}")
     @Produces({OslcMediaType.APPLICATION_RDF_XML, OslcMediaType.APPLICATION_JSON_LD, OslcMediaType.TEXT_TURTLE, OslcMediaType.APPLICATION_XML, OslcMediaType.APPLICATION_JSON})
@@ -346,45 +339,43 @@ public class WebServiceBasic
         throw new WebApplicationException(Status.NOT_FOUND);
     }
 
-    // NOTE: HTML representation disabled in Quarkus migration as JSP forwarding is not supported. Quarkus uses Qute templates instead. For now, only RDF representations are supported.
-    // @GET
-    // @Path("RequirementCollection/{serviceProviderId}/{resourceId}")
-    // @Produces({ MediaType.TEXT_HTML })
-    // @Operation(
-    //     summary = "GET for resources of type {'" + Oslc_rmDomainConstants.REQUIREMENTCOLLECTION_LOCALNAME + "'}",
-    //     description = "GET for resources of type {'" + "<a href=\"" + Oslc_rmDomainConstants.REQUIREMENTCOLLECTION_TYPE + "\">" + Oslc_rmDomainConstants.REQUIREMENTCOLLECTION_LOCALNAME + "</a>" + "'}" +
-    //         ", with respective resource shapes {'" + "<a href=\"" + "../services/" + OslcConstants.PATH_RESOURCE_SHAPES + "/" + Oslc_rmDomainConstants.REQUIREMENTCOLLECTION_PATH + "\">" + Oslc_rmDomainConstants.REQUIREMENTCOLLECTION_LOCALNAME + "</a>" + "'}",
-    //     responses = {@ApiResponse(description = "default response",
-    //         content = {@Content(mediaType = OslcMediaType.APPLICATION_RDF_XML), @Content(
-    //             mediaType = OslcMediaType.APPLICATION_XML), @Content(
-    //             mediaType = OslcMediaType.APPLICATION_JSON), @Content(
-    //             mediaType = OslcMediaType.TEXT_TURTLE), @Content(
-    //             mediaType = MediaType.TEXT_HTML), @Content(
-    //             mediaType = OslcMediaType.APPLICATION_X_OSLC_COMPACT_XML)})
-    //     }
-    // )
-    // public void getRequirementCollectionAsHtml(
-    //     @PathParam("serviceProviderId") final String serviceProviderId, @PathParam("resourceId") final String resourceId
-    //     ) throws ServletException, IOException, URISyntaxException
-    // {
-    //     // Start of user code getRequirementCollectionAsHtml_init
-    //     // End of user code
-    //
-    //     final RequirementCollection aRequirementCollection = delegate.getRequirementCollection(httpServletRequest, serviceProviderId, resourceId);
-    //
-    //     if (aRequirementCollection != null) {
-    //         HttpServletRequest originalRequest = ServletUtil.unwrapRequest(httpServletRequest);
-    //         originalRequest.setAttribute("aRequirementCollection", aRequirementCollection);
-    //         // Start of user code getRequirementCollectionAsHtml_setAttributes
-    //         // End of user code
-    //
-    //         RequestDispatcher rd = originalRequest.getRequestDispatcher("/co/oslc/refimpl/rm/gen/requirementcollection.jsp");
-    //         rd.forward(originalRequest,httpServletResponse);
-    //         return;
-    //     }
-    //
-    //     throw new WebApplicationException(Status.NOT_FOUND);
-    // }
+    @GET
+    @Path("RequirementCollection/{serviceProviderId}/{resourceId}")
+    @Produces({ MediaType.TEXT_HTML })
+    @Operation(
+        summary = "GET for resources of type {'" + Oslc_rmDomainConstants.REQUIREMENTCOLLECTION_LOCALNAME + "'}",
+        description = "GET for resources of type {'" + "<a href=\"" + Oslc_rmDomainConstants.REQUIREMENTCOLLECTION_TYPE + "\">" + Oslc_rmDomainConstants.REQUIREMENTCOLLECTION_LOCALNAME + "</a>" + "'}" +
+            ", with respective resource shapes {'" + "<a href=\"" + "../services/" + OslcConstants.PATH_RESOURCE_SHAPES + "/" + Oslc_rmDomainConstants.REQUIREMENTCOLLECTION_PATH + "\">" + Oslc_rmDomainConstants.REQUIREMENTCOLLECTION_LOCALNAME + "</a>" + "'}",
+        responses = {@ApiResponse(description = "default response",
+            content = {@Content(mediaType = OslcMediaType.APPLICATION_RDF_XML), @Content(
+                mediaType = OslcMediaType.APPLICATION_XML), @Content(
+                mediaType = OslcMediaType.APPLICATION_JSON), @Content(
+                mediaType = OslcMediaType.TEXT_TURTLE), @Content(
+                mediaType = MediaType.TEXT_HTML), @Content(
+                mediaType = OslcMediaType.APPLICATION_X_OSLC_COMPACT_XML)})
+        }
+    )
+    public void getRequirementCollectionAsHtml(
+        @PathParam("serviceProviderId") final String serviceProviderId, @PathParam("resourceId") final String resourceId
+        ) throws ServletException, IOException, URISyntaxException
+    {
+        // Start of user code getRequirementCollectionAsHtml_init
+        // End of user code
+
+        final RequirementCollection aRequirementCollection = delegate.getRequirementCollection(httpServletRequest, serviceProviderId, resourceId);
+
+        if (aRequirementCollection != null) {
+            httpServletRequest.setAttribute("aRequirementCollection", aRequirementCollection);
+            // Start of user code getRequirementCollectionAsHtml_setAttributes
+            // End of user code
+
+            RequestDispatcher rd = httpServletRequest.getRequestDispatcher("/co/oslc/refimpl/rm/gen/requirementcollection.jsp");
+            rd.forward(httpServletRequest,httpServletResponse);
+            return;
+        }
+
+        throw new WebApplicationException(Status.NOT_FOUND);
+    }
 
     @GET
     @Path("RequirementCollection/{serviceProviderId}/{resourceId}")
@@ -445,61 +436,57 @@ public class WebServiceBasic
         throw new WebApplicationException(Status.NOT_FOUND);
     }
 
-    // NOTE: HTML representation disabled in Quarkus migration as JSP forwarding is not supported. Quarkus uses Qute templates instead. For now, only RDF representations are supported.
-    // @GET
-    // @Path("RequirementCollection/{serviceProviderId}/{resourceId}/smallPreview")
-    // @Produces({ MediaType.TEXT_HTML })
-    // public void getRequirementCollectionAsHtmlSmallPreview(
-    //     @PathParam("serviceProviderId") final String serviceProviderId, @PathParam("resourceId") final String resourceId
-    //     ) throws ServletException, IOException, URISyntaxException
-    // {
-    //     // Start of user code getRequirementCollectionAsHtmlSmallPreview_init
-    //     // End of user code
-    //
-    //     final RequirementCollection aRequirementCollection = delegate.getRequirementCollection(httpServletRequest, serviceProviderId, resourceId);
-    //
-    //     if (aRequirementCollection != null) {
-    //         HttpServletRequest originalRequest = ServletUtil.unwrapRequest(httpServletRequest);
-    //         originalRequest.setAttribute("aRequirementCollection", aRequirementCollection);
-    //         // Start of user code getRequirementCollectionAsHtmlSmallPreview_setAttributes
-    //         // End of user code
-    //
-    //         RequestDispatcher rd = originalRequest.getRequestDispatcher("/co/oslc/refimpl/rm/gen/requirementcollectionsmallpreview.jsp");
-    //         httpServletResponse.addHeader(ServerConstants.HDR_OSLC_VERSION, ServerConstants.OSLC_VERSION_V2);
-    //         rd.forward(originalRequest, httpServletResponse);
-    //         return;
-    //     }
-    //
-    //     throw new WebApplicationException(Status.NOT_FOUND);
-    // }
+    @GET
+    @Path("RequirementCollection/{serviceProviderId}/{resourceId}/smallPreview")
+    @Produces({ MediaType.TEXT_HTML })
+    public void getRequirementCollectionAsHtmlSmallPreview(
+        @PathParam("serviceProviderId") final String serviceProviderId, @PathParam("resourceId") final String resourceId
+        ) throws ServletException, IOException, URISyntaxException
+    {
+        // Start of user code getRequirementCollectionAsHtmlSmallPreview_init
+        // End of user code
 
-    // NOTE: HTML representation disabled in Quarkus migration as JSP forwarding is not supported. Quarkus uses Qute templates instead. For now, only RDF representations are supported.
-    // @GET
-    // @Path("RequirementCollection/{serviceProviderId}/{resourceId}/largePreview")
-    // @Produces({ MediaType.TEXT_HTML })
-    // public void getRequirementCollectionAsHtmlLargePreview(
-    //     @PathParam("serviceProviderId") final String serviceProviderId, @PathParam("resourceId") final String resourceId
-    //     ) throws ServletException, IOException, URISyntaxException
-    // {
-    //     // Start of user code getRequirementCollectionAsHtmlLargePreview_init
-    //     // End of user code
-    //
-    //     final RequirementCollection aRequirementCollection = delegate.getRequirementCollection(httpServletRequest, serviceProviderId, resourceId);
-    //
-    //     if (aRequirementCollection != null) {
-    //         HttpServletRequest originalRequest = ServletUtil.unwrapRequest(httpServletRequest);
-    //         originalRequest.setAttribute("aRequirementCollection", aRequirementCollection);
-    //         // Start of user code getRequirementCollectionAsHtmlLargePreview_setAttributes
-    //         // End of user code
-    //
-    //         RequestDispatcher rd = originalRequest.getRequestDispatcher("/co/oslc/refimpl/rm/gen/requirementcollectionlargepreview.jsp");
-    //         httpServletResponse.addHeader(ServerConstants.HDR_OSLC_VERSION, ServerConstants.OSLC_VERSION_V2);
-    //         rd.forward(originalRequest, httpServletResponse);
-    //         return;
-    //     }
-    //
-    //     throw new WebApplicationException(Status.NOT_FOUND);
-    // }
+        final RequirementCollection aRequirementCollection = delegate.getRequirementCollection(httpServletRequest, serviceProviderId, resourceId);
+
+        if (aRequirementCollection != null) {
+            httpServletRequest.setAttribute("aRequirementCollection", aRequirementCollection);
+            // Start of user code getRequirementCollectionAsHtmlSmallPreview_setAttributes
+            // End of user code
+
+            RequestDispatcher rd = httpServletRequest.getRequestDispatcher("/co/oslc/refimpl/rm/gen/requirementcollectionsmallpreview.jsp");
+            httpServletResponse.addHeader(ServerConstants.HDR_OSLC_VERSION, ServerConstants.OSLC_VERSION_V2);
+            rd.forward(httpServletRequest, httpServletResponse);
+            return;
+        }
+
+        throw new WebApplicationException(Status.NOT_FOUND);
+    }
+
+    @GET
+    @Path("RequirementCollection/{serviceProviderId}/{resourceId}/largePreview")
+    @Produces({ MediaType.TEXT_HTML })
+    public void getRequirementCollectionAsHtmlLargePreview(
+        @PathParam("serviceProviderId") final String serviceProviderId, @PathParam("resourceId") final String resourceId
+        ) throws ServletException, IOException, URISyntaxException
+    {
+        // Start of user code getRequirementCollectionAsHtmlLargePreview_init
+        // End of user code
+
+        final RequirementCollection aRequirementCollection = delegate.getRequirementCollection(httpServletRequest, serviceProviderId, resourceId);
+
+        if (aRequirementCollection != null) {
+            httpServletRequest.setAttribute("aRequirementCollection", aRequirementCollection);
+            // Start of user code getRequirementCollectionAsHtmlLargePreview_setAttributes
+            // End of user code
+
+            RequestDispatcher rd = httpServletRequest.getRequestDispatcher("/co/oslc/refimpl/rm/gen/requirementcollectionlargepreview.jsp");
+            httpServletResponse.addHeader(ServerConstants.HDR_OSLC_VERSION, ServerConstants.OSLC_VERSION_V2);
+            rd.forward(httpServletRequest, httpServletResponse);
+            return;
+        }
+
+        throw new WebApplicationException(Status.NOT_FOUND);
+    }
     @DELETE
     @Path("Requirement/{serviceProviderId}/{resourceId}")
     @Operation(

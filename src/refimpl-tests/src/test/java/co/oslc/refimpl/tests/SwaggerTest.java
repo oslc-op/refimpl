@@ -42,7 +42,7 @@ public class SwaggerTest {
     @Container
     public static ComposeContainer environment = new ComposeContainer(new File("src/test/resources/docker-compose.yml"))
             .withExposedService(RM_SVC, RM_PORT,
-                    Wait.forLogMessage(".*(Started oejs.Server@|Quarkus.*started in).*", 1)
+                    Wait.forLogMessage(".*main: Started oejs.Server@.*", 1)
                             .withStartupTimeout(Duration.ofSeconds(STARTUP_TIMEOUT)))
             .withExposedService(CM_SVC, CM_PORT,
                     Wait.forLogMessage(".*main: Started oejs.Server@.*", 1)
@@ -119,10 +119,7 @@ public class SwaggerTest {
     void swaggerUiShouldBeAccessible(String svc) {
         var serviceHost = "localhost";
         var servicePort = fixedPorts.get(svc);
-        // Use /q/swagger-ui for Quarkus RM server, /swagger-ui/index.jsp for legacy Jetty servers
-        var swaggerUrl = RM_SVC.equals(svc) 
-            ? "http://%s:%d/q/swagger-ui".formatted(serviceHost, servicePort)
-            : "http://%s:%d/swagger-ui/index.jsp".formatted(serviceHost, servicePort);
+        var swaggerUrl = "http://%s:%d/swagger-ui/index.jsp".formatted(serviceHost, servicePort);
         var expectedYamlUrl = "http://%s:%d/services/openapi.yaml".formatted(serviceHost, servicePort);
         var rootServicesUrl = "http://%s:%d/services/rootservices".formatted(serviceHost, servicePort);
 

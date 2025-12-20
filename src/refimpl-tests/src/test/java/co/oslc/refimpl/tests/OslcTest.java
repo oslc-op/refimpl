@@ -30,7 +30,7 @@ public class OslcTest {
     @Container
     public static ComposeContainer environment = new ComposeContainer(new File("src/test/resources/docker-compose.yml"))
             .withExposedService(RM_SVC, RM_PORT,
-                    Wait.forLogMessage(".*(Started oejs.Server@|Quarkus.*started in).*", 1)
+                    Wait.forLogMessage(".*main: Started oejs.Server@.*", 1)
                             .withStartupTimeout(Duration.ofSeconds(STARTUP_TIMEOUT)))
             .withExposedService(CM_SVC, CM_PORT,
                     Wait.forLogMessage(".*main: Started oejs.Server@.*", 1)

@@ -33,7 +33,7 @@ import kotlin.collections.HashSet
 import kotlin.system.measureNanoTime
 
 
-private val SPC_RM_DEFAULT = "http://localhost:8800/catalog/singleton"
+private val SPC_RM_DEFAULT = "http://localhost:8800/services/catalog/singleton"
 private val SPC_CM_DEFAULT = "http://localhost:8801/services/catalog/singleton"
 private val SPC_AM_DEFAULT = "http://localhost:8803/services/catalog/singleton"
 private val SPC_QM_DEFAULT = "http://localhost:8802/services/catalog/singleton"
