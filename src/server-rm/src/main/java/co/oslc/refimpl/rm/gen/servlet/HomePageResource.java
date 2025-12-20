@@ -11,6 +11,7 @@ import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.UriInfo;
 import org.eclipse.lyo.oslc4j.core.OSLC4JUtils;
+import org.eclipse.microprofile.config.inject.ConfigProperty;
 
 /**
  * Home page resource for the RM OSLC Adaptor.
@@ -25,18 +26,22 @@ public class HomePageResource {
 
     @Context
     UriInfo uriInfo;
+    
+    @ConfigProperty(name = "app.version", defaultValue = "N/A")
+    String projectVersion;
+    
+    @ConfigProperty(name = "app.lyo.version", defaultValue = "N/A")
+    String lyoVersion;
+    
+    @ConfigProperty(name = "app.quarkus.version", defaultValue = "N/A")
+    String quarkusVersion;
 
     @GET
     @Produces(MediaType.TEXT_HTML)
     public TemplateInstance get() {
-        String servletURI = OSLC4JUtils.getServletURI();
-        String quarkusVersion = io.quarkus.runtime.Quarkus.class.getPackage().getImplementationVersion();
-        if (quarkusVersion == null) {
-            quarkusVersion = "3.17.4";
-        }
-        
         return index
-            .data("servletURI", servletURI)
+            .data("projectVersion", projectVersion)
+            .data("lyoVersion", lyoVersion)
             .data("quarkusVersion", quarkusVersion);
     }
 }
