@@ -17,7 +17,7 @@
     <groupId>co.oslc.refimpl</groupId>
     <artifactId>server-cm</artifactId>
     <version>0.3.0-SNAPSHOT</version>
-    <packaging>war</packaging>
+    <packaging>jar</packaging>
     <name>CM</name>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -28,6 +28,7 @@
         <servlet.port>8801</servlet.port>
         <application.contextpath>/</application.contextpath>
         <application.filename>server-cm</application.filename>
+        <jetty.version>12.0.16</jetty.version>
         
         <!-- Start of user code properties
     -->
@@ -116,27 +117,6 @@
     </profile>
     <!-- End of user code
         -->
-        <profile>
-        <!-- some servlet containers (Tomcat) does not ship with a JSTL impl
-        In such cases, run with this profile-->
-            <id>with-jstl-impl</id>
-            <dependencies>
-              <!-- Start of user code profile_dependencies
-        -->
-        <!-- TODO: Add additional dependencies to this profile here to avoid them be overridden upon future re-generation -->
-        <!-- End of user code
-              -->
-              <dependency>
-                  <groupId>jakarta.servlet.jsp.jstl</groupId>
-                  <artifactId>jakarta.servlet.jsp.jstl-api</artifactId>
-              </dependency>
-              <dependency>
-                  <groupId>org.glassfish.web</groupId>
-                  <artifactId>jakarta.servlet.jsp.jstl</artifactId>
-              </dependency>
-            </dependencies>
-        </profile>
-        
     </profiles>
     <!-- Start of user code pre_dependencies
   -->
@@ -151,6 +131,13 @@
           <scope>import</scope>
           <type>pom</type>
         </dependency>
+        <dependency>
+            <groupId>org.eclipse.jetty</groupId>
+            <artifactId>jetty-bom</artifactId>
+            <version>${jetty.version}</version>
+            <type>pom</type>
+            <scope>import</scope>
+        </dependency>
       </dependencies>
     </dependencyManagement>
     <dependencies>
@@ -163,25 +150,21 @@
     </dependency>
     <!-- End of user code
         -->
+        <!-- Embedded Jetty 12 (EE10) -->
+        <dependency>
+            <groupId>org.eclipse.jetty.ee10</groupId>
+            <artifactId>jetty-ee10-servlet</artifactId>
+        </dependency>
+
         <!-- General dependencies -->
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-simple</artifactId>
-            <scope>runtime</scope>
         </dependency>
         <!-- Servlet dependencies -->
         <dependency>
             <groupId>jakarta.servlet</groupId>
             <artifactId>jakarta.servlet-api</artifactId>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>jakarta.servlet.jsp.jstl</groupId>
-            <artifactId>jakarta.servlet.jsp.jstl-api</artifactId>
-            <!--When running with the jetty-maven-plugin, you 
-            get warnings about jsp classes being scanned from multiple locations.
-            adding the "provided" scope avoids these warnings.-->
-            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.glassfish.jersey.core</groupId>
@@ -245,11 +228,9 @@
             <groupId>org.eclipse.lyo.server</groupId>
             <artifactId>oauth-consumer-store</artifactId>
         </dependency>
-        <dependency>
-            <groupId>org.eclipse.lyo.server</groupId>
-            <artifactId>oauth-webapp</artifactId>
-            <type>war</type>
-        </dependency>
+        <!-- Removed oauth-webapp war dependency as we are not using war overlay anymore
+             and avoiding JSP. If needed, we would need to manually handle it. -->
+
         <dependency>
             <groupId>org.eclipse.lyo</groupId>
             <artifactId>oslc-domains</artifactId>
@@ -308,56 +289,7 @@
                 </compilerArgument>
               </configuration>
             </plugin>
-            <plugin>
-                <groupId>org.eclipse.jetty</groupId>
-                <artifactId>jetty-maven-plugin</artifactId>
-                <version>11.0.20</version>
-                <configuration>
-                  <webApp>
-                    <contextPath>${application.contextpath}</contextPath>
-                    <_initParams>
-                        <org.eclipse.jetty.servlet.Default.useFileMappedBuffer>false</org.eclipse.jetty.servlet.Default.useFileMappedBuffer>
-                    </_initParams>
-                  </webApp>
-                  <httpConnector>
-                    <port>${servlet.port}</port>
-                  </httpConnector>
-                  <scan>5</scan>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.codehaus.cargo</groupId>
-                <artifactId>cargo-maven3-plugin</artifactId>
-                <version>1.10.25</version>
-                <configuration>
-                    <!--This plugins supports the following containers-->
-                    <container>
-                        <!--These containers are know to work-->
-                        <containerId>tomcat10x</containerId>
-                        <containerId>jetty12x</containerId>
-                        <!-- <containerId>payara</containerId> -->
-                        <!-- <containerId>wildfly26x</containerId> -->
-                        <!--These containers are know to fail-->
-                        <!-- Context Root Not Found -->
-                        <!-- <containerId>liberty</containerId> -->
-                    </container>
-                    <configuration>
-                        <properties>
-                            <cargo.servlet.port>${servlet.port}</cargo.servlet.port>
-                        </properties>
-                    </configuration>
-                    <deployables>
-                        <deployable>
-                            <type>war</type>
-                            <location>${project.build.directory}/${project.build.finalName}.war</location>
-                            <properties>
-                                <context>${application.contextpath}</context>
-                            </properties>
-                        </deployable>
-                    </deployables>
-                </configuration>
-            </plugin>
-            <!-- Swagger-ui -->
+
             <plugin>
                 <!-- Download Swagger UI webjar. -->
                 <groupId>org.apache.maven.plugins</groupId>
@@ -365,6 +297,7 @@
                 <version>3.9.0</version>
                 <executions>
                     <execution>
+                        <id>unpack-swagger-ui</id>
                         <phase>prepare-package</phase>
                         <goals>
                             <goal>unpack</goal>
@@ -377,29 +310,68 @@
                                     <version>${swagger-ui.version}</version>
                                 </artifactItem>
                             </artifactItems>
-                            <outputDirectory>${project.build.directory}/swagger-ui</outputDirectory>
+                            <!-- Unpack to classes so it is included in the jar -->
+                            <outputDirectory>${project.build.outputDirectory}/static/swagger-ui</outputDirectory>
+                            <includes>**/*.*</includes>
+                        </configuration>
+                    </execution>
+                     <execution>
+                        <id>copy-dependencies</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>copy-dependencies</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${project.build.directory}/lib</outputDirectory>
+                            <includeScope>runtime</includeScope>
+                            <useBaseVersion>true</useBaseVersion>
                         </configuration>
                     </execution>
                 </executions>
             </plugin>
+
             <plugin>
-                <!-- Add Swagger UI resources to the war file. -->
                 <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-war-plugin</artifactId>
-                <version>3.5.1</version>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>3.4.2</version>
                 <configuration>
-                    <webResources combine.children="append">
-                        <resource>
-                            <directory>${project.build.directory}/swagger-ui/META-INF/resources/webjars/swagger-ui/${swagger-ui.version}</directory>
-                            <includes>
-                                <include>**/*.*</include>
-                            </includes>
-                            <targetPath>/swagger-ui/dist</targetPath>
-                        </resource>
-                    </webResources>
+                    <archive>
+                        <manifest>
+                            <addClasspath>true</addClasspath>
+                            <classpathPrefix>lib/</classpathPrefix>
+                            <mainClass>co.oslc.refimpl.cm.Main</mainClass>
+                            <useUniqueVersions>false</useUniqueVersions>
+                        </manifest>
+                    </archive>
                 </configuration>
             </plugin>
             
+            <!-- We also need to move the unpacked swagger-ui files to the right place.
+                 The unpack above puts them in static/swagger-ui/META-INF/resources/webjars/swagger-ui/${version}/
+                 We want them in static/swagger-ui/dist/
+            -->
+            <plugin>
+                <artifactId>maven-resources-plugin</artifactId>
+                <version>3.3.1</version>
+                <executions>
+                    <execution>
+                        <id>copy-swagger-ui-dist</id>
+                        <phase>prepare-package</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${project.build.outputDirectory}/static/swagger-ui/dist</outputDirectory>
+                            <resources>
+                                <resource>
+                                    <directory>${project.build.outputDirectory}/static/swagger-ui/META-INF/resources/webjars/swagger-ui/${swagger-ui.version}</directory>
+                                </resource>
+                            </resources>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
             <!-- Start of user code plugins
             -->
             <!-- End of user code

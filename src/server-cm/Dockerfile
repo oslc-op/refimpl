@@ -18,20 +18,26 @@ COPY server-cm/ server-cm/
 # Build only the specific module and its dependencies
 RUN mvn -B --no-transfer-progress -DskipTests clean package -pl server-cm -am
 
-FROM docker.io/library/jetty:12-jre21-eclipse-temurin
+# Create a custom Java runtime
+RUN $JAVA_HOME/bin/jlink \
+         --add-modules java.base,java.compiler,java.desktop,java.management,java.naming,java.net.http,java.scripting,java.security.jgss,java.security.sasl,java.sql,java.xml.crypto,jdk.unsupported,java.xml,jdk.zipfs,java.instrument \
+         --strip-debug \
+         --no-man-pages \
+         --no-header-files \
+         --compress=2 \
+         --output /javaruntime
 
-# Add metadata
-LABEL org.opencontainers.image.title="OSLC RefImpl CM Server"
-LABEL org.opencontainers.image.description="OSLC Change Management Reference Implementation"
-LABEL org.opencontainers.image.source="https://github.com/oslc-op/refimpl"
-LABEL org.opencontainers.image.vendor="OSLC Open Project"
-LABEL org.opencontainers.image.licenses="EPL-2.0"
+FROM alpine:latest
 
-# WARNING DO NOT CHANGE WORKDIR or set it back to what it was before
-# $JETTY_BASE must be correct before starting Jetty
+ENV JAVA_HOME=/opt/java/openjdk
+ENV PATH="${JAVA_HOME}/bin:${PATH}"
+COPY --from=build /javaruntime $JAVA_HOME
 
-COPY --from=build /src/server-cm/target/*.war /var/lib/jetty/webapps/ROOT.war
+WORKDIR /app
 
-RUN java -jar "$JETTY_HOME/start.jar" --add-modules=ee9-deploy,ee9-jsp,ee9-jstl
+COPY --from=build /src/server-cm/target/lib/ ./lib/
+COPY --from=build /src/server-cm/target/server-cm.jar ./server-cm.jar
 
 EXPOSE 8080
+
+ENTRYPOINT ["java", "-jar", "server-cm.jar"]
