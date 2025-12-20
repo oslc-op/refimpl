@@ -4,7 +4,7 @@ services:
       context: ./
       dockerfile: server-rm/Dockerfile
     ports:
-      - "127.0.0.1:8800:8080"
+      - "127.0.0.1:8800:8800"
   server-cm:
     build:
       context: ./

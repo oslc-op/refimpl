@@ -31,6 +31,8 @@ import java.net.URI;
 import java.net.URISyntaxException;
 
 import jakarta.servlet.RequestDispatcher;
+import jakarta.servlet.ServletRequest;
+import jakarta.servlet.http.HttpServletRequestWrapper;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.ws.rs.GET;
@@ -55,6 +57,7 @@ import org.eclipse.lyo.oslc4j.core.model.ServiceProviderCatalog;
 import co.oslc.refimpl.rm.gen.ServerConstants;
 import co.oslc.refimpl.rm.gen.RestDelegate;
 import co.oslc.refimpl.rm.gen.servlet.ServiceProviderCatalogSingleton;
+import co.oslc.refimpl.rm.gen.util.ServletUtil;
 
 // Start of user code imports
 // End of user code
@@ -127,30 +130,28 @@ public class ServiceProviderCatalogService
     /**
      * Return the catalog singleton as HTML
      *
-     * Forwards to serviceprovidercatalog_html.jsp to build the html
+     * NOTE: HTML representation disabled in Quarkus migration as JSP forwarding is not supported.
+     * Quarkus uses Qute templates instead. For now, only RDF representations are supported.
      *
      */
-    @GET
-    @Path("{someId}")
-    @Produces(MediaType.TEXT_HTML)
-    public void getHtmlServiceProvider(@PathParam("someId") final String someId)
-    {
-        try {
-            ServiceProviderCatalog catalog = ServiceProviderCatalogSingleton.getServiceProviderCatalog(httpServletRequest);
-
-            if (catalog !=null ) {
-                httpServletRequest.setAttribute("catalog",catalog);
-                // Start of user code getHtmlServiceProvider_setAttributes
-            // End of user code
-
-                RequestDispatcher rd = httpServletRequest.getRequestDispatcher("/co/oslc/refimpl/rm/gen/serviceprovidercatalog.jsp");
-                rd.forward(httpServletRequest, httpServletResponse);
-                return;
-            }
-        } catch (WebApplicationException e) {
-            throw e;
-        } catch (Exception e) {
-            throw new WebApplicationException(e, Status.INTERNAL_SERVER_ERROR);
-        }
-    }
+    // @GET
+    // @Path("{someId}")
+    // @Produces(MediaType.TEXT_HTML)
+    // public void getHtmlServiceProvider(@PathParam("someId") final String someId)
+    // {
+    //     try {
+    //         ServiceProviderCatalog catalog = ServiceProviderCatalogSingleton.getServiceProviderCatalog(httpServletRequest);
+    //
+    //         if (catalog !=null ) {
+    //             httpServletRequest.setAttribute("catalog",catalog);
+    //             RequestDispatcher rd = httpServletRequest.getRequestDispatcher("/co/oslc/refimpl/rm/gen/serviceprovidercatalog.jsp");
+    //             rd.forward(httpServletRequest, httpServletResponse);
+    //             return;
+    //         }
+    //     } catch (WebApplicationException e) {
+    //         throw e;
+    //     } catch (Exception e) {
+    //         throw new WebApplicationException(e, Status.INTERNAL_SERVER_ERROR);
+    //     }
+    // }
 }

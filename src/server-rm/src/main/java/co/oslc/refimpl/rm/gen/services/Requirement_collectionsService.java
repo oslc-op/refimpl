@@ -85,6 +85,7 @@ import org.eclipse.lyo.oslc4j.core.model.AbstractResource;
 
 import co.oslc.refimpl.rm.gen.RestDelegate;
 import co.oslc.refimpl.rm.gen.ServerConstants;
+import co.oslc.refimpl.rm.gen.util.ServletUtil;
 import org.eclipse.lyo.oslc.domains.rm.Oslc_rmDomainConstants;
 import org.eclipse.lyo.oslc.domains.rm.Oslc_rmDomainConstants;
 import co.oslc.refimpl.rm.gen.servlet.ServiceProviderCatalogSingleton;
@@ -187,72 +188,74 @@ public class Requirement_collectionsService
         return resources.toArray(new RequirementCollection [resources.size()]);
     }
 
-    @GET
-    @Path("query")
-    @Produces({ MediaType.TEXT_HTML })
-    @Operation(
-        summary = "Query capability for resources of type {" + Oslc_rmDomainConstants.REQUIREMENTCOLLECTION_LOCALNAME + "}",
-        description = "Query capability for resources of type {" + "<a href=\"" + Oslc_rmDomainConstants.REQUIREMENTCOLLECTION_TYPE + "\">" + Oslc_rmDomainConstants.REQUIREMENTCOLLECTION_LOCALNAME + "</a>" + "}" +
-            ", with respective resource shapes {" + "<a href=\"" + "../services/" + OslcConstants.PATH_RESOURCE_SHAPES + "/" + Oslc_rmDomainConstants.REQUIREMENTCOLLECTION_PATH + "\">" + Oslc_rmDomainConstants.REQUIREMENTCOLLECTION_LOCALNAME + "</a>" + "}",
-        responses = {
-            @ApiResponse(description = "default response", content = {@Content(mediaType = OslcMediaType.APPLICATION_RDF_XML), @Content(mediaType = OslcMediaType.APPLICATION_XML), @Content(mediaType = OslcMediaType.APPLICATION_JSON), @Content(mediaType = OslcMediaType.TEXT_TURTLE), @Content(mediaType = MediaType.TEXT_HTML)})
-        }
-    )
-    public void queryRequirementCollectionsAsHtml(
-                                    @PathParam("serviceProviderId") final String serviceProviderId ,
-                                       @QueryParam("oslc.where") final String where,
-                                       @QueryParam("oslc.prefix") final String prefix,
-                                       @QueryParam("oslc.paging") final String pagingString,
-                                       @QueryParam("page") final String pageString,
-                                       @QueryParam("oslc.pageSize") final String pageSizeString) throws ServletException, IOException
-    {
-        boolean paging=false;
-        int page=0;
-        int pageSize=20;
-        if (null != pagingString) {
-            paging = Boolean.parseBoolean(pagingString);
-        }
-        if (null != pageString) {
-            page = Integer.parseInt(pageString);
-        }
-        if (null != pageSizeString) {
-            pageSize = Integer.parseInt(pageSizeString);
-        }
-
-        // Start of user code queryRequirementCollectionsAsHtml
-        // End of user code
-
-        List<RequirementCollection> resources = delegate.queryRequirementCollections(httpServletRequest, serviceProviderId, where, prefix, paging, page, pageSize);
-
-        if (resources!= null) {
-            // Start of user code queryRequirementCollectionsAsHtml_setAttributes
-            // End of user code
-
-            UriBuilder uriBuilder = UriBuilder.fromUri(uriInfo.getAbsolutePath())
-                .queryParam("oslc.paging", "true")
-                .queryParam("oslc.pageSize", pageSize)
-                .queryParam("page", page);
-            if (null != where) {
-                uriBuilder.queryParam("oslc.where", where);
-            }
-            if (null != prefix) {
-                uriBuilder.queryParam("oslc.prefix", prefix);
-            }
-            httpServletRequest.setAttribute("queryUri", uriBuilder.build().toString());
-
-        if ((OSLC4JUtils.hasLyoStorePagingPreciseLimit() && resources.size() >= pageSize)
-            || (!OSLC4JUtils.hasLyoStorePagingPreciseLimit() && resources.size() > pageSize)) {
-                resources = resources.subList(0, pageSize);
-                uriBuilder.replaceQueryParam("page", page + 1);
-                httpServletRequest.setAttribute(OSLC4JConstants.OSLC4J_NEXT_PAGE, uriBuilder.build().toString());
-            }
-            httpServletRequest.setAttribute("resources", resources);
-            RequestDispatcher rd = httpServletRequest.getRequestDispatcher("/co/oslc/refimpl/rm/gen/requirementcollectionscollection.jsp");
-            rd.forward(httpServletRequest,httpServletResponse);
-            return;
-        }
-        throw new WebApplicationException(Status.NOT_FOUND);
-    }
+    // NOTE: HTML representation disabled in Quarkus migration as JSP forwarding is not supported. Quarkus uses Qute templates instead. For now, only RDF representations are supported.
+    // @GET
+    // @Path("query")
+    // @Produces({ MediaType.TEXT_HTML })
+    // @Operation(
+    //     summary = "Query capability for resources of type {" + Oslc_rmDomainConstants.REQUIREMENTCOLLECTION_LOCALNAME + "}",
+    //     description = "Query capability for resources of type {" + "<a href=\"" + Oslc_rmDomainConstants.REQUIREMENTCOLLECTION_TYPE + "\">" + Oslc_rmDomainConstants.REQUIREMENTCOLLECTION_LOCALNAME + "</a>" + "}" +
+    //         ", with respective resource shapes {" + "<a href=\"" + "../services/" + OslcConstants.PATH_RESOURCE_SHAPES + "/" + Oslc_rmDomainConstants.REQUIREMENTCOLLECTION_PATH + "\">" + Oslc_rmDomainConstants.REQUIREMENTCOLLECTION_LOCALNAME + "</a>" + "}",
+    //     responses = { 
+    //         @ApiResponse(description = "default response", content = {@Content(mediaType = OslcMediaType.APPLICATION_RDF_XML), @Content(mediaType = OslcMediaType.APPLICATION_XML), @Content(mediaType = OslcMediaType.APPLICATION_JSON), @Content(mediaType = OslcMediaType.TEXT_TURTLE), @Content(mediaType = MediaType.TEXT_HTML)})
+    //     }
+    // )
+    // public void queryRequirementCollectionsAsHtml(
+    //                                 @PathParam("serviceProviderId") final String serviceProviderId ,
+    //                                    @QueryParam("oslc.where") final String where,
+    //                                    @QueryParam("oslc.prefix") final String prefix,
+    //                                    @QueryParam("oslc.paging") final String pagingString,
+    //                                    @QueryParam("page") final String pageString,
+    //                                    @QueryParam("oslc.pageSize") final String pageSizeString) throws ServletException, IOException
+    // {
+    //     boolean paging=false;
+    //     int page=0;
+    //     int pageSize=20;
+    //     if (null != pagingString) {
+    //         paging = Boolean.parseBoolean(pagingString);
+    //     }
+    //     if (null != pageString) {
+    //         page = Integer.parseInt(pageString);
+    //     }
+    //     if (null != pageSizeString) {
+    //         pageSize = Integer.parseInt(pageSizeString);
+    //     }
+    //
+    //     // Start of user code queryRequirementCollectionsAsHtml
+    //     // End of user code
+    //
+    //     List<RequirementCollection> resources = delegate.queryRequirementCollections(httpServletRequest, serviceProviderId, where, prefix, paging, page, pageSize);
+    //
+    //     if (resources!= null) {
+    //         // Start of user code queryRequirementCollectionsAsHtml_setAttributes
+    //         // End of user code
+    //
+    //         UriBuilder uriBuilder = UriBuilder.fromUri(uriInfo.getAbsolutePath())
+    //             .queryParam("oslc.paging", "true")
+    //             .queryParam("oslc.pageSize", pageSize)
+    //             .queryParam("page", page);
+    //         if (null != where) {
+    //             uriBuilder.queryParam("oslc.where", where);
+    //         }
+    //         if (null != prefix) {
+    //             uriBuilder.queryParam("oslc.prefix", prefix);
+    //         }
+    //         httpServletRequest.setAttribute("queryUri", uriBuilder.build().toString());
+    //
+    //     if ((OSLC4JUtils.hasLyoStorePagingPreciseLimit() && resources.size() >= pageSize) 
+    //         || (!OSLC4JUtils.hasLyoStorePagingPreciseLimit() && resources.size() > pageSize)) {
+    //             resources = resources.subList(0, pageSize);
+    //             uriBuilder.replaceQueryParam("page", page + 1);
+    //             httpServletRequest.setAttribute(OSLC4JConstants.OSLC4J_NEXT_PAGE, uriBuilder.build().toString());
+    //         }
+    //         HttpServletRequest originalRequest = ServletUtil.unwrapRequest(httpServletRequest);
+    //         originalRequest.setAttribute("resources", resources);
+    //         RequestDispatcher rd = originalRequest.getRequestDispatcher("/co/oslc/refimpl/rm/gen/requirementcollectionscollection.jsp");
+    //         rd.forward(originalRequest,httpServletResponse);
+    //         return;
+    //     }
+    //     throw new WebApplicationException(Status.NOT_FOUND);
+    // }
 
     @OslcDialog
     (
@@ -301,8 +304,9 @@ public class Requirement_collectionsService
             throw new WebApplicationException(Status.INTERNAL_SERVER_ERROR);
 
         } else {
-            RequestDispatcher rd = httpServletRequest.getRequestDispatcher("/co/oslc/refimpl/rm/gen/requirementcollectionselector.jsp");
-            rd.forward(httpServletRequest, httpServletResponse);
+            HttpServletRequest originalRequest = ServletUtil.unwrapRequest(httpServletRequest);
+            RequestDispatcher rd = originalRequest.getRequestDispatcher("/co/oslc/refimpl/rm/gen/requirementcollectionselector.jsp");
+            rd.forward(originalRequest, httpServletResponse);
             return null;
         }
     }
