@@ -18,135 +18,28 @@
     <groupId>co.oslc.refimpl</groupId>
     <artifactId>server-rm</artifactId>
     <version>0.3.0-SNAPSHOT</version>
-    <packaging>war</packaging>
     <name>RM</name>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <maven.compiler.release>21</maven.compiler.release>
         <version.lyo>7.0.0-SNAPSHOT</version.lyo>
-        <swagger-ui.version>5.30.3</swagger-ui.version>
-        <servlet.port>8800</servlet.port>
-        <application.contextpath>/</application.contextpath>
+        <quarkus.platform.artifact-id>quarkus-bom</quarkus.platform.artifact-id>
+        <quarkus.platform.group-id>io.quarkus.platform</quarkus.platform.group-id>
+        <quarkus.platform.version>3.17.4</quarkus.platform.version>
         <application.filename>server-rm</application.filename>
-        
-        <!-- Start of user code properties
-    -->
         <v.lucene>9.12.0</v.lucene>
         <v.rest-assured>6.0.0</v.rest-assured>
-    <!-- End of user code
-        -->
     </properties>
-    <repositories>
-        <!-- Start of user code repositories
-    -->
-    <!-- TODO: Add additional repositories here to avoid them be overrriden upon future re-generation -->
-    <!-- End of user code
-        -->
-        <repository>
-            <name>Central Portal Snapshots</name>
-            <id>central-portal-snapshots</id>
-            <url>https://central.sonatype.com/repository/maven-snapshots/</url>
-            <releases>
-                <enabled>false</enabled>
-            </releases>
-            <snapshots>
-                <enabled>true</enabled>
-            </snapshots>
-        </repository>
-        
-    </repositories>
-    <profiles>
-        <!-- Start of user code profiles
-    -->
-    <profile>
-      <id>strict</id>
-      <activation>
-        <activeByDefault>true</activeByDefault>
-      </activation>
-      <build>
-        <plugins>
-          <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-enforcer-plugin</artifactId>
-            <version>3.6.2</version>
-            <executions>
-              <execution>
-                <id>enforce-maven</id>
-                <goals>
-                  <goal>enforce</goal>
-                </goals>
-                <configuration>
-                  <rules>
-                    <requireMavenVersion>
-                      <version>3.6.0</version>
-                    </requireMavenVersion>
-                    <requireJavaVersion>
-                      <version>11</version>
-                    </requireJavaVersion>
-                    <bannedDependencies>
-                      <excludes>
-                        <exclude>xerces</exclude>
-                        <exclude>xml-apis</exclude>
-                        <exclude>com.sun.xml.bind:jaxb-impl</exclude>
-
-                        <!-- https://github.com/eclipse/lyo/pull/220 -->
-                        <!--                    <exclude>log4j:log4j</exclude>-->
-                        <!--log4j v2 is not used, just for the future-->
-                        <exclude>org.apache.logging.log4j:log4j-core</exclude>
-                      </excludes>
-                    </bannedDependencies>
-                    <banDuplicatePomDependencyVersions/>
-                    <requireUpperBoundDeps>
-                      <excludes>
-                        <!--jersey and jena via commons-compress-->
-                        <exclude>org.osgi:org.osgi.core</exclude>
-                        <exclude>jakarta.servlet:jakarta.servlet-api</exclude>
-                      </excludes>
-                    </requireUpperBoundDeps>
-                    <reactorModuleConvergence>
-                      <message>The reactor is not valid</message>
-                      <ignoreModuleDependencies>false</ignoreModuleDependencies>
-                    </reactorModuleConvergence>
-                  </rules>
-                  <fail>true</fail>
-                </configuration>
-              </execution>
-            </executions>
-          </plugin>
-        </plugins>
-      </build>
-    </profile>
-    <!-- End of user code
-        -->
-        <profile>
-        <!-- some servlet containers (Tomcat) does not ship with a JSTL impl
-        In such cases, run with this profile-->
-            <id>with-jstl-impl</id>
-            <dependencies>
-              <!-- Start of user code profile_dependencies
-        -->
-        <!-- TODO: Add additional dependencies to this profile here to avoid them be overridden upon future re-generation -->
-        <!-- End of user code
-              -->
-              <dependency>
-                  <groupId>jakarta.servlet.jsp.jstl</groupId>
-                  <artifactId>jakarta.servlet.jsp.jstl-api</artifactId>
-              </dependency>
-              <dependency>
-                  <groupId>org.glassfish.web</groupId>
-                  <artifactId>jakarta.servlet.jsp.jstl</artifactId>
-              </dependency>
-            </dependencies>
-        </profile>
-        
-    </profiles>
-    <!-- Start of user code pre_dependencies
-  -->
-  <!-- End of user code
-    -->
-   <dependencyManagement>
+    <dependencyManagement>
       <dependencies>
+        <dependency>
+          <groupId>${quarkus.platform.group-id}</groupId>
+          <artifactId>${quarkus.platform.artifact-id}</artifactId>
+          <version>${quarkus.platform.version}</version>
+          <type>pom</type>
+          <scope>import</scope>
+        </dependency>
         <dependency>
           <groupId>org.eclipse.lyo</groupId>
           <artifactId>lyo-bom</artifactId>
@@ -154,94 +47,179 @@
           <scope>import</scope>
           <type>pom</type>
         </dependency>
-      </dependencies>
-    </dependencyManagement>
-    <dependencies>
-        <!-- Specific dependencies -->
-        <!-- Start of user code dependencies
-    -->
-    <dependency>
-      <groupId>co.oslc.refimpl</groupId>
-      <artifactId>lib-common</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.lucene</groupId>
-      <artifactId>lucene-core</artifactId>
-      <version>${v.lucene}</version>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.lucene</groupId>
-      <artifactId>lucene-queryparser</artifactId>
-      <version>${v.lucene}</version>
-    </dependency>
-
-    <!-- End of user code
-        -->
-        <!-- General dependencies -->
+        <!-- Enforce Upper Bounds to satisfy Enforcer -->
         <dependency>
             <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-simple</artifactId>
-            <scope>runtime</scope>
+            <artifactId>slf4j-api</artifactId>
+            <version>2.0.17</version>
         </dependency>
-        <!-- Servlet dependencies -->
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>jcl-over-slf4j</artifactId>
+            <version>2.0.17</version>
+        </dependency>
+        <dependency>
+            <groupId>org.wildfly.common</groupId>
+            <artifactId>wildfly-common</artifactId>
+            <version>2.0.1</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>2.19.2</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-core</artifactId>
+            <version>2.19.2</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-annotations</artifactId>
+            <version>2.19.2</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>3.20.0</version>
+        </dependency>
+        <dependency>
+            <groupId>commons-codec</groupId>
+            <artifactId>commons-codec</artifactId>
+            <version>1.20.0</version>
+        </dependency>
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+            <version>2.20.0</version>
+        </dependency>
         <dependency>
             <groupId>jakarta.servlet</groupId>
             <artifactId>jakarta.servlet-api</artifactId>
-            <scope>provided</scope>
+            <version>6.1.0</version>
         </dependency>
         <dependency>
-            <groupId>jakarta.servlet.jsp.jstl</groupId>
-            <artifactId>jakarta.servlet.jsp.jstl-api</artifactId>
-            <!--When running with the jetty-maven-plugin, you 
-            get warnings about jsp classes being scanned from multiple locations.
-            adding the "provided" scope avoids these warnings.-->
-            <scope>provided</scope>
+            <groupId>jakarta.el</groupId>
+            <artifactId>jakarta.el-api</artifactId>
+            <version>6.0.1</version>
         </dependency>
         <dependency>
-            <groupId>org.glassfish.jersey.core</groupId>
-            <artifactId>jersey-server</artifactId>
-            <exclusions>
-                <exclusion>
-                    <!--we have a proper javax.inject:javax.inject dependency-->
-                    <!--also see https://stackoverflow.com/questions/25212944/why-does-hk2-repackage-everything-->
-                    <groupId>org.glassfish.hk2.external</groupId>
-                    <artifactId>javax.inject</artifactId>
-                </exclusion>
-            </exclusions>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-compress</artifactId>
+            <version>1.28.0</version>
         </dependency>
         <dependency>
-            <groupId>org.glassfish.jersey.containers</groupId>
-            <artifactId>jersey-container-servlet</artifactId>
-            <exclusions>
-                <exclusion>
-                    <!--we have a proper javax.inject:javax.inject dependency-->
-                    <groupId>org.glassfish.hk2.external</groupId>
-                    <artifactId>javax.inject</artifactId>
-                </exclusion>
-            </exclusions>
+            <groupId>com.github.ben-manes.caffeine</groupId>
+            <artifactId>caffeine</artifactId>
+            <version>3.2.2</version>
         </dependency>
         <dependency>
-            <groupId>org.glassfish.jersey.media</groupId>
-            <artifactId>jersey-media-multipart</artifactId>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
+            <version>2.13.2</version>
         </dependency>
         <dependency>
-            <groupId>org.glassfish.jersey.inject</groupId>
-            <artifactId>jersey-hk2</artifactId>
+            <groupId>com.google.errorprone</groupId>
+            <artifactId>error_prone_annotations</artifactId>
+            <version>2.41.0</version>
         </dependency>
-        
         <dependency>
-            <groupId>org.glassfish.jaxb</groupId>
-            <artifactId>jaxb-runtime</artifactId>
-            <scope>runtime</scope>
+            <groupId>com.google.protobuf</groupId>
+            <artifactId>protobuf-java</artifactId>
+            <version>4.32.1</version>
         </dependency>
+      </dependencies>
+    </dependencyManagement>
+    <dependencies>
+        <!-- Quarkus Dependencies -->
+        <dependency>
+            <groupId>io.quarkus</groupId>
+            <artifactId>quarkus-resteasy</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.quarkus</groupId>
+            <artifactId>quarkus-resteasy-jackson</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.quarkus</groupId>
+            <artifactId>quarkus-undertow</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.quarkus</groupId>
+            <artifactId>quarkus-smallrye-openapi</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.quarkus</groupId>
+            <artifactId>quarkus-qute</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.quarkus</groupId>
+            <artifactId>quarkus-arc</artifactId>
+        </dependency>
+
+        <!-- Specific dependencies -->
+        <dependency>
+            <groupId>co.oslc.refimpl</groupId>
+            <artifactId>lib-common</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.lucene</groupId>
+            <artifactId>lucene-core</artifactId>
+            <version>${v.lucene}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.lucene</groupId>
+            <artifactId>lucene-queryparser</artifactId>
+            <version>${v.lucene}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>io.swagger.core.v3</groupId>
+            <artifactId>swagger-annotations-jakarta</artifactId>
+            <version>2.2.22</version>
+        </dependency>
+
+        <!-- General dependencies -->
         <!-- Lyo dependencies -->
         <dependency>
             <groupId>org.eclipse.lyo.oslc4j.core</groupId>
             <artifactId>oslc4j-core</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.glassfish.jersey.core</groupId>
+                    <artifactId>jersey-server</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.glassfish.jersey.containers</groupId>
+                    <artifactId>jersey-container-servlet</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.glassfish.jersey.media</groupId>
+                    <artifactId>jersey-media-multipart</artifactId>
+                </exclusion>
+                 <exclusion>
+                    <groupId>org.glassfish.jersey.inject</groupId>
+                    <artifactId>jersey-hk2</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.slf4j</groupId>
+                    <artifactId>slf4j-simple</artifactId>
+                </exclusion>
+                 <exclusion>
+                    <groupId>org.slf4j</groupId>
+                    <artifactId>slf4j-jdk14</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.eclipse.lyo.oslc4j.core</groupId>
             <artifactId>oslc4j-jena-provider</artifactId>
+             <exclusions>
+                <exclusion>
+                    <groupId>org.slf4j</groupId>
+                    <artifactId>slf4j-log4j12</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.eclipse.lyo.oslc4j.core</groupId>
@@ -263,6 +241,12 @@
             <groupId>org.eclipse.lyo.server</groupId>
             <artifactId>oauth-webapp</artifactId>
             <type>war</type>
+            <exclusions>
+                <exclusion>
+                    <groupId>javax.servlet</groupId>
+                    <artifactId>javax.servlet-api</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.eclipse.lyo</groupId>
@@ -270,167 +254,100 @@
             <version>7.0.0-SNAPSHOT</version>
         </dependency>
         
-        <!-- Swagger dependencies -->
+        <!-- TEST -->
         <dependency>
-            <groupId>io.swagger.core.v3</groupId>
-            <artifactId>swagger-jaxrs2-jakarta</artifactId>
-            <exclusions>
-                <exclusion>
-                    <!--should be <provided>-->
-                    <groupId>jakarta.activation</groupId>
-                    <artifactId>jakarta.activation-api</artifactId>
-                </exclusion>
-            </exclusions>
+          <groupId>io.rest-assured</groupId>
+          <artifactId>rest-assured</artifactId>
+          <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>io.swagger.core.v3</groupId>
-            <artifactId>swagger-jaxrs2-servlet-initializer-v2-jakarta</artifactId>
+          <groupId>io.quarkus</groupId>
+          <artifactId>quarkus-junit5</artifactId>
+          <scope>test</scope>
         </dependency>
-        <!-- Start of user code dependencies_final
-    -->
-    <!--TEST-->
-    <dependency>
-      <!--MUST BE AT THE BOTTOM due to commons-logging overrides before-->
-      <groupId>io.rest-assured</groupId>
-      <artifactId>rest-assured</artifactId>
-      <version>${v.rest-assured}</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <!--MUST BE BELOW REST-ASSURED-->
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>4.13.2</version>
-      <scope>test</scope>
-    </dependency>
-    <!-- End of user code
-        -->
+        <dependency>
+            <groupId>org.junit.vintage</groupId>
+            <artifactId>junit-vintage-engine</artifactId>
+            <version>5.10.5</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.13.2</version>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
-    <!-- Start of user code post_dependencies
-  -->
-  <!-- End of user code
-    -->
     <build>
         <finalName>${application.filename}</finalName>
         <plugins>
-            <!-- Start of user code plugins
-      -->
             <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-enforcer-plugin</artifactId>
-            </plugin>
-      <!-- End of user code
-            -->
-            <plugin>
-              <groupId>org.apache.maven.plugins</groupId>
-              <artifactId>maven-compiler-plugin</artifactId>
-              <version>3.14.1</version>
-              <configuration>
-                <compilerArgument>
-                  -Xlint:fallthrough,unchecked,removal,deprecation,dep-ann,varargs,overloads,serial,try,finally
-                </compilerArgument>
-              </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.eclipse.jetty</groupId>
-                <artifactId>jetty-maven-plugin</artifactId>
-                <version>11.0.20</version>
-                <configuration>
-                  <webApp>
-                    <contextPath>${application.contextpath}</contextPath>
-                    <_initParams>
-                        <org.eclipse.jetty.servlet.Default.useFileMappedBuffer>false</org.eclipse.jetty.servlet.Default.useFileMappedBuffer>
-                    </_initParams>
-                  </webApp>
-                  <httpConnector>
-                    <port>${servlet.port}</port>
-                  </httpConnector>
-                  <scan>5</scan>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.codehaus.cargo</groupId>
-                <artifactId>cargo-maven3-plugin</artifactId>
-                <version>1.10.25</version>
-                <configuration>
-                    <!--This plugins supports the following containers-->
-                    <container>
-                        <!--These containers are know to work-->
-                        <containerId>tomcat10x</containerId>
-                        <containerId>jetty12x</containerId>
-                        <!-- <containerId>payara</containerId> -->
-                        <!-- <containerId>wildfly26x</containerId> -->
-                        <!--These containers are know to fail-->
-                        <!-- Context Root Not Found -->
-                        <!-- <containerId>liberty</containerId> -->
-                    </container>
-                    <configuration>
-                        <properties>
-                            <cargo.servlet.port>${servlet.port}</cargo.servlet.port>
-                        </properties>
-                    </configuration>
-                    <deployables>
-                        <deployable>
-                            <type>war</type>
-                            <location>${project.build.directory}/${project.build.finalName}.war</location>
-                            <properties>
-                                <context>${application.contextpath}</context>
-                            </properties>
-                        </deployable>
-                    </deployables>
-                </configuration>
-            </plugin>
-            <!-- Swagger-ui -->
-            <plugin>
-                <!-- Download Swagger UI webjar. -->
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-dependency-plugin</artifactId>
-                <version>3.9.0</version>
+                <groupId>${quarkus.platform.group-id}</groupId>
+                <artifactId>quarkus-maven-plugin</artifactId>
+                <version>${quarkus.platform.version}</version>
+                <extensions>true</extensions>
                 <executions>
                     <execution>
-                        <phase>prepare-package</phase>
                         <goals>
-                            <goal>unpack</goal>
+                            <goal>build</goal>
+                            <goal>generate-code</goal>
+                            <goal>generate-code-tests</goal>
                         </goals>
-                        <configuration>
-                            <artifactItems>
-                                <artifactItem>
-                                    <groupId>org.webjars</groupId>
-                                    <artifactId>swagger-ui</artifactId>
-                                    <version>${swagger-ui.version}</version>
-                                </artifactItem>
-                            </artifactItems>
-                            <outputDirectory>${project.build.directory}/swagger-ui</outputDirectory>
-                        </configuration>
                     </execution>
                 </executions>
             </plugin>
             <plugin>
-                <!-- Add Swagger UI resources to the war file. -->
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-war-plugin</artifactId>
-                <version>3.5.1</version>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.13.0</version>
                 <configuration>
-                    <webResources combine.children="append">
-                        <resource>
-                            <directory>${project.build.directory}/swagger-ui/META-INF/resources/webjars/swagger-ui/${swagger-ui.version}</directory>
-                            <includes>
-                                <include>**/*.*</include>
-                            </includes>
-                            <targetPath>/swagger-ui/dist</targetPath>
-                        </resource>
-                    </webResources>
+                    <compilerArgs>
+                        <arg>-parameters</arg>
+                    </compilerArgs>
                 </configuration>
             </plugin>
-            
-            <!-- Start of user code plugins
-            -->
-            <!-- End of user code
-            -->
+            <plugin>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>3.5.2</version>
+                <configuration>
+                    <systemPropertyVariables>
+                        <java.util.logging.manager>org.jboss.logmanager.LogManager</java.util.logging.manager>
+                        <maven.home>${maven.home}</maven.home>
+                    </systemPropertyVariables>
+                </configuration>
+            </plugin>
+            <plugin>
+                <artifactId>maven-failsafe-plugin</artifactId>
+                <version>3.5.2</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>integration-test</goal>
+                            <goal>verify</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <systemPropertyVariables>
+                        <native.image.path>${project.build.directory}/${project.build.finalName}-runner</native.image.path>
+                        <java.util.logging.manager>org.jboss.logmanager.LogManager</java.util.logging.manager>
+                        <maven.home>${maven.home}</maven.home>
+                    </systemPropertyVariables>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
-    <!-- Start of user code post_build
-  -->
-  <!-- End of user code
-    -->
+    <profiles>
+        <profile>
+            <id>native</id>
+            <activation>
+                <property>
+                    <name>native</name>
+                </property>
+            </activation>
+            <properties>
+                <skipITs>false</skipITs>
+                <quarkus.native.enabled>true</quarkus.native.enabled>
+            </properties>
+        </profile>
+    </profiles>
 </project>
