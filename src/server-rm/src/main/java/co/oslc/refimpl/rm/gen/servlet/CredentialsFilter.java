@@ -34,11 +34,11 @@ import jakarta.servlet.ServletRequest;
 import jakarta.servlet.ServletResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import net.oauth.OAuth;
-import net.oauth.OAuthException;
-import net.oauth.OAuthMessage;
-import net.oauth.OAuthProblemException;
-import net.oauth.server.OAuthServlet;
+// import net.oauth.OAuth;
+// import net.oauth.OAuthException;
+// import net.oauth.OAuthMessage;
+// import net.oauth.OAuthProblemException;
+// import net.oauth.server.OAuthServlet;
 
 import org.eclipse.lyo.server.oauth.consumerstore.FileSystemConsumerStore;
 import org.eclipse.lyo.server.oauth.core.OAuthConfiguration;
@@ -54,6 +54,7 @@ import co.oslc.refimpl.rm.gen.auth.AuthenticationApplication;
 // Start of user code pre_class_code
 // End of user code
 
+@jakarta.servlet.annotation.WebFilter(urlPatterns = "/*", filterName = "CredentialsFilter")
 public class CredentialsFilter implements Filter {
     private final static Logger log = LoggerFactory.getLogger(CredentialsFilter.class);
 
@@ -80,11 +81,15 @@ public class CredentialsFilter implements Filter {
         }
 
         String pathInfo = httpRequest.getPathInfo();
+        String requestURI = httpRequest.getRequestURI();
 
         //'protectedResource' defines the basic set of requests that needs to be protected. 
         //You can override this defintion in the user protected code block below.
-        // Do not protect OSLC resources needed for initial discovery
-        boolean protectedResource = !pathInfo.startsWith("/rootservices") && !pathInfo.startsWith("/oauth");
+        // Do not protect the home page, OSLC resources needed for initial discovery, or static resources
+        if (pathInfo == null || "/".equals(requestURI) || requestURI.endsWith("/")) {
+            return false;  // Home page is not protected
+        }
+        boolean protectedResource = !pathInfo.startsWith("/rootservices") && !pathInfo.startsWith("/oauth") && !pathInfo.startsWith("/static");
         // Do not protect CORS preflight requests
         if (protectedResource) {
             String method = httpRequest.getMethod();
@@ -121,70 +126,46 @@ public class CredentialsFilter implements Filter {
                 // Start of user code doFilter_protectedResource_init
                 // End of user code
                 
-                //Check if this is an OAuth1 request.
-                //String clientRequestURL = UriBuilder.fromUri(OSLC4JUtils.getServletURI()).path(request.getPathInfo()).build().toString();
-                OAuthMessage message = OAuthServlet.getMessage(request, null);
-                // Start of user code checkOauth1_Init
+                // OAuth 1.0a support is currently disabled in Quarkus migration due to incompatibility with Undertow request handling.
+                // The OAuth library (net.oauth) tends to consume/wrap requests in a way that triggers UT010023 errors.
+                // Focusing on Basic Auth support for now.
+
+                // This is not an OAuth request, so check for authentication in the session
+                // Start of user code checkSession_Init
                 // End of user code
-                log.trace(request.getPathInfo() + " - checking for oauth1 authentication");
-                if (message.getToken() != null) {
-                    log.trace(request.getPathInfo() + " - Found an oauth1 token. Validating it.");
+                log.trace(request.getPathInfo() + " - checking for authentication in the session");
+                String applicationConnector = authenticationApplication.getApplicationConnectorFromSession(request);
+                if (null != applicationConnector) {
+                    log.trace(request.getPathInfo() + " - session authentication done");
+                    // Start of user code checkSession_Final
+                    // End of user code
+                } else {
+                    // Start of user code basicAuth_Init
+                // End of user code
+                    log.trace(request.getPathInfo() + " - checking for basic authentication");
+                    // Start of user code basicAuth_nullConnector
+                    // End of user code
                     try {
-                        OAuthRequest oAuthRequest = new OAuthRequest(request);
-                        oAuthRequest.validate();
-                        String applicationConnector = authenticationApplication.getApplicationConnector(message.getToken());
-                        if (applicationConnector == null) {
-                            // Start of user code checkOauth1_applicationConnectorNull
+                        //Check for basic authentication
+                        Optional<SimpleEntry> basicAuthenticationFromRequest = authenticationApplication.getBasicAuthenticationFromRequest(request);
+                        if (basicAuthenticationFromRequest.isEmpty()) {
+                            log.trace(request.getPathInfo() + " - no authentication identified. Throwing an exception");
+                            throw new AuthenticationException("No or invalid basic authentication header identified in request.");
+                        } else {
+                            log.trace(request.getPathInfo() + " - basic authentication done");
+                            // Start of user code basicAuth_Final
                             // End of user code
-                            log.trace(request.getPathInfo() + " - oauth1 authentication not valid. Raising an exception TOKEN_REJECTED");
-                            throw new OAuthProblemException(OAuth.Problems.TOKEN_REJECTED);
                         }
-                        log.trace(request.getPathInfo() + " - oauth1 authentication is valid. Done.");
-                        authenticationApplication.bindApplicationConnectorToSession(request, applicationConnector);
-                    } catch (OAuthException e) {
-                        // Start of user code checkOauth1_exception
+                    } catch (AuthenticationException e) {
+                        // Start of user code basicAuth_authenticationException
                         // End of user code
-                        OAuthServlet.handleException(response, e, authenticationApplication.getRealm(request));
+                        authenticationApplication.sendUnauthorizedResponse(request, response, e);
                         return;
                     }
-                } 
-                else {
-                    // This is not an OAuth request, so check for authentication in the session
-                    // Start of user code checkSession_Init
-                    // End of user code
-                    log.trace(request.getPathInfo() + " - checking for authentication in the session");
-                    String applicationConnector = authenticationApplication.getApplicationConnectorFromSession(request);
-                    if (null != applicationConnector) {
-                        log.trace(request.getPathInfo() + " - session authentication done");
-                        // Start of user code checkSession_Final
-                        // End of user code
-                    } else {
-                        // Start of user code basicAuth_Init
-                    // End of user code
-                        log.trace(request.getPathInfo() + " - checking for basic authentication");
-                        // Start of user code basicAuth_nullConnector
-                        // End of user code
-                        try {
-                            //Check for basic authentication
-                            Optional<SimpleEntry> basicAuthenticationFromRequest = authenticationApplication.getBasicAuthenticationFromRequest(request);
-                            if (basicAuthenticationFromRequest.isEmpty()) {
-                                log.trace(request.getPathInfo() + " - no authentication identified. Throwing an exception");
-                                throw new AuthenticationException("No or invalid basic authentication header identified in request.");
-                            } else {
-                                log.trace(request.getPathInfo() + " - basic authentication done");
-                                // Start of user code basicAuth_Final
-                                // End of user code
-                            }
-                        } catch (AuthenticationException e) {
-                            // Start of user code basicAuth_authenticationException
-                            // End of user code
-                            authenticationApplication.sendUnauthorizedResponse(request, response, e);
-                            return;
-                        } 
-                    }
-                    // Start of user code basicAuth_final
-                    // End of user code
                 }
+                // Start of user code basicAuth_final
+                // End of user code
+
             // Start of user code doFilter_protectedResource_final
             // End of user code
             } else {
@@ -205,38 +186,6 @@ public class CredentialsFilter implements Filter {
 
         // Start of user code init
         // End of user code
-
-        /*
-         * Override some SimpleTokenStrategy methods so that we can keep the
-         * BugzillaConnection associated with the OAuth tokens.
-         */
-        config.setTokenStrategy(new SimpleTokenStrategy() {
-            @Override
-            public void markRequestTokenAuthorized(HttpServletRequest httpRequest, String requestToken)
-                    throws OAuthProblemException {
-                // Start of user code markRequestTokenAuthorized_init
-                // End of user code
-                authenticationApplication.putApplicationConnector(requestToken, authenticationApplication.getApplicationConnectorFromSession(httpRequest));
-                // Start of user code markRequestTokenAuthorized_mid
-                // End of user code
-                super.markRequestTokenAuthorized(httpRequest, requestToken);
-                // Start of user code markRequestTokenAuthorized_final
-                // End of user code
-            }
-
-            @Override
-            public void generateAccessToken(OAuthRequest oAuthRequest) throws OAuthProblemException, IOException {
-                // Start of user code generateAccessToken_init
-                // End of user code
-                String requestToken = oAuthRequest.getMessage().getToken();
-                // Start of user code generateAccessToken_mid
-                // End of user code
-                super.generateAccessToken(oAuthRequest);
-                authenticationApplication.moveApplicationConnector(requestToken, oAuthRequest.getAccessor().accessToken);
-                // Start of user code generateAccessToken_final
-                // End of user code
-            }
-        });
 
         try {
             // For now, hard-code the consumers.
