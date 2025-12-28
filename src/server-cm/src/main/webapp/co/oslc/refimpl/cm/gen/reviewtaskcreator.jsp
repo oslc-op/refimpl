@@ -273,6 +273,69 @@
             </td>
           </tr>
           <tr>
+            <td>
+            <label for="type">type: </LABEL>
+            <%
+            %>
+            </td>
+          </tr>
+          <tr>
+            <td>
+            <label for="testedByTestCase">testedByTestCase: </LABEL>
+            <%
+            %>
+            </td>
+          </tr>
+          <tr>
+            <td>
+            <label for="affectsTestResult">affectsTestResult: </LABEL>
+            <%
+            %>
+            </td>
+          </tr>
+          <tr>
+            <td>
+            <label for="blocksTestExecutionRecord">blocksTestExecutionRecord: </LABEL>
+            <%
+            %>
+            </td>
+          </tr>
+          <tr>
+            <td>
+            <label for="relatedTestExecutionRecord">relatedTestExecutionRecord: </LABEL>
+            <%
+            %>
+            </td>
+          </tr>
+          <tr>
+            <td>
+            <label for="relatedTestCase">relatedTestCase: </LABEL>
+            <%
+            %>
+            </td>
+          </tr>
+          <tr>
+            <td>
+            <label for="relatedTestPlan">relatedTestPlan: </LABEL>
+            <%
+            %>
+            </td>
+          </tr>
+          <tr>
+            <td>
+            <label for="relatedTestScript">relatedTestScript: </LABEL>
+            <%
+            %>
+            </td>
+          </tr>
+          <tr>
+            <td>
+            <label for="severity">severity: </LABEL>
+            <%
+            %>
+            </td>
+          </tr>
+          <tr>
             <td></td>
             <td>
               <input type="button"

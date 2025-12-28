@@ -85,15 +85,16 @@ import org.eclipse.lyo.oslc4j.core.model.AbstractResource;
 
 import co.oslc.refimpl.cm.gen.RestDelegate;
 import co.oslc.refimpl.cm.gen.ServerConstants;
-import org.eclipse.lyo.oslc.domains.cm.Oslc_cmDomainConstants;
-import org.eclipse.lyo.oslc.domains.cm.Oslc_cmDomainConstants;
-import org.eclipse.lyo.oslc.domains.cm.Oslc_cmDomainConstants;
-import org.eclipse.lyo.oslc.domains.cm.Oslc_cmDomainConstants;
-import org.eclipse.lyo.oslc.domains.cm.Oslc_cmDomainConstants;
-import org.eclipse.lyo.oslc.domains.cm.Oslc_cmDomainConstants;
-import org.eclipse.lyo.oslc.domains.cm.Oslc_cmDomainConstants;
+import org.eclipse.lyo.oslc.domains.cm.Oslc_cm_shapesDomainConstants;
+import org.eclipse.lyo.oslc.domains.cm.Oslc_cm_shapesDomainConstants;
+import org.eclipse.lyo.oslc.domains.cm.Oslc_cm_shapesDomainConstants;
+import org.eclipse.lyo.oslc.domains.cm.Oslc_cm_shapesDomainConstants;
+import org.eclipse.lyo.oslc.domains.cm.Oslc_cm_shapesDomainConstants;
+import org.eclipse.lyo.oslc.domains.cm.Oslc_cm_shapesDomainConstants;
+import org.eclipse.lyo.oslc.domains.cm.Oslc_cm_shapesDomainConstants;
 import co.oslc.refimpl.cm.gen.servlet.ServiceProviderCatalogSingleton;
 import org.eclipse.lyo.oslc.domains.Agent;
+import org.eclipse.lyo.oslc4j.core.model.AllowedValues;
 import org.eclipse.lyo.oslc.domains.cm.ChangeNotice;
 import org.eclipse.lyo.oslc.domains.cm.ChangeRequest;
 import org.eclipse.lyo.oslc.domains.config.ChangeSet;
@@ -102,14 +103,23 @@ import org.eclipse.lyo.oslc.domains.config.Component;
 import org.eclipse.lyo.oslc.domains.config.ConceptResource;
 import org.eclipse.lyo.oslc.domains.config.Configuration;
 import org.eclipse.lyo.oslc.domains.config.Contribution;
+import org.eclipse.lyo.oslc4j.core.model.CreationFactory;
 import org.eclipse.lyo.oslc.domains.cm.Defect;
+import org.eclipse.lyo.oslc4j.core.model.Dialog;
 import org.eclipse.lyo.oslc4j.core.model.Discussion;
 import org.eclipse.lyo.oslc.domains.cm.Enhancement;
 import org.eclipse.lyo.oslc.domains.Person;
 import org.eclipse.lyo.oslc.domains.cm.Priority;
+import org.eclipse.lyo.oslc4j.core.model.Property;
+import org.eclipse.lyo.oslc4j.core.model.Publisher;
+import org.eclipse.lyo.oslc4j.core.model.QueryCapability;
 import org.eclipse.lyo.oslc.domains.rm.Requirement;
+import org.eclipse.lyo.oslc4j.core.model.ResourceShape;
 import org.eclipse.lyo.oslc.domains.cm.ReviewTask;
 import org.eclipse.lyo.oslc.domains.config.Selections;
+import org.eclipse.lyo.oslc4j.core.model.Service;
+import org.eclipse.lyo.oslc4j.core.model.ServiceProvider;
+import org.eclipse.lyo.oslc.domains.cm.Severity;
 import org.eclipse.lyo.oslc.domains.cm.State;
 import org.eclipse.lyo.oslc.domains.cm.Task;
 import org.eclipse.lyo.oslc.domains.config.VersionResource;
@@ -123,7 +133,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 
 // Start of user code pre_class_code
 // End of user code
-@OslcService(Oslc_cmDomainConstants.CHANGE_MANAGEMENT_SHAPES_NAMSPACE)
+@OslcService(Oslc_cm_shapesDomainConstants.CHANGE_MANAGEMENT_SHAPES_NAMSPACE)
 @Path("resources")
 public class Change_requestsService
 {
@@ -149,17 +159,17 @@ public class Change_requestsService
     (
         title = "ChangeRequest QC",
         label = "ChangeRequest Query Capability",
-        resourceShape = OslcConstants.PATH_RESOURCE_SHAPES + "/" + Oslc_cmDomainConstants.CHANGEREQUEST_PATH,
-        resourceTypes = {Oslc_cmDomainConstants.CHANGEREQUEST_TYPE},
+        resourceShape = OslcConstants.PATH_RESOURCE_SHAPES + "/" + Oslc_cm_shapesDomainConstants.CHANGEREQUEST_PATH,
+        resourceTypes = {Oslc_cm_shapesDomainConstants.CHANGEREQUEST_TYPE},
         usages = {}
     )
     @GET
     @Path("query_cr")
     @Produces({OslcMediaType.APPLICATION_RDF_XML, OslcMediaType.APPLICATION_JSON_LD, OslcMediaType.TEXT_TURTLE, OslcMediaType.APPLICATION_XML, OslcMediaType.APPLICATION_JSON})
     @Operation(
-        summary = "Query capability for resources of type {" + Oslc_cmDomainConstants.CHANGEREQUEST_LOCALNAME + "}",
-        description = "Query capability for resources of type {" + "<a href=\"" + Oslc_cmDomainConstants.CHANGEREQUEST_TYPE + "\">" + Oslc_cmDomainConstants.CHANGEREQUEST_LOCALNAME + "</a>" + "}" +
-            ", with respective resource shapes {" + "<a href=\"" + "../services/" + OslcConstants.PATH_RESOURCE_SHAPES + "/" + Oslc_cmDomainConstants.CHANGEREQUEST_PATH + "\">" + Oslc_cmDomainConstants.CHANGEREQUEST_LOCALNAME + "</a>" + "}",
+        summary = "Query capability for resources of type {" + Oslc_cm_shapesDomainConstants.CHANGEREQUEST_LOCALNAME + "}",
+        description = "Query capability for resources of type {" + "<a href=\"" + Oslc_cm_shapesDomainConstants.CHANGEREQUEST_TYPE + "\">" + Oslc_cm_shapesDomainConstants.CHANGEREQUEST_LOCALNAME + "</a>" + "}" +
+            ", with respective resource shapes {" + "<a href=\"" + "../services/" + OslcConstants.PATH_RESOURCE_SHAPES + "/" + Oslc_cm_shapesDomainConstants.CHANGEREQUEST_PATH + "\">" + Oslc_cm_shapesDomainConstants.CHANGEREQUEST_LOCALNAME + "</a>" + "}",
         responses = { 
             @ApiResponse(description = "default response", content = {@Content(mediaType = OslcMediaType.APPLICATION_RDF_XML), @Content(mediaType = OslcMediaType.APPLICATION_XML), @Content(mediaType = OslcMediaType.APPLICATION_JSON), @Content(mediaType = OslcMediaType.TEXT_TURTLE), @Content(mediaType = MediaType.TEXT_HTML)})
         }
@@ -214,9 +224,9 @@ public class Change_requestsService
     @Path("query_cr")
     @Produces({ MediaType.TEXT_HTML })
     @Operation(
-        summary = "Query capability for resources of type {" + Oslc_cmDomainConstants.CHANGEREQUEST_LOCALNAME + "}",
-        description = "Query capability for resources of type {" + "<a href=\"" + Oslc_cmDomainConstants.CHANGEREQUEST_TYPE + "\">" + Oslc_cmDomainConstants.CHANGEREQUEST_LOCALNAME + "</a>" + "}" +
-            ", with respective resource shapes {" + "<a href=\"" + "../services/" + OslcConstants.PATH_RESOURCE_SHAPES + "/" + Oslc_cmDomainConstants.CHANGEREQUEST_PATH + "\">" + Oslc_cmDomainConstants.CHANGEREQUEST_LOCALNAME + "</a>" + "}",
+        summary = "Query capability for resources of type {" + Oslc_cm_shapesDomainConstants.CHANGEREQUEST_LOCALNAME + "}",
+        description = "Query capability for resources of type {" + "<a href=\"" + Oslc_cm_shapesDomainConstants.CHANGEREQUEST_TYPE + "\">" + Oslc_cm_shapesDomainConstants.CHANGEREQUEST_LOCALNAME + "</a>" + "}" +
+            ", with respective resource shapes {" + "<a href=\"" + "../services/" + OslcConstants.PATH_RESOURCE_SHAPES + "/" + Oslc_cm_shapesDomainConstants.CHANGEREQUEST_PATH + "\">" + Oslc_cm_shapesDomainConstants.CHANGEREQUEST_LOCALNAME + "</a>" + "}",
         responses = { 
             @ApiResponse(description = "default response", content = {@Content(mediaType = OslcMediaType.APPLICATION_RDF_XML), @Content(mediaType = OslcMediaType.APPLICATION_XML), @Content(mediaType = OslcMediaType.APPLICATION_JSON), @Content(mediaType = OslcMediaType.TEXT_TURTLE), @Content(mediaType = MediaType.TEXT_HTML)})
         }
@@ -281,17 +291,17 @@ public class Change_requestsService
     (
         title = "Defect QC",
         label = "Defect Query Capability",
-        resourceShape = OslcConstants.PATH_RESOURCE_SHAPES + "/" + Oslc_cmDomainConstants.DEFECT_PATH,
-        resourceTypes = {Oslc_cmDomainConstants.DEFECT_TYPE},
+        resourceShape = OslcConstants.PATH_RESOURCE_SHAPES + "/" + Oslc_cm_shapesDomainConstants.DEFECT_PATH,
+        resourceTypes = {Oslc_cm_shapesDomainConstants.DEFECT_TYPE},
         usages = {}
     )
     @GET
     @Path("query_defect")
     @Produces({OslcMediaType.APPLICATION_RDF_XML, OslcMediaType.APPLICATION_JSON_LD, OslcMediaType.TEXT_TURTLE, OslcMediaType.APPLICATION_XML, OslcMediaType.APPLICATION_JSON})
     @Operation(
-        summary = "Query capability for resources of type {" + Oslc_cmDomainConstants.DEFECT_LOCALNAME + "}",
-        description = "Query capability for resources of type {" + "<a href=\"" + Oslc_cmDomainConstants.DEFECT_TYPE + "\">" + Oslc_cmDomainConstants.DEFECT_LOCALNAME + "</a>" + "}" +
-            ", with respective resource shapes {" + "<a href=\"" + "../services/" + OslcConstants.PATH_RESOURCE_SHAPES + "/" + Oslc_cmDomainConstants.DEFECT_PATH + "\">" + Oslc_cmDomainConstants.DEFECT_LOCALNAME + "</a>" + "}",
+        summary = "Query capability for resources of type {" + Oslc_cm_shapesDomainConstants.DEFECT_LOCALNAME + "}",
+        description = "Query capability for resources of type {" + "<a href=\"" + Oslc_cm_shapesDomainConstants.DEFECT_TYPE + "\">" + Oslc_cm_shapesDomainConstants.DEFECT_LOCALNAME + "</a>" + "}" +
+            ", with respective resource shapes {" + "<a href=\"" + "../services/" + OslcConstants.PATH_RESOURCE_SHAPES + "/" + Oslc_cm_shapesDomainConstants.DEFECT_PATH + "\">" + Oslc_cm_shapesDomainConstants.DEFECT_LOCALNAME + "</a>" + "}",
         responses = { 
             @ApiResponse(description = "default response", content = {@Content(mediaType = OslcMediaType.APPLICATION_RDF_XML), @Content(mediaType = OslcMediaType.APPLICATION_XML), @Content(mediaType = OslcMediaType.APPLICATION_JSON), @Content(mediaType = OslcMediaType.TEXT_TURTLE), @Content(mediaType = MediaType.TEXT_HTML)})
         }
@@ -346,9 +356,9 @@ public class Change_requestsService
     @Path("query_defect")
     @Produces({ MediaType.TEXT_HTML })
     @Operation(
-        summary = "Query capability for resources of type {" + Oslc_cmDomainConstants.DEFECT_LOCALNAME + "}",
-        description = "Query capability for resources of type {" + "<a href=\"" + Oslc_cmDomainConstants.DEFECT_TYPE + "\">" + Oslc_cmDomainConstants.DEFECT_LOCALNAME + "</a>" + "}" +
-            ", with respective resource shapes {" + "<a href=\"" + "../services/" + OslcConstants.PATH_RESOURCE_SHAPES + "/" + Oslc_cmDomainConstants.DEFECT_PATH + "\">" + Oslc_cmDomainConstants.DEFECT_LOCALNAME + "</a>" + "}",
+        summary = "Query capability for resources of type {" + Oslc_cm_shapesDomainConstants.DEFECT_LOCALNAME + "}",
+        description = "Query capability for resources of type {" + "<a href=\"" + Oslc_cm_shapesDomainConstants.DEFECT_TYPE + "\">" + Oslc_cm_shapesDomainConstants.DEFECT_LOCALNAME + "</a>" + "}" +
+            ", with respective resource shapes {" + "<a href=\"" + "../services/" + OslcConstants.PATH_RESOURCE_SHAPES + "/" + Oslc_cm_shapesDomainConstants.DEFECT_PATH + "\">" + Oslc_cm_shapesDomainConstants.DEFECT_LOCALNAME + "</a>" + "}",
         responses = { 
             @ApiResponse(description = "default response", content = {@Content(mediaType = OslcMediaType.APPLICATION_RDF_XML), @Content(mediaType = OslcMediaType.APPLICATION_XML), @Content(mediaType = OslcMediaType.APPLICATION_JSON), @Content(mediaType = OslcMediaType.TEXT_TURTLE), @Content(mediaType = MediaType.TEXT_HTML)})
         }
@@ -413,17 +423,17 @@ public class Change_requestsService
     (
         title = "Task QC",
         label = "Task Query Capability",
-        resourceShape = OslcConstants.PATH_RESOURCE_SHAPES + "/" + Oslc_cmDomainConstants.TASK_PATH,
-        resourceTypes = {Oslc_cmDomainConstants.TASK_TYPE},
+        resourceShape = OslcConstants.PATH_RESOURCE_SHAPES + "/" + Oslc_cm_shapesDomainConstants.TASK_PATH,
+        resourceTypes = {Oslc_cm_shapesDomainConstants.TASK_TYPE},
         usages = {}
     )
     @GET
     @Path("query_task")
     @Produces({OslcMediaType.APPLICATION_RDF_XML, OslcMediaType.APPLICATION_JSON_LD, OslcMediaType.TEXT_TURTLE, OslcMediaType.APPLICATION_XML, OslcMediaType.APPLICATION_JSON})
     @Operation(
-        summary = "Query capability for resources of type {" + Oslc_cmDomainConstants.TASK_LOCALNAME + "}",
-        description = "Query capability for resources of type {" + "<a href=\"" + Oslc_cmDomainConstants.TASK_TYPE + "\">" + Oslc_cmDomainConstants.TASK_LOCALNAME + "</a>" + "}" +
-            ", with respective resource shapes {" + "<a href=\"" + "../services/" + OslcConstants.PATH_RESOURCE_SHAPES + "/" + Oslc_cmDomainConstants.TASK_PATH + "\">" + Oslc_cmDomainConstants.TASK_LOCALNAME + "</a>" + "}",
+        summary = "Query capability for resources of type {" + Oslc_cm_shapesDomainConstants.TASK_LOCALNAME + "}",
+        description = "Query capability for resources of type {" + "<a href=\"" + Oslc_cm_shapesDomainConstants.TASK_TYPE + "\">" + Oslc_cm_shapesDomainConstants.TASK_LOCALNAME + "</a>" + "}" +
+            ", with respective resource shapes {" + "<a href=\"" + "../services/" + OslcConstants.PATH_RESOURCE_SHAPES + "/" + Oslc_cm_shapesDomainConstants.TASK_PATH + "\">" + Oslc_cm_shapesDomainConstants.TASK_LOCALNAME + "</a>" + "}",
         responses = { 
             @ApiResponse(description = "default response", content = {@Content(mediaType = OslcMediaType.APPLICATION_RDF_XML), @Content(mediaType = OslcMediaType.APPLICATION_XML), @Content(mediaType = OslcMediaType.APPLICATION_JSON), @Content(mediaType = OslcMediaType.TEXT_TURTLE), @Content(mediaType = MediaType.TEXT_HTML)})
         }
@@ -478,9 +488,9 @@ public class Change_requestsService
     @Path("query_task")
     @Produces({ MediaType.TEXT_HTML })
     @Operation(
-        summary = "Query capability for resources of type {" + Oslc_cmDomainConstants.TASK_LOCALNAME + "}",
-        description = "Query capability for resources of type {" + "<a href=\"" + Oslc_cmDomainConstants.TASK_TYPE + "\">" + Oslc_cmDomainConstants.TASK_LOCALNAME + "</a>" + "}" +
-            ", with respective resource shapes {" + "<a href=\"" + "../services/" + OslcConstants.PATH_RESOURCE_SHAPES + "/" + Oslc_cmDomainConstants.TASK_PATH + "\">" + Oslc_cmDomainConstants.TASK_LOCALNAME + "</a>" + "}",
+        summary = "Query capability for resources of type {" + Oslc_cm_shapesDomainConstants.TASK_LOCALNAME + "}",
+        description = "Query capability for resources of type {" + "<a href=\"" + Oslc_cm_shapesDomainConstants.TASK_TYPE + "\">" + Oslc_cm_shapesDomainConstants.TASK_LOCALNAME + "</a>" + "}" +
+            ", with respective resource shapes {" + "<a href=\"" + "../services/" + OslcConstants.PATH_RESOURCE_SHAPES + "/" + Oslc_cm_shapesDomainConstants.TASK_PATH + "\">" + Oslc_cm_shapesDomainConstants.TASK_LOCALNAME + "</a>" + "}",
         responses = { 
             @ApiResponse(description = "default response", content = {@Content(mediaType = OslcMediaType.APPLICATION_RDF_XML), @Content(mediaType = OslcMediaType.APPLICATION_XML), @Content(mediaType = OslcMediaType.APPLICATION_JSON), @Content(mediaType = OslcMediaType.TEXT_TURTLE), @Content(mediaType = MediaType.TEXT_HTML)})
         }
@@ -545,17 +555,17 @@ public class Change_requestsService
     (
         title = "Enhancement QC",
         label = "Enhancement Query Capability",
-        resourceShape = OslcConstants.PATH_RESOURCE_SHAPES + "/" + Oslc_cmDomainConstants.ENHANCEMENT_PATH,
-        resourceTypes = {Oslc_cmDomainConstants.ENHANCEMENT_TYPE},
+        resourceShape = OslcConstants.PATH_RESOURCE_SHAPES + "/" + Oslc_cm_shapesDomainConstants.ENHANCEMENT_PATH,
+        resourceTypes = {Oslc_cm_shapesDomainConstants.ENHANCEMENT_TYPE},
         usages = {}
     )
     @GET
     @Path("query_enh")
     @Produces({OslcMediaType.APPLICATION_RDF_XML, OslcMediaType.APPLICATION_JSON_LD, OslcMediaType.TEXT_TURTLE, OslcMediaType.APPLICATION_XML, OslcMediaType.APPLICATION_JSON})
     @Operation(
-        summary = "Query capability for resources of type {" + Oslc_cmDomainConstants.ENHANCEMENT_LOCALNAME + "}",
-        description = "Query capability for resources of type {" + "<a href=\"" + Oslc_cmDomainConstants.ENHANCEMENT_TYPE + "\">" + Oslc_cmDomainConstants.ENHANCEMENT_LOCALNAME + "</a>" + "}" +
-            ", with respective resource shapes {" + "<a href=\"" + "../services/" + OslcConstants.PATH_RESOURCE_SHAPES + "/" + Oslc_cmDomainConstants.ENHANCEMENT_PATH + "\">" + Oslc_cmDomainConstants.ENHANCEMENT_LOCALNAME + "</a>" + "}",
+        summary = "Query capability for resources of type {" + Oslc_cm_shapesDomainConstants.ENHANCEMENT_LOCALNAME + "}",
+        description = "Query capability for resources of type {" + "<a href=\"" + Oslc_cm_shapesDomainConstants.ENHANCEMENT_TYPE + "\">" + Oslc_cm_shapesDomainConstants.ENHANCEMENT_LOCALNAME + "</a>" + "}" +
+            ", with respective resource shapes {" + "<a href=\"" + "../services/" + OslcConstants.PATH_RESOURCE_SHAPES + "/" + Oslc_cm_shapesDomainConstants.ENHANCEMENT_PATH + "\">" + Oslc_cm_shapesDomainConstants.ENHANCEMENT_LOCALNAME + "</a>" + "}",
         responses = { 
             @ApiResponse(description = "default response", content = {@Content(mediaType = OslcMediaType.APPLICATION_RDF_XML), @Content(mediaType = OslcMediaType.APPLICATION_XML), @Content(mediaType = OslcMediaType.APPLICATION_JSON), @Content(mediaType = OslcMediaType.TEXT_TURTLE), @Content(mediaType = MediaType.TEXT_HTML)})
         }
@@ -610,9 +620,9 @@ public class Change_requestsService
     @Path("query_enh")
     @Produces({ MediaType.TEXT_HTML })
     @Operation(
-        summary = "Query capability for resources of type {" + Oslc_cmDomainConstants.ENHANCEMENT_LOCALNAME + "}",
-        description = "Query capability for resources of type {" + "<a href=\"" + Oslc_cmDomainConstants.ENHANCEMENT_TYPE + "\">" + Oslc_cmDomainConstants.ENHANCEMENT_LOCALNAME + "</a>" + "}" +
-            ", with respective resource shapes {" + "<a href=\"" + "../services/" + OslcConstants.PATH_RESOURCE_SHAPES + "/" + Oslc_cmDomainConstants.ENHANCEMENT_PATH + "\">" + Oslc_cmDomainConstants.ENHANCEMENT_LOCALNAME + "</a>" + "}",
+        summary = "Query capability for resources of type {" + Oslc_cm_shapesDomainConstants.ENHANCEMENT_LOCALNAME + "}",
+        description = "Query capability for resources of type {" + "<a href=\"" + Oslc_cm_shapesDomainConstants.ENHANCEMENT_TYPE + "\">" + Oslc_cm_shapesDomainConstants.ENHANCEMENT_LOCALNAME + "</a>" + "}" +
+            ", with respective resource shapes {" + "<a href=\"" + "../services/" + OslcConstants.PATH_RESOURCE_SHAPES + "/" + Oslc_cm_shapesDomainConstants.ENHANCEMENT_PATH + "\">" + Oslc_cm_shapesDomainConstants.ENHANCEMENT_LOCALNAME + "</a>" + "}",
         responses = { 
             @ApiResponse(description = "default response", content = {@Content(mediaType = OslcMediaType.APPLICATION_RDF_XML), @Content(mediaType = OslcMediaType.APPLICATION_XML), @Content(mediaType = OslcMediaType.APPLICATION_JSON), @Content(mediaType = OslcMediaType.TEXT_TURTLE), @Content(mediaType = MediaType.TEXT_HTML)})
         }
@@ -677,17 +687,17 @@ public class Change_requestsService
     (
         title = "Review QC",
         label = "ReviewTask Query Capability",
-        resourceShape = OslcConstants.PATH_RESOURCE_SHAPES + "/" + Oslc_cmDomainConstants.REVIEWTASK_PATH,
-        resourceTypes = {Oslc_cmDomainConstants.REVIEWTASK_TYPE},
+        resourceShape = OslcConstants.PATH_RESOURCE_SHAPES + "/" + Oslc_cm_shapesDomainConstants.REVIEWTASK_PATH,
+        resourceTypes = {Oslc_cm_shapesDomainConstants.REVIEWTASK_TYPE},
         usages = {}
     )
     @GET
     @Path("query_review")
     @Produces({OslcMediaType.APPLICATION_RDF_XML, OslcMediaType.APPLICATION_JSON_LD, OslcMediaType.TEXT_TURTLE, OslcMediaType.APPLICATION_XML, OslcMediaType.APPLICATION_JSON})
     @Operation(
-        summary = "Query capability for resources of type {" + Oslc_cmDomainConstants.REVIEWTASK_LOCALNAME + "}",
-        description = "Query capability for resources of type {" + "<a href=\"" + Oslc_cmDomainConstants.REVIEWTASK_TYPE + "\">" + Oslc_cmDomainConstants.REVIEWTASK_LOCALNAME + "</a>" + "}" +
-            ", with respective resource shapes {" + "<a href=\"" + "../services/" + OslcConstants.PATH_RESOURCE_SHAPES + "/" + Oslc_cmDomainConstants.REVIEWTASK_PATH + "\">" + Oslc_cmDomainConstants.REVIEWTASK_LOCALNAME + "</a>" + "}",
+        summary = "Query capability for resources of type {" + Oslc_cm_shapesDomainConstants.REVIEWTASK_LOCALNAME + "}",
+        description = "Query capability for resources of type {" + "<a href=\"" + Oslc_cm_shapesDomainConstants.REVIEWTASK_TYPE + "\">" + Oslc_cm_shapesDomainConstants.REVIEWTASK_LOCALNAME + "</a>" + "}" +
+            ", with respective resource shapes {" + "<a href=\"" + "../services/" + OslcConstants.PATH_RESOURCE_SHAPES + "/" + Oslc_cm_shapesDomainConstants.REVIEWTASK_PATH + "\">" + Oslc_cm_shapesDomainConstants.REVIEWTASK_LOCALNAME + "</a>" + "}",
         responses = { 
             @ApiResponse(description = "default response", content = {@Content(mediaType = OslcMediaType.APPLICATION_RDF_XML), @Content(mediaType = OslcMediaType.APPLICATION_XML), @Content(mediaType = OslcMediaType.APPLICATION_JSON), @Content(mediaType = OslcMediaType.TEXT_TURTLE), @Content(mediaType = MediaType.TEXT_HTML)})
         }
@@ -742,9 +752,9 @@ public class Change_requestsService
     @Path("query_review")
     @Produces({ MediaType.TEXT_HTML })
     @Operation(
-        summary = "Query capability for resources of type {" + Oslc_cmDomainConstants.REVIEWTASK_LOCALNAME + "}",
-        description = "Query capability for resources of type {" + "<a href=\"" + Oslc_cmDomainConstants.REVIEWTASK_TYPE + "\">" + Oslc_cmDomainConstants.REVIEWTASK_LOCALNAME + "</a>" + "}" +
-            ", with respective resource shapes {" + "<a href=\"" + "../services/" + OslcConstants.PATH_RESOURCE_SHAPES + "/" + Oslc_cmDomainConstants.REVIEWTASK_PATH + "\">" + Oslc_cmDomainConstants.REVIEWTASK_LOCALNAME + "</a>" + "}",
+        summary = "Query capability for resources of type {" + Oslc_cm_shapesDomainConstants.REVIEWTASK_LOCALNAME + "}",
+        description = "Query capability for resources of type {" + "<a href=\"" + Oslc_cm_shapesDomainConstants.REVIEWTASK_TYPE + "\">" + Oslc_cm_shapesDomainConstants.REVIEWTASK_LOCALNAME + "</a>" + "}" +
+            ", with respective resource shapes {" + "<a href=\"" + "../services/" + OslcConstants.PATH_RESOURCE_SHAPES + "/" + Oslc_cm_shapesDomainConstants.REVIEWTASK_PATH + "\">" + Oslc_cm_shapesDomainConstants.REVIEWTASK_LOCALNAME + "</a>" + "}",
         responses = { 
             @ApiResponse(description = "default response", content = {@Content(mediaType = OslcMediaType.APPLICATION_RDF_XML), @Content(mediaType = OslcMediaType.APPLICATION_XML), @Content(mediaType = OslcMediaType.APPLICATION_JSON), @Content(mediaType = OslcMediaType.TEXT_TURTLE), @Content(mediaType = MediaType.TEXT_HTML)})
         }
@@ -809,17 +819,17 @@ public class Change_requestsService
     (
         title = "ChangeNotice QC",
         label = "ChangeNotice Query Capability",
-        resourceShape = OslcConstants.PATH_RESOURCE_SHAPES + "/" + Oslc_cmDomainConstants.CHANGENOTICE_PATH,
-        resourceTypes = {Oslc_cmDomainConstants.CHANGENOTICE_TYPE},
+        resourceShape = OslcConstants.PATH_RESOURCE_SHAPES + "/" + Oslc_cm_shapesDomainConstants.CHANGENOTICE_PATH,
+        resourceTypes = {Oslc_cm_shapesDomainConstants.CHANGENOTICE_TYPE},
         usages = {}
     )
     @GET
     @Path("query_cn")
     @Produces({OslcMediaType.APPLICATION_RDF_XML, OslcMediaType.APPLICATION_JSON_LD, OslcMediaType.TEXT_TURTLE, OslcMediaType.APPLICATION_XML, OslcMediaType.APPLICATION_JSON})
     @Operation(
-        summary = "Query capability for resources of type {" + Oslc_cmDomainConstants.CHANGENOTICE_LOCALNAME + "}",
-        description = "Query capability for resources of type {" + "<a href=\"" + Oslc_cmDomainConstants.CHANGENOTICE_TYPE + "\">" + Oslc_cmDomainConstants.CHANGENOTICE_LOCALNAME + "</a>" + "}" +
-            ", with respective resource shapes {" + "<a href=\"" + "../services/" + OslcConstants.PATH_RESOURCE_SHAPES + "/" + Oslc_cmDomainConstants.CHANGENOTICE_PATH + "\">" + Oslc_cmDomainConstants.CHANGENOTICE_LOCALNAME + "</a>" + "}",
+        summary = "Query capability for resources of type {" + Oslc_cm_shapesDomainConstants.CHANGENOTICE_LOCALNAME + "}",
+        description = "Query capability for resources of type {" + "<a href=\"" + Oslc_cm_shapesDomainConstants.CHANGENOTICE_TYPE + "\">" + Oslc_cm_shapesDomainConstants.CHANGENOTICE_LOCALNAME + "</a>" + "}" +
+            ", with respective resource shapes {" + "<a href=\"" + "../services/" + OslcConstants.PATH_RESOURCE_SHAPES + "/" + Oslc_cm_shapesDomainConstants.CHANGENOTICE_PATH + "\">" + Oslc_cm_shapesDomainConstants.CHANGENOTICE_LOCALNAME + "</a>" + "}",
         responses = { 
             @ApiResponse(description = "default response", content = {@Content(mediaType = OslcMediaType.APPLICATION_RDF_XML), @Content(mediaType = OslcMediaType.APPLICATION_XML), @Content(mediaType = OslcMediaType.APPLICATION_JSON), @Content(mediaType = OslcMediaType.TEXT_TURTLE), @Content(mediaType = MediaType.TEXT_HTML)})
         }
@@ -874,9 +884,9 @@ public class Change_requestsService
     @Path("query_cn")
     @Produces({ MediaType.TEXT_HTML })
     @Operation(
-        summary = "Query capability for resources of type {" + Oslc_cmDomainConstants.CHANGENOTICE_LOCALNAME + "}",
-        description = "Query capability for resources of type {" + "<a href=\"" + Oslc_cmDomainConstants.CHANGENOTICE_TYPE + "\">" + Oslc_cmDomainConstants.CHANGENOTICE_LOCALNAME + "</a>" + "}" +
-            ", with respective resource shapes {" + "<a href=\"" + "../services/" + OslcConstants.PATH_RESOURCE_SHAPES + "/" + Oslc_cmDomainConstants.CHANGENOTICE_PATH + "\">" + Oslc_cmDomainConstants.CHANGENOTICE_LOCALNAME + "</a>" + "}",
+        summary = "Query capability for resources of type {" + Oslc_cm_shapesDomainConstants.CHANGENOTICE_LOCALNAME + "}",
+        description = "Query capability for resources of type {" + "<a href=\"" + Oslc_cm_shapesDomainConstants.CHANGENOTICE_TYPE + "\">" + Oslc_cm_shapesDomainConstants.CHANGENOTICE_LOCALNAME + "</a>" + "}" +
+            ", with respective resource shapes {" + "<a href=\"" + "../services/" + OslcConstants.PATH_RESOURCE_SHAPES + "/" + Oslc_cm_shapesDomainConstants.CHANGENOTICE_PATH + "\">" + Oslc_cm_shapesDomainConstants.CHANGENOTICE_LOCALNAME + "</a>" + "}",
         responses = { 
             @ApiResponse(description = "default response", content = {@Content(mediaType = OslcMediaType.APPLICATION_RDF_XML), @Content(mediaType = OslcMediaType.APPLICATION_XML), @Content(mediaType = OslcMediaType.APPLICATION_JSON), @Content(mediaType = OslcMediaType.TEXT_TURTLE), @Content(mediaType = MediaType.TEXT_HTML)})
         }
@@ -944,7 +954,7 @@ public class Change_requestsService
          uri = "resources/select_change_request",
          hintWidth = "500px",
          hintHeight = "500px",
-         resourceTypes = {Oslc_cmDomainConstants.CHANGEREQUEST_TYPE},
+         resourceTypes = {Oslc_cm_shapesDomainConstants.CHANGEREQUEST_TYPE},
          usages = {}
     )
     @GET
@@ -1002,7 +1012,7 @@ public class Change_requestsService
          uri = "resources/select_defect",
          hintWidth = "500px",
          hintHeight = "500px",
-         resourceTypes = {Oslc_cmDomainConstants.DEFECT_TYPE},
+         resourceTypes = {Oslc_cm_shapesDomainConstants.DEFECT_TYPE},
          usages = {}
     )
     @GET
@@ -1060,7 +1070,7 @@ public class Change_requestsService
          uri = "resources/select_task",
          hintWidth = "500px",
          hintHeight = "500px",
-         resourceTypes = {Oslc_cmDomainConstants.TASK_TYPE},
+         resourceTypes = {Oslc_cm_shapesDomainConstants.TASK_TYPE},
          usages = {}
     )
     @GET
@@ -1118,7 +1128,7 @@ public class Change_requestsService
          uri = "resources/select_review_task",
          hintWidth = "500px",
          hintHeight = "500px",
-         resourceTypes = {Oslc_cmDomainConstants.REVIEWTASK_TYPE},
+         resourceTypes = {Oslc_cm_shapesDomainConstants.REVIEWTASK_TYPE},
          usages = {}
     )
     @GET
@@ -1176,7 +1186,7 @@ public class Change_requestsService
          uri = "resources/select_change_notice",
          hintWidth = "500px",
          hintHeight = "500px",
-         resourceTypes = {Oslc_cmDomainConstants.CHANGENOTICE_TYPE},
+         resourceTypes = {Oslc_cm_shapesDomainConstants.CHANGENOTICE_TYPE},
          usages = {}
     )
     @GET
@@ -1234,7 +1244,7 @@ public class Change_requestsService
          uri = "resources/select_enhancement",
          hintWidth = "500px",
          hintHeight = "500px",
-         resourceTypes = {Oslc_cmDomainConstants.ENHANCEMENT_TYPE},
+         resourceTypes = {Oslc_cm_shapesDomainConstants.ENHANCEMENT_TYPE},
          usages = {}
     )
     @GET
@@ -1295,8 +1305,8 @@ public class Change_requestsService
     (
          title = "ChangeRequestCF",
          label = "Change Request Creation Factory",
-         resourceShapes = {OslcConstants.PATH_RESOURCE_SHAPES + "/" + Oslc_cmDomainConstants.CHANGEREQUEST_PATH},
-         resourceTypes = {Oslc_cmDomainConstants.CHANGEREQUEST_TYPE},
+         resourceShapes = {OslcConstants.PATH_RESOURCE_SHAPES + "/" + Oslc_cm_shapesDomainConstants.CHANGEREQUEST_PATH},
+         resourceTypes = {Oslc_cm_shapesDomainConstants.CHANGEREQUEST_TYPE},
          usages = {}
     )
     @POST
@@ -1304,9 +1314,9 @@ public class Change_requestsService
     @Consumes({OslcMediaType.APPLICATION_RDF_XML, OslcMediaType.APPLICATION_JSON_LD, OslcMediaType.TEXT_TURTLE, OslcMediaType.APPLICATION_XML, OslcMediaType.APPLICATION_JSON })
     @Produces({OslcMediaType.APPLICATION_RDF_XML, OslcMediaType.APPLICATION_JSON_LD, OslcMediaType.TEXT_TURTLE, OslcMediaType.APPLICATION_XML, OslcMediaType.APPLICATION_JSON})
     @Operation(
-        summary = "Creation factory for resources of type {" + Oslc_cmDomainConstants.CHANGEREQUEST_LOCALNAME + "}",
-        description = "Creation factory for resources of type {" + "<a href=\"" + Oslc_cmDomainConstants.CHANGEREQUEST_TYPE + "\">" + Oslc_cmDomainConstants.CHANGEREQUEST_LOCALNAME + "</a>" + "}" +
-            ", with respective resource shapes {" + "<a href=\"" + "../services/" + OslcConstants.PATH_RESOURCE_SHAPES + "/" + Oslc_cmDomainConstants.CHANGEREQUEST_PATH + "\">" + Oslc_cmDomainConstants.CHANGEREQUEST_LOCALNAME + "</a>" + "}",
+        summary = "Creation factory for resources of type {" + Oslc_cm_shapesDomainConstants.CHANGEREQUEST_LOCALNAME + "}",
+        description = "Creation factory for resources of type {" + "<a href=\"" + Oslc_cm_shapesDomainConstants.CHANGEREQUEST_TYPE + "\">" + Oslc_cm_shapesDomainConstants.CHANGEREQUEST_LOCALNAME + "</a>" + "}" +
+            ", with respective resource shapes {" + "<a href=\"" + "../services/" + OslcConstants.PATH_RESOURCE_SHAPES + "/" + Oslc_cm_shapesDomainConstants.CHANGEREQUEST_PATH + "\">" + Oslc_cm_shapesDomainConstants.CHANGEREQUEST_LOCALNAME + "</a>" + "}",
         responses = { 
             @ApiResponse(description = "default response", content = {@Content(mediaType = OslcMediaType.APPLICATION_RDF_XML), @Content(mediaType = OslcMediaType.APPLICATION_XML), @Content(mediaType = OslcMediaType.APPLICATION_JSON), @Content(mediaType = OslcMediaType.TEXT_TURTLE)})
         }
@@ -1356,7 +1366,7 @@ public class Change_requestsService
          uri = "resources/create_defect",
          hintWidth = "500px",
          hintHeight = "500px",
-         resourceTypes = {Oslc_cmDomainConstants.DEFECT_TYPE},
+         resourceTypes = {Oslc_cm_shapesDomainConstants.DEFECT_TYPE},
          usages = {}
     )
     @POST
@@ -1605,6 +1615,60 @@ public class Change_requestsService
                     aResource.addAuthorizer(new Link(new URI(paramValues.get(i))));
                 }
         }
+        paramValues = formParams.get("type");
+        if (paramValues != null) {
+                for(int i=0; i<paramValues.size(); i++) {
+                    aResource.addType(new Link(new URI(paramValues.get(i))));
+                }
+        }
+        paramValues = formParams.get("testedByTestCase");
+        if (paramValues != null) {
+                for(int i=0; i<paramValues.size(); i++) {
+                    aResource.addTestedByTestCase(new Link(new URI(paramValues.get(i))));
+                }
+        }
+        paramValues = formParams.get("affectsTestResult");
+        if (paramValues != null) {
+                for(int i=0; i<paramValues.size(); i++) {
+                    aResource.addAffectsTestResult(new Link(new URI(paramValues.get(i))));
+                }
+        }
+        paramValues = formParams.get("blocksTestExecutionRecord");
+        if (paramValues != null) {
+                for(int i=0; i<paramValues.size(); i++) {
+                    aResource.addBlocksTestExecutionRecord(new Link(new URI(paramValues.get(i))));
+                }
+        }
+        paramValues = formParams.get("relatedTestExecutionRecord");
+        if (paramValues != null) {
+                for(int i=0; i<paramValues.size(); i++) {
+                    aResource.addRelatedTestExecutionRecord(new Link(new URI(paramValues.get(i))));
+                }
+        }
+        paramValues = formParams.get("relatedTestCase");
+        if (paramValues != null) {
+                for(int i=0; i<paramValues.size(); i++) {
+                    aResource.addRelatedTestCase(new Link(new URI(paramValues.get(i))));
+                }
+        }
+        paramValues = formParams.get("relatedTestPlan");
+        if (paramValues != null) {
+                for(int i=0; i<paramValues.size(); i++) {
+                    aResource.addRelatedTestPlan(new Link(new URI(paramValues.get(i))));
+                }
+        }
+        paramValues = formParams.get("relatedTestScript");
+        if (paramValues != null) {
+                for(int i=0; i<paramValues.size(); i++) {
+                    aResource.addRelatedTestScript(new Link(new URI(paramValues.get(i))));
+                }
+        }
+        paramValues = formParams.get("severity");
+        if (paramValues != null) {
+                for(int i=0; i<paramValues.size(); i++) {
+                    aResource.addSeverity(new Link(new URI(paramValues.get(i))));
+                }
+        }
 
         newResource = delegate.createDefectFromDialog(httpServletRequest, aResource);
 
@@ -1669,7 +1733,7 @@ public class Change_requestsService
          uri = "resources/create_task",
          hintWidth = "500px",
          hintHeight = "500px",
-         resourceTypes = {Oslc_cmDomainConstants.TASK_TYPE},
+         resourceTypes = {Oslc_cm_shapesDomainConstants.TASK_TYPE},
          usages = {}
     )
     @POST
@@ -1918,6 +1982,60 @@ public class Change_requestsService
                     aResource.addAuthorizer(new Link(new URI(paramValues.get(i))));
                 }
         }
+        paramValues = formParams.get("type");
+        if (paramValues != null) {
+                for(int i=0; i<paramValues.size(); i++) {
+                    aResource.addType(new Link(new URI(paramValues.get(i))));
+                }
+        }
+        paramValues = formParams.get("testedByTestCase");
+        if (paramValues != null) {
+                for(int i=0; i<paramValues.size(); i++) {
+                    aResource.addTestedByTestCase(new Link(new URI(paramValues.get(i))));
+                }
+        }
+        paramValues = formParams.get("affectsTestResult");
+        if (paramValues != null) {
+                for(int i=0; i<paramValues.size(); i++) {
+                    aResource.addAffectsTestResult(new Link(new URI(paramValues.get(i))));
+                }
+        }
+        paramValues = formParams.get("blocksTestExecutionRecord");
+        if (paramValues != null) {
+                for(int i=0; i<paramValues.size(); i++) {
+                    aResource.addBlocksTestExecutionRecord(new Link(new URI(paramValues.get(i))));
+                }
+        }
+        paramValues = formParams.get("relatedTestExecutionRecord");
+        if (paramValues != null) {
+                for(int i=0; i<paramValues.size(); i++) {
+                    aResource.addRelatedTestExecutionRecord(new Link(new URI(paramValues.get(i))));
+                }
+        }
+        paramValues = formParams.get("relatedTestCase");
+        if (paramValues != null) {
+                for(int i=0; i<paramValues.size(); i++) {
+                    aResource.addRelatedTestCase(new Link(new URI(paramValues.get(i))));
+                }
+        }
+        paramValues = formParams.get("relatedTestPlan");
+        if (paramValues != null) {
+                for(int i=0; i<paramValues.size(); i++) {
+                    aResource.addRelatedTestPlan(new Link(new URI(paramValues.get(i))));
+                }
+        }
+        paramValues = formParams.get("relatedTestScript");
+        if (paramValues != null) {
+                for(int i=0; i<paramValues.size(); i++) {
+                    aResource.addRelatedTestScript(new Link(new URI(paramValues.get(i))));
+                }
+        }
+        paramValues = formParams.get("severity");
+        if (paramValues != null) {
+                for(int i=0; i<paramValues.size(); i++) {
+                    aResource.addSeverity(new Link(new URI(paramValues.get(i))));
+                }
+        }
 
         newResource = delegate.createTaskFromDialog(httpServletRequest, aResource);
 
@@ -1982,7 +2100,7 @@ public class Change_requestsService
          uri = "resources/create_review_task",
          hintWidth = "500px",
          hintHeight = "500px",
-         resourceTypes = {Oslc_cmDomainConstants.REVIEWTASK_TYPE},
+         resourceTypes = {Oslc_cm_shapesDomainConstants.REVIEWTASK_TYPE},
          usages = {}
     )
     @POST
@@ -2231,6 +2349,60 @@ public class Change_requestsService
                     aResource.addAuthorizer(new Link(new URI(paramValues.get(i))));
                 }
         }
+        paramValues = formParams.get("type");
+        if (paramValues != null) {
+                for(int i=0; i<paramValues.size(); i++) {
+                    aResource.addType(new Link(new URI(paramValues.get(i))));
+                }
+        }
+        paramValues = formParams.get("testedByTestCase");
+        if (paramValues != null) {
+                for(int i=0; i<paramValues.size(); i++) {
+                    aResource.addTestedByTestCase(new Link(new URI(paramValues.get(i))));
+                }
+        }
+        paramValues = formParams.get("affectsTestResult");
+        if (paramValues != null) {
+                for(int i=0; i<paramValues.size(); i++) {
+                    aResource.addAffectsTestResult(new Link(new URI(paramValues.get(i))));
+                }
+        }
+        paramValues = formParams.get("blocksTestExecutionRecord");
+        if (paramValues != null) {
+                for(int i=0; i<paramValues.size(); i++) {
+                    aResource.addBlocksTestExecutionRecord(new Link(new URI(paramValues.get(i))));
+                }
+        }
+        paramValues = formParams.get("relatedTestExecutionRecord");
+        if (paramValues != null) {
+                for(int i=0; i<paramValues.size(); i++) {
+                    aResource.addRelatedTestExecutionRecord(new Link(new URI(paramValues.get(i))));
+                }
+        }
+        paramValues = formParams.get("relatedTestCase");
+        if (paramValues != null) {
+                for(int i=0; i<paramValues.size(); i++) {
+                    aResource.addRelatedTestCase(new Link(new URI(paramValues.get(i))));
+                }
+        }
+        paramValues = formParams.get("relatedTestPlan");
+        if (paramValues != null) {
+                for(int i=0; i<paramValues.size(); i++) {
+                    aResource.addRelatedTestPlan(new Link(new URI(paramValues.get(i))));
+                }
+        }
+        paramValues = formParams.get("relatedTestScript");
+        if (paramValues != null) {
+                for(int i=0; i<paramValues.size(); i++) {
+                    aResource.addRelatedTestScript(new Link(new URI(paramValues.get(i))));
+                }
+        }
+        paramValues = formParams.get("severity");
+        if (paramValues != null) {
+                for(int i=0; i<paramValues.size(); i++) {
+                    aResource.addSeverity(new Link(new URI(paramValues.get(i))));
+                }
+        }
 
         newResource = delegate.createReviewTaskFromDialog(httpServletRequest, aResource);
 
@@ -2295,7 +2467,7 @@ public class Change_requestsService
          uri = "resources/create_change_notice",
          hintWidth = "500px",
          hintHeight = "500px",
-         resourceTypes = {Oslc_cmDomainConstants.CHANGENOTICE_TYPE},
+         resourceTypes = {Oslc_cm_shapesDomainConstants.CHANGENOTICE_TYPE},
          usages = {}
     )
     @POST
@@ -2544,6 +2716,60 @@ public class Change_requestsService
                     aResource.addAuthorizer(new Link(new URI(paramValues.get(i))));
                 }
         }
+        paramValues = formParams.get("type");
+        if (paramValues != null) {
+                for(int i=0; i<paramValues.size(); i++) {
+                    aResource.addType(new Link(new URI(paramValues.get(i))));
+                }
+        }
+        paramValues = formParams.get("testedByTestCase");
+        if (paramValues != null) {
+                for(int i=0; i<paramValues.size(); i++) {
+                    aResource.addTestedByTestCase(new Link(new URI(paramValues.get(i))));
+                }
+        }
+        paramValues = formParams.get("affectsTestResult");
+        if (paramValues != null) {
+                for(int i=0; i<paramValues.size(); i++) {
+                    aResource.addAffectsTestResult(new Link(new URI(paramValues.get(i))));
+                }
+        }
+        paramValues = formParams.get("blocksTestExecutionRecord");
+        if (paramValues != null) {
+                for(int i=0; i<paramValues.size(); i++) {
+                    aResource.addBlocksTestExecutionRecord(new Link(new URI(paramValues.get(i))));
+                }
+        }
+        paramValues = formParams.get("relatedTestExecutionRecord");
+        if (paramValues != null) {
+                for(int i=0; i<paramValues.size(); i++) {
+                    aResource.addRelatedTestExecutionRecord(new Link(new URI(paramValues.get(i))));
+                }
+        }
+        paramValues = formParams.get("relatedTestCase");
+        if (paramValues != null) {
+                for(int i=0; i<paramValues.size(); i++) {
+                    aResource.addRelatedTestCase(new Link(new URI(paramValues.get(i))));
+                }
+        }
+        paramValues = formParams.get("relatedTestPlan");
+        if (paramValues != null) {
+                for(int i=0; i<paramValues.size(); i++) {
+                    aResource.addRelatedTestPlan(new Link(new URI(paramValues.get(i))));
+                }
+        }
+        paramValues = formParams.get("relatedTestScript");
+        if (paramValues != null) {
+                for(int i=0; i<paramValues.size(); i++) {
+                    aResource.addRelatedTestScript(new Link(new URI(paramValues.get(i))));
+                }
+        }
+        paramValues = formParams.get("severity");
+        if (paramValues != null) {
+                for(int i=0; i<paramValues.size(); i++) {
+                    aResource.addSeverity(new Link(new URI(paramValues.get(i))));
+                }
+        }
 
         newResource = delegate.createChangeNoticeFromDialog(httpServletRequest, aResource);
 
@@ -2608,7 +2834,7 @@ public class Change_requestsService
          uri = "resources/create_enhancement",
          hintWidth = "500px",
          hintHeight = "500px",
-         resourceTypes = {Oslc_cmDomainConstants.ENHANCEMENT_TYPE},
+         resourceTypes = {Oslc_cm_shapesDomainConstants.ENHANCEMENT_TYPE},
          usages = {}
     )
     @POST
@@ -2855,6 +3081,60 @@ public class Change_requestsService
         if (paramValues != null) {
                 for(int i=0; i<paramValues.size(); i++) {
                     aResource.addAuthorizer(new Link(new URI(paramValues.get(i))));
+                }
+        }
+        paramValues = formParams.get("type");
+        if (paramValues != null) {
+                for(int i=0; i<paramValues.size(); i++) {
+                    aResource.addType(new Link(new URI(paramValues.get(i))));
+                }
+        }
+        paramValues = formParams.get("testedByTestCase");
+        if (paramValues != null) {
+                for(int i=0; i<paramValues.size(); i++) {
+                    aResource.addTestedByTestCase(new Link(new URI(paramValues.get(i))));
+                }
+        }
+        paramValues = formParams.get("affectsTestResult");
+        if (paramValues != null) {
+                for(int i=0; i<paramValues.size(); i++) {
+                    aResource.addAffectsTestResult(new Link(new URI(paramValues.get(i))));
+                }
+        }
+        paramValues = formParams.get("blocksTestExecutionRecord");
+        if (paramValues != null) {
+                for(int i=0; i<paramValues.size(); i++) {
+                    aResource.addBlocksTestExecutionRecord(new Link(new URI(paramValues.get(i))));
+                }
+        }
+        paramValues = formParams.get("relatedTestExecutionRecord");
+        if (paramValues != null) {
+                for(int i=0; i<paramValues.size(); i++) {
+                    aResource.addRelatedTestExecutionRecord(new Link(new URI(paramValues.get(i))));
+                }
+        }
+        paramValues = formParams.get("relatedTestCase");
+        if (paramValues != null) {
+                for(int i=0; i<paramValues.size(); i++) {
+                    aResource.addRelatedTestCase(new Link(new URI(paramValues.get(i))));
+                }
+        }
+        paramValues = formParams.get("relatedTestPlan");
+        if (paramValues != null) {
+                for(int i=0; i<paramValues.size(); i++) {
+                    aResource.addRelatedTestPlan(new Link(new URI(paramValues.get(i))));
+                }
+        }
+        paramValues = formParams.get("relatedTestScript");
+        if (paramValues != null) {
+                for(int i=0; i<paramValues.size(); i++) {
+                    aResource.addRelatedTestScript(new Link(new URI(paramValues.get(i))));
+                }
+        }
+        paramValues = formParams.get("severity");
+        if (paramValues != null) {
+                for(int i=0; i<paramValues.size(); i++) {
+                    aResource.addSeverity(new Link(new URI(paramValues.get(i))));
                 }
         }
 
