@@ -46,7 +46,7 @@ import org.eclipse.lyo.oslc4j.core.OSLC4JUtils;
 
 import co.oslc.refimpl.cm.gen.ServiceProviderInfo;
 
-import org.eclipse.lyo.oslc.domains.cm.Oslc_cmDomainConstants;
+import org.eclipse.lyo.oslc.domains.cm.Oslc_cm_shapesDomainConstants;
 import org.eclipse.lyo.oslc.domains.config.Oslc_configDomainConstants;
 import org.eclipse.lyo.oslc.domains.DctermsDomainConstants;
 import org.eclipse.lyo.oslc.domains.FoafDomainConstants;
@@ -128,7 +128,7 @@ public class ServiceProvidersFactory
             new PrefixDefinition(OslcConstants.OSLC_DATA_NAMESPACE_PREFIX, new URI(OslcConstants.OSLC_DATA_NAMESPACE)),
             new PrefixDefinition(OslcConstants.RDF_NAMESPACE_PREFIX, new URI(OslcConstants.RDF_NAMESPACE)),
             new PrefixDefinition(OslcConstants.RDFS_NAMESPACE_PREFIX, new URI(OslcConstants.RDFS_NAMESPACE)),
-            new PrefixDefinition(Oslc_cmDomainConstants.CHANGE_MANAGEMENT_SHAPES_NAMSPACE_PREFIX, new URI(Oslc_cmDomainConstants.CHANGE_MANAGEMENT_SHAPES_NAMSPACE))
+            new PrefixDefinition(Oslc_cm_shapesDomainConstants.CHANGE_MANAGEMENT_SHAPES_NAMSPACE_PREFIX, new URI(Oslc_cm_shapesDomainConstants.CHANGE_MANAGEMENT_SHAPES_NAMSPACE))
 ,
             new PrefixDefinition(Oslc_configDomainConstants.CONFIGURATION_MANAGEMENT_NAMSPACE_PREFIX, new URI(Oslc_configDomainConstants.CONFIGURATION_MANAGEMENT_NAMSPACE))
 ,

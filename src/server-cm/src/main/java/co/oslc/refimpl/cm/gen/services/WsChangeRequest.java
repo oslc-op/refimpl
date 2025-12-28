@@ -83,7 +83,7 @@ import org.eclipse.lyo.oslc4j.core.model.AbstractResource;
 
 import co.oslc.refimpl.cm.gen.RestDelegate;
 import co.oslc.refimpl.cm.gen.ServerConstants;
-import org.eclipse.lyo.oslc.domains.cm.Oslc_cmDomainConstants;
+import org.eclipse.lyo.oslc.domains.cm.Oslc_cm_shapesDomainConstants;
 import co.oslc.refimpl.cm.gen.servlet.ServiceProviderCatalogSingleton;
 import org.eclipse.lyo.oslc.domains.cm.ChangeRequest;
 import io.swagger.v3.oas.annotations.Operation;
@@ -122,9 +122,9 @@ public class WsChangeRequest
     @Path("{id}")
     @Produces({OslcMediaType.APPLICATION_RDF_XML, OslcMediaType.APPLICATION_JSON_LD, OslcMediaType.TEXT_TURTLE, OslcMediaType.APPLICATION_XML, OslcMediaType.APPLICATION_JSON})
     @Operation(
-        summary = "GET for resources of type {'" + Oslc_cmDomainConstants.CHANGEREQUEST_LOCALNAME + "'}",
-        description = "GET for resources of type {'" + "<a href=\"" + Oslc_cmDomainConstants.CHANGEREQUEST_TYPE + "\">" + Oslc_cmDomainConstants.CHANGEREQUEST_LOCALNAME + "</a>" + "'}" +
-            ", with respective resource shapes {'" + "<a href=\"" + "../services/" + OslcConstants.PATH_RESOURCE_SHAPES + "/" + Oslc_cmDomainConstants.CHANGEREQUEST_PATH + "\">" + Oslc_cmDomainConstants.CHANGEREQUEST_LOCALNAME + "</a>" + "'}",
+        summary = "GET for resources of type {'" + Oslc_cm_shapesDomainConstants.CHANGEREQUEST_LOCALNAME + "'}",
+        description = "GET for resources of type {'" + "<a href=\"" + Oslc_cm_shapesDomainConstants.CHANGEREQUEST_TYPE + "\">" + Oslc_cm_shapesDomainConstants.CHANGEREQUEST_LOCALNAME + "</a>" + "'}" +
+            ", with respective resource shapes {'" + "<a href=\"" + "../services/" + OslcConstants.PATH_RESOURCE_SHAPES + "/" + Oslc_cm_shapesDomainConstants.CHANGEREQUEST_PATH + "\">" + Oslc_cm_shapesDomainConstants.CHANGEREQUEST_LOCALNAME + "</a>" + "'}",
         responses = {@ApiResponse(description = "default response",
             content = {@Content(mediaType = OslcMediaType.APPLICATION_RDF_XML), @Content(
                 mediaType = OslcMediaType.APPLICATION_XML), @Content(
@@ -158,9 +158,9 @@ public class WsChangeRequest
     @Path("{id}")
     @Produces({ MediaType.TEXT_HTML })
     @Operation(
-        summary = "GET for resources of type {'" + Oslc_cmDomainConstants.CHANGEREQUEST_LOCALNAME + "'}",
-        description = "GET for resources of type {'" + "<a href=\"" + Oslc_cmDomainConstants.CHANGEREQUEST_TYPE + "\">" + Oslc_cmDomainConstants.CHANGEREQUEST_LOCALNAME + "</a>" + "'}" +
-            ", with respective resource shapes {'" + "<a href=\"" + "../services/" + OslcConstants.PATH_RESOURCE_SHAPES + "/" + Oslc_cmDomainConstants.CHANGEREQUEST_PATH + "\">" + Oslc_cmDomainConstants.CHANGEREQUEST_LOCALNAME + "</a>" + "'}",
+        summary = "GET for resources of type {'" + Oslc_cm_shapesDomainConstants.CHANGEREQUEST_LOCALNAME + "'}",
+        description = "GET for resources of type {'" + "<a href=\"" + Oslc_cm_shapesDomainConstants.CHANGEREQUEST_TYPE + "\">" + Oslc_cm_shapesDomainConstants.CHANGEREQUEST_LOCALNAME + "</a>" + "'}" +
+            ", with respective resource shapes {'" + "<a href=\"" + "../services/" + OslcConstants.PATH_RESOURCE_SHAPES + "/" + Oslc_cm_shapesDomainConstants.CHANGEREQUEST_PATH + "\">" + Oslc_cm_shapesDomainConstants.CHANGEREQUEST_LOCALNAME + "</a>" + "'}",
         responses = {@ApiResponse(description = "default response",
             content = {@Content(mediaType = OslcMediaType.APPLICATION_RDF_XML), @Content(
                 mediaType = OslcMediaType.APPLICATION_XML), @Content(
@@ -185,8 +185,8 @@ public class WsChangeRequest
             // End of user code
 
             httpServletRequest.setAttribute("aResource", aChangeRequest);
-            httpServletRequest.setAttribute("resourceTypeName", Oslc_cmDomainConstants.CHANGEREQUEST_LOCALNAME);
-            httpServletRequest.setAttribute("shapeUri", UriBuilder.fromUri(OSLC4JUtils.getServletURI()).path(OslcConstants.PATH_RESOURCE_SHAPES).path(Oslc_cmDomainConstants.CHANGEREQUEST_PATH).build());
+            httpServletRequest.setAttribute("resourceTypeName", Oslc_cm_shapesDomainConstants.CHANGEREQUEST_LOCALNAME);
+            httpServletRequest.setAttribute("shapeUri", UriBuilder.fromUri(OSLC4JUtils.getServletURI()).path(OslcConstants.PATH_RESOURCE_SHAPES).path(Oslc_cm_shapesDomainConstants.CHANGEREQUEST_PATH).build());
             RequestDispatcher rd = httpServletRequest.getRequestDispatcher("/co/oslc/refimpl/cm/gen/viewresource.jsp");
             rd.forward(httpServletRequest,httpServletResponse);
             return;
@@ -199,9 +199,9 @@ public class WsChangeRequest
     @Path("{id}")
     @Produces({OslcMediaType.APPLICATION_X_OSLC_COMPACT_XML})
     @Operation(
-        summary = "GET for resources of type {'" + Oslc_cmDomainConstants.CHANGEREQUEST_LOCALNAME + "'}",
-        description = "GET for resources of type {'" + "<a href=\"" + Oslc_cmDomainConstants.CHANGEREQUEST_TYPE + "\">" + Oslc_cmDomainConstants.CHANGEREQUEST_LOCALNAME + "</a>" + "'}" +
-            ", with respective resource shapes {'" + "<a href=\"" + "../services/" + OslcConstants.PATH_RESOURCE_SHAPES + "/" + Oslc_cmDomainConstants.CHANGEREQUEST_PATH + "\">" + Oslc_cmDomainConstants.CHANGEREQUEST_LOCALNAME + "</a>" + "'}",
+        summary = "GET for resources of type {'" + Oslc_cm_shapesDomainConstants.CHANGEREQUEST_LOCALNAME + "'}",
+        description = "GET for resources of type {'" + "<a href=\"" + Oslc_cm_shapesDomainConstants.CHANGEREQUEST_TYPE + "\">" + Oslc_cm_shapesDomainConstants.CHANGEREQUEST_LOCALNAME + "</a>" + "'}" +
+            ", with respective resource shapes {'" + "<a href=\"" + "../services/" + OslcConstants.PATH_RESOURCE_SHAPES + "/" + Oslc_cm_shapesDomainConstants.CHANGEREQUEST_PATH + "\">" + Oslc_cm_shapesDomainConstants.CHANGEREQUEST_LOCALNAME + "</a>" + "'}",
         responses = {@ApiResponse(description = "default response",
             content = {@Content(mediaType = OslcMediaType.APPLICATION_RDF_XML), @Content(
                 mediaType = OslcMediaType.APPLICATION_XML), @Content(
@@ -273,7 +273,7 @@ public class WsChangeRequest
 
             try {
                 httpServletRequest.setAttribute("resourceTitle", aChangeRequest.toString());
-                ArrayList<String> getterMethodNames = new ArrayList<String>(Arrays.asList("getShortTitle", "getDescription", "getTitle", "getIdentifier", "getSubject", "getCreator", "getContributor", "getCreated", "getModified", "getServiceProvider", "getInstanceShape", "getDiscussedBy", "getCloseDate", "getStatus", "isClosed", "isInProgress", "isFixed", "isApproved", "isReviewed", "isVerified", "getRelatedChangeRequest", "getAffectsPlanItem", "getAffectedByDefect", "getTracksRequirement", "getImplementsRequirement", "getAffectsRequirement", "getTracksChangeSet", "getParent", "getPriority", "getState", "getAuthorizer"));
+                ArrayList<String> getterMethodNames = new ArrayList<String>(Arrays.asList("getShortTitle", "getDescription", "getTitle", "getIdentifier", "getSubject", "getCreator", "getContributor", "getCreated", "getModified", "getServiceProvider", "getInstanceShape", "getDiscussedBy", "getCloseDate", "getStatus", "isClosed", "isInProgress", "isFixed", "isApproved", "isReviewed", "isVerified", "getRelatedChangeRequest", "getAffectsPlanItem", "getAffectedByDefect", "getTracksRequirement", "getImplementsRequirement", "getAffectsRequirement", "getTracksChangeSet", "getParent", "getPriority", "getState", "getAuthorizer", "getType", "getTestedByTestCase", "getAffectsTestResult", "getBlocksTestExecutionRecord", "getRelatedTestExecutionRecord", "getRelatedTestCase", "getRelatedTestPlan", "getRelatedTestScript", "getSeverity"));
                 // Start of user code getChangeRequestAsHtmlSmallPreview_setResourceGetterMethods
                 //TODO: modify the set of attributes to show in the preview
                 // End of user code
@@ -311,7 +311,7 @@ public class WsChangeRequest
 
             try {
                 httpServletRequest.setAttribute("resourceTitle", aChangeRequest.toString());
-                ArrayList<String> getterMethodNames = new ArrayList<String>(Arrays.asList("getShortTitle", "getDescription", "getTitle", "getIdentifier", "getSubject", "getCreator", "getContributor", "getCreated", "getModified", "getServiceProvider", "getInstanceShape", "getDiscussedBy", "getCloseDate", "getStatus", "isClosed", "isInProgress", "isFixed", "isApproved", "isReviewed", "isVerified", "getRelatedChangeRequest", "getAffectsPlanItem", "getAffectedByDefect", "getTracksRequirement", "getImplementsRequirement", "getAffectsRequirement", "getTracksChangeSet", "getParent", "getPriority", "getState", "getAuthorizer"));
+                ArrayList<String> getterMethodNames = new ArrayList<String>(Arrays.asList("getShortTitle", "getDescription", "getTitle", "getIdentifier", "getSubject", "getCreator", "getContributor", "getCreated", "getModified", "getServiceProvider", "getInstanceShape", "getDiscussedBy", "getCloseDate", "getStatus", "isClosed", "isInProgress", "isFixed", "isApproved", "isReviewed", "isVerified", "getRelatedChangeRequest", "getAffectsPlanItem", "getAffectedByDefect", "getTracksRequirement", "getImplementsRequirement", "getAffectsRequirement", "getTracksChangeSet", "getParent", "getPriority", "getState", "getAuthorizer", "getType", "getTestedByTestCase", "getAffectsTestResult", "getBlocksTestExecutionRecord", "getRelatedTestExecutionRecord", "getRelatedTestCase", "getRelatedTestPlan", "getRelatedTestScript", "getSeverity"));
                 // Start of user code getChangeRequestAsHtmlLargePreview_setResourceGetterMethods
                 //TODO: modify the set of attributes to show in the preview
                 // End of user code
@@ -332,9 +332,9 @@ public class WsChangeRequest
     @DELETE
     @Path("{id}")
     @Operation(
-        summary = "DELETE for resources of type {'" + Oslc_cmDomainConstants.CHANGEREQUEST_LOCALNAME + "'}",
-        description = "DELETE for resources of type {'" + "<a href=\"" + Oslc_cmDomainConstants.CHANGEREQUEST_TYPE + "\">" + Oslc_cmDomainConstants.CHANGEREQUEST_LOCALNAME + "</a>" + "'}" +
-            ", with respective resource shapes {'" + "<a href=\"" + "../services/" + OslcConstants.PATH_RESOURCE_SHAPES + "/" + Oslc_cmDomainConstants.CHANGEREQUEST_PATH + "\">" + Oslc_cmDomainConstants.CHANGEREQUEST_LOCALNAME + "</a>" + "'}",
+        summary = "DELETE for resources of type {'" + Oslc_cm_shapesDomainConstants.CHANGEREQUEST_LOCALNAME + "'}",
+        description = "DELETE for resources of type {'" + "<a href=\"" + Oslc_cm_shapesDomainConstants.CHANGEREQUEST_TYPE + "\">" + Oslc_cm_shapesDomainConstants.CHANGEREQUEST_LOCALNAME + "</a>" + "'}" +
+            ", with respective resource shapes {'" + "<a href=\"" + "../services/" + OslcConstants.PATH_RESOURCE_SHAPES + "/" + Oslc_cm_shapesDomainConstants.CHANGEREQUEST_PATH + "\">" + Oslc_cm_shapesDomainConstants.CHANGEREQUEST_LOCALNAME + "</a>" + "'}",
         responses = {@ApiResponse(description = "default response",
             content = {@Content(mediaType = OslcMediaType.APPLICATION_RDF_XML), @Content(
                 mediaType = OslcMediaType.APPLICATION_XML), @Content(
@@ -368,9 +368,9 @@ public class WsChangeRequest
     @Path("{id}")
     @Consumes({OslcMediaType.APPLICATION_RDF_XML, OslcMediaType.APPLICATION_JSON_LD, OslcMediaType.TEXT_TURTLE, OslcMediaType.APPLICATION_XML, OslcMediaType.APPLICATION_JSON })
     @Operation(
-        summary = "PUT for resources of type {'" + Oslc_cmDomainConstants.CHANGEREQUEST_LOCALNAME + "'}",
-        description = "PUT for resources of type {'" + "<a href=\"" + Oslc_cmDomainConstants.CHANGEREQUEST_TYPE + "\">" + Oslc_cmDomainConstants.CHANGEREQUEST_LOCALNAME + "</a>" + "'}" +
-            ", with respective resource shapes {'" + "<a href=\"" + "../services/" + OslcConstants.PATH_RESOURCE_SHAPES + "/" + Oslc_cmDomainConstants.CHANGEREQUEST_PATH + "\">" + Oslc_cmDomainConstants.CHANGEREQUEST_LOCALNAME + "</a>" + "'}",
+        summary = "PUT for resources of type {'" + Oslc_cm_shapesDomainConstants.CHANGEREQUEST_LOCALNAME + "'}",
+        description = "PUT for resources of type {'" + "<a href=\"" + Oslc_cm_shapesDomainConstants.CHANGEREQUEST_TYPE + "\">" + Oslc_cm_shapesDomainConstants.CHANGEREQUEST_LOCALNAME + "</a>" + "'}" +
+            ", with respective resource shapes {'" + "<a href=\"" + "../services/" + OslcConstants.PATH_RESOURCE_SHAPES + "/" + Oslc_cm_shapesDomainConstants.CHANGEREQUEST_PATH + "\">" + Oslc_cm_shapesDomainConstants.CHANGEREQUEST_LOCALNAME + "</a>" + "'}",
         responses = {@ApiResponse(description = "default response",
             content = {@Content(mediaType = OslcMediaType.APPLICATION_RDF_XML), @Content(
                 mediaType = OslcMediaType.APPLICATION_XML), @Content(
