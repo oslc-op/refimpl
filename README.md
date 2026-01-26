@@ -172,7 +172,7 @@ By default, the servers use `http://localhost:8080` as the base URL. You can ove
 
 For a reverse proxy deployment where the RM server is accessible at `https://mytoolchain.example.com:9443/refimpl/rm/`:
 ```bash
-export LYO_BASEURL=https://mytoolchain.example.com:9443/refimpl/rm/
+export LYO_BASEURL=https://mytoolchain.example.com:9443/refimpl/rm
 ```
 
 When using Docker Compose, set environment variables for each service:
@@ -180,7 +180,7 @@ When using Docker Compose, set environment variables for each service:
 services:
   server-rm:
     environment:
-      - LYO_BASEURL=https://mytoolchain.example.com:9443/refimpl/rm/
+      - LYO_BASEURL=https://mytoolchain.example.com:9443/refimpl/rm
 ```
 
 See the commented examples in `docker-compose.yml` for more details.
