@@ -5,21 +5,33 @@ services:
       dockerfile: server-rm/Dockerfile
     ports:
       - "127.0.0.1:8800:8080"
+    # Uncomment to configure the base URL for reverse proxy or custom domain deployments
+    # environment:
+    #   - LYO_BASEURL=https://mytoolchain.example.com:9443/refimpl/rm
   server-cm:
     build:
       context: ./
       dockerfile: server-cm/Dockerfile
     ports:
       - "127.0.0.1:8801:8080"
+    # Uncomment to configure the base URL for reverse proxy or custom domain deployments
+    # environment:
+    #   - LYO_BASEURL=https://mytoolchain.example.com:9443/refimpl/cm
   server-qm:
     build:
       context: ./
       dockerfile: server-qm/Dockerfile
     ports:
       - "127.0.0.1:8802:8080"
+    # Uncomment to configure the base URL for reverse proxy or custom domain deployments
+    # environment:
+    #   - LYO_BASEURL=https://mytoolchain.example.com:9443/refimpl/qm
   server-am:
     build:
       context: ./
       dockerfile: server-am/Dockerfile
     ports:
       - "127.0.0.1:8803:8080"
+    # Uncomment to configure the base URL for reverse proxy or custom domain deployments
+    # environment:
+    #   - LYO_BASEURL=https://mytoolchain.example.com:9443/refimpl/am

@@ -161,6 +161,34 @@ After that, OSLC servers are available at the following URLs:
 - http://localhost:8802/services/catalog/singleton
 - http://localhost:8803/services/catalog/singleton
 
+### Configuring Base URLs
+
+By default, the servers use `http://localhost:8080` as the base URL. You can override this using the `LYO_BASEURL` environment variable to configure the public-facing URL for each server. This is particularly useful when:
+- Running behind a reverse proxy
+- Deploying to a cloud environment with a custom domain
+- Using non-standard ports or HTTPS
+
+**Examples:**
+
+For a reverse proxy deployment where the RM server is accessible at `https://mytoolchain.example.com:9443/refimpl/rm/`:
+```bash
+export LYO_BASEURL=https://mytoolchain.example.com:9443/refimpl/rm/
+```
+
+When using Docker Compose, set environment variables for each service:
+```yaml
+services:
+  server-rm:
+    environment:
+      - LYO_BASEURL=https://mytoolchain.example.com:9443/refimpl/rm/
+```
+
+See the commented examples in `docker-compose.yml` for more details.
+
+**Note:** The servlet path (e.g., `/services/`) is automatically appended to the base URL, so you should only specify the base path up to but not including `/services/`.
+
+### OAuth Configuration
+
 Currently, OAuth 1.0 with Basic fallback is enabled only on the OSLC RM server (port 8800). Use `admin:admin` credentials for Basic authentication. In order to enable OAuth support on other servers, uncomment the following lines under `src/main/webapp/WEB-INF/web.xml` of each server:
 
 ```xml
