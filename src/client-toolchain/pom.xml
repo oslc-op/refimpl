@@ -16,7 +16,7 @@
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     <maven.compiler.release>21</maven.compiler.release>
 
-    <v.kotlin>2.3.0</v.kotlin>
+    <v.kotlin>2.3.10</v.kotlin>
     <!-- <v.jersey>3.1.5</v.jersey> -->
     <v.kotlin.coroutines>1.10.2</v.kotlin.coroutines>
   </properties>
