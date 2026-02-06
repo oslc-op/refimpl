@@ -78,7 +78,7 @@ public class AuthenticationApplication implements Application {
         // End of user code
         var AUTH_VAR = "OAUTH_STORE_FILE";
         final Map<String, String> env = System.getenv();
-        oslcConsumerStoreFilename= "./oslcOAuthStore.xml";
+        oslcConsumerStoreFilename = "./oslcOAuthStore.xml";
         if (env.containsKey(AUTH_VAR)) {
             oslcConsumerStoreFilename = env.get(AUTH_VAR);
             log.debug("ENV variable '{}' found", AUTH_VAR);
