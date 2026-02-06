@@ -101,11 +101,28 @@ public class AuthenticationApplication implements Application {
         // End of user code
         return authenticationApplication;
     }
-
+    
+    /**
+     * Returns filename for the auth configuration; warns and returns null if missing
+     */
     public String getOslcConsumerStoreFilename() {
+        if (oslcConsumerStoreFilename == null) {
+            log.warn("OSLC Consumer Store filename is null");
+            return null;
+        }
+        
+        java.nio.file.Path absolutePath =
+            java.nio.file.Paths.get(oslcConsumerStoreFilename).toAbsolutePath();
+        log.debug("OSLC Consumer Store filename - relative: {}, absolute: {}",
+            oslcConsumerStoreFilename, absolutePath);
+        
+        if (!java.nio.file.Files.exists(absolutePath)) {
+            log.warn("OSLC Consumer Store file does not exist: {}", absolutePath);
+        }
+        
         return oslcConsumerStoreFilename;
     }
-
+    
     @Override
     public String getName() {
         // Display name for this application.
