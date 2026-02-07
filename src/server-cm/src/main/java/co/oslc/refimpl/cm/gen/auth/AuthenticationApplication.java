@@ -76,7 +76,15 @@ public class AuthenticationApplication implements Application {
     private AuthenticationApplication() {
         // Start of user code constructor_init
         // End of user code
+        var AUTH_VAR = "OAUTH_STORE_FILE";
+        final Map<String, String> env = System.getenv();
         oslcConsumerStoreFilename= "./oslcOAuthStore.xml";
+        if (env.containsKey(AUTH_VAR)) {
+            oslcConsumerStoreFilename = env.get(AUTH_VAR);
+            log.debug("ENV variable '{}' found", AUTH_VAR);
+        } else {
+            log.debug("ENV variable '{}' not defined", AUTH_VAR);
+        }
         oauth1TokenToApplicationConnector = new LRUCache<String, String>(2000);
         // Start of user code constructor_finalize
         // End of user code
