@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rdf:RDF
+    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+    xmlns:oauth="http://eclipse.org/lyo/server/oauth#">
+
+  <!-- Sample OAuth 1.0a Consumer for a web application -->
+  <rdf:Description>
+    <rdf:type rdf:resource="http://eclipse.org/lyo/server/oauth#Consumer"/>
+    <oauth:consumerKey>web-app-consumer</oauth:consumerKey>
+    <oauth:consumerSecret>d2ViLWFwcC1zZWNyZXQtYTFiMmMzZDRlNWY2ZzdoOGk5ajA=</oauth:consumerSecret>
+    <oauth:consumerName>Web Application Client</oauth:consumerName>
+    <oauth:trusted>false</oauth:trusted>
+    <oauth:provisional>false</oauth:provisional>
+  </rdf:Description>
+
+  <!-- Sample OAuth 1.0a Consumer for a mobile application -->
+  <rdf:Description>
+    <rdf:type rdf:resource="http://eclipse.org/lyo/server/oauth#Consumer"/>
+    <oauth:consumerKey>mobile-app-consumer</oauth:consumerKey>
+    <oauth:consumerSecret>bW9iaWxlLWFwcC1zZWNyZXQtazlsOG03bjZvNXA0cTNyMnMxdDA=</oauth:consumerSecret>
+    <oauth:consumerName>Mobile Application Client</oauth:consumerName>
+    <oauth:trusted>false</oauth:trusted>
+    <oauth:provisional>false</oauth:provisional>
+  </rdf:Description>
+
+  <!-- Sample trusted OAuth 1.0a Consumer for automated systems -->
+  <rdf:Description>
+    <rdf:type rdf:resource="http://eclipse.org/lyo/server/oauth#Consumer"/>
+    <oauth:consumerKey>automation-consumer</oauth:consumerKey>
+    <oauth:consumerSecret>YXV0b21hdGlvbi1zZWNyZXQtdTF2Mncza3g0eTV6NmE3YjhjOWQw</oauth:consumerSecret>
+    <oauth:consumerName>Automation Service</oauth:consumerName>
+    <oauth:trusted>true</oauth:trusted>
+    <oauth:provisional>false</oauth:provisional>
+  </rdf:Description>
+
+  <!-- Sample provisional consumer for development/testing -->
+  <rdf:Description>
+    <rdf:type rdf:resource="http://eclipse.org/lyo/server/oauth#Consumer"/>
+    <oauth:consumerKey>dev-test-consumer</oauth:consumerKey>
+    <oauth:consumerSecret>ZGV2LXRlc3Qtc2VjcmV0LWUxZjJnM2g0aTVqNms3bDhtOW4w</oauth:consumerSecret>
+    <oauth:consumerName>Development Test Client</oauth:consumerName>
+    <oauth:trusted>false</oauth:trusted>
+    <oauth:provisional>true</oauth:provisional>
+  </rdf:Description>
+
+</rdf:RDF>
