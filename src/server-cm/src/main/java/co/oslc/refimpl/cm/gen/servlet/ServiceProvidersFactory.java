@@ -128,19 +128,13 @@ public class ServiceProvidersFactory
             new PrefixDefinition(OslcConstants.OSLC_DATA_NAMESPACE_PREFIX, new URI(OslcConstants.OSLC_DATA_NAMESPACE)),
             new PrefixDefinition(OslcConstants.RDF_NAMESPACE_PREFIX, new URI(OslcConstants.RDF_NAMESPACE)),
             new PrefixDefinition(OslcConstants.RDFS_NAMESPACE_PREFIX, new URI(OslcConstants.RDFS_NAMESPACE)),
-            new PrefixDefinition(Oslc_cmDomainConstants.CHANGE_MANAGEMENT_SHAPES_NAMSPACE_PREFIX, new URI(Oslc_cmDomainConstants.CHANGE_MANAGEMENT_SHAPES_NAMSPACE))
-,
-            new PrefixDefinition(Oslc_configDomainConstants.CONFIGURATION_MANAGEMENT_NAMSPACE_PREFIX, new URI(Oslc_configDomainConstants.CONFIGURATION_MANAGEMENT_NAMSPACE))
-,
-            new PrefixDefinition(DctermsDomainConstants.DUBLIN_CORE_NAMSPACE_PREFIX, new URI(DctermsDomainConstants.DUBLIN_CORE_NAMSPACE))
-,
-            new PrefixDefinition(FoafDomainConstants.FOAF_NAMSPACE_PREFIX, new URI(FoafDomainConstants.FOAF_NAMSPACE))
-,
-            new PrefixDefinition(OslcDomainConstants.OSLC_NAMSPACE_PREFIX, new URI(OslcDomainConstants.OSLC_NAMSPACE))
-,
-            new PrefixDefinition(RdfsDomainConstants.RDFS_NAMSPACE_PREFIX, new URI(RdfsDomainConstants.RDFS_NAMSPACE))
-,
-            new PrefixDefinition(Oslc_rmDomainConstants.REQUIREMENTS_MANAGEMENT_SHAPES_NAMSPACE_PREFIX, new URI(Oslc_rmDomainConstants.REQUIREMENTS_MANAGEMENT_SHAPES_NAMSPACE))
+            new PrefixDefinition(Oslc_cmDomainConstants.CHANGE_MANAGEMENT_SHAPES_NAMSPACE_PREFIX, new URI(Oslc_cmDomainConstants.CHANGE_MANAGEMENT_SHAPES_NAMSPACE)),
+            new PrefixDefinition(Oslc_configDomainConstants.CONFIGURATION_MANAGEMENT_NAMSPACE_PREFIX, new URI(Oslc_configDomainConstants.CONFIGURATION_MANAGEMENT_NAMSPACE)),
+            new PrefixDefinition(DctermsDomainConstants.DUBLIN_CORE_NAMSPACE_PREFIX, new URI(DctermsDomainConstants.DUBLIN_CORE_NAMSPACE)),
+            new PrefixDefinition(FoafDomainConstants.FOAF_NAMSPACE_PREFIX, new URI(FoafDomainConstants.FOAF_NAMSPACE)),
+            new PrefixDefinition(OslcDomainConstants.OSLC_NAMSPACE_PREFIX, new URI(OslcDomainConstants.OSLC_NAMSPACE)),
+            new PrefixDefinition(RdfsDomainConstants.RDFS_NAMSPACE_PREFIX, new URI(RdfsDomainConstants.RDFS_NAMSPACE)),
+            new PrefixDefinition(Oslc_rmDomainConstants.REQUIREMENTS_MANAGEMENT_SHAPES_NAMSPACE_PREFIX, new URI(Oslc_rmDomainConstants.REQUIREMENTS_MANAGEMENT_SHAPES_NAMSPACE))        
         };
         serviceProvider.setPrefixDefinitions(prefixDefinitions);
 
