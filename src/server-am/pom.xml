@@ -286,14 +286,15 @@
     <build>
         <finalName>${application.filename}</finalName>
         <plugins>
-            <!-- Start of user code plugins
-      -->
+            <!-- Start of user code plugins_start
+            -->
+            <!-- TODO: Add additional plugins here to avoid them be overridden upon future re-generation -->
+            <!-- End of user code
+            -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-enforcer-plugin</artifactId>
             </plugin>
-            <!-- End of user code
-            -->
             <plugin>
               <groupId>org.apache.maven.plugins</groupId>
               <artifactId>maven-compiler-plugin</artifactId>
@@ -305,9 +306,9 @@
               </configuration>
             </plugin>
             <plugin>
-                <groupId>org.eclipse.jetty</groupId>
-                <artifactId>jetty-maven-plugin</artifactId>
-                <version>11.0.20</version>
+                <groupId>org.eclipse.jetty.ee10</groupId>
+                <artifactId>jetty-ee10-maven-plugin</artifactId>
+                <version>12.0.16</version>
                 <configuration>
                   <webApp>
                     <contextPath>${application.contextpath}</contextPath>
@@ -396,7 +397,7 @@
                 </configuration>
             </plugin>
             
-            <!-- Start of user code plugins
+            <!-- Start of user code plugins_final
             -->
             <!-- End of user code
             -->

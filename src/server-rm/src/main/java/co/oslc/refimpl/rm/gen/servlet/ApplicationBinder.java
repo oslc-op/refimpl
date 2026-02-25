@@ -29,7 +29,6 @@ import jakarta.ws.rs.core.UriBuilder;
 import jakarta.servlet.ServletContext;
 
 import co.oslc.refimpl.rm.gen.RestDelegate;
-import co.oslc.refimpl.rm.gen.ServiceProviderInfo;
 import co.oslc.refimpl.rm.gen.ResourcesFactory;
 import static co.oslc.refimpl.rm.gen.servlet.ServletListener.getConfigurationProperty;
 import static co.oslc.refimpl.rm.gen.servlet.ServletListener.getServletUrlPattern;
@@ -37,16 +36,16 @@ import java.util.Set;
 
 import java.net.URI;
 import java.util.ArrayList;
-import java.util.Map;
 
 import org.eclipse.lyo.oslc4j.trs.server.InmemPagedTrs;
 import org.eclipse.lyo.oslc4j.trs.server.PagedTrs;
 import org.eclipse.lyo.oslc4j.trs.server.PagedTrsFactory;
 import org.eclipse.lyo.oslc4j.trs.server.TrsEventHandler;
-import org.eclipse.lyo.oslc.domains.rm.Requirement;
-import org.eclipse.lyo.oslc.domains.rm.RequirementCollection;
 import org.eclipse.lyo.oslc4j.core.OSLC4JUtils;
 // Start of user code imports
+import java.util.Map;
+import org.eclipse.lyo.oslc.domains.rm.Requirement;
+import org.eclipse.lyo.oslc.domains.rm.RequirementCollection;
 // End of user code
 // spotless:on
 
