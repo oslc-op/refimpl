@@ -18,7 +18,7 @@
 
     <v.kotlin>2.3.20</v.kotlin>
     <!-- <v.jersey>3.1.5</v.jersey> -->
-    <v.kotlin.coroutines>1.10.2</v.kotlin.coroutines>
+    <v.kotlin.coroutines>1.11.0</v.kotlin.coroutines>
   </properties>
 
   <repositories>
