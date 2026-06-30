@@ -5,6 +5,8 @@ services:
       dockerfile: server-rm/Dockerfile
     ports:
       - "127.0.0.1:8800:8080"
+#    volumes:
+#      - ./oslcOAuthStore.xml:/var/lib/jetty/oslcOAuthStore.xml:ro
     # Uncomment to configure the base URL for reverse proxy or custom domain deployments
     # environment:
     #   - LYO_BASEURL=https://mytoolchain.example.com:9443/refimpl/rm
