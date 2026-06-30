@@ -34,7 +34,7 @@ COPY --from=build /src/server-rm/target/*.war /var/lib/jetty/webapps/ROOT.war
 
 RUN rm -f "$JETTY_BASE/start.d/threadpool.ini" && \
     java -jar "$JETTY_HOME/start.jar" \
-      --add-to-startd=ee10-deploy,ee10-jsp,ee10-jstl,threadpool-virtual && \
+      --add-modules=ee10-deploy,ee10-jsp,ee10-jstl,threadpool-virtual && \
     printf '%s\n' \
       'jetty.threadPool.minThreads=8' \
       'jetty.threadPool.maxThreads=64' \
