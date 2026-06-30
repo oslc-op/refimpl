@@ -32,7 +32,8 @@ LABEL org.opencontainers.image.licenses="EPL-2.0"
 
 COPY --from=build /src/server-rm/target/*.war /var/lib/jetty/webapps/ROOT.war
 
-RUN java -jar "$JETTY_HOME/start.jar" \
+RUN rm -f "$JETTY_BASE/start.d/threadpool.ini" && \
+    java -jar "$JETTY_HOME/start.jar" \
       --add-to-startd=ee10-deploy,ee10-jsp,ee10-jstl,threadpool-virtual && \
     printf '%s\n' \
       'jetty.threadPool.minThreads=8' \
