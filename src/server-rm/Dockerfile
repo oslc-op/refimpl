@@ -1,4 +1,4 @@
-FROM docker.io/library/maven:3-eclipse-temurin-21-alpine AS build
+FROM docker.io/library/maven:3-eclipse-temurin-25-alpine AS build
 
 WORKDIR /src
 
@@ -18,9 +18,9 @@ COPY server-rm/ server-rm/
 # Build only the specific module and its dependencies
 RUN mvn -B --no-transfer-progress -DskipTests clean package -pl server-rm -am
 
-FROM docker.io/library/jetty:12-jre21-eclipse-temurin
 
-# Add metadata
+FROM docker.io/library/jetty:12.1-jdk25-eclipse-temurin
+
 LABEL org.opencontainers.image.title="OSLC RefImpl RM Server"
 LABEL org.opencontainers.image.description="OSLC Requirements Management Reference Implementation"
 LABEL org.opencontainers.image.source="https://github.com/oslc-op/refimpl"
@@ -32,6 +32,15 @@ LABEL org.opencontainers.image.licenses="EPL-2.0"
 
 COPY --from=build /src/server-rm/target/*.war /var/lib/jetty/webapps/ROOT.war
 
-RUN java -jar "$JETTY_HOME/start.jar" --add-modules=ee10-deploy,ee10-jsp,ee10-jstl
+RUN rm -f "$JETTY_BASE/start.d/threadpool.ini" && \
+    java -jar "$JETTY_HOME/start.jar" \
+      --add-modules=ee10-deploy,ee10-jsp,ee10-jstl,threadpool-virtual && \
+    printf '%s\n' \
+      'jetty.threadPool.minThreads=8' \
+      'jetty.threadPool.maxThreads=64' \
+      'jetty.threadPool.reservedThreads=-1' \
+      'jetty.threadPool.virtual.maxConcurrentTasks=500' \
+      'jetty.threadPool.virtual.tracking=false' \
+      >> "$JETTY_BASE/start.d/threadpool-virtual.ini"
 
 EXPOSE 8080
