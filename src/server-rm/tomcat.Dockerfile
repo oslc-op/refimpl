@@ -16,18 +16,19 @@ FROM docker.io/library/tomcat:10.1-jre25-temurin
 # Enable virtual threads for requests handled by the default HTTP connector.
 RUN sed -i \
       's|<Connector port="8080" protocol="HTTP/1.1"|<Connector port="8080" protocol="HTTP/1.1" useVirtualThreads="true"|' \
-      "$CATALINA_BASE/conf/server.xml" && \
-    grep -q 'useVirtualThreads="true"' "$CATALINA_BASE/conf/server.xml"
+      "$CATALINA_HOME/conf/server.xml" && \
+    grep -q 'useVirtualThreads="true"' \
+      "$CATALINA_HOME/conf/server.xml"
 
 # Do not write catalina.out; log through the container runtime.
 COPY --from=build \
     /src/server-rm/config/tomcat-log.properties \
-    "$CATALINA_BASE/conf/logging.properties"
+    "$CATALINA_HOME/conf/logging.properties"
 
 ENV CATALINA_OUT=/dev/null
 
 COPY --from=build \
     /src/server-rm/target/*.war \
-    "$CATALINA_BASE/webapps/ROOT.war"
+    "$CATALINA_HOME/webapps/ROOT.war"
 
 EXPOSE 8080
