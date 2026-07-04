@@ -1,4 +1,4 @@
-FROM docker.io/library/maven:3-eclipse-temurin-25-alpine AS build
+FROM docker.io/library/maven:3-eclipse-temurin-26-alpine AS build
 
 WORKDIR /src
 
