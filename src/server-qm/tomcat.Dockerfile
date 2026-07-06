@@ -11,7 +11,7 @@ RUN mvn -B --no-transfer-progress \
     -Pwith-jstl-impl
 
 
-FROM docker.io/library/tomcat:10.1-jre25-temurin
+FROM docker.io/library/tomcat:11.0-jre25-temurin
 
 # Enable virtual threads for requests handled by the default HTTP connector.
 RUN sed -i \
