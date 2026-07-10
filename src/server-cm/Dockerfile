@@ -1,4 +1,4 @@
-FROM docker.io/library/maven:3-eclipse-temurin-21-alpine AS build
+FROM docker.io/library/maven:3-eclipse-temurin-25-alpine AS build
 
 WORKDIR /src
 
@@ -26,7 +26,6 @@ RUN $JAVA_HOME/bin/jlink \
          --no-header-files \
          --compress=2 \
          --output /javaruntime
-
 FROM alpine:latest
 
 ENV JAVA_HOME=/opt/java/openjdk

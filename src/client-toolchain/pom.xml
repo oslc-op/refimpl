@@ -16,7 +16,7 @@
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     <maven.compiler.release>21</maven.compiler.release>
 
-    <v.kotlin>2.3.0</v.kotlin>
+    <v.kotlin>2.3.20</v.kotlin>
     <!-- <v.jersey>3.1.5</v.jersey> -->
     <v.kotlin.coroutines>1.10.2</v.kotlin.coroutines>
   </properties>
@@ -38,7 +38,7 @@
       <dependency>
         <groupId>org.jetbrains</groupId>
         <artifactId>annotations</artifactId>
-        <version>26.0.2-1</version>
+        <version>26.1.0</version>
       </dependency>
     </dependencies>
   </dependencyManagement>
