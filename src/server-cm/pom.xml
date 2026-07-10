@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <modelVersion>4.0.0</modelVersion>
-    <!-- Start of user code header
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <!-- Start of user code header
   -->
-  <!-- TODO: Add additional header properties here to avoid them be overrriden upon future re-generation -->
+  <!-- TODO: Add additional header properties here to avoid them be overrriden upon future
+  re-generation -->
   <parent>
     <groupId>co.oslc.refimpl</groupId>
     <artifactId>parent</artifactId>
@@ -14,49 +15,50 @@
   </parent>
   <!-- End of user code
     -->
-    <groupId>co.oslc.refimpl</groupId>
-    <artifactId>server-cm</artifactId>
-    <version>0.3.0-SNAPSHOT</version>
-    <packaging>jar</packaging>
-    <name>CM</name>
-    <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <maven.compiler.release>21</maven.compiler.release>
-        <version.lyo>7.0.0-SNAPSHOT</version.lyo>
-        <swagger-ui.version>5.32.8</swagger-ui.version>
-        <servlet.port>8801</servlet.port>
-        <application.contextpath>/</application.contextpath>
-        <application.filename>server-cm</application.filename>
-        <jetty.version>12.1.8</jetty.version>
-        
-        <!-- Start of user code properties
+  <groupId>co.oslc.refimpl</groupId>
+  <artifactId>server-cm</artifactId>
+  <version>0.3.0-SNAPSHOT</version>
+  <packaging>jar</packaging>
+  <name>CM</name>
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+    <maven.compiler.release>21</maven.compiler.release>
+    <version.lyo>7.0.0-SNAPSHOT</version.lyo>
+    <swagger-ui.version>5.32.8</swagger-ui.version>
+    <servlet.port>8801</servlet.port>
+    <application.contextpath>/</application.contextpath>
+    <application.filename>server-cm</application.filename>
+    <jetty.version>12.1.8</jetty.version>
+
+    <!-- Start of user code properties
     -->
     <!-- TODO: Add additional properties here to avoid them be overrriden upon future re-generation -->
     <!-- End of user code
         -->
-    </properties>
-    <repositories>
-        <!-- Start of user code repositories
+  </properties>
+  <repositories>
+    <!-- Start of user code repositories
     -->
-    <!-- TODO: Add additional repositories here to avoid them be overrriden upon future re-generation -->
+    <!-- TODO: Add additional repositories here to avoid them be overrriden upon future
+    re-generation -->
     <!-- End of user code
         -->
-        <repository>
-            <name>Central Portal Snapshots</name>
-            <id>central-portal-snapshots</id>
-            <url>https://central.sonatype.com/repository/maven-snapshots/</url>
-            <releases>
-                <enabled>false</enabled>
-            </releases>
-            <snapshots>
-                <enabled>true</enabled>
-            </snapshots>
-        </repository>
-        
-    </repositories>
-    <profiles>
-        <!-- Start of user code profiles
+    <repository>
+      <name>Central Portal Snapshots</name>
+      <id>central-portal-snapshots</id>
+      <url>https://central.sonatype.com/repository/maven-snapshots/</url>
+      <releases>
+        <enabled>false</enabled>
+      </releases>
+      <snapshots>
+        <enabled>true</enabled>
+      </snapshots>
+    </repository>
+
+  </repositories>
+  <profiles>
+    <!-- Start of user code profiles
     -->
     <profile>
       <id>strict</id>
@@ -91,14 +93,16 @@
 
                         <!-- https://github.com/eclipse/lyo/pull/220 -->
                         <!--                    <exclude>log4j:log4j</exclude>-->
-                        <!--log4j v2 is not used, just for the future-->
+                        <!--log4j
+                        v2 is not used, just for the future-->
                         <exclude>org.apache.logging.log4j:log4j-core</exclude>
                       </excludes>
                     </bannedDependencies>
-                    <banDuplicatePomDependencyVersions/>
+                    <banDuplicatePomDependencyVersions />
                     <requireUpperBoundDeps>
                       <excludes>
-                        <!--jersey and jena via commons-compress-->
+                        <!--jersey
+                        and jena via commons-compress-->
                         <exclude>org.osgi:org.osgi.core</exclude>
                       </excludes>
                     </requireUpperBoundDeps>
@@ -117,39 +121,39 @@
     </profile>
     <!-- End of user code
         -->
-    </profiles>
-    <!-- Start of user code pre_dependencies
+  </profiles>
+  <!-- Start of user code pre_dependencies
   -->
   <!-- End of user code
     -->
-   <dependencyManagement>
-      <dependencies>
-        <dependency>
-          <groupId>org.eclipse.lyo</groupId>
-          <artifactId>lyo-bom</artifactId>
-          <version>${version.lyo}</version>
-          <scope>import</scope>
-          <type>pom</type>
-        </dependency>
-        <dependency>
-            <groupId>org.eclipse.jetty</groupId>
-            <artifactId>jetty-bom</artifactId>
-            <version>${jetty.version}</version>
-            <type>pom</type>
-            <scope>import</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.eclipse.jetty.ee10</groupId>
-            <artifactId>jetty-ee10-bom</artifactId>
-            <version>${jetty.version}</version>
-            <type>pom</type>
-            <scope>import</scope>
-        </dependency>
-      </dependencies>
-    </dependencyManagement>
+  <dependencyManagement>
     <dependencies>
-        <!-- Specific dependencies -->
-        <!-- Start of user code dependencies
+      <dependency>
+        <groupId>org.eclipse.lyo</groupId>
+        <artifactId>lyo-bom</artifactId>
+        <version>${version.lyo}</version>
+        <scope>import</scope>
+        <type>pom</type>
+      </dependency>
+      <dependency>
+        <groupId>org.eclipse.jetty</groupId>
+        <artifactId>jetty-bom</artifactId>
+        <version>${jetty.version}</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+      <dependency>
+        <groupId>org.eclipse.jetty.ee10</groupId>
+        <artifactId>jetty-ee10-bom</artifactId>
+        <version>${jetty.version}</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
+  <dependencies>
+    <!-- Specific dependencies -->
+    <!-- Start of user code dependencies
     -->
     <dependency>
       <groupId>co.oslc.refimpl</groupId>
@@ -157,234 +161,263 @@
     </dependency>
     <!-- End of user code
         -->
-        <!-- Embedded Jetty 12 (EE10) -->
-        <dependency>
-            <groupId>org.eclipse.jetty.ee10</groupId>
-            <artifactId>jetty-ee10-servlet</artifactId>
-        </dependency>
+    <!-- Embedded Jetty 12 (EE10) -->
+    <dependency>
+      <groupId>org.eclipse.jetty.ee10</groupId>
+      <artifactId>jetty-ee10-servlet</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.eclipse.jetty.ee10</groupId>
+      <artifactId>jetty-ee10-webapp</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.eclipse.jetty.ee10</groupId>
+      <artifactId>jetty-ee10-apache-jsp</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.eclipse.jetty.ee10</groupId>
+      <artifactId>jetty-ee10-glassfish-jstl</artifactId>
+    </dependency>
 
-        <!-- General dependencies -->
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-simple</artifactId>
-        </dependency>
-        <!-- Servlet dependencies -->
-        <dependency>
-            <groupId>jakarta.servlet</groupId>
-            <artifactId>jakarta.servlet-api</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.glassfish.jersey.core</groupId>
-            <artifactId>jersey-server</artifactId>
-            <exclusions>
-                <exclusion>
-                    <!--we have a proper javax.inject:javax.inject dependency-->
-                    <!--also see https://stackoverflow.com/questions/25212944/why-does-hk2-repackage-everything-->
-                    <groupId>org.glassfish.hk2.external</groupId>
-                    <artifactId>javax.inject</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-        <dependency>
-            <groupId>org.glassfish.jersey.containers</groupId>
-            <artifactId>jersey-container-servlet</artifactId>
-            <exclusions>
-                <exclusion>
-                    <!--we have a proper javax.inject:javax.inject dependency-->
-                    <groupId>org.glassfish.hk2.external</groupId>
-                    <artifactId>javax.inject</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-        <dependency>
-            <groupId>org.glassfish.jersey.media</groupId>
-            <artifactId>jersey-media-multipart</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.glassfish.jersey.inject</groupId>
-            <artifactId>jersey-hk2</artifactId>
-        </dependency>
-        
-        <dependency>
-            <groupId>org.glassfish.jaxb</groupId>
-            <artifactId>jaxb-runtime</artifactId>
-            <scope>runtime</scope>
-        </dependency>
-        <!-- Lyo dependencies -->
-        <dependency>
-            <groupId>org.eclipse.lyo.oslc4j.core</groupId>
-            <artifactId>oslc4j-core</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.eclipse.lyo.oslc4j.core</groupId>
-            <artifactId>oslc4j-jena-provider</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.eclipse.lyo.oslc4j.core</groupId>
-            <artifactId>oslc4j-json4j-provider</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.eclipse.lyo.clients</groupId>
-            <artifactId>oslc-client</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.eclipse.lyo.server</groupId>
-            <artifactId>oauth-core</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.eclipse.lyo.server</groupId>
-            <artifactId>oauth-consumer-store</artifactId>
-        </dependency>
-        <!-- Removed oauth-webapp war dependency as we are not using war overlay anymore
+    <!-- General dependencies -->
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-simple</artifactId>
+    </dependency>
+    <!-- Servlet dependencies -->
+    <dependency>
+      <groupId>jakarta.servlet</groupId>
+      <artifactId>jakarta.servlet-api</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.glassfish.jersey.core</groupId>
+      <artifactId>jersey-server</artifactId>
+      <exclusions>
+        <exclusion>
+          <!--we
+          have a proper javax.inject:javax.inject dependency-->
+          <!--also
+          see https://stackoverflow.com/questions/25212944/why-does-hk2-repackage-everything-->
+          <groupId>org.glassfish.hk2.external</groupId>
+          <artifactId>javax.inject</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+    <dependency>
+      <groupId>org.glassfish.jersey.containers</groupId>
+      <artifactId>jersey-container-servlet</artifactId>
+      <exclusions>
+        <exclusion>
+          <!--we
+          have a proper javax.inject:javax.inject dependency-->
+          <groupId>org.glassfish.hk2.external</groupId>
+          <artifactId>javax.inject</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+    <dependency>
+      <groupId>org.glassfish.jersey.media</groupId>
+      <artifactId>jersey-media-multipart</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.glassfish.jersey.inject</groupId>
+      <artifactId>jersey-hk2</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>org.glassfish.jaxb</groupId>
+      <artifactId>jaxb-runtime</artifactId>
+      <scope>runtime</scope>
+    </dependency>
+    <!-- Lyo dependencies -->
+    <dependency>
+      <groupId>org.eclipse.lyo.oslc4j.core</groupId>
+      <artifactId>oslc4j-core</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.eclipse.lyo.oslc4j.core</groupId>
+      <artifactId>oslc4j-jena-provider</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.eclipse.lyo.oslc4j.core</groupId>
+      <artifactId>oslc4j-json4j-provider</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.eclipse.lyo.clients</groupId>
+      <artifactId>oslc-client</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.eclipse.lyo.server</groupId>
+      <artifactId>oauth-core</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.eclipse.lyo.server</groupId>
+      <artifactId>oauth-consumer-store</artifactId>
+    </dependency>
+    <!-- Removed oauth-webapp war dependency as we are not using war overlay anymore
              and avoiding JSP. If needed, we would need to manually handle it. -->
 
-        <dependency>
-            <groupId>org.eclipse.lyo</groupId>
-            <artifactId>oslc-domains</artifactId>
-            <version>7.0.0-SNAPSHOT</version>
-        </dependency>
-        
-        <!-- Swagger dependencies -->
-        <dependency>
-            <groupId>io.swagger.core.v3</groupId>
-            <artifactId>swagger-jaxrs2-jakarta</artifactId>
-            <exclusions>
-                <exclusion>
-                    <!--should be <provided>-->
-                    <groupId>jakarta.activation</groupId>
-                    <artifactId>jakarta.activation-api</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-        <dependency>
-            <groupId>io.swagger.core.v3</groupId>
-            <artifactId>swagger-jaxrs2-servlet-initializer-v2-jakarta</artifactId>
-        </dependency>
-        <!-- OSLC-UI dependencies -->
-        <dependency>
-            <groupId>org.eclipse.lyo.server</groupId>
-            <artifactId>oslc-ui-model</artifactId>
-        </dependency>
-        <!-- Start of user code dependencies_final
+    <dependency>
+      <groupId>org.eclipse.lyo</groupId>
+      <artifactId>oslc-domains</artifactId>
+      <version>7.0.0-SNAPSHOT</version>
+    </dependency>
+
+    <!-- Swagger dependencies -->
+    <dependency>
+      <groupId>io.swagger.core.v3</groupId>
+      <artifactId>swagger-jaxrs2-jakarta</artifactId>
+      <exclusions>
+        <exclusion>
+          <!--should
+          be <provided>-->
+          <groupId>jakarta.activation</groupId>
+          <artifactId>jakarta.activation-api</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+    <dependency>
+      <groupId>io.swagger.core.v3</groupId>
+      <artifactId>swagger-jaxrs2-servlet-initializer-v2-jakarta</artifactId>
+    </dependency>
+    <!-- OSLC-UI dependencies -->
+    <dependency>
+      <groupId>org.eclipse.lyo.server</groupId>
+      <artifactId>oslc-ui-model</artifactId>
+    </dependency>
+    <!-- Start of user code dependencies_final
     -->
-    <!-- TODO: Add additional dependencies here to avoid them be overridden upon future re-generation -->
+    <!-- TODO: Add additional dependencies here to avoid them be overridden upon future
+    re-generation -->
     <!-- End of user code
         -->
-    </dependencies>
-    <!-- Start of user code post_dependencies
+  </dependencies>
+  <!-- Start of user code post_dependencies
   -->
   <!-- End of user code
     -->
-    <build>
-        <finalName>${application.filename}</finalName>
-        <plugins>
-            <!-- Start of user code plugins_start
-            -->
-            <!-- End of user code
-            -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-enforcer-plugin</artifactId>
-            </plugin>
-            <plugin>
-              <groupId>org.apache.maven.plugins</groupId>
-              <artifactId>maven-compiler-plugin</artifactId>
-              <version>3.15.0</version>
-              <configuration>
-                <compilerArgument>
-                  -Xlint:fallthrough,unchecked,removal,deprecation,dep-ann,varargs,overloads,serial,try,finally
-                </compilerArgument>
-              </configuration>
-            </plugin>
-            <plugin>
-                <!-- Download Swagger UI webjar. -->
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-dependency-plugin</artifactId>
-                <version>3.11.0</version>
-                <executions>
-                    <execution>
-                        <id>unpack-swagger-ui</id>
-                        <phase>prepare-package</phase>
-                        <goals>
-                            <goal>unpack</goal>
-                        </goals>
-                        <configuration>
-                            <artifactItems>
-                                <artifactItem>
-                                    <groupId>org.webjars</groupId>
-                                    <artifactId>swagger-ui</artifactId>
-                                    <version>${swagger-ui.version}</version>
-                                </artifactItem>
-                            </artifactItems>
-                            <!-- Unpack to classes so it is included in the jar -->
-                            <outputDirectory>${project.build.outputDirectory}/static/swagger-ui</outputDirectory>
-                            <includes>**/*.*</includes>
-                        </configuration>
-                    </execution>
-                     <execution>
-                        <id>copy-dependencies</id>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>copy-dependencies</goal>
-                        </goals>
-                        <configuration>
-                            <outputDirectory>${project.build.directory}/lib</outputDirectory>
-                            <includeScope>runtime</includeScope>
-                            <useBaseVersion>true</useBaseVersion>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
+  <build>
+    <finalName>${application.filename}</finalName>
+    <resources>
+      <resource>
+        <directory>src/main/resources</directory>
+      </resource>
 
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-jar-plugin</artifactId>
-                <version>3.4.2</version>
-                <configuration>
-                    <archive>
-                        <manifest>
-                            <addClasspath>true</addClasspath>
-                            <classpathPrefix>lib/</classpathPrefix>
-                            <mainClass>co.oslc.refimpl.cm.Main</mainClass>
-                            <useUniqueVersions>false</useUniqueVersions>
-                        </manifest>
-                    </archive>
-                </configuration>
-            </plugin>
-            
-            <!-- We also need to move the unpacked swagger-ui files to the right place.
+      <resource>
+        <directory>src/main/webapp</directory>
+        <targetPath>.</targetPath>
+        <filtering>false</filtering>
+      </resource>
+    </resources>
+    <plugins>
+      <!-- Start of user code plugins_start
+            -->
+      <!-- End of user code
+            -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-enforcer-plugin</artifactId>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>3.15.0</version>
+        <configuration>
+          <compilerArgument>
+            -Xlint:fallthrough,unchecked,removal,deprecation,dep-ann,varargs,overloads,serial,try,finally
+          </compilerArgument>
+        </configuration>
+      </plugin>
+      <plugin>
+        <!-- Download Swagger UI webjar. -->
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-dependency-plugin</artifactId>
+        <version>3.11.0</version>
+        <executions>
+          <execution>
+            <id>unpack-swagger-ui</id>
+            <phase>prepare-package</phase>
+            <goals>
+              <goal>unpack</goal>
+            </goals>
+            <configuration>
+              <artifactItems>
+                <artifactItem>
+                  <groupId>org.webjars</groupId>
+                  <artifactId>swagger-ui</artifactId>
+                  <version>${swagger-ui.version}</version>
+                </artifactItem>
+              </artifactItems>
+              <!-- Unpack to classes so it is included in the jar -->
+              <outputDirectory>${project.build.outputDirectory}/static/swagger-ui</outputDirectory>
+              <includes>**/*.*</includes>
+            </configuration>
+          </execution>
+          <execution>
+            <id>copy-dependencies</id>
+            <phase>package</phase>
+            <goals>
+              <goal>copy-dependencies</goal>
+            </goals>
+            <configuration>
+              <outputDirectory>${project.build.directory}/lib</outputDirectory>
+              <includeScope>runtime</includeScope>
+              <useBaseVersion>true</useBaseVersion>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-jar-plugin</artifactId>
+        <version>3.4.2</version>
+        <configuration>
+          <archive>
+            <manifest>
+              <addClasspath>true</addClasspath>
+              <classpathPrefix>lib/</classpathPrefix>
+              <mainClass>co.oslc.refimpl.cm.Main</mainClass>
+              <useUniqueVersions>false</useUniqueVersions>
+            </manifest>
+          </archive>
+        </configuration>
+      </plugin>
+
+      <!-- We also need to move the unpacked swagger-ui files to the right place.
                  The unpack above puts them in static/swagger-ui/META-INF/resources/webjars/swagger-ui/${version}/
                  We want them in static/swagger-ui/dist/
             -->
-            <plugin>
-                <artifactId>maven-resources-plugin</artifactId>
-                <version>3.3.1</version>
-                <executions>
-                    <execution>
-                        <id>copy-swagger-ui-dist</id>
-                        <phase>prepare-package</phase>
-                        <goals>
-                            <goal>copy-resources</goal>
-                        </goals>
-                        <configuration>
-                            <outputDirectory>${project.build.outputDirectory}/static/swagger-ui/dist</outputDirectory>
-                            <resources>
-                                <resource>
-                                    <directory>${project.build.outputDirectory}/static/swagger-ui/META-INF/resources/webjars/swagger-ui/${swagger-ui.version}</directory>
-                                </resource>
-                            </resources>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
+      <plugin>
+        <artifactId>maven-resources-plugin</artifactId>
+        <version>3.3.1</version>
+        <executions>
+          <execution>
+            <id>copy-swagger-ui-dist</id>
+            <phase>prepare-package</phase>
+            <goals>
+              <goal>copy-resources</goal>
+            </goals>
+            <configuration>
+              <outputDirectory>${project.build.outputDirectory}/static/swagger-ui/dist</outputDirectory>
+              <resources>
+                <resource>
+                  <directory>
+                    ${project.build.outputDirectory}/static/swagger-ui/META-INF/resources/webjars/swagger-ui/${swagger-ui.version}</directory>
+                </resource>
+              </resources>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
 
-            <!-- Start of user code plugins_final
+      <!-- Start of user code plugins_final
             -->
-            <!-- End of user code
+      <!-- End of user code
             -->
-        </plugins>
-    </build>
-    <!-- Start of user code post_build
+    </plugins>
+  </build>
+  <!-- Start of user code post_build
   -->
   <!-- End of user code
     -->
