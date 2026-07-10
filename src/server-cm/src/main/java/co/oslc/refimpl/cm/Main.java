@@ -14,7 +14,11 @@ import org.eclipse.jetty.ee10.servlet.ServletContextHandler;
 import org.eclipse.jetty.ee10.servlet.ServletHolder;
 import org.eclipse.jetty.ee10.servlet.SessionHandler;
 import org.eclipse.jetty.server.Server;
+import org.eclipse.jetty.server.ServerConnector;
+import org.eclipse.jetty.util.VirtualThreads;
 import org.eclipse.jetty.util.resource.ResourceFactory;
+import org.eclipse.jetty.util.thread.QueuedThreadPool;
+import org.eclipse.jetty.util.thread.VirtualThreadPool;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -32,6 +36,11 @@ import co.oslc.refimpl.cm.gen.servlet.ServletListener;
 public class Main {
     private static final Logger logger = LoggerFactory.getLogger(Main.class);
 
+    private static final int DEFAULT_MIN_THREADS = 8;
+    private static final int DEFAULT_MAX_THREADS = 64;
+    private static final int DEFAULT_RESERVED_THREADS = -1;
+    private static final int DEFAULT_VIRTUAL_MAX_CONCURRENT_TASKS = 500;
+
     public static void main(String[] args) throws Exception {
         int port = 8080;
         String portEnv = System.getenv("PORT");
@@ -39,7 +48,12 @@ public class Main {
             port = Integer.parseInt(portEnv);
         }
 
-        Server server = new Server(port);
+        QueuedThreadPool threadPool = createThreadPool();
+        Server server = new Server(threadPool);
+        ServerConnector connector = new ServerConnector(server);
+        connector.setPort(port);
+        server.addConnector(connector);
+        server.setStopAtShutdown(true);
 
         ServletContextHandler context = new ServletContextHandler();
         context.setContextPath("/");
@@ -81,13 +95,18 @@ public class Main {
 
             context.setBaseResource(ResourceFactory.of(context).newResource(externalForm));
 
-            // Use ResourceServlet for static assets
-            ServletHolder staticServlet = new ServletHolder("default", ResourceServlet.class);
+            // Use separate ResourceServlet instances for each path prefix. A servlet holder
+            // can only be registered once reliably in Jetty's servlet mapping table.
+            ServletHolder staticServlet = new ServletHolder("static", ResourceServlet.class);
             staticServlet.setInitParameter("dirAllowed", "true");
             staticServlet.setInitParameter("acceptRanges", "true");
             context.addServlet(staticServlet, "/static/*");
-            // Also map swagger-ui
-            context.addServlet(staticServlet, "/swagger-ui/*");
+
+            ServletHolder swaggerServlet = new ServletHolder("swagger", ResourceServlet.class);
+            swaggerServlet.setInitParameter("baseResource", "swagger-ui");
+            swaggerServlet.setInitParameter("dirAllowed", "true");
+            swaggerServlet.setInitParameter("acceptRanges", "true");
+            context.addServlet(swaggerServlet, "/swagger-ui/*");
         } else {
             logger.warn("Static resources not found!");
         }
@@ -102,6 +121,49 @@ public class Main {
         }
     }
 
+    private static QueuedThreadPool createThreadPool() {
+        QueuedThreadPool threadPool = new QueuedThreadPool();
+        threadPool.setName(System.getenv().getOrDefault("JETTY_THREAD_POOL_NAME", "qtp"));
+        threadPool.setMinThreads(getIntEnv("JETTY_MIN_THREADS", DEFAULT_MIN_THREADS));
+        threadPool.setMaxThreads(getIntEnv("JETTY_MAX_THREADS", DEFAULT_MAX_THREADS));
+        threadPool.setReservedThreads(getIntEnv("JETTY_RESERVED_THREADS", DEFAULT_RESERVED_THREADS));
+
+        if (getBooleanEnv("JETTY_VIRTUAL_THREADS", true)) {
+            if (VirtualThreads.areSupported()) {
+                VirtualThreadPool virtualThreadPool = new VirtualThreadPool();
+                virtualThreadPool.setName(System.getenv().getOrDefault(
+                        "JETTY_VIRTUAL_THREAD_NAME", "qtp-virtual-"));
+                virtualThreadPool.setMaxConcurrentTasks(getIntEnv(
+                        "JETTY_VIRTUAL_MAX_CONCURRENT_TASKS", DEFAULT_VIRTUAL_MAX_CONCURRENT_TASKS));
+                virtualThreadPool.setTracking(getBooleanEnv("JETTY_VIRTUAL_TRACKING", false));
+                threadPool.setVirtualThreadsExecutor(virtualThreadPool);
+                logger.info("Jetty virtual threads enabled for application tasks");
+            } else {
+                logger.warn("Virtual threads requested but unavailable on this Java runtime; using platform threads");
+            }
+        }
+
+        return threadPool;
+    }
+
+    private static int getIntEnv(String name, int defaultValue) {
+        String value = System.getenv(name);
+        if (value == null || value.isBlank()) {
+            return defaultValue;
+        }
+        try {
+            return Integer.parseInt(value);
+        } catch (NumberFormatException e) {
+            logger.warn("Ignoring invalid integer value for {}: {}", name, value);
+            return defaultValue;
+        }
+    }
+
+    private static boolean getBooleanEnv(String name, boolean defaultValue) {
+        String value = System.getenv(name);
+        return value == null || value.isBlank() ? defaultValue : Boolean.parseBoolean(value);
+    }
+
     public static class IndexServlet extends HttpServlet {
         private static final long serialVersionUID = 1L;
 
@@ -109,7 +171,7 @@ public class Main {
         protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
             // Serve static/index.html
             // If the path is exactly "/" or "/index.html"
-            String path = req.getServletPath();
+            String path = req.getRequestURI().substring(req.getContextPath().length());
             if (path.equals("/") || path.equals("/index.html") || path.equals("/index.jsp")) {
                  try (InputStream in = Main.class.getClassLoader().getResourceAsStream("static/index.html")) {
                     if (in != null) {

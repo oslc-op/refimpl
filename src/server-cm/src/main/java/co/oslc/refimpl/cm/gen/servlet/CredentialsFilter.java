@@ -79,7 +79,7 @@ public class CredentialsFilter implements Filter {
             return false;
         }
 
-        String pathInfo = httpRequest.getPathInfo();
+        String pathInfo = Optional.ofNullable(httpRequest.getPathInfo()).orElse("");
 
         //'protectedResource' defines the basic set of requests that needs to be protected. 
         //You can override this defintion in the user protected code block below.
