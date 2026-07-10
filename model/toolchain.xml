@@ -225,7 +225,7 @@
           <queryCapabilities title="ResourceQC" label="OSLC Resource Query Capability" queryBaseURI="query">
             <resourceTypes href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#_popnoJUdEeq-KoPaR9_Cfg"/>
           </queryCapabilities>
-          <selectionDialogs title="ResourceSD" label="OSLC Resource Selection Dialog" dialogURI="selector">
+          <selectionDialogs title="ResourceSD" label="OSLC Resource Selection Dialog" dialogURI="selector" hintWidth="500" hintHeight="500">
             <resourceTypes href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#_popnoJUdEeq-KoPaR9_Cfg"/>
           </selectionDialogs>
           <usages>resources</usages>
@@ -238,7 +238,7 @@
           <queryCapabilities title="LinkTypeQC" label="LinkType Query Capability" queryBaseURI="query">
             <resourceTypes href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#_porc0ZUdEeq-KoPaR9_Cfg"/>
           </queryCapabilities>
-          <selectionDialogs title="LinkTypeSD" label="LinkType Selection Dialog" dialogURI="selector">
+          <selectionDialogs title="LinkTypeSD" label="LinkType Selection Dialog" dialogURI="selector" hintWidth="500" hintHeight="500">
             <resourceTypes href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#_porc0ZUdEeq-KoPaR9_Cfg"/>
           </selectionDialogs>
           <usages>links</usages>
