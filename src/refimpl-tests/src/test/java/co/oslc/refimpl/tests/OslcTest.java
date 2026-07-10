@@ -30,25 +30,25 @@ public class OslcTest {
     @Container
     public static ComposeContainer environment = new ComposeContainer(new File("src/test/resources/docker-compose.yml"))
             .withExposedService(RM_SVC, RM_PORT,
-                    Wait.forLogMessage(".*main: Started oejs.Server@.*", 1)
+                    Wait.forLogMessage("Started oejs.Server@.*", 1)
                             .withStartupTimeout(Duration.ofSeconds(STARTUP_TIMEOUT)))
             .withExposedService(CM_SVC, CM_PORT,
-                    Wait.forLogMessage(".*main: Started oejs.Server@.*", 1)
+                    Wait.forLogMessage("Started oejs.Server@.*", 1)
                             .withStartupTimeout(Duration.ofSeconds(STARTUP_TIMEOUT)))
             .withExposedService(QM_SVC, QM_PORT,
-                    Wait.forLogMessage(".*main: Started oejs.Server@.*", 1)
+                    Wait.forLogMessage("Started oejs.Server@.*", 1)
                             .withStartupTimeout(Duration.ofSeconds(STARTUP_TIMEOUT)))
             .withExposedService(AM_SVC, AM_PORT,
-                    Wait.forLogMessage(".*main: Started oejs.Server@.*", 1)
+                    Wait.forLogMessage("Started oejs.Server@.*", 1)
                             .withStartupTimeout(Duration.ofSeconds(STARTUP_TIMEOUT)))
             .withLocalCompose(true);
 
     @ParameterizedTest
     @CsvSource({
-        RM_SVC + ", " + RM_PORT,
-        CM_SVC + ", " + CM_PORT,
-        QM_SVC + ", " + QM_PORT,
-        AM_SVC + ", " + AM_PORT
+            RM_SVC + ", " + RM_PORT,
+            CM_SVC + ", " + CM_PORT,
+            QM_SVC + ", " + QM_PORT,
+            AM_SVC + ", " + AM_PORT
     })
     void rootservicesDataTableTest(String svc, int port) {
         assertEquals(200, testRootServices(svc, port));

@@ -33,25 +33,24 @@ public class SwaggerTest {
     static final int AM_PORT = 8080;
 
     static final Map<String, Integer> fixedPorts = Map.of(
-        RM_SVC, 8800,
-        CM_SVC, 8801,
-        QM_SVC, 8802,
-        AM_SVC, 8803
-    );
+            RM_SVC, 8800,
+            CM_SVC, 8801,
+            QM_SVC, 8802,
+            AM_SVC, 8803);
 
     @Container
     public static ComposeContainer environment = new ComposeContainer(new File("src/test/resources/docker-compose.yml"))
             .withExposedService(RM_SVC, RM_PORT,
-                    Wait.forLogMessage(".*main: Started oejs.Server@.*", 1)
+                    Wait.forLogMessage("Started oejs.Server@.*", 1)
                             .withStartupTimeout(Duration.ofSeconds(STARTUP_TIMEOUT)))
             .withExposedService(CM_SVC, CM_PORT,
-                    Wait.forLogMessage(".*main: Started oejs.Server@.*", 1)
+                    Wait.forLogMessage("Started oejs.Server@.*", 1)
                             .withStartupTimeout(Duration.ofSeconds(STARTUP_TIMEOUT)))
             .withExposedService(QM_SVC, QM_PORT,
-                    Wait.forLogMessage(".*main: Started oejs.Server@.*", 1)
+                    Wait.forLogMessage("Started oejs.Server@.*", 1)
                             .withStartupTimeout(Duration.ofSeconds(STARTUP_TIMEOUT)))
             .withExposedService(AM_SVC, AM_PORT,
-                    Wait.forLogMessage(".*main: Started oejs.Server@.*", 1)
+                    Wait.forLogMessage("Started oejs.Server@.*", 1)
                             .withStartupTimeout(Duration.ofSeconds(STARTUP_TIMEOUT)))
             .withLocalCompose(true);
 
@@ -71,9 +70,11 @@ public class SwaggerTest {
     @AfterAll
     static void cleanupSpec() {
         System.out.println("Closing browser...");
-        if (browser != null) browser.close();
+        if (browser != null)
+            browser.close();
         System.out.println("Closing Playwright...");
-        if (playwright != null) playwright.close();
+        if (playwright != null)
+            playwright.close();
     }
 
     void waitForService(String url) {
@@ -111,10 +112,10 @@ public class SwaggerTest {
 
     @ParameterizedTest
     @CsvSource({
-        RM_SVC,
-        CM_SVC,
-        QM_SVC,
-        AM_SVC
+            RM_SVC,
+            CM_SVC,
+            QM_SVC,
+            AM_SVC
     })
     void swaggerUiShouldBeAccessible(String svc) {
         var serviceHost = "localhost";
@@ -128,7 +129,7 @@ public class SwaggerTest {
         var authHeader = "Basic " + Base64.getEncoder().encodeToString("admin:admin".getBytes());
         try (var context = browser.newContext(new Browser.NewContextOptions()
                 .setExtraHTTPHeaders(Map.of("Authorization", authHeader)));
-             var page = context.newPage()) {
+                var page = context.newPage()) {
 
             // Debugging: Log console messages (WARN+) and network errors
             page.onConsoleMessage(msg -> {
@@ -141,7 +142,8 @@ public class SwaggerTest {
             });
             page.onResponse(response -> {
                 if (response.status() >= 400) {
-                    System.out.println("Network Error: " + response.url() + " returned " + response.status() + " " + response.statusText());
+                    System.out.println("Network Error: " + response.url() + " returned " + response.status() + " "
+                            + response.statusText());
                 }
             });
 
@@ -168,7 +170,10 @@ public class SwaggerTest {
             // /serviceProviders/{serviceProviderId}/service2/requirementCollections/selector
             // This is only for RM.
             if (RM_SVC.equals(svc)) {
-                page.getByRole(AriaRole.BUTTON, new Page.GetByRoleOptions().setName("GET /serviceProviders/{serviceProviderId}/service2/requirementCollections/selector")).first().waitFor();
+                page.getByRole(AriaRole.BUTTON,
+                        new Page.GetByRoleOptions().setName(
+                                "GET /serviceProviders/{serviceProviderId}/service2/requirementCollections/selector"))
+                        .first().waitFor();
             }
 
             assertEquals("Swagger UI", title);
