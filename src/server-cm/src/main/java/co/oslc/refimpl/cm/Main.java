@@ -139,43 +139,71 @@ public class Main {
         context.addServlet(new ServletHolder(new IndexServlet()), "/");
 
         // Add Static Content Servlet for other assets
-        URL staticResources = Main.class.getClassLoader().getResource("static");
-        URI applicationJar = Main.class
+        ResourceFactory resources = ResourceFactory.of(context);
+
+        URI codeSource = Main.class
                 .getProtectionDomain()
                 .getCodeSource()
                 .getLocation()
                 .toURI();
 
-        ResourceFactory resources = ResourceFactory.of(context);
+        // Supports both:
+        // java -jar server-cm.jar
+        // running from target/classes in Maven or an IDE
+        Resource applicationRoot;
+        Path codeSourcePath = Path.of(codeSource);
 
-        Resource jarRoot = resources.newJarFileResource(applicationJar);
-        Resource staticRoot = resources.newClassLoaderResource("static/");
+        if (Files.isDirectory(codeSourcePath)) {
+            applicationRoot = resources.newResource(codeSource);
+        } else {
+            applicationRoot = resources.newJarFileResource(codeSource);
+        }
+        if (applicationRoot == null || !applicationRoot.exists()) {
+            throw new IllegalStateException(
+                    "Application resource root does not exist: " + codeSource);
+        }
 
-        Resource webRoot = staticRoot == null
-                ? jarRoot
-                : ResourceFactory.combine(staticRoot, jarRoot);
+        // JSPs and other web resources are packaged at the application root.
+        context.setBaseResource(applicationRoot);
 
-        context.setBaseResource(webRoot);
-        if (staticResources != null) {
-            String externalForm = staticResources.toExternalForm();
-            logger.info("Serving static content from: " + externalForm);
+        Resource staticRoot = applicationRoot.resolve("static/");
 
-            // context.setBaseResource(ResourceFactory.of(context).newResource(externalForm));
+        if (staticRoot.exists() && staticRoot.isDirectory()) {
+            logger.info("Serving static content from: {}", staticRoot.getURI());
 
-            // Use separate ResourceServlet instances for each path prefix. A servlet holder
-            // can only be registered once reliably in Jetty's servlet mapping table.
             ServletHolder staticServlet = new ServletHolder("static", ResourceServlet.class);
-            staticServlet.setInitParameter("dirAllowed", "true");
+
+            staticServlet.setInitParameter(
+                    "baseResource",
+                    staticRoot.getURI().toASCIIString());
+            staticServlet.setInitParameter("pathInfoOnly", "true");
+            staticServlet.setInitParameter("dirAllowed", "false");
             staticServlet.setInitParameter("acceptRanges", "true");
+            staticServlet.setAsyncSupported(true);
+
             context.addServlet(staticServlet, "/static/*");
 
-            ServletHolder swaggerServlet = new ServletHolder("swagger", ResourceServlet.class);
-            swaggerServlet.setInitParameter("baseResource", "swagger-ui");
-            swaggerServlet.setInitParameter("dirAllowed", "true");
-            swaggerServlet.setInitParameter("acceptRanges", "true");
-            context.addServlet(swaggerServlet, "/swagger-ui/*");
+            Resource swaggerAssetsRoot = staticRoot.resolve("swagger-ui/");
+
+            if (swaggerAssetsRoot.exists() && swaggerAssetsRoot.isDirectory()) {
+                ServletHolder swaggerServlet = new ServletHolder("swagger", ResourceServlet.class);
+
+                swaggerServlet.setInitParameter(
+                        "baseResource",
+                        swaggerAssetsRoot.getURI().toASCIIString());
+                swaggerServlet.setInitParameter("pathInfoOnly", "true");
+                swaggerServlet.setInitParameter("dirAllowed", "false");
+                swaggerServlet.setInitParameter("acceptRanges", "true");
+                swaggerServlet.setAsyncSupported(true);
+
+                context.addServlet(swaggerServlet, "/swagger-ui/*");
+            } else {
+                logger.warn(
+                        "Swagger UI assets not found at {}",
+                        swaggerAssetsRoot);
+            }
         } else {
-            logger.warn("Static resources not found!");
+            logger.warn("Static resources not found at {}", staticRoot);
         }
 
         try {
