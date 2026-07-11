@@ -6,21 +6,29 @@ services:
       dockerfile: server-rm/Dockerfile
     ports:
       - "8800:8080"
+    environment:
+      - LYO_BASEURL=http://localhost:8800/
   server-cm:
     build:
       context: ../../../../
       dockerfile: server-cm/Dockerfile
     ports:
       - "8801:8080"
+    environment:
+      - LYO_BASEURL=http://localhost:8801/
   server-qm:
     build:
       context: ../../../../
       dockerfile: server-qm/Dockerfile
     ports:
       - "8802:8080"
+    environment:
+      - LYO_BASEURL=http://localhost:8802/
   server-am:
     build:
       context: ../../../../
       dockerfile: server-am/Dockerfile
     ports:
       - "8803:8080"
+    environment:
+      - LYO_BASEURL=http://localhost:8803/
