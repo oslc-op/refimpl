@@ -27,9 +27,16 @@ param(
 $ErrorActionPreference = "Continue"
 
 if ($PomFile) {
-    $pomPath = Resolve-Path $PomFile
+    if (-not (Test-Path -LiteralPath $PomFile)) {
+        throw "The specified PomFile '$PomFile' does not exist. Please provide a valid path to pom.xml."
+    }
+    $pomPath = Resolve-Path -LiteralPath $PomFile
 } else {
-    $pomPath = Join-Path $PSScriptRoot "pom.xml"
+    $defaultPom = Join-Path $PSScriptRoot "pom.xml"
+    if (-not (Test-Path -LiteralPath $defaultPom)) {
+        throw "No PomFile was specified and the default pom.xml was not found at '$defaultPom'."
+    }
+    $pomPath = Resolve-Path -LiteralPath $defaultPom
 }
 
 # Check Java version mismatch
@@ -38,7 +45,12 @@ try {
     # Resolve symlinks if possible or just take the path
     $javaItem = Get-Item $javaExe
     if ($javaItem.LinkType -eq "SymbolicLink") {
-        $javaExe = $javaItem.Target
+        $target = $javaItem.Target
+        if ($target -is [Array]) {
+            $javaExe = $target[0]
+        } else {
+            $javaExe = $target
+        }
     }
     $javaExePath = Split-Path (Split-Path $javaExe)
     
@@ -59,9 +71,10 @@ function Get-MavenOutput {
         [string[]]$Goals,
         [string[]]$Params
     )
-    $mvnCmd = "mvn"
-    if ($IsWindows) { $mvnCmd = "mvn.cmd" }
-    
+    # Discover the Maven executable dynamically (handles mvn.exe, mvn.cmd, or mvn on PATH)
+    $mvnInfo = Get-Command mvn -ErrorAction SilentlyContinue
+    $mvnCmd = if ($mvnInfo) { $mvnInfo.Source } else { "mvn" }
+
     # -B for batch mode (less noise in logs)
     $cmdArgs = @("-B", "-f", $pomPath) + $Goals + $Params
     
@@ -87,6 +100,9 @@ function Parse-VersionsOutput {
             $bufferedArtifact = ""
             continue
         }
+        # Note: this assumes transitive/managed dependencies appear under the "Dependency Management"
+        # section in versions-maven-plugin output. This is the standard layout for versions:display-dependency-updates
+        # but may vary across plugin versions or project configurations.
         if ($line -match "The following dependencies in Dependency Management have newer versions:") {
             $currentSection = "Transitive"
             $bufferedArtifact = ""
@@ -225,10 +241,18 @@ if (-not $OnlyDeprecations) {
         if ($capturing) {
             # Stop capturing if we hit another section or INFO log that isn't an artifact
             # Artifact lines in this section usually start with [WARNING] and contain colons like group:artifact:ver
-            if ($line -match "^\[WARNING\]\s+.*:.*:.*") {
+            # Match Maven artifact coordinates: groupId:artifactId:type:version:scope
+            if ($line -match "^\[WARNING\]\s+[^:]+:[^:]+:[^:]+:[^:]+:[^:]+") {
                 $unusedDeps += ($line -replace "^\[WARNING\]\s*", "")
-            } elseif ($line -match "^\[INFO\]" -or ($line -match "^\[WARNING\]" -and $line -notmatch "dependencies found")) {
-                # If we hit a new warning header or info, stop
+            } elseif (
+                # Non-artifact WARNING (e.g., a new warning header) ends this section
+                ($line -match "^\[WARNING\]" -and $line -notmatch "dependencies found") -or
+                # Clear Maven section boundaries / build summary also end this section
+                $line -match "^\[INFO\]\s+---" -or                    # new plugin goal section
+                $line -match "^\[INFO\]\s+BUILD\s+(SUCCESS|FAILURE)" -or
+                $line -match "^\[INFO\]\s+-{10,}"                      # long separator line
+            ) {
+                # Stop capturing only when we clearly leave the unused-dependencies section
                 $capturing = $false
             }
         }
