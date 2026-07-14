@@ -9,5 +9,4 @@ Agent-specific notes:
   `server-rm` `*IT` tests under `verify`) requires Docker and should only be run
   when Docker is available.
 - Prefer Java text blocks (`"""..."""`, JEP 378) for multi-line string literals
-  (e.g. RDF/Turtle payloads in tests). Use `.formatted()` for interpolation instead
-  of string concatenation.
+  (e.g. RDF/Turtle payloads in tests).
