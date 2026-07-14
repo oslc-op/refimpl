@@ -52,6 +52,7 @@ public class AmResourceSelectorTest {
         int    port = environment.getServicePort(AM_SVC, AM_PORT);
         RestAssured.baseURI = "http://" + host;
         RestAssured.port    = port;
+        RestAssured.authentication = RestAssured.preemptive().basic("admin", "admin");
 
         // Use a unique identifier so the test is isolated across runs.
         uniqueId = "selector-test-" + UUID.randomUUID().toString().substring(0, 8);
