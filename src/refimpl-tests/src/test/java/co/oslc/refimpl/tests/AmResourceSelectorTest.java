@@ -26,22 +26,10 @@ import static org.junit.jupiter.api.Assertions.*;
  *  2. Searching by a matching term returns a non-empty result set.
  *  3. Searching by a non-matching term returns an empty result set.
  */
-@Testcontainers
-public class AmResourceSelectorTest {
-
-    static final String AM_SVC = "server-am";
-    static final int    AM_PORT = 8080;
+public class AmResourceSelectorTest extends OslcTest {
 
     /** Base path for the AM service-1 resources endpoints. */
     static final String RESOURCES_BASE = "/services/service1/resources";
-
-    @Container
-    public static ComposeContainer environment =
-            new ComposeContainer(new File("src/test/resources/docker-compose.yml"))
-                    .withExposedService(AM_SVC, AM_PORT,
-                            Wait.forLogMessage(".*main: Started oejs.Server@.*", 1)
-                                    .withStartupTimeout(Duration.ofSeconds(120)))
-                    .withLocalCompose(true);
 
     /** Unique identifier embedded in the resource created during this test run. */
     static String uniqueId;
