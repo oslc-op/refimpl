@@ -43,6 +43,7 @@ import org.eclipse.lyo.oslc.domains.am.LinkType;
 import org.eclipse.lyo.oslc.domains.Person;
 import org.eclipse.lyo.oslc.domains.am.Resource;
 
+import org.eclipse.lyo.oslc4j.trs.server.TrsEventHandler;
 
 
 // Start of user code imports
@@ -66,7 +67,7 @@ public class RestDelegate {
     private static final Logger log = LoggerFactory.getLogger(RestDelegate.class);
 
     
-    
+    @Inject TrsEventHandler trsEventHandler;
     @Inject ResourcesFactory resourcesFactory;
     // Start of user code class_attributes
     public static final String SP_DEFAULT = "sp_single";
@@ -81,6 +82,13 @@ public class RestDelegate {
     
     
     // Start of user code class_methods
+    public static List<Resource> getResourcesForTRS() {
+        return resourceRepository.fetchResourcesForSP(SP_DEFAULT);
+    }
+
+    public static List<LinkType> getLinkTypesForTRS() {
+        return linkRepository.fetchResourcesForSP(SP_DEFAULT);
+    }
     // End of user code
 
     //The methods contextInitializeServletListener() and contextDestroyServletListener() no longer exits
@@ -150,6 +158,7 @@ public class RestDelegate {
         aResource.setCreated(new Date());
         resourceRepository.addResource(SP_DEFAULT, id, aResource);
         newResource = aResource;
+        trsEventHandler.onCreated(newResource);
         // End of user code
         return newResource;
     }
@@ -192,6 +201,7 @@ public class RestDelegate {
         aResource.setCreated(new Date());
         linkRepository.addResource(SP_DEFAULT, id, aResource);
         newResource = aResource;
+        trsEventHandler.onCreated(newResource);
         // End of user code
         return newResource;
     }
@@ -217,8 +227,10 @@ public class RestDelegate {
         Boolean deleted = false;
         
         // Start of user code deleteResource
+        URI resourceUri = resourcesFactory.constructURIForResource(id);
         resourceRepository.deleteResource(SP_DEFAULT, id);
         deleted = true;
+        trsEventHandler.onDeleted(resourceUri);
         // If you encounter problems, consider throwing the runtime exception WebApplicationException(message, cause, final httpStatus)
         // End of user code
         return deleted;
@@ -234,6 +246,7 @@ public class RestDelegate {
         aResource.setModified(new Date());
         resourceRepository.updateResource(SP_DEFAULT, id, aResource);
         updatedResource = aResource;
+        trsEventHandler.onModified(updatedResource);
         // End of user code
         return updatedResource;
     }
@@ -254,8 +267,10 @@ public class RestDelegate {
         Boolean deleted = false;
         
         // Start of user code deleteLinkType
+        URI linkTypeUri = resourcesFactory.constructURIForLinkType(id);
         linkRepository.deleteResource(SP_DEFAULT, id);
         deleted = true;
+        trsEventHandler.onDeleted(linkTypeUri);
         // If you encounter problems, consider throwing the runtime exception WebApplicationException(message, cause, final httpStatus)
         // End of user code
         return deleted;
@@ -271,6 +286,7 @@ public class RestDelegate {
         aResource.setModified(new Date());
         linkRepository.updateResource(SP_DEFAULT, id, aResource);
         updatedResource = aResource;
+        trsEventHandler.onModified(updatedResource);
         // If you encounter problems, consider throwing the runtime exception WebApplicationException(message, cause, final httpStatus)
         // End of user code
         return updatedResource;

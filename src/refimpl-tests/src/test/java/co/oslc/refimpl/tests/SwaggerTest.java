@@ -18,19 +18,7 @@ import java.util.Map;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-@Testcontainers
-public class SwaggerTest {
-
-    public static final int STARTUP_TIMEOUT = 120;
-    public static final String RM_SVC = "server-rm";
-    public static final String CM_SVC = "server-cm";
-    public static final String QM_SVC = "server-qm";
-    public static final String AM_SVC = "server-am";
-
-    static final int RM_PORT = 8080;
-    static final int CM_PORT = 8080;
-    static final int QM_PORT = 8080;
-    static final int AM_PORT = 8080;
+public class SwaggerTest extends OslcTest {
 
     static final Map<String, Integer> fixedPorts = Map.of(
         RM_SVC, 8800,
@@ -38,22 +26,6 @@ public class SwaggerTest {
         QM_SVC, 8802,
         AM_SVC, 8803
     );
-
-    @Container
-    public static ComposeContainer environment = new ComposeContainer(new File("src/test/resources/docker-compose.yml"))
-            .withExposedService(RM_SVC, RM_PORT,
-                    Wait.forLogMessage(".*main: Started oejs.Server@.*", 1)
-                            .withStartupTimeout(Duration.ofSeconds(STARTUP_TIMEOUT)))
-            .withExposedService(CM_SVC, CM_PORT,
-                    Wait.forLogMessage(".*main: Started oejs.Server@.*", 1)
-                            .withStartupTimeout(Duration.ofSeconds(STARTUP_TIMEOUT)))
-            .withExposedService(QM_SVC, QM_PORT,
-                    Wait.forLogMessage(".*main: Started oejs.Server@.*", 1)
-                            .withStartupTimeout(Duration.ofSeconds(STARTUP_TIMEOUT)))
-            .withExposedService(AM_SVC, AM_PORT,
-                    Wait.forLogMessage(".*main: Started oejs.Server@.*", 1)
-                            .withStartupTimeout(Duration.ofSeconds(STARTUP_TIMEOUT)))
-            .withLocalCompose(true);
 
     static Playwright playwright;
     static Browser browser;
