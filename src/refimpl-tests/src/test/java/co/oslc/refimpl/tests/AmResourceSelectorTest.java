@@ -58,13 +58,14 @@ public class AmResourceSelectorTest {
 
         // POST a new resource to the AM creation factory.
         // The payload is a minimal Turtle representation of an AM Resource.
-        String turtle =
-                "@prefix oslc_am: <http://open-services.net/ns/am#> .\n" +
-                "@prefix dcterms: <http://purl.org/dc/terms/> .\n" +
-                "@prefix rdf:     <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .\n" +
-                "<> a oslc_am:Resource ;\n" +
-                "   dcterms:identifier \"" + uniqueId + "\" ;\n" +
-                "   dcterms:title      \"Selector test resource " + uniqueId + "\" .\n";
+        String turtle = """
+                @prefix oslc_am: <http://open-services.net/ns/am#> .
+                @prefix dcterms: <http://purl.org/dc/terms/> .
+                @prefix rdf:     <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+                <> a oslc_am:Resource ;
+                   dcterms:identifier "%s" ;
+                   dcterms:title      "Selector test resource %s" .
+                """.formatted(uniqueId, uniqueId);
 
         given()
             .contentType("text/turtle")
