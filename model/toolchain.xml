@@ -251,6 +251,7 @@
     <webServices name="WsLinkType" serviceUrlPattern="lt" resourceUrlPattern="{id}" delete="true" update="true">
       <resourceTypes href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#_porc0ZUdEeq-KoPaR9_Cfg"/>
     </webServices>
+    <trsService xsi:type="oslc4j_ai:InmemPagedTrsService" basePageLimit="5" changeLogPageLimit="5"/>
     <specification/>
     <requiredAdaptors xsi:type="oslc4j_ai:GenericRequiredAdaptor" serviceProviderCatalogURI="http://your.host.com/adaptor/services/catalog/singleton" name="GenericRequiredAdaptor"/>
     <configuration xsi:type="oslc4j_ai:MavenServerConfiguration" rootServerBaseUrl="http://localhost:8803/" applicationContextPath="/" servletUrlPattern="/services/*" jettyPort="8803">

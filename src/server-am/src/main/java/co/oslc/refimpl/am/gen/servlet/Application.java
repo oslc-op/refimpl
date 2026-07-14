@@ -80,6 +80,7 @@ import co.oslc.refimpl.am.gen.services.ResourcesService;
 import co.oslc.refimpl.am.gen.services.LinksService;
 import co.oslc.refimpl.am.gen.services.WsResource;
 import co.oslc.refimpl.am.gen.services.WsLinkType;
+import org.eclipse.lyo.oslc4j.trs.server.service.TrackedResourceSetService;
 
 // Start of user code imports
 // End of user code
@@ -140,6 +141,8 @@ public class Application extends jakarta.ws.rs.core.Application {
             // Start of user code OAuthServiceClasses_notFound
             // End of user code
         }
+        // TRS Server resources
+        RESOURCE_CLASSES.add(TrackedResourceSetService.class);
         
         // Start of user code Custom Resource Classes
         // End of user code

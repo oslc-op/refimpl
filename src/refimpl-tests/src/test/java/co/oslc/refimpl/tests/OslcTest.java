@@ -13,7 +13,6 @@ import java.time.Duration;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-@Testcontainers
 public class OslcTest {
 
     public static final int STARTUP_TIMEOUT = 120;
@@ -27,7 +26,6 @@ public class OslcTest {
     static final int QM_PORT = 8080;
     static final int AM_PORT = 8080;
 
-    @Container
     public static ComposeContainer environment = new ComposeContainer(new File("src/test/resources/docker-compose.yml"))
             .withExposedService(RM_SVC, RM_PORT,
                     Wait.forLogMessage(".*main: Started oejs.Server@.*", 1)
@@ -42,6 +40,10 @@ public class OslcTest {
                     Wait.forLogMessage(".*main: Started oejs.Server@.*", 1)
                             .withStartupTimeout(Duration.ofSeconds(STARTUP_TIMEOUT)))
             .withLocalCompose(true);
+
+    static {
+        environment.start();
+    }
 
     @ParameterizedTest
     @CsvSource({
