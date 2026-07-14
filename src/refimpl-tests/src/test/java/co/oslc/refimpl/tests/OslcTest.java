@@ -7,6 +7,7 @@ import org.testcontainers.containers.ComposeContainer;
 import org.testcontainers.containers.wait.strategy.Wait;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
+import org.testcontainers.utility.DockerImageName;
 
 import java.io.File;
 import java.time.Duration;
@@ -28,27 +29,27 @@ public class OslcTest {
     static final int AM_PORT = 8080;
 
     @Container
-    public static ComposeContainer environment = new ComposeContainer(new File("src/test/resources/docker-compose.yml"))
+    public static ComposeContainer environment = new ComposeContainer(
+            new File("src/test/resources/docker-compose.yml"))
             .withExposedService(RM_SVC, RM_PORT,
-                    Wait.forLogMessage(".*main: Started oejs.Server@.*", 1)
+                    Wait.forLogMessage(".*Started oejs\\.Server@.*", 1)
                             .withStartupTimeout(Duration.ofSeconds(STARTUP_TIMEOUT)))
             .withExposedService(CM_SVC, CM_PORT,
-                    Wait.forLogMessage(".*main: Started oejs.Server@.*", 1)
+                    Wait.forLogMessage(".*Started oejs\\.Server@.*", 1)
                             .withStartupTimeout(Duration.ofSeconds(STARTUP_TIMEOUT)))
             .withExposedService(QM_SVC, QM_PORT,
-                    Wait.forLogMessage(".*main: Started oejs.Server@.*", 1)
+                    Wait.forLogMessage(".*Started oejs\\.Server@.*", 1)
                             .withStartupTimeout(Duration.ofSeconds(STARTUP_TIMEOUT)))
             .withExposedService(AM_SVC, AM_PORT,
-                    Wait.forLogMessage(".*main: Started oejs.Server@.*", 1)
-                            .withStartupTimeout(Duration.ofSeconds(STARTUP_TIMEOUT)))
-            .withLocalCompose(true);
+                    Wait.forLogMessage(".*Started oejs\\.Server@.*", 1)
+                            .withStartupTimeout(Duration.ofSeconds(STARTUP_TIMEOUT)));
 
     @ParameterizedTest
     @CsvSource({
-        RM_SVC + ", " + RM_PORT,
-        CM_SVC + ", " + CM_PORT,
-        QM_SVC + ", " + QM_PORT,
-        AM_SVC + ", " + AM_PORT
+            RM_SVC + ", " + RM_PORT,
+            CM_SVC + ", " + CM_PORT,
+            QM_SVC + ", " + QM_PORT,
+            AM_SVC + ", " + AM_PORT
     })
     void rootservicesDataTableTest(String svc, int port) {
         assertEquals(200, testRootServices(svc, port));

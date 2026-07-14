@@ -18,29 +18,25 @@ COPY server-cm/ server-cm/
 # Build only the specific module and its dependencies
 RUN mvn -B --no-transfer-progress -DskipTests clean package -pl server-cm -am
 
-FROM docker.io/library/jetty:12.1-jdk25-eclipse-temurin
+# Create a custom Java runtime
+RUN $JAVA_HOME/bin/jlink \
+         --add-modules java.base,java.compiler,java.desktop,java.management,java.naming,java.net.http,java.scripting,java.security.jgss,java.security.sasl,java.sql,java.xml.crypto,jdk.unsupported,java.xml,jdk.zipfs,java.instrument \
+         --strip-debug \
+         --no-man-pages \
+         --no-header-files \
+         --compress=2 \
+         --output /javaruntime
+FROM alpine:latest
 
-# Add metadata
-LABEL org.opencontainers.image.title="OSLC RefImpl CM Server"
-LABEL org.opencontainers.image.description="OSLC Change Management Reference Implementation"
-LABEL org.opencontainers.image.source="https://github.com/oslc-op/refimpl"
-LABEL org.opencontainers.image.vendor="OSLC Open Project"
-LABEL org.opencontainers.image.licenses="EPL-2.0"
+ENV JAVA_HOME=/opt/java/openjdk
+ENV PATH="${JAVA_HOME}/bin:${PATH}"
+COPY --from=build /javaruntime $JAVA_HOME
 
-# WARNING DO NOT CHANGE WORKDIR or set it back to what it was before
-# $JETTY_BASE must be correct before starting Jetty
+WORKDIR /app
 
-COPY --from=build /src/server-cm/target/*.war /var/lib/jetty/webapps/ROOT.war
-
-RUN rm -f "$JETTY_BASE/start.d/threadpool.ini" && \
-    java -jar "$JETTY_HOME/start.jar" \
-      --add-modules=ee10-deploy,ee10-jsp,ee10-jstl,threadpool-virtual && \
-    printf '%s\n' \
-      'jetty.threadPool.minThreads=8' \
-      'jetty.threadPool.maxThreads=64' \
-      'jetty.threadPool.reservedThreads=-1' \
-      'jetty.threadPool.virtual.maxConcurrentTasks=500' \
-      'jetty.threadPool.virtual.tracking=false' \
-      >> "$JETTY_BASE/start.d/threadpool-virtual.ini"
+COPY --from=build /src/server-cm/target/lib/ ./lib/
+COPY --from=build /src/server-cm/target/server-cm.jar ./server-cm.jar
 
 EXPOSE 8080
+
+ENTRYPOINT ["java", "-jar", "server-cm.jar"]
