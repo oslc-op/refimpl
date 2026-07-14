@@ -112,11 +112,24 @@ public class RestDelegate {
     }
     public List<Resource> ResourceSelector(HttpServletRequest httpServletRequest, String terms)
     {
-        List<Resource> resources = null;
+        List<Resource> resources = new ArrayList<>();
         
         
         // Start of user code ResourceSelector
-        // TODO Implement code to return a set of resources, based on search criteria
+        List<Resource> allResources = resourceRepository.fetchResourcesForSP(SP_DEFAULT);
+        if (allResources != null) {
+            if (terms == null || terms.isEmpty()) {
+                resources.addAll(allResources);
+            } else {
+                String lowerTerms = terms.toLowerCase();
+                for (Resource resource : allResources) {
+                    if ((resource.getIdentifier() != null && resource.getIdentifier().toLowerCase().contains(lowerTerms)) ||
+                        resource.toString().toLowerCase().contains(lowerTerms)) {
+                        resources.add(resource);
+                    }
+                }
+            }
+        }
         // End of user code
         return resources;
     }
