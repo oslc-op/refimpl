@@ -112,10 +112,11 @@ public class RestDelegate {
     }
     public List<Resource> ResourceSelector(HttpServletRequest httpServletRequest, String terms)
     {
-        List<Resource> resources = new ArrayList<>();
+        List<Resource> resources = null;
         
         
         // Start of user code ResourceSelector
+        resources = new ArrayList<>();
         List<Resource> allResources = resourceRepository.fetchResourcesForSP(SP_DEFAULT);
         if (allResources != null) {
             if (terms == null || terms.isEmpty()) {
