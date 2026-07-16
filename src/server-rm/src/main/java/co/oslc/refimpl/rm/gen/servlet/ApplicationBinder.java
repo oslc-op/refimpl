@@ -36,7 +36,6 @@ import java.util.Set;
 
 import java.net.URI;
 import java.util.ArrayList;
-
 import org.eclipse.lyo.oslc4j.trs.server.InmemPagedTrs;
 import org.eclipse.lyo.oslc4j.trs.server.PagedTrs;
 import org.eclipse.lyo.oslc4j.trs.server.PagedTrsFactory;

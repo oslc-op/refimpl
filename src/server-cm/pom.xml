@@ -318,11 +318,13 @@
                     <_initParams>
                         <org.eclipse.jetty.servlet.Default.useFileMappedBuffer>false</org.eclipse.jetty.servlet.Default.useFileMappedBuffer>
                     </_initParams>
+                  
                   </webApp>
                   <httpConnector>
                     <port>${servlet.port}</port>
                   </httpConnector>
                   <scan>5</scan>
+                  
                 </configuration>
             </plugin>
             <plugin>
@@ -397,6 +399,7 @@
                             <targetPath>/swagger-ui/dist</targetPath>
                         </resource>
                     </webResources>
+                    
                 </configuration>
             </plugin>
             
