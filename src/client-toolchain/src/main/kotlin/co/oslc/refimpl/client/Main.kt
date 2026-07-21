@@ -20,7 +20,7 @@ import org.eclipse.lyo.client.IOslcClient
 import org.eclipse.lyo.client.OslcClientFactory
 import org.eclipse.lyo.oslc4j.core.annotation.OslcResourceShape
 import org.eclipse.lyo.oslc4j.core.model.*
-import org.glassfish.jersey.apache.connector.ApacheConnectorProvider
+import org.glassfish.jersey.apache5.connector.Apache5ConnectorProvider
 import org.glassfish.jersey.client.ClientConfig
 import org.glassfish.jersey.client.authentication.HttpAuthenticationFeature
 import java.net.ConnectException
