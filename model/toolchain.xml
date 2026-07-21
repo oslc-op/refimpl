@@ -113,6 +113,7 @@
     <webServices name="WsChangeRequest" serviceUrlPattern="change_request" resourceUrlPattern="{id}" delete="true" update="true">
       <resourceTypes href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#_poJRUJUdEeq-KoPaR9_Cfg"/>
     </webServices>
+    <trsService xsi:type="oslc4j_ai:InmemPagedTrsService"/>
     <specification/>
     <requiredAdaptors xsi:type="oslc4j_ai:GenericRequiredAdaptor" serviceProviderCatalogURI="http://your.host.com/adaptor/services/catalog/singleton" name="GenericRequiredAdaptor"/>
     <configuration xsi:type="oslc4j_ai:MavenServerConfiguration" rootServerBaseUrl="http://localhost:8801/" applicationContextPath="/" servletUrlPattern="/services/*" generateJspFilesForOslcUI="true" jettyPort="8801">
@@ -206,6 +207,7 @@
     <webServices name="WsExecRecords" serviceUrlPattern="exec-records" resourceUrlPattern="{spSlug}-{id}" delete="true" update="true">
       <resourceTypes href="../org.eclipse.lyo.tools.domainmodels/oslcDomainSpecifications.xml#_poiS4JUdEeq-KoPaR9_Cfg"/>
     </webServices>
+    <trsService xsi:type="oslc4j_ai:InmemPagedTrsService"/>
     <specification/>
     <requiredAdaptors xsi:type="oslc4j_ai:GenericRequiredAdaptor" serviceProviderCatalogURI="http://your.host.com/adaptor/services/catalog/singleton" name="GenericRequiredAdaptor"/>
     <configuration xsi:type="oslc4j_ai:MavenServerConfiguration" rootServerBaseUrl="http://localhost:8802/" applicationContextPath="/" servletUrlPattern="/services/*" jettyPort="8802">
