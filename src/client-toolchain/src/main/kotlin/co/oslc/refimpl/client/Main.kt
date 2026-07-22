@@ -20,7 +20,7 @@ import org.eclipse.lyo.client.IOslcClient
 import org.eclipse.lyo.client.OslcClientFactory
 import org.eclipse.lyo.oslc4j.core.annotation.OslcResourceShape
 import org.eclipse.lyo.oslc4j.core.model.*
-import org.glassfish.jersey.apache.connector.ApacheConnectorProvider
+import org.glassfish.jersey.apache5.connector.Apache5ConnectorProvider
 import org.glassfish.jersey.client.ClientConfig
 import org.glassfish.jersey.client.authentication.HttpAuthenticationFeature
 import java.net.ConnectException
@@ -62,7 +62,7 @@ class RefImplClientArgs(parser: ArgParser) {
 fun basicAuthClientBuilder(username: String, password: String, selfAssignedSSL: Boolean): IOslcClient {
     val oslcClientBuilder = OslcClientFactory.oslcClientBuilder()
 
-    val apacheConnectorProvider = ApacheConnectorProvider()
+    val apacheConnectorProvider = Apache5ConnectorProvider()
 
     //FIXME: see https://github.com/eclipse/lyo.client/issues/108
     val clientConfig = ClientConfig()
