@@ -62,7 +62,7 @@ class RefImplClientArgs(parser: ArgParser) {
 fun basicAuthClientBuilder(username: String, password: String, selfAssignedSSL: Boolean): IOslcClient {
     val oslcClientBuilder = OslcClientFactory.oslcClientBuilder()
 
-    val apacheConnectorProvider = ApacheConnectorProvider()
+    val apacheConnectorProvider = Apache5ConnectorProvider()
 
     //FIXME: see https://github.com/eclipse/lyo.client/issues/108
     val clientConfig = ClientConfig()
