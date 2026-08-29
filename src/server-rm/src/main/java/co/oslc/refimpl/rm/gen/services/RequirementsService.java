@@ -266,42 +266,54 @@ public class RequirementsService
     )
     @GET
     @Path("selector")
-    @Consumes({ MediaType.TEXT_HTML, MediaType.WILDCARD })
+    @Consumes({MediaType.TEXT_HTML, MediaType.WILDCARD})
     public Response RequirementSelector(
         @QueryParam("terms") final String terms
         , @PathParam("serviceProviderId") final String serviceProviderId
-        ) throws ServletException, IOException, JSONException
-    {
+    ) throws ServletException, IOException, JSONException {
         // Start of user code RequirementSelector_init
-            // End of user code
-
-        httpServletRequest.setAttribute("selectionUri",UriBuilder.fromUri(OSLC4JUtils.getServletURI()).path(uriInfo.getPath()).build().toString());
+        // End of user code
+        
+        httpServletRequest.setAttribute("selectionUri",
+            UriBuilder.fromUri(OSLC4JUtils.getServletURI()).path(uriInfo.getPath()).build().toString());
         // Start of user code RequirementSelector_setAttributes
-            // End of user code
-
-        if (terms != null ) {
+        // End of user code
+        
+        if (terms != null) {
             httpServletRequest.setAttribute("terms", terms);
-            final List<Requirement> resources = delegate.RequirementSelector(httpServletRequest, serviceProviderId, terms);
-            if (resources!= null) {
-                JSONArray resourceArray = new JSONArray();
-                for (Requirement resource : resources) {
-                    JSONObject r = new JSONObject();
-                    r.put("oslc:label", resource.toString());
-                    r.put("rdf:resource", resource.getAbout().toString());
-                    r.put("Label", resource.toString());
-                    // Start of user code RequirementSelector_setResponse
-                    // End of user code
-                    resourceArray.add(r);
+            final List<Requirement> resources = delegate.RequirementSelector(httpServletRequest,
+                serviceProviderId, terms);
+            if (resources != null) {
+                if ("true".equalsIgnoreCase(httpServletRequest.getHeader("hx-request"))) {
+                    // we need to return HTML fragment
+                    RequestDispatcher rd = httpServletRequest.getRequestDispatcher("/co/oslc/refimpl/rm" +
+                        "/gen/requirementselector-results.jsp");
+                        httpServletRequest.setAttribute("resources", resources);
+                    rd.forward(httpServletRequest, httpServletResponse);
+                } else {
+                    // this is really bad, we should not be mixing HTML and JSON without content 
+                    // negotiation
+                    JSONArray resourceArray = new JSONArray();
+                    for (Requirement resource : resources) {
+                        JSONObject r = new JSONObject();
+                        r.put("oslc:label", resource.toString());
+                        r.put("rdf:resource", resource.getAbout().toString());
+                        r.put("Label", resource.toString());
+                        // Start of user code RequirementSelector_setResponse
+                        // End of user code
+                        resourceArray.add(r);
+                    }
+                    JSONObject response = new JSONObject();
+                    response.put("oslc:results", resourceArray);
+                    return Response.ok(response.write()).build();
                 }
-                JSONObject response = new JSONObject();
-                response.put("oslc:results", resourceArray);
-                return Response.ok(response.write()).build();
+                
             }
             log.error("A empty search should return an empty list and not NULL!");
-            throw new WebApplicationException(Status.INTERNAL_SERVER_ERROR);
-
+            return Response.noContent().build();
         } else {
-            RequestDispatcher rd = httpServletRequest.getRequestDispatcher("/co/oslc/refimpl/rm/gen/requirementselector.jsp");
+            RequestDispatcher rd = httpServletRequest.getRequestDispatcher("/co/oslc/refimpl/rm" +
+                "/gen/requirementselector.jsp");
             rd.forward(httpServletRequest, httpServletResponse);
             return null;
         }
