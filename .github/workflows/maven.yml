@@ -31,6 +31,10 @@ jobs:
           - jdk: '25'
             distribution: 'liberica'
             experimental: false
+          # Latest release Temurin
+          - jdk: '27'
+            distribution: 'temurin'
+            experimental: false
           # Latest release Oracle
           # - jdk: '24'
           #   distribution: 'oracle'
@@ -66,7 +70,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        jdk: ['21']
+        jdk: ['21', '25', '27']
         distribution: ['temurin']
         experimental: [false]
         # include:

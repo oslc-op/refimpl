@@ -30,7 +30,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        jdk: ['21', '25']
+        jdk: ['21', '25', '27']
         distribution: ['temurin']
         experimental: [false]
         # include:
@@ -76,6 +76,12 @@ jobs:
         # experimental: [false]
         include:
           - jdk: '21'
+            distribution: 'temurin'
+            experimental: false
+          - jdk: '25'
+            distribution: 'temurin'
+            experimental: false
+          - jdk: '27'
             distribution: 'temurin'
             experimental: false
           # - jdk: '19'
@@ -133,6 +139,12 @@ jobs:
         # experimental: [false]
         include:
           - jdk: '21'
+            distribution: 'temurin'
+            experimental: false
+          - jdk: '25'
+            distribution: 'temurin'
+            experimental: false
+          - jdk: '27'
             distribution: 'temurin'
             experimental: false
           # - jdk: '19'
