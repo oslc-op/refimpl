@@ -1,4 +1,4 @@
-FROM docker.io/library/maven:3-eclipse-temurin-25 AS build
+FROM docker.io/library/maven:3-eclipse-temurin-27 AS build
 
 COPY . /src
 WORKDIR /src
