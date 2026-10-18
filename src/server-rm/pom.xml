@@ -25,15 +25,15 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <maven.compiler.release>21</maven.compiler.release>
         <version.lyo>7.0.0-SNAPSHOT</version.lyo>
-        <swagger-ui.version>5.32.8</swagger-ui.version>
+        <swagger-ui.version>5.33.2</swagger-ui.version>
         <servlet.port>8800</servlet.port>
         <application.contextpath>/</application.contextpath>
         <application.filename>server-rm</application.filename>
         
         <!-- Start of user code properties
     -->
-        <v.lucene>9.12.0</v.lucene>
-        <v.rest-assured>6.0.1</v.rest-assured>
+        <v.lucene>10.3.1</v.lucene>
+        <v.rest-assured>6.1.0</v.rest-assured>
     <!-- End of user code
         -->
     </properties>
@@ -333,7 +333,7 @@
             <plugin>
               <groupId>org.apache.maven.plugins</groupId>
               <artifactId>maven-compiler-plugin</artifactId>
-              <version>3.15.0</version>
+              <version>3.16.0</version>
               <configuration>
                 <compilerArgument>
                   -Xlint:fallthrough,unchecked,removal,deprecation,dep-ann,varargs,overloads,serial,try,finally
@@ -343,7 +343,7 @@
             <plugin>
                 <groupId>org.eclipse.jetty.ee10</groupId>
                 <artifactId>jetty-ee10-maven-plugin</artifactId>
-                <version>12.1.11</version>
+                <version>12.1.14</version>
                 <configuration>
                   <webApp>
                     <contextPath>${application.contextpath}</contextPath>
@@ -362,7 +362,7 @@
             <plugin>
                 <groupId>org.codehaus.cargo</groupId>
                 <artifactId>cargo-maven3-plugin</artifactId>
-                <version>1.10.28</version>
+                <version>1.10.29</version>
                 <configuration>
                     <!--This plugins supports the following containers-->
                     <container>

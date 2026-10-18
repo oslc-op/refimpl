@@ -1,7 +1,7 @@
 <%--To avoid the overriding of any manual code changes upon subsequent code generations, disable "Generate JSP Files" option in the Adaptor model.--%>
 <!DOCTYPE html>
 <%--
- Copyright (c) 2020 Contributors to the Eclipse Foundation
+ Copyright (c) 2025 Contributors to the Eclipse Foundation
  
  See the NOTICE file(s) distributed with this work for additional
  information regarding copyright ownership.
@@ -27,38 +27,55 @@
 
 <%
   String selectionUri = (String) request.getAttribute("selectionUri");
-
 %>
 
-<html>
-  <head>
-    <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>RequirementSD</title>
-    <script src="<c:url value="/static/js/delegated-ui.js"/>"></script>
-  </head>
-  <body style="padding: 10px;">
-    <div id="selector-body">
-      <p id="searchMessage">Find a specific resource through a free-text search.</p>
-
-      <p id="loadingMessage" style="display: none;">Pondering your search. Please stand by ...</p>
-
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css">
+    <script src="https://unpkg.com/htmx.org@2.0.4" integrity="sha384-HGfztofotfshcF7+8n44JQL2oJmowVChPTg48S+jvZoztPfvwD79OC/LTtG6dMp+" crossorigin="anonymous"></script>
+</head>
+<body>
+  <main class="container">
+      <p id="searchMessage">Find a specific OSLC resource through a free-text search.</p>
       <div>
-        <input type="search" style="width: 335px" id="searchTerms" placeholder="Enter search terms" autofocus>
-        <button type="button" onclick="search( '<%= selectionUri %>' )">Search</button>
+          <input type="search" id="searchTerms" name="terms" placeholder="Begin typing to search" 
+              autofocus autocomplete="off"
+              hx-trigger="input changed delay:120ms, keyup[key=='Enter'], load" 
+              hx-get="<%= selectionUri %>" hx-target="#search-results"
+              hx-ext="aria-busy">
       </div>
+      <div id="search-results" class="grid"></div>
+  </main>
 
-      <div style="margin-top: 5px;">
-        <select id="results" size="10" style="width: 400px" multiple="multiple"></select>
-      </div>
+  <script>
+  function sendOslcSelectionPostMessage(target, event) {
+    const message = {
+      "oslc:results": [
+        {
+          "oslc:label": target.text,
+          "rdf:resource": target.href
+        }
+      ]
+    }
+    window.parent.postMessage("oslc-response:" + JSON.stringify(message), '*')
+    event.preventDefault()
+  }
 
-      <div style="width: 400px; margin-top: 5px;">
-        <button style="float: right;" type="button"
-          onclick="javascript: cancel()">Cancel</button>
-        <button style="float: right;" type="button"
-          onclick="javascript: select();">OK</button>
-      </div>
-      <div style="clear: both;"></div>
-    </div>
-
+  // use accessible busy indicators
+  htmx.defineExtension('aria-busy', {
+    onEvent : function(name, evt) {
+      var elt = evt.detail.elt;
+      if(name === "htmx:beforeRequest") {
+         elt.setAttribute("aria-busy", "true")
+       } else if(name === "htmx:afterRequest" ) {
+         elt.removeAttribute("aria-busy")
+       }
+    }
+  })
+  </script>
   </body>
 </html>
