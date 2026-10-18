@@ -4,8 +4,7 @@ import static io.restassured.RestAssured.*;
 import static io.restassured.config.XmlConfig.xmlConfig;
 import static io.restassured.matcher.RestAssuredMatchers.*;
 import static org.hamcrest.Matchers.*;
-import static org.junit.Assert.*;
-
+import io.quarkus.test.junit.QuarkusTest;
 import io.restassured.RestAssured;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
@@ -15,13 +14,16 @@ import org.eclipse.lyo.oslc4j.core.model.ServiceProvider;
 import org.eclipse.lyo.oslc4j.core.model.ServiceProviderCatalog;
 import org.eclipse.lyo.oslc4j.provider.jena.JenaModelHelper;
 import org.hamcrest.*;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.io.InputStream;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+@QuarkusTest
 public class SpCatalogIT {
 
-    private static final String URI_SPC = "http://localhost:8800/services/catalog/singleton";
+    private static final String URI_SPC = "http://localhost:8800/catalog/singleton";
 
     @Test
     public void testAuthChallenge() {
@@ -77,7 +79,7 @@ public class SpCatalogIT {
                 .declareNamespace("oslc_rm", "http://open-services.net/xmlns/rm/1.0/")
             ))
         .when()
-            .get("http://localhost:8800/services/rootservices")
+            .get("http://localhost:8800/rootservices")
         .then()
             .statusCode(200)
             .contentType("application/rdf+xml")

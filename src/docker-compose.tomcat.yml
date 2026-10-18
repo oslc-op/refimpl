@@ -2,9 +2,9 @@ services:
   server-rm:
     build:
       context: ./
-      dockerfile: ./server-rm/tomcat.Dockerfile
+      dockerfile: ./server-rm/Dockerfile
     ports:
-      - "8800:8080"
+      - "8800:8800"
     # Uncomment to configure the base URL for reverse proxy or custom domain deployments
     # environment:
     #   - LYO_BASEURL=https://mytoolchain.example.com:9443/refimpl/rm

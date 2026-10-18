@@ -80,16 +80,21 @@ public class CredentialsFilter implements Filter {
             return false;
         }
 
-        String pathInfo = httpRequest.getPathInfo();
-        String requestURI = httpRequest.getRequestURI();
+        String path = httpRequest.getPathInfo();
+        if (path == null || path.isEmpty()) {
+            path = httpRequest.getServletPath();
+        }
+        if (path == null || path.isEmpty()) {
+            path = httpRequest.getRequestURI();
+        }
 
-        //'protectedResource' defines the basic set of requests that needs to be protected. 
-        //You can override this defintion in the user protected code block below.
+        // 'protectedResource' defines the basic set of requests that needs to be protected. 
+        // You can override this definition in the user protected code block below.
         // Do not protect the home page, OSLC resources needed for initial discovery, or static resources
-        if (pathInfo == null || "/".equals(requestURI) || requestURI.endsWith("/")) {
+        if (path == null || "/".equals(path) || path.isEmpty()) {
             return false;  // Home page is not protected
         }
-        boolean protectedResource = !pathInfo.startsWith("/rootservices") && !pathInfo.startsWith("/oauth") && !pathInfo.startsWith("/static");
+        boolean protectedResource = !path.startsWith("/rootservices") && !path.startsWith("/oauth") && !path.startsWith("/static") && !path.startsWith("/q/") && !path.startsWith("/swagger-ui");
         // Do not protect CORS preflight requests
         if (protectedResource) {
             String method = httpRequest.getMethod();

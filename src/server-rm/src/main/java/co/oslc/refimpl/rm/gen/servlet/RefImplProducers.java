@@ -43,7 +43,7 @@ public class RefImplProducers {
                     .filter(s -> !s.isEmpty())
                     .collect(Collectors.toSet());
         }
-        return new LyoAppConfiguration(baseUrl, "services", friends);
+        return new LyoAppConfiguration(baseUrl, "/", friends);
     }
 
     @Produces

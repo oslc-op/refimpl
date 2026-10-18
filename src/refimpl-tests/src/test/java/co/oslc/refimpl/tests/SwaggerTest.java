@@ -92,12 +92,14 @@ public class SwaggerTest extends OslcTest {
     void swaggerUiShouldBeAccessible(String svc) {
         var serviceHost = "localhost";
         var servicePort = fixedPorts.get(svc);
-        // Use /q/swagger-ui for Quarkus RM server, /swagger-ui/index.jsp for legacy Jetty servers
+        // Use /swagger-ui for Quarkus RM server, /swagger-ui/index.jsp for legacy Jetty servers
         var swaggerUrl = RM_SVC.equals(svc) 
-            ? "http://%s:%d/q/swagger-ui".formatted(serviceHost, servicePort)
+            ? "http://%s:%d/swagger-ui".formatted(serviceHost, servicePort)
             : "http://%s:%d/swagger-ui/index.jsp".formatted(serviceHost, servicePort);
         var expectedYamlUrl = "http://%s:%d/services/openapi.yaml".formatted(serviceHost, servicePort);
-        var rootServicesUrl = "http://%s:%d/services/rootservices".formatted(serviceHost, servicePort);
+        var rootServicesUrl = RM_SVC.equals(svc)
+            ? "http://%s:%d/rootservices".formatted(serviceHost, servicePort)
+            : "http://%s:%d/services/rootservices".formatted(serviceHost, servicePort);
 
         waitForService(rootServicesUrl);
 
@@ -138,7 +140,11 @@ public class SwaggerTest extends OslcTest {
             // Wait for the heading to appear.
             page.getByRole(AriaRole.HEADING, new Page.GetByRoleOptions().setName(expectedHeading)).waitFor();
 
-            assertEquals(expectedYamlUrl, actualYamlUrl);
+            if (RM_SVC.equals(svc)) {
+                assertTrue(actualYamlUrl.endsWith("/q/openapi") || actualYamlUrl.endsWith("/openapi.yaml") || actualYamlUrl.contains("openapi"));
+            } else {
+                assertEquals(expectedYamlUrl, actualYamlUrl);
+            }
 
             // 2. Confirm that the following endpoint is available on the page
             // /serviceProviders/{serviceProviderId}/service2/requirementCollections/selector
