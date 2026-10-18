@@ -259,8 +259,8 @@ public class ResourcesService
          title = "ResourceSD",
          label = "OSLC Resource Selection Dialog",
          uri = "service1/resources/selector",
-         hintWidth = "0px",
-         hintHeight = "0px",
+         hintWidth = "500px",
+         hintHeight = "500px",
          resourceTypes = {Oslc_amDomainConstants.RESOURCE_TYPE},
          usages = {}
     )

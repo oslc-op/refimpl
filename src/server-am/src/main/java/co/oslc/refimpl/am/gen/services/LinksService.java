@@ -259,8 +259,8 @@ public class LinksService
          title = "LinkTypeSD",
          label = "LinkType Selection Dialog",
          uri = "service2/linkTypes/selector",
-         hintWidth = "0px",
-         hintHeight = "0px",
+         hintWidth = "500px",
+         hintHeight = "500px",
          resourceTypes = {Oslc_amDomainConstants.LINKTYPE_TYPE},
          usages = {}
     )

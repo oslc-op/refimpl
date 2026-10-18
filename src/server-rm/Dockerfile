@@ -1,4 +1,4 @@
-FROM docker.io/library/maven:3-eclipse-temurin-21-alpine AS build
+FROM docker.io/library/maven:3-eclipse-temurin-27-alpine AS build
 
 WORKDIR /src
 
@@ -20,7 +20,6 @@ RUN mvn -B --no-transfer-progress -DskipTests clean package -pl server-rm -am -D
 
 FROM registry.access.redhat.com/ubi8/openjdk-21-runtime:1.20
 
-# Add metadata
 LABEL org.opencontainers.image.title="OSLC RefImpl RM Server"
 LABEL org.opencontainers.image.description="OSLC Requirements Management Reference Implementation"
 LABEL org.opencontainers.image.source="https://github.com/oslc-op/refimpl"

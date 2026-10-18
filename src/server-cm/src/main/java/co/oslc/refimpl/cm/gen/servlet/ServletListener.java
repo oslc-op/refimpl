@@ -29,6 +29,9 @@ import java.util.NoSuchElementException;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -137,6 +140,7 @@ public class ServletListener implements ServletContextListener  {
      * <ol>
      *     <li>LYO_SCHEME env variable</li>
      *     <li>%pkg_name%.scheme JVM property, e.g. org.eclipse.lyo.oslc4j.core.servlet.scheme</li>
+     *     <li>LYO_SCHEME JNDI env entry</li>
      *     <li>%pkg_name%.scheme Servlet Context parameter, e.g. org.eclipse.lyo.oslc4j.core.servlet.scheme</li>
      * </ol>
      * @param key property key name
@@ -147,8 +151,9 @@ public class ServletListener implements ServletContextListener  {
     public static String getConfigurationProperty(String key, String defaultValue, final ServletContext servletContext, Class klass) {
         String value = getConfigurationPropertyFromEnvironment(generateEnvironmentKey(key))
             .orElseGet(() -> getConfigurationPropertyFromSystemProperties(generateFullyQualifiedKey(klass, key))
-                .orElseGet(() -> getConfigurationPropertyFromContext(servletContext, generateFullyQualifiedKey(klass, key))
-                    .orElse(defaultValue)));
+                .orElseGet(() -> getConfigurationPropertyFromJndi(generateEnvironmentKey(key))
+                    .orElseGet(() -> getConfigurationPropertyFromContext(servletContext, generateFullyQualifiedKey(klass, key))
+                        .orElse(defaultValue))));
         return value;
     }
 
@@ -164,6 +169,22 @@ public class ServletListener implements ServletContextListener  {
      */
     private static String generateEnvironmentKey(String key) {
         return "LYO_" + key.toUpperCase(Locale.ROOT).replace('.', '_');
+    }
+
+    private static Optional<String> getConfigurationPropertyFromJndi(String key) {
+        try {
+            Context initCtx = new InitialContext();
+            Context envCtx = (Context) initCtx.lookup("java:comp/env");
+            Object value = envCtx.lookup(key);
+            if (value != null) {
+                logger.info("Found JNDI env entry with key {}", key);
+                return Optional.of(value.toString());
+            }
+        } catch (NamingException e) {
+            // JNDI lookup failed - normal if not running in a container or property not defined
+            logger.debug("JNDI lookup failed for key '{}': {}", key, e.getMessage());
+        }
+        return Optional.empty();
     }
 
     private static Optional<String> getConfigurationPropertyFromEnvironment(String basePathEnvKey) {

@@ -1,8 +1,8 @@
 # This workflow will build a Java project with Maven
 # For more information see: https://help.github.com/actions/language-and-framework-guides/building-and-testing-java-with-maven
 
-name: CI acceptance tests (MANUAL)
-run-name: "refimpl@${{ github.ref_name }} (Lyo@${{ github.event.inputs.lyoBranch }}; comment: ${{ inputs.comment }})"
+name: Acceptance test (Lyo HEAD)
+run-name: "acceptance@${{ github.ref_name }} (Lyo@${{ github.event.inputs.lyoBranch }}; comment: ${{ inputs.comment }})"
 
 on:
   workflow_dispatch:
@@ -19,6 +19,10 @@ on:
         description: 'comment, e.g. PR number'
         default: 'n/a'
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}-${{ github.event.inputs.lyoRepo }}-${{ github.event.inputs.lyoBranch }}
+  cancel-in-progress: false
+
 jobs:
   build:
     runs-on: [ubuntu-latest]
@@ -26,30 +30,33 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        jdk: ['21', '25']
-        distribution: ['temurin']
-        experimental: [false]
-        # include:
-        #   - jdk: '24-ea'
-        #     distribution: 'zulu'
-        #     experimental: true
+        include:
+          - jdk: '21'
+            distribution: 'temurin'
+            experimental: false
+          - jdk: '25'
+            distribution: 'temurin'
+            experimental: false
+          - jdk: '27'
+            distribution: 'liberica'
+            experimental: false
     continue-on-error: ${{ matrix.experimental }}
 
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
         with:
           repository: "${{ github.event.inputs.lyoRepo }}"
           ref: "${{ github.event.inputs.lyoBranch }}"
           path: lyo-trunk
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
         with:
           path: main
       - name: Set up JDK ${{ matrix.jdk }}
-        uses: actions/setup-java@v5
+        uses: actions/setup-java@v6
         with:
           distribution: ${{ matrix.distribution }}
           java-version: ${{ matrix.jdk }}
-      - uses: actions/cache@v5
+      - uses: actions/cache@v6
         with:
           path: ~/.m2/repository
           key: ${{ runner.os }}-${{ matrix.jdk }}_${{ matrix.distribution }}-maven-${{ hashFiles('**/pom.xml') }}
@@ -74,26 +81,32 @@ jobs:
           - jdk: '21'
             distribution: 'temurin'
             experimental: false
+          - jdk: '25'
+            distribution: 'temurin'
+            experimental: false
+          - jdk: '27'
+            distribution: 'liberica'
+            experimental: false
           # - jdk: '19'
           #   distribution: 'zulu'
           #   experimental: true
     continue-on-error: ${{ matrix.experimental }}
 
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
         with:
           repository: "${{ github.event.inputs.lyoRepo }}"
           ref: "${{ github.event.inputs.lyoBranch }}"
           path: lyo-trunk
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
         with:
           path: main
       - name: Set up JDK ${{ matrix.jdk }}
-        uses: actions/setup-java@v5
+        uses: actions/setup-java@v6
         with:
           distribution: ${{ matrix.distribution }}
           java-version: ${{ matrix.jdk }}
-      - uses: actions/cache@v5
+      - uses: actions/cache@v6
         with:
           path: ~/.m2/repository
           key: ${{ runner.os }}-${{ matrix.jdk }}_${{ matrix.distribution }}-maven-${{ hashFiles('**/pom.xml') }}
@@ -131,26 +144,32 @@ jobs:
           - jdk: '21'
             distribution: 'temurin'
             experimental: false
+          - jdk: '25'
+            distribution: 'temurin'
+            experimental: false
+          - jdk: '27'
+            distribution: 'liberica'
+            experimental: false
           # - jdk: '19'
           #   distribution: 'zulu'
           #   experimental: true
     continue-on-error: ${{ matrix.experimental }}
 
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
         with:
           repository: "${{ github.event.inputs.lyoRepo }}"
           ref: "${{ github.event.inputs.lyoBranch }}"
           path: lyo-trunk
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
         with:
           path: main
       - name: Set up JDK ${{ matrix.jdk }}
-        uses: actions/setup-java@v5
+        uses: actions/setup-java@v6
         with:
           distribution: ${{ matrix.distribution }}
           java-version: ${{ matrix.jdk }}
-      - uses: actions/cache@v5
+      - uses: actions/cache@v6
         with:
           path: ~/.m2/repository
           key: ${{ runner.os }}-${{ matrix.jdk }}_${{ matrix.distribution }}-maven-${{ hashFiles('**/pom.xml') }}

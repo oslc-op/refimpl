@@ -277,35 +277,46 @@ public class RequirementsService
     public Object RequirementSelector(
         @QueryParam("terms") final String terms
         , @PathParam("serviceProviderId") final String serviceProviderId
-        ) throws ServletException, IOException, JSONException
-    {
+    ) throws ServletException, IOException, JSONException {
         // Start of user code RequirementSelector_init
-            // End of user code
+        // End of user code
 
         String selectionUri = UriBuilder.fromUri(OSLC4JUtils.getServletURI()).path(uriInfo.getPath()).build().toString();
         // Start of user code RequirementSelector_setAttributes
-            // End of user code
+        // End of user code
 
-        if (terms != null ) {
+        if (terms != null) {
             final List<Requirement> resources = delegate.RequirementSelector(httpServletRequest, serviceProviderId, terms);
-            if (resources!= null) {
-                JSONArray resourceArray = new JSONArray();
-                for (Requirement resource : resources) {
-                    JSONObject r = new JSONObject();
-                    r.put("oslc:label", resource.toString());
-                    r.put("rdf:resource", resource.getAbout().toString());
-                    r.put("Label", resource.toString());
-                    // Start of user code RequirementSelector_setResponse
-                    // End of user code
-                    resourceArray.add(r);
+            if (resources != null) {
+                if ("true".equalsIgnoreCase(httpServletRequest.getHeader("hx-request"))) {
+                    StringBuilder sb = new StringBuilder("<aside><nav><ul>");
+                    for (Requirement requirement : resources) {
+                        sb.append("<li><a href=\"")
+                          .append(requirement.getAbout())
+                          .append("\" onclick=\"sendOslcSelectionPostMessage(this, event)\">")
+                          .append(requirement.getTitle())
+                          .append("</a></li>");
+                    }
+                    sb.append("</ul></nav></aside>");
+                    return Response.ok(sb.toString(), MediaType.TEXT_HTML).build();
+                } else {
+                    JSONArray resourceArray = new JSONArray();
+                    for (Requirement resource : resources) {
+                        JSONObject r = new JSONObject();
+                        r.put("oslc:label", resource.toString());
+                        r.put("rdf:resource", resource.getAbout().toString());
+                        r.put("Label", resource.toString());
+                        // Start of user code RequirementSelector_setResponse
+                        // End of user code
+                        resourceArray.add(r);
+                    }
+                    JSONObject response = new JSONObject();
+                    response.put("oslc:results", resourceArray);
+                    return Response.ok(response.write()).build();
                 }
-                JSONObject response = new JSONObject();
-                response.put("oslc:results", resourceArray);
-                return Response.ok(response.write()).build();
             }
             log.error("A empty search should return an empty list and not NULL!");
-            throw new WebApplicationException(Status.INTERNAL_SERVER_ERROR);
-
+            return Response.noContent().build();
         } else {
             // Use Qute template instead of JSP
             return requirementSelector.data("selectionUri", selectionUri);

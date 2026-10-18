@@ -1486,7 +1486,7 @@ public class Change_requestsService
         if (paramValues != null) {
                 if (paramValues.size() == 1) {
                     if (paramValues.get(0).length() != 0)
-                        aResource.setClosed(new Boolean(paramValues.get(0)));
+                        aResource.setClosed(Boolean.valueOf(paramValues.get(0)));
                     // else, there is an empty value for that parameter, and hence ignore since the parameter is not actually set.
                 }
 
@@ -1495,7 +1495,7 @@ public class Change_requestsService
         if (paramValues != null) {
                 if (paramValues.size() == 1) {
                     if (paramValues.get(0).length() != 0)
-                        aResource.setInProgress(new Boolean(paramValues.get(0)));
+                        aResource.setInProgress(Boolean.valueOf(paramValues.get(0)));
                     // else, there is an empty value for that parameter, and hence ignore since the parameter is not actually set.
                 }
 
@@ -1504,7 +1504,7 @@ public class Change_requestsService
         if (paramValues != null) {
                 if (paramValues.size() == 1) {
                     if (paramValues.get(0).length() != 0)
-                        aResource.setFixed(new Boolean(paramValues.get(0)));
+                        aResource.setFixed(Boolean.valueOf(paramValues.get(0)));
                     // else, there is an empty value for that parameter, and hence ignore since the parameter is not actually set.
                 }
 
@@ -1513,7 +1513,7 @@ public class Change_requestsService
         if (paramValues != null) {
                 if (paramValues.size() == 1) {
                     if (paramValues.get(0).length() != 0)
-                        aResource.setApproved(new Boolean(paramValues.get(0)));
+                        aResource.setApproved(Boolean.valueOf(paramValues.get(0)));
                     // else, there is an empty value for that parameter, and hence ignore since the parameter is not actually set.
                 }
 
@@ -1522,7 +1522,7 @@ public class Change_requestsService
         if (paramValues != null) {
                 if (paramValues.size() == 1) {
                     if (paramValues.get(0).length() != 0)
-                        aResource.setReviewed(new Boolean(paramValues.get(0)));
+                        aResource.setReviewed(Boolean.valueOf(paramValues.get(0)));
                     // else, there is an empty value for that parameter, and hence ignore since the parameter is not actually set.
                 }
 
@@ -1531,7 +1531,7 @@ public class Change_requestsService
         if (paramValues != null) {
                 if (paramValues.size() == 1) {
                     if (paramValues.get(0).length() != 0)
-                        aResource.setVerified(new Boolean(paramValues.get(0)));
+                        aResource.setVerified(Boolean.valueOf(paramValues.get(0)));
                     // else, there is an empty value for that parameter, and hence ignore since the parameter is not actually set.
                 }
 
@@ -1799,7 +1799,7 @@ public class Change_requestsService
         if (paramValues != null) {
                 if (paramValues.size() == 1) {
                     if (paramValues.get(0).length() != 0)
-                        aResource.setClosed(new Boolean(paramValues.get(0)));
+                        aResource.setClosed(Boolean.valueOf(paramValues.get(0)));
                     // else, there is an empty value for that parameter, and hence ignore since the parameter is not actually set.
                 }
 
@@ -1808,7 +1808,7 @@ public class Change_requestsService
         if (paramValues != null) {
                 if (paramValues.size() == 1) {
                     if (paramValues.get(0).length() != 0)
-                        aResource.setInProgress(new Boolean(paramValues.get(0)));
+                        aResource.setInProgress(Boolean.valueOf(paramValues.get(0)));
                     // else, there is an empty value for that parameter, and hence ignore since the parameter is not actually set.
                 }
 
@@ -1817,7 +1817,7 @@ public class Change_requestsService
         if (paramValues != null) {
                 if (paramValues.size() == 1) {
                     if (paramValues.get(0).length() != 0)
-                        aResource.setFixed(new Boolean(paramValues.get(0)));
+                        aResource.setFixed(Boolean.valueOf(paramValues.get(0)));
                     // else, there is an empty value for that parameter, and hence ignore since the parameter is not actually set.
                 }
 
@@ -1826,7 +1826,7 @@ public class Change_requestsService
         if (paramValues != null) {
                 if (paramValues.size() == 1) {
                     if (paramValues.get(0).length() != 0)
-                        aResource.setApproved(new Boolean(paramValues.get(0)));
+                        aResource.setApproved(Boolean.valueOf(paramValues.get(0)));
                     // else, there is an empty value for that parameter, and hence ignore since the parameter is not actually set.
                 }
 
@@ -1835,7 +1835,7 @@ public class Change_requestsService
         if (paramValues != null) {
                 if (paramValues.size() == 1) {
                     if (paramValues.get(0).length() != 0)
-                        aResource.setReviewed(new Boolean(paramValues.get(0)));
+                        aResource.setReviewed(Boolean.valueOf(paramValues.get(0)));
                     // else, there is an empty value for that parameter, and hence ignore since the parameter is not actually set.
                 }
 
@@ -1844,7 +1844,7 @@ public class Change_requestsService
         if (paramValues != null) {
                 if (paramValues.size() == 1) {
                     if (paramValues.get(0).length() != 0)
-                        aResource.setVerified(new Boolean(paramValues.get(0)));
+                        aResource.setVerified(Boolean.valueOf(paramValues.get(0)));
                     // else, there is an empty value for that parameter, and hence ignore since the parameter is not actually set.
                 }
 
@@ -2112,7 +2112,7 @@ public class Change_requestsService
         if (paramValues != null) {
                 if (paramValues.size() == 1) {
                     if (paramValues.get(0).length() != 0)
-                        aResource.setClosed(new Boolean(paramValues.get(0)));
+                        aResource.setClosed(Boolean.valueOf(paramValues.get(0)));
                     // else, there is an empty value for that parameter, and hence ignore since the parameter is not actually set.
                 }
 
@@ -2121,7 +2121,7 @@ public class Change_requestsService
         if (paramValues != null) {
                 if (paramValues.size() == 1) {
                     if (paramValues.get(0).length() != 0)
-                        aResource.setInProgress(new Boolean(paramValues.get(0)));
+                        aResource.setInProgress(Boolean.valueOf(paramValues.get(0)));
                     // else, there is an empty value for that parameter, and hence ignore since the parameter is not actually set.
                 }
 
@@ -2130,7 +2130,7 @@ public class Change_requestsService
         if (paramValues != null) {
                 if (paramValues.size() == 1) {
                     if (paramValues.get(0).length() != 0)
-                        aResource.setFixed(new Boolean(paramValues.get(0)));
+                        aResource.setFixed(Boolean.valueOf(paramValues.get(0)));
                     // else, there is an empty value for that parameter, and hence ignore since the parameter is not actually set.
                 }
 
@@ -2139,7 +2139,7 @@ public class Change_requestsService
         if (paramValues != null) {
                 if (paramValues.size() == 1) {
                     if (paramValues.get(0).length() != 0)
-                        aResource.setApproved(new Boolean(paramValues.get(0)));
+                        aResource.setApproved(Boolean.valueOf(paramValues.get(0)));
                     // else, there is an empty value for that parameter, and hence ignore since the parameter is not actually set.
                 }
 
@@ -2148,7 +2148,7 @@ public class Change_requestsService
         if (paramValues != null) {
                 if (paramValues.size() == 1) {
                     if (paramValues.get(0).length() != 0)
-                        aResource.setReviewed(new Boolean(paramValues.get(0)));
+                        aResource.setReviewed(Boolean.valueOf(paramValues.get(0)));
                     // else, there is an empty value for that parameter, and hence ignore since the parameter is not actually set.
                 }
 
@@ -2157,7 +2157,7 @@ public class Change_requestsService
         if (paramValues != null) {
                 if (paramValues.size() == 1) {
                     if (paramValues.get(0).length() != 0)
-                        aResource.setVerified(new Boolean(paramValues.get(0)));
+                        aResource.setVerified(Boolean.valueOf(paramValues.get(0)));
                     // else, there is an empty value for that parameter, and hence ignore since the parameter is not actually set.
                 }
 
@@ -2425,7 +2425,7 @@ public class Change_requestsService
         if (paramValues != null) {
                 if (paramValues.size() == 1) {
                     if (paramValues.get(0).length() != 0)
-                        aResource.setClosed(new Boolean(paramValues.get(0)));
+                        aResource.setClosed(Boolean.valueOf(paramValues.get(0)));
                     // else, there is an empty value for that parameter, and hence ignore since the parameter is not actually set.
                 }
 
@@ -2434,7 +2434,7 @@ public class Change_requestsService
         if (paramValues != null) {
                 if (paramValues.size() == 1) {
                     if (paramValues.get(0).length() != 0)
-                        aResource.setInProgress(new Boolean(paramValues.get(0)));
+                        aResource.setInProgress(Boolean.valueOf(paramValues.get(0)));
                     // else, there is an empty value for that parameter, and hence ignore since the parameter is not actually set.
                 }
 
@@ -2443,7 +2443,7 @@ public class Change_requestsService
         if (paramValues != null) {
                 if (paramValues.size() == 1) {
                     if (paramValues.get(0).length() != 0)
-                        aResource.setFixed(new Boolean(paramValues.get(0)));
+                        aResource.setFixed(Boolean.valueOf(paramValues.get(0)));
                     // else, there is an empty value for that parameter, and hence ignore since the parameter is not actually set.
                 }
 
@@ -2452,7 +2452,7 @@ public class Change_requestsService
         if (paramValues != null) {
                 if (paramValues.size() == 1) {
                     if (paramValues.get(0).length() != 0)
-                        aResource.setApproved(new Boolean(paramValues.get(0)));
+                        aResource.setApproved(Boolean.valueOf(paramValues.get(0)));
                     // else, there is an empty value for that parameter, and hence ignore since the parameter is not actually set.
                 }
 
@@ -2461,7 +2461,7 @@ public class Change_requestsService
         if (paramValues != null) {
                 if (paramValues.size() == 1) {
                     if (paramValues.get(0).length() != 0)
-                        aResource.setReviewed(new Boolean(paramValues.get(0)));
+                        aResource.setReviewed(Boolean.valueOf(paramValues.get(0)));
                     // else, there is an empty value for that parameter, and hence ignore since the parameter is not actually set.
                 }
 
@@ -2470,7 +2470,7 @@ public class Change_requestsService
         if (paramValues != null) {
                 if (paramValues.size() == 1) {
                     if (paramValues.get(0).length() != 0)
-                        aResource.setVerified(new Boolean(paramValues.get(0)));
+                        aResource.setVerified(Boolean.valueOf(paramValues.get(0)));
                     // else, there is an empty value for that parameter, and hence ignore since the parameter is not actually set.
                 }
 
@@ -2738,7 +2738,7 @@ public class Change_requestsService
         if (paramValues != null) {
                 if (paramValues.size() == 1) {
                     if (paramValues.get(0).length() != 0)
-                        aResource.setClosed(new Boolean(paramValues.get(0)));
+                        aResource.setClosed(Boolean.valueOf(paramValues.get(0)));
                     // else, there is an empty value for that parameter, and hence ignore since the parameter is not actually set.
                 }
 
@@ -2747,7 +2747,7 @@ public class Change_requestsService
         if (paramValues != null) {
                 if (paramValues.size() == 1) {
                     if (paramValues.get(0).length() != 0)
-                        aResource.setInProgress(new Boolean(paramValues.get(0)));
+                        aResource.setInProgress(Boolean.valueOf(paramValues.get(0)));
                     // else, there is an empty value for that parameter, and hence ignore since the parameter is not actually set.
                 }
 
@@ -2756,7 +2756,7 @@ public class Change_requestsService
         if (paramValues != null) {
                 if (paramValues.size() == 1) {
                     if (paramValues.get(0).length() != 0)
-                        aResource.setFixed(new Boolean(paramValues.get(0)));
+                        aResource.setFixed(Boolean.valueOf(paramValues.get(0)));
                     // else, there is an empty value for that parameter, and hence ignore since the parameter is not actually set.
                 }
 
@@ -2765,7 +2765,7 @@ public class Change_requestsService
         if (paramValues != null) {
                 if (paramValues.size() == 1) {
                     if (paramValues.get(0).length() != 0)
-                        aResource.setApproved(new Boolean(paramValues.get(0)));
+                        aResource.setApproved(Boolean.valueOf(paramValues.get(0)));
                     // else, there is an empty value for that parameter, and hence ignore since the parameter is not actually set.
                 }
 
@@ -2774,7 +2774,7 @@ public class Change_requestsService
         if (paramValues != null) {
                 if (paramValues.size() == 1) {
                     if (paramValues.get(0).length() != 0)
-                        aResource.setReviewed(new Boolean(paramValues.get(0)));
+                        aResource.setReviewed(Boolean.valueOf(paramValues.get(0)));
                     // else, there is an empty value for that parameter, and hence ignore since the parameter is not actually set.
                 }
 
@@ -2783,7 +2783,7 @@ public class Change_requestsService
         if (paramValues != null) {
                 if (paramValues.size() == 1) {
                     if (paramValues.get(0).length() != 0)
-                        aResource.setVerified(new Boolean(paramValues.get(0)));
+                        aResource.setVerified(Boolean.valueOf(paramValues.get(0)));
                     // else, there is an empty value for that parameter, and hence ignore since the parameter is not actually set.
                 }
 

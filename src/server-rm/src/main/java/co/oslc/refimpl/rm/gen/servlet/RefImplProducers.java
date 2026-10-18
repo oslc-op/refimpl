@@ -6,10 +6,19 @@ import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.enterprise.inject.Produces;
 import jakarta.inject.Singleton;
 import org.eclipse.lyo.oslc4j.core.OSLC4JUtils;
+import org.eclipse.lyo.oslc4j.trs.server.InmemPagedTrs;
+import org.eclipse.lyo.oslc4j.trs.server.PagedTrs;
+import org.eclipse.lyo.oslc4j.trs.server.PagedTrsFactory;
+import org.eclipse.lyo.oslc4j.trs.server.TrsEventHandler;
+import org.eclipse.lyo.oslc.domains.rm.Requirement;
+import org.eclipse.lyo.oslc.domains.rm.RequirementCollection;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 
+import java.net.URI;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -41,5 +50,28 @@ public class RefImplProducers {
     @Singleton
     public ResourcesFactory produceResourcesFactory() {
         return new ResourcesFactory(OSLC4JUtils.getServletURI());
+    }
+
+    @Produces
+    @Singleton
+    public TrsEventHandler produceTrsEventHandler() {
+        ArrayList<URI> uris = new ArrayList<>();
+        Map<String, Requirement> requirements = RestDelegate.requirementsForSP(RestDelegate.SP_DEFAULT);
+        for (Requirement requirement : requirements.values()) {
+            uris.add(requirement.getAbout());
+        }
+        Map<String, RequirementCollection> requirementCollections = RestDelegate.requirementCollectionsForSP(RestDelegate.SP_DEFAULT);
+        for (RequirementCollection requirementCollection : requirementCollections.values()) {
+            uris.add(requirementCollection.getAbout());
+        }
+
+        InmemPagedTrs inmemTrs = new PagedTrsFactory().getInmemPagedTrs(5, 5, uris);
+        return inmemTrs;
+    }
+
+    @Produces
+    @Singleton
+    public PagedTrs producePagedTrs(TrsEventHandler trsEventHandler) {
+        return (InmemPagedTrs) trsEventHandler;
     }
 }

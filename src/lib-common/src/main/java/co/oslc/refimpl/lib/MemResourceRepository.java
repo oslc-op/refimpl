@@ -11,7 +11,6 @@ import org.slf4j.LoggerFactory;
 
 import jakarta.ws.rs.WebApplicationException;
 import jakarta.ws.rs.core.Response;
-import jakarta.xml.bind.DatatypeConverter;
 import javax.xml.datatype.DatatypeConfigurationException;
 import java.io.StringWriter;
 import java.lang.reflect.InvocationTargetException;
@@ -21,15 +20,16 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 /**
- * Simple Lyo resource repository that stores resources in memory and selects them by string id.
+ * Simple Lyo resource repository that stores resources in memory and selects
+ * them by string id.
  *
  * @param <R>
- *         Generic resource type
+ *            Generic resource type
  */
 public class MemResourceRepository<R extends AbstractResource> implements ResourceRepository<R> {
+    private static final HexFormat UPPER_HEX = HexFormat.of().withUpperCase();
 
     private final Logger log = LoggerFactory.getLogger(MemResourceRepository.class);
-
 
     private final Map<String, Map<String, R>> resources = new HashMap<>();
 
@@ -41,9 +41,10 @@ public class MemResourceRepository<R extends AbstractResource> implements Resour
     /**
      * @param serviceProvider
      * @param page
-     *         0-indexed
+     *                        0-indexed
      * @param pageSize
-     *         pageSize+1 results will be returned if this is not the last page
+     *                        pageSize+1 results will be returned if this is not the
+     *                        last page
      * @return
      */
     @Override
@@ -103,7 +104,7 @@ public class MemResourceRepository<R extends AbstractResource> implements Resour
             MessageDigest md = MessageDigest.getInstance("MD5");
             md.update(rdf.getBytes());
             byte[] digest = md.digest();
-            return DatatypeConverter.printHexBinary(digest).toUpperCase();
+            return UPPER_HEX.formatHex(digest);
         } catch (NoSuchAlgorithmException e) {
             throw new IllegalStateException(e);
         }
@@ -114,12 +115,12 @@ public class MemResourceRepository<R extends AbstractResource> implements Resour
         StringWriter writer = new StringWriter(1000);
         try {
             // TODO: 2020-10-31 consider caching this value to reduce computational cost
-            Model resourceModel = JenaModelHelper.createJenaModel(new AbstractResource[]{resource});
+            Model resourceModel = JenaModelHelper.createJenaModel(new AbstractResource[] { resource });
             RDFDataMgr.write(writer, resourceModel, RDFFormat.NTRIPLES);
             // MD5 is insecure but this use is not security-related
             return md5(writer.toString());
-        } catch (DatatypeConfigurationException | IllegalAccessException |
-                InvocationTargetException | OslcCoreApplicationException e) {
+        } catch (DatatypeConfigurationException | IllegalAccessException | InvocationTargetException
+                | OslcCoreApplicationException e) {
             throw new IllegalArgumentException(e);
         }
     }
@@ -134,10 +135,9 @@ public class MemResourceRepository<R extends AbstractResource> implements Resour
 
     @Override
     public void updateResource(String provider, String id, R resource) {
-        if(hasResource(provider, id)) {
+        if (hasResource(provider, id)) {
             resources.get(provider).put(id, resource);
-        }
-        else {
+        } else {
             log.error("Resource {}/{} not found and cannot be updated", provider, id);
             throw new WebApplicationException(Response.Status.BAD_REQUEST);
         }
