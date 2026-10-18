@@ -227,7 +227,7 @@ public class RestDelegate {
             TopDocs topDocs = searcher.search(query, 100);
             List<Requirement> selectedRequirements = new ArrayList<>();
             for (ScoreDoc scoreDoc : topDocs.scoreDocs) {
-                final String id = searcher.doc(scoreDoc.doc).getField("id").stringValue();
+                final String id = searcher.storedFields().document(scoreDoc.doc).getField("id").stringValue();
                 selectedRequirements.add(requirements.get(id));
             }
             return selectedRequirements;
