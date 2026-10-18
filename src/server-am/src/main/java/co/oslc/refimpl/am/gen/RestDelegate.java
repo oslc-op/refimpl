@@ -114,7 +114,7 @@ public class RestDelegate {
         
         
         // Start of user code queryResources
-        resources = resourceRepository.fetchResourcePageForSP(SP_DEFAULT, 1, limit);
+        resources = resourceRepository.fetchResourcePageForSP(SP_DEFAULT, page, limit);
         // End of user code
         return resources;
     }
@@ -171,7 +171,7 @@ public class RestDelegate {
         
         
         // Start of user code queryLinkTypes
-        resources = linkRepository.fetchResourcePageForSP(SP_DEFAULT, 1, limit);
+        resources = linkRepository.fetchResourcePageForSP(SP_DEFAULT, page, limit);
         // End of user code
         return resources;
     }
