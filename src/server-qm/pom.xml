@@ -239,6 +239,10 @@
             <artifactId>oslc4j-json4j-provider</artifactId>
         </dependency>
         <dependency>
+            <groupId>org.eclipse.lyo.trs</groupId>
+            <artifactId>trs-server</artifactId>
+        </dependency>
+        <dependency>
             <groupId>org.eclipse.lyo.clients</groupId>
             <artifactId>oslc-client</artifactId>
         </dependency>
@@ -365,7 +369,7 @@
                 <!-- Download Swagger UI webjar. -->
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-dependency-plugin</artifactId>
-                <version>3.11.0</version>
+                <version>3.9.0</version>
                 <executions>
                     <execution>
                         <phase>prepare-package</phase>

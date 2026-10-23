@@ -60,6 +60,7 @@ import org.eclipse.lyo.oslc.domains.cm.State;
 import org.eclipse.lyo.oslc.domains.cm.Task;
 import org.eclipse.lyo.oslc.domains.config.VersionResource;
 
+import org.eclipse.lyo.oslc4j.trs.server.TrsEventHandler;
 
 
 // Start of user code imports
@@ -84,7 +85,7 @@ public class RestDelegate {
     private static final Logger log = LoggerFactory.getLogger(RestDelegate.class);
 
     
-    
+    @Inject TrsEventHandler trsEventHandler;
     @Inject ResourcesFactory resourcesFactory;
     // Start of user code class_attributes
     public static final String SP_DEFAULT = "sp_single";
