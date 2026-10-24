@@ -288,13 +288,12 @@
     <dependency>
       <groupId>org.glassfish.jersey.test-framework.providers</groupId>
       <artifactId>jersey-test-framework-provider-grizzly2</artifactId>
-      <version>3.1.11</version>
       <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>io.rest-assured</groupId>
       <artifactId>rest-assured</artifactId>
-      <version>6.1.0</version>
+      <version>6.2.0</version>
       <scope>test</scope>
     </dependency>
     <!-- End of user code
