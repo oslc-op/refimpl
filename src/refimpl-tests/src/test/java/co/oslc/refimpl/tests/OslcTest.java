@@ -21,14 +21,14 @@ public class OslcTest {
     public static final String QM_SVC = "server-qm";
     public static final String AM_SVC = "server-am";
 
-    static final int RM_PORT = 8080;
+    static final int RM_PORT = 8800;
     static final int CM_PORT = 8080;
     static final int QM_PORT = 8080;
     static final int AM_PORT = 8080;
 
     public static ComposeContainer environment = new ComposeContainer(new File("src/test/resources/docker-compose.yml"))
             .withExposedService(RM_SVC, RM_PORT,
-                    Wait.forLogMessage(".*main: Started oejs.Server@.*", 1)
+                    Wait.forLogMessage(".*(Started oejs.Server@|Quarkus.*started in).*", 1)
                             .withStartupTimeout(Duration.ofSeconds(STARTUP_TIMEOUT)))
             .withExposedService(CM_SVC, CM_PORT,
                     Wait.forLogMessage(".*main: Started oejs.Server@.*", 1)
@@ -72,7 +72,8 @@ public class OslcTest {
         var serviceHost = environment.getServiceHost(svc, port);
         var servicePort = environment.getServicePort(svc, port);
         System.out.println(serviceHost);
-        var catalogUrl = "http://%s:%d/services/rootservices".formatted(serviceHost, servicePort);
+        var path = RM_SVC.equals(svc) ? "/rootservices" : "/services/rootservices";
+        var catalogUrl = "http://%s:%d%s".formatted(serviceHost, servicePort, path);
         return pingUrl(catalogUrl);
     }
 

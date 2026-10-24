@@ -84,7 +84,7 @@ fun genRequirementWithBaseUri(sp: ServiceProvider, id: Int, max: Int, baseUri: S
 
 fun randomRequirementLink(maxId: Int, exceptId: Int): Set<Link> {
     val id = randomIdExcept(maxId, exceptId)
-    val to = "http://localhost:8800/services/Requirement/sp_single/req_$id"
+    val to = "http://localhost:8800/Requirement/sp_single/req_$id"
     return singleLinkTo(to)
 }
 

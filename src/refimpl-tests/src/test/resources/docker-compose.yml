@@ -5,7 +5,7 @@ services:
       context: ../../../../
       dockerfile: server-rm/Dockerfile
     ports:
-      - "8800:8080"
+      - "8800:8800"
   server-cm:
     build:
       context: ../../../../

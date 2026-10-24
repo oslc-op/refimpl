@@ -15,11 +15,10 @@ COPY client-toolchain/pom.xml client-toolchain/pom.xml
 COPY lib-common/ lib-common/
 COPY server-rm/ server-rm/
 
-# Build only the specific module and its dependencies
-RUN mvn -B --no-transfer-progress -DskipTests clean package -pl server-rm -am
+# Build Quarkus uber-jar (single JAR with all dependencies)
+RUN mvn -B --no-transfer-progress -DskipTests clean package -pl server-rm -am -Dquarkus.package.jar.type=uber-jar
 
-
-FROM docker.io/library/jetty:12.1-jdk25-eclipse-temurin
+FROM registry.access.redhat.com/ubi8/openjdk-21-runtime:1.20
 
 LABEL org.opencontainers.image.title="OSLC RefImpl RM Server"
 LABEL org.opencontainers.image.description="OSLC Requirements Management Reference Implementation"
@@ -27,20 +26,14 @@ LABEL org.opencontainers.image.source="https://github.com/oslc-op/refimpl"
 LABEL org.opencontainers.image.vendor="OSLC Open Project"
 LABEL org.opencontainers.image.licenses="EPL-2.0"
 
-# WARNING DO NOT CHANGE WORKDIR or set it back to what it was before
-# $JETTY_BASE must be correct before starting Jetty
+ENV LANGUAGE='en_US:en'
 
-COPY --from=build /src/server-rm/target/*.war /var/lib/jetty/webapps/ROOT.war
+WORKDIR /deployments
 
-RUN rm -f "$JETTY_BASE/start.d/threadpool.ini" && \
-    java -jar "$JETTY_HOME/start.jar" \
-      --add-modules=ee10-deploy,ee10-jsp,ee10-jstl,threadpool-virtual && \
-    printf '%s\n' \
-      'jetty.threadPool.minThreads=8' \
-      'jetty.threadPool.maxThreads=64' \
-      'jetty.threadPool.reservedThreads=-1' \
-      'jetty.threadPool.virtual.maxConcurrentTasks=500' \
-      'jetty.threadPool.virtual.tracking=false' \
-      >> "$JETTY_BASE/start.d/threadpool-virtual.ini"
+# Copy the Quarkus uber-jar
+COPY --from=build --chown=185 /src/server-rm/target/*-runner.jar /deployments/quarkus-run.jar
 
-EXPOSE 8080
+EXPOSE 8800
+USER 185
+
+ENTRYPOINT ["java", "-jar", "/deployments/quarkus-run.jar"]

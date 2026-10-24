@@ -89,6 +89,7 @@ import org.slf4j.LoggerFactory;
 // Start of user code pre_class_code
 // End of user code
 
+@jakarta.enterprise.context.ApplicationScoped
 public class RestDelegate {
 
     private static final Logger log = LoggerFactory.getLogger(RestDelegate.class);

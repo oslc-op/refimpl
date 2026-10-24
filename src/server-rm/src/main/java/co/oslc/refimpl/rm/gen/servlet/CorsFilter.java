@@ -24,6 +24,7 @@ import jakarta.inject.Inject;
 import jakarta.ws.rs.container.ContainerRequestContext;
 import jakarta.ws.rs.container.ContainerResponseContext;
 import jakarta.ws.rs.container.ContainerResponseFilter;
+import jakarta.ws.rs.ext.Provider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 // Start of user code imports
@@ -33,6 +34,7 @@ import org.slf4j.LoggerFactory;
 // Start of user code pre_class_code
 // End of user code
 
+@Provider
 public class CorsFilter implements ContainerResponseFilter {
     private final static Logger log = LoggerFactory.getLogger(CorsFilter.class);
 

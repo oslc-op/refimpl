@@ -17,7 +17,7 @@ public class OslcMatchers {
             @Override
             public boolean matches(Object actual) {
                 Assert.assertNotNull(actual);
-                String actualContentType = ((String) actual).toLowerCase(Locale.ROOT);
+                String actualContentType = ((String) actual).toLowerCase(Locale.ROOT).split(";")[0].trim();
                 return rdfTypes.contains(actualContentType);
             }
 

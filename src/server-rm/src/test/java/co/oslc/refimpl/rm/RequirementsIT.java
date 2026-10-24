@@ -13,9 +13,10 @@ import org.eclipse.lyo.oslc4j.provider.jena.JenaModelHelper;
 import org.hamcrest.BaseMatcher;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import io.quarkus.test.junit.QuarkusTest;
 
 import java.io.BufferedInputStream;
 import java.io.ByteArrayInputStream;
@@ -26,6 +27,8 @@ import java.util.concurrent.TimeUnit;
 
 import static co.oslc.misc.OslcMatchers.isRdf;
 import static io.restassured.RestAssured.given;
+
+@QuarkusTest
 public class RequirementsIT {
     private static final Logger log = LoggerFactory.getLogger(RequirementsIT.class);
 
@@ -40,7 +43,7 @@ public class RequirementsIT {
         Response response = givenOslcRequest()
                 .auth().basic("admin", "admin")
             .when()
-                .get("http://localhost:8800/services/serviceProviders/sp_single");
+                .get("http://localhost:8800/serviceProviders/sp_single");
 
         response.then()
             .assertThat()
@@ -82,9 +85,9 @@ public class RequirementsIT {
     // TODO: refactor/extract
     private static Model parseJenaModel(String value, String contentType) {
         Model model = ModelFactory.createDefaultModel();
-        // TODO: consider passing the GET URI as a base
         ByteArrayInputStream inputStream = new ByteArrayInputStream(value.getBytes(StandardCharsets.UTF_8));
-        RDFDataMgr.read(model, new BufferedInputStream(inputStream), null, RDFLanguages.contentTypeToLang(contentType));
+        String mimeType = contentType != null ? contentType.split(";")[0].trim() : null;
+        RDFDataMgr.read(model, new BufferedInputStream(inputStream), null, RDFLanguages.contentTypeToLang(mimeType));
         return model;
     }
 }

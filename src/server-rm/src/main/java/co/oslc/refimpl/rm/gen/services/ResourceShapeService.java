@@ -52,6 +52,7 @@ import org.eclipse.lyo.oslc4j.core.model.ResourceShapeFactory;
 
 import io.swagger.v3.oas.annotations.Operation;
 import co.oslc.refimpl.rm.gen.servlet.Application;
+import co.oslc.refimpl.rm.gen.util.ServletUtil;
 
 // Start of user code imports
 // End of user code
@@ -92,25 +93,27 @@ public class ResourceShapeService
         throw new WebApplicationException(Response.Status.NOT_FOUND);
     }
 
-    @GET
-    @Path("{resourceShapePath}")
-    @Produces({ MediaType.TEXT_HTML })
-    public void getResourceShapeAsHtml(
-            @PathParam("resourceShapePath") final String resourceShapePath
-        ) throws ServletException, IOException, URISyntaxException, OslcCoreApplicationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException
-    {
-        final Class<?> resourceClass = Application.getResourceShapePathToResourceClassMap().get(resourceShapePath);
-        ResourceShape aResourceShape = null;
-        
-        if (resourceClass != null)
-        {
-            aResourceShape = (ResourceShape) resourceClass.getMethod("createResourceShape").invoke(null);
-            httpServletRequest.setAttribute("aResourceShape", aResourceShape);
-            
-            RequestDispatcher rd = httpServletRequest.getRequestDispatcher("/co/oslc/refimpl/rm/gen/resourceshape.jsp");
-            rd.forward(httpServletRequest,httpServletResponse);
-            return;
-        }
-        throw new WebApplicationException(Status.NOT_FOUND);
-    }
+    // NOTE: HTML representation disabled in Quarkus migration as JSP forwarding is not supported. Quarkus uses Qute templates instead. For now, only RDF representations are supported.
+    // @GET
+    // @Path("{resourceShapePath}")
+    // @Produces({ MediaType.TEXT_HTML })
+    // public void getResourceShapeAsHtml(
+    //         @PathParam("resourceShapePath") final String resourceShapePath
+    //     ) throws ServletException, IOException, URISyntaxException, OslcCoreApplicationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException
+    // {
+    //     final Class<?> resourceClass = Application.getResourceShapePathToResourceClassMap().get(resourceShapePath);
+    //     ResourceShape aResourceShape = null;
+    //     
+    //     if (resourceClass != null)
+    //     {
+    //         aResourceShape = (ResourceShape) resourceClass.getMethod("createResourceShape").invoke(null);
+    //         HttpServletRequest originalRequest = ServletUtil.unwrapRequest(httpServletRequest);
+    //         originalRequest.setAttribute("aResourceShape", aResourceShape);
+    //         
+    //         RequestDispatcher rd = originalRequest.getRequestDispatcher("/co/oslc/refimpl/rm/gen/resourceshape.jsp");
+    //         rd.forward(originalRequest,httpServletResponse);
+    //         return;
+    //     }
+    //     throw new WebApplicationException(Status.NOT_FOUND);
+    // }
 }

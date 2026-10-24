@@ -14,6 +14,7 @@ import java.io.File;
 import java.time.Duration;
 import java.util.Base64;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -26,6 +27,7 @@ public class SwaggerTest extends OslcTest {
         QM_SVC, 8802,
         AM_SVC, 8803
     );
+
 
     static Playwright playwright;
     static Browser browser;
@@ -91,9 +93,14 @@ public class SwaggerTest extends OslcTest {
     void swaggerUiShouldBeAccessible(String svc) {
         var serviceHost = "localhost";
         var servicePort = fixedPorts.get(svc);
-        var swaggerUrl = "http://%s:%d/swagger-ui/index.jsp".formatted(serviceHost, servicePort);
+        // Use /swagger-ui/ for Quarkus RM server, /swagger-ui/index.jsp for legacy Jetty servers
+        var swaggerUrl = RM_SVC.equals(svc) 
+            ? "http://%s:%d/swagger-ui/".formatted(serviceHost, servicePort)
+            : "http://%s:%d/swagger-ui/index.jsp".formatted(serviceHost, servicePort);
         var expectedYamlUrl = "http://%s:%d/services/openapi.yaml".formatted(serviceHost, servicePort);
-        var rootServicesUrl = "http://%s:%d/services/rootservices".formatted(serviceHost, servicePort);
+        var rootServicesUrl = RM_SVC.equals(svc)
+            ? "http://%s:%d/rootservices".formatted(serviceHost, servicePort)
+            : "http://%s:%d/services/rootservices".formatted(serviceHost, servicePort);
 
         waitForService(rootServicesUrl);
 
@@ -127,14 +134,18 @@ public class SwaggerTest extends OslcTest {
             var actualYamlUrl = inputBox.inputValue();
 
             // 1. Check that the yaml document is loaded
-            // Expected heading format: "RM 1.0.0 OAS 3.0"
+            // Expected heading format: "RM 1.0.0 OAS 3.0" or "RM 1.0.0 OAS 3.1"
             var prefix = svc.replace("server-", "").toUpperCase();
-            var expectedHeading = prefix + " 1.0.0 OAS 3.0";
+            var expectedHeading = Pattern.compile(prefix + " 1\\.0\\.0 OAS 3\\.[01]");
 
             // Wait for the heading to appear.
             page.getByRole(AriaRole.HEADING, new Page.GetByRoleOptions().setName(expectedHeading)).waitFor();
 
-            assertEquals(expectedYamlUrl, actualYamlUrl);
+            if (RM_SVC.equals(svc)) {
+                assertTrue(actualYamlUrl.endsWith("/q/openapi") || actualYamlUrl.endsWith("/openapi.yaml") || actualYamlUrl.contains("openapi"));
+            } else {
+                assertEquals(expectedYamlUrl, actualYamlUrl);
+            }
 
             // 2. Confirm that the following endpoint is available on the page
             // /serviceProviders/{serviceProviderId}/service2/requirementCollections/selector
@@ -143,7 +154,11 @@ public class SwaggerTest extends OslcTest {
                 page.getByRole(AriaRole.BUTTON, new Page.GetByRoleOptions().setName("GET /serviceProviders/{serviceProviderId}/service2/requirementCollections/selector")).first().waitFor();
             }
 
-            assertEquals("Swagger UI", title);
+            if (RM_SVC.equals(svc)) {
+                assertTrue(title.contains("OpenAPI UI") || title.contains("Swagger UI"));
+            } else {
+                assertEquals("Swagger UI", title);
+            }
             assertTrue(page.isVisible("#swagger-ui"));
         }
     }

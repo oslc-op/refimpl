@@ -4,7 +4,7 @@ services:
       context: ./
       dockerfile: server-rm/Dockerfile
     ports:
-      - "127.0.0.1:8800:8080"
+      - "127.0.0.1:8800:8800"
     # Uncomment to configure the base URL for reverse proxy or custom domain deployments
     # environment:
     #   - LYO_BASEURL=https://mytoolchain.example.com:9443/refimpl/rm
