@@ -21,6 +21,10 @@
         <!-- Start of user code cors_friends
         -->
         <!-- NOTE: Delete the contents of the protected block to re-generate the default value -->
+        <!-- TODO (future hardening): '*' lets ANY website make credentialed requests on behalf of
+             a logged-in user. Kept for backward compatibility; consider an explicit list of origins,
+             e.g. 'https://rm.example.com;https://qm.example.com'. Can be overridden per deployment
+             via the LYO_CORS_FRIENDS environment variable. -->
         <param-value>*</param-value>
         <!-- End of user code
         -->

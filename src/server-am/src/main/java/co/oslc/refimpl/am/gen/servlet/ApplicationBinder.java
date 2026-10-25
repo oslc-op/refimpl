@@ -41,6 +41,7 @@ import org.eclipse.lyo.oslc4j.trs.server.PagedTrs;
 import org.eclipse.lyo.oslc4j.trs.server.PagedTrsFactory;
 import org.eclipse.lyo.oslc4j.trs.server.TrsEventHandler;
 import org.eclipse.lyo.oslc4j.core.OSLC4JUtils;
+import org.eclipse.lyo.server.common.LyoAppConfiguration;
 // Start of user code imports
 import org.eclipse.lyo.oslc.domains.am.Resource;
 import org.eclipse.lyo.oslc.domains.am.LinkType;
