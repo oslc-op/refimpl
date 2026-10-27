@@ -35,6 +35,7 @@ import static co.oslc.refimpl.cm.gen.servlet.ServletListener.getServletUrlPatter
 import java.util.Set;
 
 import org.eclipse.lyo.oslc4j.core.OSLC4JUtils;
+import org.eclipse.lyo.server.common.LyoAppConfiguration;
 // Start of user code imports
 // End of user code
 // spotless:on
