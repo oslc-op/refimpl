@@ -10,14 +10,17 @@ on:
       lyoBranch:
         description: 'Lyo branch to test on'
         required: true
-        default: 'master'
+        default: 'main'
       lyoRepo:
         description: 'Lyo repository or fork'
         required: true
-        default: 'eclipse/lyo'
+        default: 'eclipse-lyo/lyo'
       comment:
         description: 'comment, e.g. PR number'
         default: 'n/a'
+
+permissions:
+  contents: read
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}-${{ github.event.inputs.lyoRepo }}-${{ github.event.inputs.lyoBranch }}
@@ -43,29 +46,47 @@ jobs:
     continue-on-error: ${{ matrix.experimental }}
 
     steps:
-      - uses: actions/checkout@v7
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
           repository: "${{ github.event.inputs.lyoRepo }}"
           ref: "${{ github.event.inputs.lyoBranch }}"
           path: lyo-trunk
-      - uses: actions/checkout@v7
+          persist-credentials: false
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
           path: main
+          persist-credentials: false
       - name: Set up JDK ${{ matrix.jdk }}
-        uses: actions/setup-java@v6
+        uses: actions/setup-java@b843ebf9b913146b38da2eaa7aeddf76074ae1ad # v6
         with:
           distribution: ${{ matrix.distribution }}
           java-version: ${{ matrix.jdk }}
-      - uses: actions/cache@v6
+      - uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6
         with:
           path: ~/.m2/repository
           key: ${{ runner.os }}-${{ matrix.jdk }}_${{ matrix.distribution }}-maven-${{ hashFiles('**/pom.xml') }}
           restore-keys: |
             ${{ runner.os }}-${{ matrix.jdk }}_${{ matrix.distribution }}-maven-
       - name: Build Lyo locally (branch ${{ github.event.inputs.lyoBranch }})
-        run: mvn -B clean install --file lyo-trunk/pom.xml -DskipTests -Dmaven.javadoc.skip=true -P '!spotless' -P'!spotbugs'
+        run: mvn -B --no-transfer-progress clean install --file lyo-trunk/pom.xml -P '!spotbugs,!spotless,!enforcer' -Dmaven.test.skip=true -Dmaven.javadoc.skip=true -Dmaven.source.skip=true -Dcyclonedx.skip=true
+      - name: Detect checked-out Lyo version
+        id: lyo-version
+        working-directory: ${{ github.workspace }}
+        shell: bash
+        run: |
+          mvn -B --no-transfer-progress --non-recursive --file lyo-trunk/pom.xml \
+            org.apache.maven.plugins:maven-help-plugin:3.5.1:evaluate \
+            -Dexpression=project.version -Doutput="$RUNNER_TEMP/lyo-version.txt"
+          lyo_version="$(cat "$RUNNER_TEMP/lyo-version.txt")"
+          if [[ ! "$lyo_version" =~ ^[0-9][A-Za-z0-9._-]*$ ]]; then
+            echo "Invalid Lyo version: $lyo_version" >&2
+            exit 1
+          fi
+          printf 'version=%s\n' "$lyo_version" >> "$GITHUB_OUTPUT"
       - name: Run tests on RefImpl
-        run: mvn -B -Pacceptance clean verify --file main/src/pom.xml
+        env:
+          LYO_VERSION: ${{ steps.lyo-version.outputs.version }}
+        run: mvn -B -Pacceptance clean verify --file main/src/pom.xml "-Dversion.lyo=$LYO_VERSION"
 
 
   docker-compose-e2e:
@@ -93,29 +114,47 @@ jobs:
     continue-on-error: ${{ matrix.experimental }}
 
     steps:
-      - uses: actions/checkout@v7
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
           repository: "${{ github.event.inputs.lyoRepo }}"
           ref: "${{ github.event.inputs.lyoBranch }}"
           path: lyo-trunk
-      - uses: actions/checkout@v7
+          persist-credentials: false
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
           path: main
+          persist-credentials: false
       - name: Set up JDK ${{ matrix.jdk }}
-        uses: actions/setup-java@v6
+        uses: actions/setup-java@b843ebf9b913146b38da2eaa7aeddf76074ae1ad # v6
         with:
           distribution: ${{ matrix.distribution }}
           java-version: ${{ matrix.jdk }}
-      - uses: actions/cache@v6
+      - uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6
         with:
           path: ~/.m2/repository
           key: ${{ runner.os }}-${{ matrix.jdk }}_${{ matrix.distribution }}-maven-${{ hashFiles('**/pom.xml') }}
           restore-keys: |
             ${{ runner.os }}-${{ matrix.jdk }}_${{ matrix.distribution }}-maven-
       - name: Build Lyo locally (branch ${{ github.event.inputs.lyoBranch }})
-        run: mvn -B clean install --file lyo-trunk/pom.xml -DskipTests -Dmaven.javadoc.skip=true -P '!spotless'
+        run: mvn -B --no-transfer-progress clean install --file lyo-trunk/pom.xml -P '!spotbugs,!spotless,!enforcer' -Dmaven.test.skip=true -Dmaven.javadoc.skip=true -Dmaven.source.skip=true -Dcyclonedx.skip=true
+      - name: Detect checked-out Lyo version
+        id: lyo-version
+        working-directory: ${{ github.workspace }}
+        shell: bash
+        run: |
+          mvn -B --no-transfer-progress --non-recursive --file lyo-trunk/pom.xml \
+            org.apache.maven.plugins:maven-help-plugin:3.5.1:evaluate \
+            -Dexpression=project.version -Doutput="$RUNNER_TEMP/lyo-version.txt"
+          lyo_version="$(cat "$RUNNER_TEMP/lyo-version.txt")"
+          if [[ ! "$lyo_version" =~ ^[0-9][A-Za-z0-9._-]*$ ]]; then
+            echo "Invalid Lyo version: $lyo_version" >&2
+            exit 1
+          fi
+          printf 'version=%s\n' "$lyo_version" >> "$GITHUB_OUTPUT"
       - name: Build with Maven
-        run: mvn -B package --file main/src/pom.xml
+        env:
+          LYO_VERSION: ${{ steps.lyo-version.outputs.version }}
+        run: mvn -B package --file main/src/pom.xml "-Dversion.lyo=$LYO_VERSION"
       - name: Build and Start Docker Compose
         working-directory: main/src/
         run: |
@@ -156,20 +195,22 @@ jobs:
     continue-on-error: ${{ matrix.experimental }}
 
     steps:
-      - uses: actions/checkout@v7
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
           repository: "${{ github.event.inputs.lyoRepo }}"
           ref: "${{ github.event.inputs.lyoBranch }}"
           path: lyo-trunk
-      - uses: actions/checkout@v7
+          persist-credentials: false
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
           path: main
+          persist-credentials: false
       - name: Set up JDK ${{ matrix.jdk }}
-        uses: actions/setup-java@v6
+        uses: actions/setup-java@b843ebf9b913146b38da2eaa7aeddf76074ae1ad # v6
         with:
           distribution: ${{ matrix.distribution }}
           java-version: ${{ matrix.jdk }}
-      - uses: actions/cache@v6
+      - uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6
         with:
           path: ~/.m2/repository
           key: ${{ runner.os }}-${{ matrix.jdk }}_${{ matrix.distribution }}-maven-${{ hashFiles('**/pom.xml') }}
@@ -177,10 +218,26 @@ jobs:
             ${{ runner.os }}-${{ matrix.jdk }}_${{ matrix.distribution }}-maven-
       - name: Build Lyo locally (branch ${{ github.event.inputs.lyoBranch }})
         working-directory: lyo-trunk/
-        run: mvn -B clean install -DskipTests -Dmaven.javadoc.skip=true -P '!spotless'
+        run: mvn -B --no-transfer-progress clean install -P '!spotbugs,!spotless,!enforcer' -Dmaven.test.skip=true -Dmaven.javadoc.skip=true -Dmaven.source.skip=true -Dcyclonedx.skip=true
+      - name: Detect checked-out Lyo version
+        id: lyo-version
+        working-directory: ${{ github.workspace }}
+        shell: bash
+        run: |
+          mvn -B --no-transfer-progress --non-recursive --file lyo-trunk/pom.xml \
+            org.apache.maven.plugins:maven-help-plugin:3.5.1:evaluate \
+            -Dexpression=project.version -Doutput="$RUNNER_TEMP/lyo-version.txt"
+          lyo_version="$(cat "$RUNNER_TEMP/lyo-version.txt")"
+          if [[ ! "$lyo_version" =~ ^[0-9][A-Za-z0-9._-]*$ ]]; then
+            echo "Invalid Lyo version: $lyo_version" >&2
+            exit 1
+          fi
+          printf 'version=%s\n' "$lyo_version" >> "$GITHUB_OUTPUT"
       - name: Build with Maven
+        env:
+          LYO_VERSION: ${{ steps.lyo-version.outputs.version }}
         working-directory: main/src/
-        run: mvn -B package -Pwith-jstl-impl
+        run: mvn -B package -Pwith-jstl-impl "-Dversion.lyo=$LYO_VERSION"
       - name: Build and Start Docker Compose
         working-directory: main/src/
         run: |
