@@ -33,7 +33,7 @@
         <!-- Start of user code properties
     -->
         <v.lucene>10.3.1</v.lucene>
-        <v.rest-assured>6.2.0</v.rest-assured>
+        <v.rest-assured>6.3.0</v.rest-assured>
     <!-- End of user code
         -->
     </properties>
@@ -69,7 +69,7 @@
           <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-enforcer-plugin</artifactId>
-            <version>3.6.3</version>
+            <version>3.7.0</version>
             <executions>
               <execution>
                 <id>enforce-maven</id>
@@ -261,6 +261,10 @@
             <artifactId>trs-server</artifactId>
         </dependency>
         <dependency>
+            <groupId>org.eclipse.lyo.server</groupId>
+            <artifactId>lyo-server-common</artifactId>
+        </dependency>
+        <dependency>
             <groupId>org.eclipse.lyo.clients</groupId>
             <artifactId>oslc-client</artifactId>
         </dependency>
@@ -280,7 +284,6 @@
         <dependency>
             <groupId>org.eclipse.lyo</groupId>
             <artifactId>oslc-domains</artifactId>
-            <version>7.0.0-SNAPSHOT</version>
         </dependency>
         
         <!-- Swagger dependencies -->

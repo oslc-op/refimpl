@@ -4,9 +4,9 @@
 name: CI acceptance tests (more JDKs)
 
 on:
-  schedule:
-    # run integration tests every Thursday
-    - cron: "31 06 * * 4"
+  # schedule:
+  #   # run integration tests every Thursday
+  #   - cron: "31 06 * * 4"
   workflow_dispatch:
 
 concurrency:

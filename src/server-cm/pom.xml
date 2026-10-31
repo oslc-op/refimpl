@@ -67,7 +67,7 @@
           <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-enforcer-plugin</artifactId>
-            <version>3.6.3</version>
+            <version>3.7.0</version>
             <executions>
               <execution>
                 <id>enforce-maven</id>
@@ -239,6 +239,10 @@
             <artifactId>oslc4j-json4j-provider</artifactId>
         </dependency>
         <dependency>
+            <groupId>org.eclipse.lyo.server</groupId>
+            <artifactId>lyo-server-common</artifactId>
+        </dependency>
+        <dependency>
             <groupId>org.eclipse.lyo.clients</groupId>
             <artifactId>oslc-client</artifactId>
         </dependency>
@@ -258,7 +262,6 @@
         <dependency>
             <groupId>org.eclipse.lyo</groupId>
             <artifactId>oslc-domains</artifactId>
-            <version>7.0.0-SNAPSHOT</version>
         </dependency>
         
         <!-- Swagger dependencies -->
