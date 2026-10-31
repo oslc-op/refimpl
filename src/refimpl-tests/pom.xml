@@ -90,13 +90,11 @@
     <dependency>
       <groupId>org.eclipse.lyo.trs</groupId>
       <artifactId>trs-client</artifactId>
-      <version>${version.lyo}</version>
       <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>org.eclipse.lyo</groupId>
       <artifactId>oslc-domains</artifactId>
-      <version>${version.lyo}</version>
       <scope>test</scope>
     </dependency>
   </dependencies>

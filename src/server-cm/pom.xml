@@ -23,6 +23,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <maven.compiler.release>21</maven.compiler.release>
+        <version.lyo>7.0.0-SNAPSHOT</version.lyo>
         <swagger-ui.version>5.33.2</swagger-ui.version>
         <servlet.port>8801</servlet.port>
         <application.contextpath>/</application.contextpath>
@@ -30,7 +31,6 @@
         
         <!-- Start of user code properties
     -->
-        <version.lyo>7.0.0-SNAPSHOT</version.lyo>
     <!-- TODO: Add additional properties here to avoid them be overrriden upon future re-generation -->
     <!-- End of user code
         -->
@@ -262,7 +262,6 @@
         <dependency>
             <groupId>org.eclipse.lyo</groupId>
             <artifactId>oslc-domains</artifactId>
-            <version>${version.lyo}</version>
         </dependency>
         
         <!-- Swagger dependencies -->

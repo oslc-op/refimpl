@@ -24,6 +24,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <maven.compiler.release>21</maven.compiler.release>
+        <version.lyo>7.0.0-SNAPSHOT</version.lyo>
         <swagger-ui.version>5.33.2</swagger-ui.version>
         <servlet.port>8800</servlet.port>
         <application.contextpath>/</application.contextpath>
@@ -31,7 +32,6 @@
         
         <!-- Start of user code properties
     -->
-        <version.lyo>7.0.0-SNAPSHOT</version.lyo>
         <v.lucene>10.3.1</v.lucene>
         <v.rest-assured>6.3.0</v.rest-assured>
     <!-- End of user code
@@ -280,7 +280,6 @@
         <dependency>
             <groupId>org.eclipse.lyo</groupId>
             <artifactId>oslc-domains</artifactId>
-            <version>${version.lyo}</version>
         </dependency>
         
         <!-- Swagger dependencies -->
