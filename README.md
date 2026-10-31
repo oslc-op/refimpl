@@ -16,6 +16,12 @@ Reference implementation of four OSLC Servers covering each of the 4 OSLC Domain
 * [Architecture Management](https://oslc-op.github.io/oslc-specs/specs/am/architecture-management-spec.html)
 
 ## How to run
+RM Requirement POST and PUT requests are validated using `lyo-validation` against
+the resource class's OSLC annotations. Title (`dcterms:title`) and identifier
+(`dcterms:identifier`) are required. Invalid requirements return HTTP 400 with
+plain-text property-level validation details, without storing the resource or
+emitting a TRS event.
+
 Follow the 3 sections below to:
 
 1. [Run the OSLC Servers](#run-the-oslc-servers)
