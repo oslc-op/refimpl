@@ -47,6 +47,7 @@ import org.eclipse.lyo.oslc4j.trs.server.TrsEventHandler;
 
 
 // Start of user code imports
+import co.oslc.refimpl.rm.RequirementValidation;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -245,6 +246,8 @@ public class RestDelegate {
         
         
         // Start of user code createRequirement
+        var validatedResource = RequirementValidation.validate(aResource);
+        RequirementValidation.throwBadRequestIfInvalid(validatedResource);
         final Map<String, Requirement> requirements = requirementsForSP(serviceProviderId);
         aResource.setAbout(resourcesFactory.constructURIForRequirement(serviceProviderId, aResource.getIdentifier()));
         aResource.setCreated(new Date());
@@ -377,6 +380,8 @@ public class RestDelegate {
         Requirement updatedResource = null;
         
         // Start of user code updateRequirement
+        var validatedResource = RequirementValidation.validate(aResource);
+        RequirementValidation.throwBadRequestIfInvalid(validatedResource);
         if(!resourcesFactory.constructURIForRequirement(serviceProviderId, resourceId).equals(aResource.getAbout())) {
             throw new WebApplicationException("Subject URI shall match the endpoint", Response.Status.BAD_REQUEST);
         }
