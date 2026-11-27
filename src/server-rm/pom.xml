@@ -165,6 +165,10 @@
       <artifactId>lib-common</artifactId>
     </dependency>
     <dependency>
+      <groupId>org.eclipse.lyo</groupId>
+      <artifactId>lyo-validation</artifactId>
+    </dependency>
+    <dependency>
       <groupId>org.apache.lucene</groupId>
       <artifactId>lucene-core</artifactId>
       <version>${v.lucene}</version>
