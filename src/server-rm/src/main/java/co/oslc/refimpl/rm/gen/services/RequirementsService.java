@@ -27,8 +27,6 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.text.SimpleDateFormat;
 import java.text.ParseException;
@@ -266,33 +264,30 @@ public class RequirementsService
     )
     @GET
     @Path("selector")
-    @Consumes({MediaType.TEXT_HTML, MediaType.WILDCARD})
+    @Consumes({ MediaType.TEXT_HTML, MediaType.WILDCARD })
     public Response RequirementSelector(
         @QueryParam("terms") final String terms
         , @PathParam("serviceProviderId") final String serviceProviderId
-    ) throws ServletException, IOException, JSONException {
+        ) throws ServletException, IOException, JSONException
+    {
         // Start of user code RequirementSelector_init
         // End of user code
-        
-        httpServletRequest.setAttribute("selectionUri",
-            UriBuilder.fromUri(OSLC4JUtils.getServletURI()).path(uriInfo.getPath()).build().toString());
+
+        httpServletRequest.setAttribute("selectionUri",UriBuilder.fromUri(OSLC4JUtils.getServletURI()).path(uriInfo.getPath()).build().toString());
+        httpServletResponse.setHeader("Vary", "HX-Request");
         // Start of user code RequirementSelector_setAttributes
         // End of user code
-        
+
         if (terms != null) {
             httpServletRequest.setAttribute("terms", terms);
-            final List<Requirement> resources = delegate.RequirementSelector(httpServletRequest,
-                serviceProviderId, terms);
+            final List<Requirement> resources = delegate.RequirementSelector(httpServletRequest, serviceProviderId, terms);
             if (resources != null) {
-                if ("true".equalsIgnoreCase(httpServletRequest.getHeader("hx-request"))) {
-                    // we need to return HTML fragment
-                    RequestDispatcher rd = httpServletRequest.getRequestDispatcher("/co/oslc/refimpl/rm" +
-                        "/gen/requirementselector-results.jsp");
-                        httpServletRequest.setAttribute("resources", resources);
+                if ("true".equalsIgnoreCase(httpServletRequest.getHeader("HX-Request"))) {
+                    httpServletRequest.setAttribute("resources", resources);
+                    RequestDispatcher rd = httpServletRequest.getRequestDispatcher("/co/oslc/refimpl/rm/gen/requirementselector-results.jsp");
                     rd.forward(httpServletRequest, httpServletResponse);
+                    return null;
                 } else {
-                    // this is really bad, we should not be mixing HTML and JSON without content 
-                    // negotiation
                     JSONArray resourceArray = new JSONArray();
                     for (Requirement resource : resources) {
                         JSONObject r = new JSONObject();
@@ -307,13 +302,17 @@ public class RequirementsService
                     response.put("oslc:results", resourceArray);
                     return Response.ok(response.write()).build();
                 }
-                
             }
             log.error("A empty search should return an empty list and not NULL!");
             return Response.noContent().build();
+
         } else {
-            RequestDispatcher rd = httpServletRequest.getRequestDispatcher("/co/oslc/refimpl/rm" +
-                "/gen/requirementselector.jsp");
+            httpServletRequest.setAttribute("resourceTypeLabel", "Requirement");
+            httpServletRequest.setAttribute("fieldsToList", "[\"Label\"]");
+            // Start of user code RequirementSelector_setAttribute_fieldsToList
+            //TODO: set the attribute "fieldsToList" to form the list of properties you want displayed in the search result
+            // End of user code
+            RequestDispatcher rd = httpServletRequest.getRequestDispatcher("/co/oslc/refimpl/rm/gen/requirementselector.jsp");
             rd.forward(httpServletRequest, httpServletResponse);
             return null;
         }

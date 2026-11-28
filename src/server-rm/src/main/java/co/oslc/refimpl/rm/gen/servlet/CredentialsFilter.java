@@ -65,6 +65,27 @@ public class CredentialsFilter implements Filter {
     // Start of user code class_attributes
     // End of user code
 
+    /**
+     * OAuthServlet obtains OAuth parameters from the Servlet parameter map. For a
+     * form-encoded token request, make the Servlet parse the entity before the
+     * JAX-RS runtime can consume it.
+     */
+    private boolean isFormEncodedOAuthTokenRequest(HttpServletRequest request) {
+        if (!"POST".equalsIgnoreCase(request.getMethod())) {
+            return false;
+        }
+
+        String contentType = request.getContentType();
+        String formContentType = "application/x-www-form-urlencoded";
+        if (contentType == null
+                || !contentType.regionMatches(true, 0, formContentType, 0, formContentType.length())) {
+            return false;
+        }
+
+        String pathInfo = request.getPathInfo();
+        return "/oauth/requestToken".equals(pathInfo) || "/oauth/accessToken".equals(pathInfo);
+    }
+
     // Start of user code class_methods
     // End of user code
 
@@ -115,6 +136,10 @@ public class CredentialsFilter implements Filter {
         if (servletRequest instanceof HttpServletRequest && servletResponse instanceof HttpServletResponse) {
             HttpServletRequest request = (HttpServletRequest) servletRequest;
             HttpServletResponse response = (HttpServletResponse) servletResponse;
+
+            if (isFormEncodedOAuthTokenRequest(request)) {
+                request.getParameterMap();
+            }
 
             if (isProtectedResource(request)) {
                 AuthenticationApplication authenticationApplication = AuthenticationApplication.getApplication();
