@@ -34,11 +34,13 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
     <title>ChangeNoticeDlgCr</title>
-    <script src="<c:url value="/static/js/delegated-ui.js"/>"></script>
+    <script src="https://cdn.jsdelivr.net/npm/htmx.org@4.0.0" integrity="sha384-BvJpBiO8Kh31EqtJe5DRIeWrHWnCGkwytKs9NKFi86Hhw96dEqdEMzZDeK9iEGTc" crossorigin="anonymous"></script>
   </head>
   <body style="padding: 10px;">
     <div id="bugzilla-body">
-    <form id="Create" method="POST" class="enter_bug_form">
+    <form id="Create" method="POST" action="<%= creatorUri %>" class="enter_bug_form"
+          hx-post="<%= creatorUri %>" hx-swap="none"
+          hx-on::after:request="if (ctx.response.status === 201) window.parent.postMessage('oslc-response:' + ctx.text, '*')">
         <table style="clear: both;">
           <tr>
             <td>
@@ -275,9 +277,7 @@
           <tr>
             <td></td>
             <td>
-              <input type="button"
-                value="Submit"
-                onclick="javascript: create( '<%= creatorUri %>' )">
+              <input type="submit" value="Submit">
               <input type="reset">
             </td>
           </tr>

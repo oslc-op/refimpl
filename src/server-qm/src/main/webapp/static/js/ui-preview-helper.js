@@ -156,17 +156,43 @@ function setupUiPreviewOnPopover(oslcLinkElements) {
 
 function attachIframeToHyperlinkElement(compactStructure, uiElem) {
   var preview = compactStructure.small;
-  
-  // Create iframe with fixed dimensions that work well in the popover
-  var iframeHtml = "<iframe src='" + preview.uri + "' ";
-  iframeHtml += " style='border: none; width: 100%; height: 100%; display: block;'";
-  iframeHtml += " title='Resource Preview'></iframe>";
+  var previewUri = preview && preview.uri;
+
+  // Build the iframe as DOM instead of interpolating a remote URI into HTML.
+  // A Compact document can be supplied by a remote OSLC server, so only allow
+  // web URLs and let the DOM API set the attribute value.
+  const createPreviewIframe = () => {
+    let previewUrl;
+    try {
+      previewUrl = new URL(previewUri, window.location.href);
+    } catch (e) {
+      return null;
+    }
+
+    if (previewUrl.protocol !== "http:" && previewUrl.protocol !== "https:") {
+      return null;
+    }
+
+    const iframe = document.createElement("iframe");
+    iframe.src = previewUrl.href;
+    iframe.style.border = "none";
+    iframe.style.width = "100%";
+    iframe.style.height = "100%";
+    iframe.style.display = "block";
+    iframe.title = "Resource Preview";
+    return iframe;
+  };
+
+  const previewIframe = createPreviewIframe();
+  if (!previewIframe) {
+    return;
+  }
 
   // Get the Bootstrap 5 popover instance and update content
   const popoverInstance = bootstrap.Popover.getInstance(uiElem);
   if (popoverInstance) {
     // Update the popover configuration with new content and title
-    popoverInstance._config.content = iframeHtml;
+    popoverInstance._config.content = createPreviewIframe;
     popoverInstance._config.title = compactStructure.title || "Resource Preview";
 
     // If popover is currently shown, update its content immediately
@@ -174,7 +200,7 @@ function attachIframeToHyperlinkElement(compactStructure, uiElem) {
     if (popoverElement) {
       const popoverBody = popoverElement.querySelector('.popover-body');
       if (popoverBody) {
-        popoverBody.innerHTML = iframeHtml;
+        popoverBody.replaceChildren(previewIframe);
       }
       
       // Ensure header is visible and properly styled

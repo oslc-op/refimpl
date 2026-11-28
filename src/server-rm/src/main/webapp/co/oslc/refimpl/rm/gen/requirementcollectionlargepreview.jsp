@@ -43,12 +43,26 @@
 <%
   RequirementCollection aRequirementCollection = (RequirementCollection) request.getAttribute("aRequirementCollection");
 %>
+<%!
+  private boolean isSafeHref(Object value) {
+    if (value == null) {
+      return false;
+    }
+    try {
+      URI uri = value instanceof URI ? (URI) value : URI.create(value.toString());
+      String scheme = uri.getScheme();
+      return "http".equalsIgnoreCase(scheme) || "https".equalsIgnoreCase(scheme);
+    } catch (IllegalArgumentException e) {
+      return false;
+    }
+  }
+%>
 
 <html lang="en">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <title><%= aRequirementCollection.toString() %></title>
+  <title><c:out value="<%= aRequirementCollection.toString() %>"/></title>
 
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
@@ -63,14 +77,20 @@
     <% Method method = null; %>
     <dl class="dl-horizontal">
         <% method = RequirementCollection.class.getMethod("getTitle"); %>
-        <dt><a href="<%=method.getAnnotation(OslcPropertyDefinition.class).value() %>"><%=method.getAnnotation(OslcName.class).value()%></a></dt>
+        <% if (isSafeHref(method.getAnnotation(OslcPropertyDefinition.class).value())) { %>
+        <dt><a href="<c:out value="<%=method.getAnnotation(OslcPropertyDefinition.class).value()%>"/>" style="text-decoration-style: dashed;" target="_blank" rel="noopener noreferrer" title="Title of the resource represented as rich text in XHTML content. SHOULD include only content that is valid inside an XHTML <span> element."><c:out value="<%=method.getAnnotation(OslcName.class).value()%>"/></a></dt>
+        <% } else { %>
+        <dt><c:out value="<%=method.getAnnotation(OslcName.class).value()%>"/></dt>
+        <% } %>
         <dd>
         <%
         if (aRequirementCollection.getTitle() == null) {
             out.write("<em>null</em>");
         }
         else {
-            out.write(aRequirementCollection.getTitle().toString());
+            %>
+            <c:out value="<%=aRequirementCollection.getTitle()%>"/>
+            <%
         }
         %>
         
@@ -78,14 +98,20 @@
     </dl>
     <dl class="dl-horizontal">
         <% method = RequirementCollection.class.getMethod("getDescription"); %>
-        <dt><a href="<%=method.getAnnotation(OslcPropertyDefinition.class).value() %>"><%=method.getAnnotation(OslcName.class).value()%></a></dt>
+        <% if (isSafeHref(method.getAnnotation(OslcPropertyDefinition.class).value())) { %>
+        <dt><a href="<c:out value="<%=method.getAnnotation(OslcPropertyDefinition.class).value()%>"/>" style="text-decoration-style: dashed;" target="_blank" rel="noopener noreferrer" title="Descriptive text about resource represented as rich text in XHTML content. SHOULD include only content that is valid and suitable inside an XHTML <div> element."><c:out value="<%=method.getAnnotation(OslcName.class).value()%>"/></a></dt>
+        <% } else { %>
+        <dt><c:out value="<%=method.getAnnotation(OslcName.class).value()%>"/></dt>
+        <% } %>
         <dd>
         <%
         if (aRequirementCollection.getDescription() == null) {
             out.write("<em>null</em>");
         }
         else {
-            out.write(aRequirementCollection.getDescription().toString());
+            %>
+            <c:out value="<%=aRequirementCollection.getDescription()%>"/>
+            <%
         }
         %>
         
@@ -93,14 +119,20 @@
     </dl>
     <dl class="dl-horizontal">
         <% method = RequirementCollection.class.getMethod("getIdentifier"); %>
-        <dt><a href="<%=method.getAnnotation(OslcPropertyDefinition.class).value() %>"><%=method.getAnnotation(OslcName.class).value()%></a></dt>
+        <% if (isSafeHref(method.getAnnotation(OslcPropertyDefinition.class).value())) { %>
+        <dt><a href="<c:out value="<%=method.getAnnotation(OslcPropertyDefinition.class).value()%>"/>" style="text-decoration-style: dashed;" target="_blank" rel="noopener noreferrer" title="A unique identifier for a resource. Typically read-only and assigned by the service provider when a resource is created. Not typically intended for end-user display."><c:out value="<%=method.getAnnotation(OslcName.class).value()%>"/></a></dt>
+        <% } else { %>
+        <dt><c:out value="<%=method.getAnnotation(OslcName.class).value()%>"/></dt>
+        <% } %>
         <dd>
         <%
         if (aRequirementCollection.getIdentifier() == null) {
             out.write("<em>null</em>");
         }
         else {
-            out.write(aRequirementCollection.getIdentifier().toString());
+            %>
+            <c:out value="<%=aRequirementCollection.getIdentifier()%>"/>
+            <%
         }
         %>
         
@@ -108,14 +140,20 @@
     </dl>
     <dl class="dl-horizontal">
         <% method = RequirementCollection.class.getMethod("getShortTitle"); %>
-        <dt><a href="<%=method.getAnnotation(OslcPropertyDefinition.class).value() %>"><%=method.getAnnotation(OslcName.class).value()%></a></dt>
+        <% if (isSafeHref(method.getAnnotation(OslcPropertyDefinition.class).value())) { %>
+        <dt><a href="<c:out value="<%=method.getAnnotation(OslcPropertyDefinition.class).value()%>"/>" style="text-decoration-style: dashed;" target="_blank" rel="noopener noreferrer" title="Shorter form of dcterms:title for the resource represented as rich text in XHTML content. SHOULD include only content that is valid inside an XHTML <span> element."><c:out value="<%=method.getAnnotation(OslcName.class).value()%>"/></a></dt>
+        <% } else { %>
+        <dt><c:out value="<%=method.getAnnotation(OslcName.class).value()%>"/></dt>
+        <% } %>
         <dd>
         <%
         if (aRequirementCollection.getShortTitle() == null) {
             out.write("<em>null</em>");
         }
         else {
-            out.write(aRequirementCollection.getShortTitle().toString());
+            %>
+            <c:out value="<%=aRequirementCollection.getShortTitle()%>"/>
+            <%
         }
         %>
         
@@ -123,13 +161,19 @@
     </dl>
     <dl class="dl-horizontal">
         <% method = RequirementCollection.class.getMethod("getSubject"); %>
-        <dt><a href="<%=method.getAnnotation(OslcPropertyDefinition.class).value() %>"><%=method.getAnnotation(OslcName.class).value()%></a></dt>
+        <% if (isSafeHref(method.getAnnotation(OslcPropertyDefinition.class).value())) { %>
+        <dt><a href="<c:out value="<%=method.getAnnotation(OslcPropertyDefinition.class).value()%>"/>" style="text-decoration-style: dashed;" target="_blank" rel="noopener noreferrer" title="Tag or keyword for a resource. Each occurrence of a dcterms:subject property denotes an additional tag for the resource."><c:out value="<%=method.getAnnotation(OslcName.class).value()%>"/></a></dt>
+        <% } else { %>
+        <dt><c:out value="<%=method.getAnnotation(OslcName.class).value()%>"/></dt>
+        <% } %>
         <dd>
         <ul>
         <%
         Iterator<String> subjectItr = aRequirementCollection.getSubject().iterator();
         while(subjectItr.hasNext()) {
-            out.write("<li>" + subjectItr.next().toString() + "</li>");
+            %>
+            <li><c:out value="<%=subjectItr.next()%>"/></li>
+            <%
         }
         %>
         </ul>
@@ -138,7 +182,11 @@
     </dl>
     <dl class="dl-horizontal">
         <% method = RequirementCollection.class.getMethod("getCreator"); %>
-        <dt><a href="<%=method.getAnnotation(OslcPropertyDefinition.class).value() %>"><%=method.getAnnotation(OslcName.class).value()%></a></dt>
+        <% if (isSafeHref(method.getAnnotation(OslcPropertyDefinition.class).value())) { %>
+        <dt><a href="<c:out value="<%=method.getAnnotation(OslcPropertyDefinition.class).value()%>"/>" style="text-decoration-style: dashed;" target="_blank" rel="noopener noreferrer" title="Creator or creators of the resource. It is likely that the target resource will be a foaf:Person but that is not necessarily the case."><c:out value="<%=method.getAnnotation(OslcName.class).value()%>"/></a></dt>
+        <% } else { %>
+        <dt><c:out value="<%=method.getAnnotation(OslcName.class).value()%>"/></dt>
+        <% } %>
         <dd>
         <ul>
         <%
@@ -163,7 +211,11 @@
     </dl>
     <dl class="dl-horizontal">
         <% method = RequirementCollection.class.getMethod("getContributor"); %>
-        <dt><a href="<%=method.getAnnotation(OslcPropertyDefinition.class).value() %>"><%=method.getAnnotation(OslcName.class).value()%></a></dt>
+        <% if (isSafeHref(method.getAnnotation(OslcPropertyDefinition.class).value())) { %>
+        <dt><a href="<c:out value="<%=method.getAnnotation(OslcPropertyDefinition.class).value()%>"/>" style="text-decoration-style: dashed;" target="_blank" rel="noopener noreferrer" title="Contributor or contributors to the resource. It is likely that the target resource will be a foaf:Person but that is not necessarily the case."><c:out value="<%=method.getAnnotation(OslcName.class).value()%>"/></a></dt>
+        <% } else { %>
+        <dt><c:out value="<%=method.getAnnotation(OslcName.class).value()%>"/></dt>
+        <% } %>
         <dd>
         <ul>
         <%
@@ -188,14 +240,20 @@
     </dl>
     <dl class="dl-horizontal">
         <% method = RequirementCollection.class.getMethod("getCreated"); %>
-        <dt><a href="<%=method.getAnnotation(OslcPropertyDefinition.class).value() %>"><%=method.getAnnotation(OslcName.class).value()%></a></dt>
+        <% if (isSafeHref(method.getAnnotation(OslcPropertyDefinition.class).value())) { %>
+        <dt><a href="<c:out value="<%=method.getAnnotation(OslcPropertyDefinition.class).value()%>"/>" style="text-decoration-style: dashed;" target="_blank" rel="noopener noreferrer" title="Timestamp of resource creation"><c:out value="<%=method.getAnnotation(OslcName.class).value()%>"/></a></dt>
+        <% } else { %>
+        <dt><c:out value="<%=method.getAnnotation(OslcName.class).value()%>"/></dt>
+        <% } %>
         <dd>
         <%
         if (aRequirementCollection.getCreated() == null) {
             out.write("<em>null</em>");
         }
         else {
-            out.write(aRequirementCollection.getCreated().toString());
+            %>
+            <c:out value="<%=aRequirementCollection.getCreated()%>"/>
+            <%
         }
         %>
         
@@ -203,14 +261,20 @@
     </dl>
     <dl class="dl-horizontal">
         <% method = RequirementCollection.class.getMethod("getModified"); %>
-        <dt><a href="<%=method.getAnnotation(OslcPropertyDefinition.class).value() %>"><%=method.getAnnotation(OslcName.class).value()%></a></dt>
+        <% if (isSafeHref(method.getAnnotation(OslcPropertyDefinition.class).value())) { %>
+        <dt><a href="<c:out value="<%=method.getAnnotation(OslcPropertyDefinition.class).value()%>"/>" style="text-decoration-style: dashed;" target="_blank" rel="noopener noreferrer" title="Timestamp of latest resource modification"><c:out value="<%=method.getAnnotation(OslcName.class).value()%>"/></a></dt>
+        <% } else { %>
+        <dt><c:out value="<%=method.getAnnotation(OslcName.class).value()%>"/></dt>
+        <% } %>
         <dd>
         <%
         if (aRequirementCollection.getModified() == null) {
             out.write("<em>null</em>");
         }
         else {
-            out.write(aRequirementCollection.getModified().toString());
+            %>
+            <c:out value="<%=aRequirementCollection.getModified()%>"/>
+            <%
         }
         %>
         
@@ -218,7 +282,11 @@
     </dl>
     <dl class="dl-horizontal">
         <% method = RequirementCollection.class.getMethod("getServiceProvider"); %>
-        <dt><a href="<%=method.getAnnotation(OslcPropertyDefinition.class).value() %>"><%=method.getAnnotation(OslcName.class).value()%></a></dt>
+        <% if (isSafeHref(method.getAnnotation(OslcPropertyDefinition.class).value())) { %>
+        <dt><a href="<c:out value="<%=method.getAnnotation(OslcPropertyDefinition.class).value()%>"/>" style="text-decoration-style: dashed;" target="_blank" rel="noopener noreferrer" title="A link to the resource's OSLC Service Provider. There may be cases when the subject resource is available from a service provider that implements multiple domain specifications, which could result in multiple values for this property."><c:out value="<%=method.getAnnotation(OslcName.class).value()%>"/></a></dt>
+        <% } else { %>
+        <dt><c:out value="<%=method.getAnnotation(OslcName.class).value()%>"/></dt>
+        <% } %>
         <dd>
         <ul>
         <%
@@ -227,7 +295,16 @@
                 out.write("<li>" + "<em>null</em>" + "</li>");
             }
             else {
-                out.write("<li>" + "<a href=\"" + next.getValue().toString() + "\" class=\"oslc-resource-link\">" + next.getValue().toString() + "</a>" + "</li>");
+                if (isSafeHref(next.getValue())) {
+                %>
+                <li><a href="<c:out value="<%=next.getValue()%>"/>" class="oslc-resource-link"><c:out value="<%=next.getValue()%>"/></a></li>
+                <%
+                }
+                else {
+                %>
+                <li><c:out value="<%=next.getValue()%>"/></li>
+                <%
+                }
             }
         }
         %>
@@ -237,7 +314,11 @@
     </dl>
     <dl class="dl-horizontal">
         <% method = RequirementCollection.class.getMethod("getInstanceShape"); %>
-        <dt><a href="<%=method.getAnnotation(OslcPropertyDefinition.class).value() %>"><%=method.getAnnotation(OslcName.class).value()%></a></dt>
+        <% if (isSafeHref(method.getAnnotation(OslcPropertyDefinition.class).value())) { %>
+        <dt><a href="<c:out value="<%=method.getAnnotation(OslcPropertyDefinition.class).value()%>"/>" style="text-decoration-style: dashed;" target="_blank" rel="noopener noreferrer" title="The URI of a Resource Shape that describes the possible properties, occurrence, value types, allowed values and labels. This shape information is useful in displaying the subject resource as well as guiding clients in performing modifications. Instance shapes may be specific to the authenticated user associated with the request that retrieved the resource, the current state of the resource and other factors and thus should not be cached."><c:out value="<%=method.getAnnotation(OslcName.class).value()%>"/></a></dt>
+        <% } else { %>
+        <dt><c:out value="<%=method.getAnnotation(OslcName.class).value()%>"/></dt>
+        <% } %>
         <dd>
         <ul>
         <%
@@ -246,7 +327,16 @@
                 out.write("<li>" + "<em>null</em>" + "</li>");
             }
             else {
-                out.write("<li>" + "<a href=\"" + next.getValue().toString() + "\" class=\"oslc-resource-link\">" + next.getValue().toString() + "</a>" + "</li>");
+                if (isSafeHref(next.getValue())) {
+                %>
+                <li><a href="<c:out value="<%=next.getValue()%>"/>" class="oslc-resource-link"><c:out value="<%=next.getValue()%>"/></a></li>
+                <%
+                }
+                else {
+                %>
+                <li><c:out value="<%=next.getValue()%>"/></li>
+                <%
+                }
             }
         }
         %>
@@ -256,7 +346,11 @@
     </dl>
     <dl class="dl-horizontal">
         <% method = RequirementCollection.class.getMethod("getElaboratedBy"); %>
-        <dt><a href="<%=method.getAnnotation(OslcPropertyDefinition.class).value() %>"><%=method.getAnnotation(OslcName.class).value()%></a></dt>
+        <% if (isSafeHref(method.getAnnotation(OslcPropertyDefinition.class).value())) { %>
+        <dt><a href="<c:out value="<%=method.getAnnotation(OslcPropertyDefinition.class).value()%>"/>" style="text-decoration-style: dashed;" target="_blank" rel="noopener noreferrer" title="The subject is elaborated by the object. For example, a user requirement is elaborated by use case."><c:out value="<%=method.getAnnotation(OslcName.class).value()%>"/></a></dt>
+        <% } else { %>
+        <dt><c:out value="<%=method.getAnnotation(OslcName.class).value()%>"/></dt>
+        <% } %>
         <dd>
         <ul>
         <%
@@ -265,7 +359,16 @@
                 out.write("<li>" + "<em>null</em>" + "</li>");
             }
             else {
-                out.write("<li>" + "<a href=\"" + next.getValue().toString() + "\" class=\"oslc-resource-link\">" + next.getValue().toString() + "</a>" + "</li>");
+                if (isSafeHref(next.getValue())) {
+                %>
+                <li><a href="<c:out value="<%=next.getValue()%>"/>" class="oslc-resource-link"><c:out value="<%=next.getValue()%>"/></a></li>
+                <%
+                }
+                else {
+                %>
+                <li><c:out value="<%=next.getValue()%>"/></li>
+                <%
+                }
             }
         }
         %>
@@ -275,7 +378,11 @@
     </dl>
     <dl class="dl-horizontal">
         <% method = RequirementCollection.class.getMethod("getElaborates"); %>
-        <dt><a href="<%=method.getAnnotation(OslcPropertyDefinition.class).value() %>"><%=method.getAnnotation(OslcName.class).value()%></a></dt>
+        <% if (isSafeHref(method.getAnnotation(OslcPropertyDefinition.class).value())) { %>
+        <dt><a href="<c:out value="<%=method.getAnnotation(OslcPropertyDefinition.class).value()%>"/>" style="text-decoration-style: dashed;" target="_blank" rel="noopener noreferrer" title="The object is elaborated by the subject."><c:out value="<%=method.getAnnotation(OslcName.class).value()%>"/></a></dt>
+        <% } else { %>
+        <dt><c:out value="<%=method.getAnnotation(OslcName.class).value()%>"/></dt>
+        <% } %>
         <dd>
         <ul>
         <%
@@ -284,7 +391,16 @@
                 out.write("<li>" + "<em>null</em>" + "</li>");
             }
             else {
-                out.write("<li>" + "<a href=\"" + next.getValue().toString() + "\" class=\"oslc-resource-link\">" + next.getValue().toString() + "</a>" + "</li>");
+                if (isSafeHref(next.getValue())) {
+                %>
+                <li><a href="<c:out value="<%=next.getValue()%>"/>" class="oslc-resource-link"><c:out value="<%=next.getValue()%>"/></a></li>
+                <%
+                }
+                else {
+                %>
+                <li><c:out value="<%=next.getValue()%>"/></li>
+                <%
+                }
             }
         }
         %>
@@ -294,7 +410,11 @@
     </dl>
     <dl class="dl-horizontal">
         <% method = RequirementCollection.class.getMethod("getSpecifiedBy"); %>
-        <dt><a href="<%=method.getAnnotation(OslcPropertyDefinition.class).value() %>"><%=method.getAnnotation(OslcName.class).value()%></a></dt>
+        <% if (isSafeHref(method.getAnnotation(OslcPropertyDefinition.class).value())) { %>
+        <dt><a href="<c:out value="<%=method.getAnnotation(OslcPropertyDefinition.class).value()%>"/>" style="text-decoration-style: dashed;" target="_blank" rel="noopener noreferrer" title="The subject is specified by the object. For example, a requirement is elaborated by a model element ."><c:out value="<%=method.getAnnotation(OslcName.class).value()%>"/></a></dt>
+        <% } else { %>
+        <dt><c:out value="<%=method.getAnnotation(OslcName.class).value()%>"/></dt>
+        <% } %>
         <dd>
         <ul>
         <%
@@ -303,7 +423,16 @@
                 out.write("<li>" + "<em>null</em>" + "</li>");
             }
             else {
-                out.write("<li>" + "<a href=\"" + next.getValue().toString() + "\" class=\"oslc-resource-link\">" + next.getValue().toString() + "</a>" + "</li>");
+                if (isSafeHref(next.getValue())) {
+                %>
+                <li><a href="<c:out value="<%=next.getValue()%>"/>" class="oslc-resource-link"><c:out value="<%=next.getValue()%>"/></a></li>
+                <%
+                }
+                else {
+                %>
+                <li><c:out value="<%=next.getValue()%>"/></li>
+                <%
+                }
             }
         }
         %>
@@ -313,7 +442,11 @@
     </dl>
     <dl class="dl-horizontal">
         <% method = RequirementCollection.class.getMethod("getSpecifies"); %>
-        <dt><a href="<%=method.getAnnotation(OslcPropertyDefinition.class).value() %>"><%=method.getAnnotation(OslcName.class).value()%></a></dt>
+        <% if (isSafeHref(method.getAnnotation(OslcPropertyDefinition.class).value())) { %>
+        <dt><a href="<c:out value="<%=method.getAnnotation(OslcPropertyDefinition.class).value()%>"/>" style="text-decoration-style: dashed;" target="_blank" rel="noopener noreferrer" title="The object is specified by the subject."><c:out value="<%=method.getAnnotation(OslcName.class).value()%>"/></a></dt>
+        <% } else { %>
+        <dt><c:out value="<%=method.getAnnotation(OslcName.class).value()%>"/></dt>
+        <% } %>
         <dd>
         <ul>
         <%
@@ -322,7 +455,16 @@
                 out.write("<li>" + "<em>null</em>" + "</li>");
             }
             else {
-                out.write("<li>" + "<a href=\"" + next.getValue().toString() + "\" class=\"oslc-resource-link\">" + next.getValue().toString() + "</a>" + "</li>");
+                if (isSafeHref(next.getValue())) {
+                %>
+                <li><a href="<c:out value="<%=next.getValue()%>"/>" class="oslc-resource-link"><c:out value="<%=next.getValue()%>"/></a></li>
+                <%
+                }
+                else {
+                %>
+                <li><c:out value="<%=next.getValue()%>"/></li>
+                <%
+                }
             }
         }
         %>
@@ -332,7 +474,11 @@
     </dl>
     <dl class="dl-horizontal">
         <% method = RequirementCollection.class.getMethod("getAffectedBy"); %>
-        <dt><a href="<%=method.getAnnotation(OslcPropertyDefinition.class).value() %>"><%=method.getAnnotation(OslcName.class).value()%></a></dt>
+        <% if (isSafeHref(method.getAnnotation(OslcPropertyDefinition.class).value())) { %>
+        <dt><a href="<c:out value="<%=method.getAnnotation(OslcPropertyDefinition.class).value()%>"/>" style="text-decoration-style: dashed;" target="_blank" rel="noopener noreferrer" title="Requirement is affected by a resource, such as a defect or issue."><c:out value="<%=method.getAnnotation(OslcName.class).value()%>"/></a></dt>
+        <% } else { %>
+        <dt><c:out value="<%=method.getAnnotation(OslcName.class).value()%>"/></dt>
+        <% } %>
         <dd>
         <ul>
         <%
@@ -341,7 +487,16 @@
                 out.write("<li>" + "<em>null</em>" + "</li>");
             }
             else {
-                out.write("<li>" + "<a href=\"" + next.getValue().toString() + "\" class=\"oslc-resource-link\">" + next.getValue().toString() + "</a>" + "</li>");
+                if (isSafeHref(next.getValue())) {
+                %>
+                <li><a href="<c:out value="<%=next.getValue()%>"/>" class="oslc-resource-link"><c:out value="<%=next.getValue()%>"/></a></li>
+                <%
+                }
+                else {
+                %>
+                <li><c:out value="<%=next.getValue()%>"/></li>
+                <%
+                }
             }
         }
         %>
@@ -351,7 +506,11 @@
     </dl>
     <dl class="dl-horizontal">
         <% method = RequirementCollection.class.getMethod("getTrackedBy"); %>
-        <dt><a href="<%=method.getAnnotation(OslcPropertyDefinition.class).value() %>"><%=method.getAnnotation(OslcName.class).value()%></a></dt>
+        <% if (isSafeHref(method.getAnnotation(OslcPropertyDefinition.class).value())) { %>
+        <dt><a href="<c:out value="<%=method.getAnnotation(OslcPropertyDefinition.class).value()%>"/>" style="text-decoration-style: dashed;" target="_blank" rel="noopener noreferrer" title="Resource, such as a change request, which tracks this requirement."><c:out value="<%=method.getAnnotation(OslcName.class).value()%>"/></a></dt>
+        <% } else { %>
+        <dt><c:out value="<%=method.getAnnotation(OslcName.class).value()%>"/></dt>
+        <% } %>
         <dd>
         <ul>
         <%
@@ -360,7 +519,16 @@
                 out.write("<li>" + "<em>null</em>" + "</li>");
             }
             else {
-                out.write("<li>" + "<a href=\"" + next.getValue().toString() + "\" class=\"oslc-resource-link\">" + next.getValue().toString() + "</a>" + "</li>");
+                if (isSafeHref(next.getValue())) {
+                %>
+                <li><a href="<c:out value="<%=next.getValue()%>"/>" class="oslc-resource-link"><c:out value="<%=next.getValue()%>"/></a></li>
+                <%
+                }
+                else {
+                %>
+                <li><c:out value="<%=next.getValue()%>"/></li>
+                <%
+                }
             }
         }
         %>
@@ -370,7 +538,11 @@
     </dl>
     <dl class="dl-horizontal">
         <% method = RequirementCollection.class.getMethod("getImplementedBy"); %>
-        <dt><a href="<%=method.getAnnotation(OslcPropertyDefinition.class).value() %>"><%=method.getAnnotation(OslcName.class).value()%></a></dt>
+        <% if (isSafeHref(method.getAnnotation(OslcPropertyDefinition.class).value())) { %>
+        <dt><a href="<c:out value="<%=method.getAnnotation(OslcPropertyDefinition.class).value()%>"/>" style="text-decoration-style: dashed;" target="_blank" rel="noopener noreferrer" title="Resource, such as a change request, which implements this requirement."><c:out value="<%=method.getAnnotation(OslcName.class).value()%>"/></a></dt>
+        <% } else { %>
+        <dt><c:out value="<%=method.getAnnotation(OslcName.class).value()%>"/></dt>
+        <% } %>
         <dd>
         <ul>
         <%
@@ -379,7 +551,16 @@
                 out.write("<li>" + "<em>null</em>" + "</li>");
             }
             else {
-                out.write("<li>" + "<a href=\"" + next.getValue().toString() + "\" class=\"oslc-resource-link\">" + next.getValue().toString() + "</a>" + "</li>");
+                if (isSafeHref(next.getValue())) {
+                %>
+                <li><a href="<c:out value="<%=next.getValue()%>"/>" class="oslc-resource-link"><c:out value="<%=next.getValue()%>"/></a></li>
+                <%
+                }
+                else {
+                %>
+                <li><c:out value="<%=next.getValue()%>"/></li>
+                <%
+                }
             }
         }
         %>
@@ -389,7 +570,11 @@
     </dl>
     <dl class="dl-horizontal">
         <% method = RequirementCollection.class.getMethod("getValidatedBy"); %>
-        <dt><a href="<%=method.getAnnotation(OslcPropertyDefinition.class).value() %>"><%=method.getAnnotation(OslcName.class).value()%></a></dt>
+        <% if (isSafeHref(method.getAnnotation(OslcPropertyDefinition.class).value())) { %>
+        <dt><a href="<c:out value="<%=method.getAnnotation(OslcPropertyDefinition.class).value()%>"/>" style="text-decoration-style: dashed;" target="_blank" rel="noopener noreferrer" title="Resource, such as a test case, which validates this requirement."><c:out value="<%=method.getAnnotation(OslcName.class).value()%>"/></a></dt>
+        <% } else { %>
+        <dt><c:out value="<%=method.getAnnotation(OslcName.class).value()%>"/></dt>
+        <% } %>
         <dd>
         <ul>
         <%
@@ -398,7 +583,16 @@
                 out.write("<li>" + "<em>null</em>" + "</li>");
             }
             else {
-                out.write("<li>" + "<a href=\"" + next.getValue().toString() + "\" class=\"oslc-resource-link\">" + next.getValue().toString() + "</a>" + "</li>");
+                if (isSafeHref(next.getValue())) {
+                %>
+                <li><a href="<c:out value="<%=next.getValue()%>"/>" class="oslc-resource-link"><c:out value="<%=next.getValue()%>"/></a></li>
+                <%
+                }
+                else {
+                %>
+                <li><c:out value="<%=next.getValue()%>"/></li>
+                <%
+                }
             }
         }
         %>
@@ -408,7 +602,11 @@
     </dl>
     <dl class="dl-horizontal">
         <% method = RequirementCollection.class.getMethod("getSatisfiedBy"); %>
-        <dt><a href="<%=method.getAnnotation(OslcPropertyDefinition.class).value() %>"><%=method.getAnnotation(OslcName.class).value()%></a></dt>
+        <% if (isSafeHref(method.getAnnotation(OslcPropertyDefinition.class).value())) { %>
+        <dt><a href="<c:out value="<%=method.getAnnotation(OslcPropertyDefinition.class).value()%>"/>" style="text-decoration-style: dashed;" target="_blank" rel="noopener noreferrer" title="The subject is satisfied by the object. For example, a user requirement is satisfied by a system requirement."><c:out value="<%=method.getAnnotation(OslcName.class).value()%>"/></a></dt>
+        <% } else { %>
+        <dt><c:out value="<%=method.getAnnotation(OslcName.class).value()%>"/></dt>
+        <% } %>
         <dd>
         <ul>
         <%
@@ -417,7 +615,16 @@
                 out.write("<li>" + "<em>null</em>" + "</li>");
             }
             else {
-                out.write("<li>" + "<a href=\"" + next.getValue().toString() + "\" class=\"oslc-resource-link\">" + next.getValue().toString() + "</a>" + "</li>");
+                if (isSafeHref(next.getValue())) {
+                %>
+                <li><a href="<c:out value="<%=next.getValue()%>"/>" class="oslc-resource-link"><c:out value="<%=next.getValue()%>"/></a></li>
+                <%
+                }
+                else {
+                %>
+                <li><c:out value="<%=next.getValue()%>"/></li>
+                <%
+                }
             }
         }
         %>
@@ -427,7 +634,11 @@
     </dl>
     <dl class="dl-horizontal">
         <% method = RequirementCollection.class.getMethod("getSatisfies"); %>
-        <dt><a href="<%=method.getAnnotation(OslcPropertyDefinition.class).value() %>"><%=method.getAnnotation(OslcName.class).value()%></a></dt>
+        <% if (isSafeHref(method.getAnnotation(OslcPropertyDefinition.class).value())) { %>
+        <dt><a href="<c:out value="<%=method.getAnnotation(OslcPropertyDefinition.class).value()%>"/>" style="text-decoration-style: dashed;" target="_blank" rel="noopener noreferrer" title="The object is satisfied by the subject."><c:out value="<%=method.getAnnotation(OslcName.class).value()%>"/></a></dt>
+        <% } else { %>
+        <dt><c:out value="<%=method.getAnnotation(OslcName.class).value()%>"/></dt>
+        <% } %>
         <dd>
         <ul>
         <%
@@ -436,7 +647,16 @@
                 out.write("<li>" + "<em>null</em>" + "</li>");
             }
             else {
-                out.write("<li>" + "<a href=\"" + next.getValue().toString() + "\" class=\"oslc-resource-link\">" + next.getValue().toString() + "</a>" + "</li>");
+                if (isSafeHref(next.getValue())) {
+                %>
+                <li><a href="<c:out value="<%=next.getValue()%>"/>" class="oslc-resource-link"><c:out value="<%=next.getValue()%>"/></a></li>
+                <%
+                }
+                else {
+                %>
+                <li><c:out value="<%=next.getValue()%>"/></li>
+                <%
+                }
             }
         }
         %>
@@ -446,7 +666,11 @@
     </dl>
     <dl class="dl-horizontal">
         <% method = RequirementCollection.class.getMethod("getDecomposedBy"); %>
-        <dt><a href="<%=method.getAnnotation(OslcPropertyDefinition.class).value() %>"><%=method.getAnnotation(OslcName.class).value()%></a></dt>
+        <% if (isSafeHref(method.getAnnotation(OslcPropertyDefinition.class).value())) { %>
+        <dt><a href="<c:out value="<%=method.getAnnotation(OslcPropertyDefinition.class).value()%>"/>" style="text-decoration-style: dashed;" target="_blank" rel="noopener noreferrer" title="The subject is decomposed by the object. For example, a system requirement is decomposed into a collection of system requirements."><c:out value="<%=method.getAnnotation(OslcName.class).value()%>"/></a></dt>
+        <% } else { %>
+        <dt><c:out value="<%=method.getAnnotation(OslcName.class).value()%>"/></dt>
+        <% } %>
         <dd>
         <ul>
         <%
@@ -455,7 +679,16 @@
                 out.write("<li>" + "<em>null</em>" + "</li>");
             }
             else {
-                out.write("<li>" + "<a href=\"" + next.getValue().toString() + "\" class=\"oslc-resource-link\">" + next.getValue().toString() + "</a>" + "</li>");
+                if (isSafeHref(next.getValue())) {
+                %>
+                <li><a href="<c:out value="<%=next.getValue()%>"/>" class="oslc-resource-link"><c:out value="<%=next.getValue()%>"/></a></li>
+                <%
+                }
+                else {
+                %>
+                <li><c:out value="<%=next.getValue()%>"/></li>
+                <%
+                }
             }
         }
         %>
@@ -465,7 +698,11 @@
     </dl>
     <dl class="dl-horizontal">
         <% method = RequirementCollection.class.getMethod("getDecomposes"); %>
-        <dt><a href="<%=method.getAnnotation(OslcPropertyDefinition.class).value() %>"><%=method.getAnnotation(OslcName.class).value()%></a></dt>
+        <% if (isSafeHref(method.getAnnotation(OslcPropertyDefinition.class).value())) { %>
+        <dt><a href="<c:out value="<%=method.getAnnotation(OslcPropertyDefinition.class).value()%>"/>" style="text-decoration-style: dashed;" target="_blank" rel="noopener noreferrer" title="The object is decomposed by the subject."><c:out value="<%=method.getAnnotation(OslcName.class).value()%>"/></a></dt>
+        <% } else { %>
+        <dt><c:out value="<%=method.getAnnotation(OslcName.class).value()%>"/></dt>
+        <% } %>
         <dd>
         <ul>
         <%
@@ -474,7 +711,16 @@
                 out.write("<li>" + "<em>null</em>" + "</li>");
             }
             else {
-                out.write("<li>" + "<a href=\"" + next.getValue().toString() + "\" class=\"oslc-resource-link\">" + next.getValue().toString() + "</a>" + "</li>");
+                if (isSafeHref(next.getValue())) {
+                %>
+                <li><a href="<c:out value="<%=next.getValue()%>"/>" class="oslc-resource-link"><c:out value="<%=next.getValue()%>"/></a></li>
+                <%
+                }
+                else {
+                %>
+                <li><c:out value="<%=next.getValue()%>"/></li>
+                <%
+                }
             }
         }
         %>
@@ -484,7 +730,11 @@
     </dl>
     <dl class="dl-horizontal">
         <% method = RequirementCollection.class.getMethod("getConstrainedBy"); %>
-        <dt><a href="<%=method.getAnnotation(OslcPropertyDefinition.class).value() %>"><%=method.getAnnotation(OslcName.class).value()%></a></dt>
+        <% if (isSafeHref(method.getAnnotation(OslcPropertyDefinition.class).value())) { %>
+        <dt><a href="<c:out value="<%=method.getAnnotation(OslcPropertyDefinition.class).value()%>"/>" style="text-decoration-style: dashed;" target="_blank" rel="noopener noreferrer" title="The subject is constrained by the object. For example, a functional requirement is constrained by a safety requirement."><c:out value="<%=method.getAnnotation(OslcName.class).value()%>"/></a></dt>
+        <% } else { %>
+        <dt><c:out value="<%=method.getAnnotation(OslcName.class).value()%>"/></dt>
+        <% } %>
         <dd>
         <ul>
         <%
@@ -493,7 +743,16 @@
                 out.write("<li>" + "<em>null</em>" + "</li>");
             }
             else {
-                out.write("<li>" + "<a href=\"" + next.getValue().toString() + "\" class=\"oslc-resource-link\">" + next.getValue().toString() + "</a>" + "</li>");
+                if (isSafeHref(next.getValue())) {
+                %>
+                <li><a href="<c:out value="<%=next.getValue()%>"/>" class="oslc-resource-link"><c:out value="<%=next.getValue()%>"/></a></li>
+                <%
+                }
+                else {
+                %>
+                <li><c:out value="<%=next.getValue()%>"/></li>
+                <%
+                }
             }
         }
         %>
@@ -503,7 +762,11 @@
     </dl>
     <dl class="dl-horizontal">
         <% method = RequirementCollection.class.getMethod("getConstrains"); %>
-        <dt><a href="<%=method.getAnnotation(OslcPropertyDefinition.class).value() %>"><%=method.getAnnotation(OslcName.class).value()%></a></dt>
+        <% if (isSafeHref(method.getAnnotation(OslcPropertyDefinition.class).value())) { %>
+        <dt><a href="<c:out value="<%=method.getAnnotation(OslcPropertyDefinition.class).value()%>"/>" style="text-decoration-style: dashed;" target="_blank" rel="noopener noreferrer" title="The object is constrained by the subject."><c:out value="<%=method.getAnnotation(OslcName.class).value()%>"/></a></dt>
+        <% } else { %>
+        <dt><c:out value="<%=method.getAnnotation(OslcName.class).value()%>"/></dt>
+        <% } %>
         <dd>
         <ul>
         <%
@@ -512,7 +775,16 @@
                 out.write("<li>" + "<em>null</em>" + "</li>");
             }
             else {
-                out.write("<li>" + "<a href=\"" + next.getValue().toString() + "\" class=\"oslc-resource-link\">" + next.getValue().toString() + "</a>" + "</li>");
+                if (isSafeHref(next.getValue())) {
+                %>
+                <li><a href="<c:out value="<%=next.getValue()%>"/>" class="oslc-resource-link"><c:out value="<%=next.getValue()%>"/></a></li>
+                <%
+                }
+                else {
+                %>
+                <li><c:out value="<%=next.getValue()%>"/></li>
+                <%
+                }
             }
         }
         %>
@@ -522,7 +794,11 @@
     </dl>
     <dl class="dl-horizontal">
         <% method = RequirementCollection.class.getMethod("getUses"); %>
-        <dt><a href="<%=method.getAnnotation(OslcPropertyDefinition.class).value() %>"><%=method.getAnnotation(OslcName.class).value()%></a></dt>
+        <% if (isSafeHref(method.getAnnotation(OslcPropertyDefinition.class).value())) { %>
+        <dt><a href="<c:out value="<%=method.getAnnotation(OslcPropertyDefinition.class).value()%>"/>" style="text-decoration-style: dashed;" target="_blank" rel="noopener noreferrer" title="A collection uses a resource - the resource is in the requirement collection. "><c:out value="<%=method.getAnnotation(OslcName.class).value()%>"/></a></dt>
+        <% } else { %>
+        <dt><c:out value="<%=method.getAnnotation(OslcName.class).value()%>"/></dt>
+        <% } %>
         <dd>
         <ul>
         <%
@@ -531,7 +807,16 @@
                 out.write("<li>" + "<em>null</em>" + "</li>");
             }
             else {
-                out.write("<li>" + "<a href=\"" + next.getValue().toString() + "\" class=\"oslc-resource-link\">" + next.getValue().toString() + "</a>" + "</li>");
+                if (isSafeHref(next.getValue())) {
+                %>
+                <li><a href="<c:out value="<%=next.getValue()%>"/>" class="oslc-resource-link"><c:out value="<%=next.getValue()%>"/></a></li>
+                <%
+                }
+                else {
+                %>
+                <li><c:out value="<%=next.getValue()%>"/></li>
+                <%
+                }
             }
         }
         %>
@@ -550,10 +835,15 @@ if (!extendedProperties.isEmpty()) {
     {
         QName key = entry.getKey();
         Object value = entry.getValue();
+        String extendedPropertyUri = key.getNamespaceURI() + key.getLocalPart();
     %>
     <dl class="row">
-        <dt  class="col-sm-2 text-end"><a href="<%=key.getNamespaceURI() + key.getLocalPart() %>"><%=key.getLocalPart()%></a></dt>
-        <dd class="col-sm-9"><%= value.toString()%></dd>
+        <% if (isSafeHref(extendedPropertyUri)) { %>
+        <dt class="col-sm-2 text-end"><a href="<c:out value="<%=extendedPropertyUri%>"/>" style="text-decoration-style: dashed;" target="_blank" rel="noopener noreferrer" title="<c:out value="<%=key.getLocalPart()%>"/>"><c:out value="<%=key.getLocalPart()%>"/></a></dt>
+        <% } else { %>
+        <dt class="col-sm-2 text-end"><c:out value="<%=key.getLocalPart()%>"/></dt>
+        <% } %>
+        <dd class="col-sm-9"><c:out value="<%= value %>"/></dd>
     </dl>
     <%
     }

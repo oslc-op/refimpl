@@ -27,8 +27,6 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.text.SimpleDateFormat;
 import java.text.ParseException;
@@ -959,29 +957,37 @@ public class Change_requestsService
         // End of user code
 
         httpServletRequest.setAttribute("selectionUri",UriBuilder.fromUri(OSLC4JUtils.getServletURI()).path(uriInfo.getPath()).build().toString());
+        httpServletResponse.setHeader("Vary", "HX-Request");
         // Start of user code ChangeRequestSelector_setAttributes
         // End of user code
 
-        if (terms != null ) {
+        if (terms != null) {
             httpServletRequest.setAttribute("terms", terms);
             final List<ChangeRequest> resources = delegate.ChangeRequestSelector(httpServletRequest, terms);
-            if (resources!= null) {
-                JSONArray resourceArray = new JSONArray();
-                for (ChangeRequest resource : resources) {
-                    JSONObject r = new JSONObject();
-                    r.put("oslc:label", resource.toString());
-                    r.put("rdf:resource", resource.getAbout().toString());
-                    r.put("Label", resource.toString());
-                    // Start of user code ChangeRequestSelector_setResponse
+            if (resources != null) {
+                if ("true".equalsIgnoreCase(httpServletRequest.getHeader("HX-Request"))) {
+                    httpServletRequest.setAttribute("resources", resources);
+                    RequestDispatcher rd = httpServletRequest.getRequestDispatcher("/co/oslc/refimpl/cm/gen/changerequestselector-results.jsp");
+                    rd.forward(httpServletRequest, httpServletResponse);
+                    return null;
+                } else {
+                    JSONArray resourceArray = new JSONArray();
+                    for (ChangeRequest resource : resources) {
+                        JSONObject r = new JSONObject();
+                        r.put("oslc:label", resource.toString());
+                        r.put("rdf:resource", resource.getAbout().toString());
+                        r.put("Label", resource.toString());
+                        // Start of user code ChangeRequestSelector_setResponse
                     // End of user code
-                    resourceArray.add(r);
+                        resourceArray.add(r);
+                    }
+                    JSONObject response = new JSONObject();
+                    response.put("oslc:results", resourceArray);
+                    return Response.ok(response.write()).build();
                 }
-                JSONObject response = new JSONObject();
-                response.put("oslc:results", resourceArray);
-                return Response.ok(response.write()).build();
             }
             log.error("A empty search should return an empty list and not NULL!");
-            throw new WebApplicationException(Status.INTERNAL_SERVER_ERROR);
+            return Response.noContent().build();
 
         } else {
             httpServletRequest.setAttribute("resourceTypeLabel", "ChangeRequest");
@@ -989,7 +995,7 @@ public class Change_requestsService
             // Start of user code ChangeRequestSelector_setAttribute_fieldsToList
             //TODO: set the attribute "fieldsToList" to form the list of properties you want displayed in the search result
             // End of user code
-            RequestDispatcher rd = httpServletRequest.getRequestDispatcher("/co/oslc/refimpl/cm/gen/selectiondialog.jsp");
+            RequestDispatcher rd = httpServletRequest.getRequestDispatcher("/co/oslc/refimpl/cm/gen/changerequestselector.jsp");
             rd.forward(httpServletRequest, httpServletResponse);
             return null;
         }
@@ -1017,29 +1023,37 @@ public class Change_requestsService
         // End of user code
 
         httpServletRequest.setAttribute("selectionUri",UriBuilder.fromUri(OSLC4JUtils.getServletURI()).path(uriInfo.getPath()).build().toString());
+        httpServletResponse.setHeader("Vary", "HX-Request");
         // Start of user code DefectSelector_setAttributes
         // End of user code
 
-        if (terms != null ) {
+        if (terms != null) {
             httpServletRequest.setAttribute("terms", terms);
             final List<Defect> resources = delegate.DefectSelector(httpServletRequest, terms);
-            if (resources!= null) {
-                JSONArray resourceArray = new JSONArray();
-                for (Defect resource : resources) {
-                    JSONObject r = new JSONObject();
-                    r.put("oslc:label", resource.toString());
-                    r.put("rdf:resource", resource.getAbout().toString());
-                    r.put("Label", resource.toString());
-                    // Start of user code DefectSelector_setResponse
+            if (resources != null) {
+                if ("true".equalsIgnoreCase(httpServletRequest.getHeader("HX-Request"))) {
+                    httpServletRequest.setAttribute("resources", resources);
+                    RequestDispatcher rd = httpServletRequest.getRequestDispatcher("/co/oslc/refimpl/cm/gen/defectselector-results.jsp");
+                    rd.forward(httpServletRequest, httpServletResponse);
+                    return null;
+                } else {
+                    JSONArray resourceArray = new JSONArray();
+                    for (Defect resource : resources) {
+                        JSONObject r = new JSONObject();
+                        r.put("oslc:label", resource.toString());
+                        r.put("rdf:resource", resource.getAbout().toString());
+                        r.put("Label", resource.toString());
+                        // Start of user code DefectSelector_setResponse
                     // End of user code
-                    resourceArray.add(r);
+                        resourceArray.add(r);
+                    }
+                    JSONObject response = new JSONObject();
+                    response.put("oslc:results", resourceArray);
+                    return Response.ok(response.write()).build();
                 }
-                JSONObject response = new JSONObject();
-                response.put("oslc:results", resourceArray);
-                return Response.ok(response.write()).build();
             }
             log.error("A empty search should return an empty list and not NULL!");
-            throw new WebApplicationException(Status.INTERNAL_SERVER_ERROR);
+            return Response.noContent().build();
 
         } else {
             httpServletRequest.setAttribute("resourceTypeLabel", "Defect");
@@ -1047,7 +1061,7 @@ public class Change_requestsService
             // Start of user code DefectSelector_setAttribute_fieldsToList
             //TODO: set the attribute "fieldsToList" to form the list of properties you want displayed in the search result
             // End of user code
-            RequestDispatcher rd = httpServletRequest.getRequestDispatcher("/co/oslc/refimpl/cm/gen/selectiondialog.jsp");
+            RequestDispatcher rd = httpServletRequest.getRequestDispatcher("/co/oslc/refimpl/cm/gen/defectselector.jsp");
             rd.forward(httpServletRequest, httpServletResponse);
             return null;
         }
@@ -1075,29 +1089,37 @@ public class Change_requestsService
         // End of user code
 
         httpServletRequest.setAttribute("selectionUri",UriBuilder.fromUri(OSLC4JUtils.getServletURI()).path(uriInfo.getPath()).build().toString());
+        httpServletResponse.setHeader("Vary", "HX-Request");
         // Start of user code TaskSelector_setAttributes
         // End of user code
 
-        if (terms != null ) {
+        if (terms != null) {
             httpServletRequest.setAttribute("terms", terms);
             final List<Task> resources = delegate.TaskSelector(httpServletRequest, terms);
-            if (resources!= null) {
-                JSONArray resourceArray = new JSONArray();
-                for (Task resource : resources) {
-                    JSONObject r = new JSONObject();
-                    r.put("oslc:label", resource.toString());
-                    r.put("rdf:resource", resource.getAbout().toString());
-                    r.put("Label", resource.toString());
-                    // Start of user code TaskSelector_setResponse
+            if (resources != null) {
+                if ("true".equalsIgnoreCase(httpServletRequest.getHeader("HX-Request"))) {
+                    httpServletRequest.setAttribute("resources", resources);
+                    RequestDispatcher rd = httpServletRequest.getRequestDispatcher("/co/oslc/refimpl/cm/gen/taskselector-results.jsp");
+                    rd.forward(httpServletRequest, httpServletResponse);
+                    return null;
+                } else {
+                    JSONArray resourceArray = new JSONArray();
+                    for (Task resource : resources) {
+                        JSONObject r = new JSONObject();
+                        r.put("oslc:label", resource.toString());
+                        r.put("rdf:resource", resource.getAbout().toString());
+                        r.put("Label", resource.toString());
+                        // Start of user code TaskSelector_setResponse
                     // End of user code
-                    resourceArray.add(r);
+                        resourceArray.add(r);
+                    }
+                    JSONObject response = new JSONObject();
+                    response.put("oslc:results", resourceArray);
+                    return Response.ok(response.write()).build();
                 }
-                JSONObject response = new JSONObject();
-                response.put("oslc:results", resourceArray);
-                return Response.ok(response.write()).build();
             }
             log.error("A empty search should return an empty list and not NULL!");
-            throw new WebApplicationException(Status.INTERNAL_SERVER_ERROR);
+            return Response.noContent().build();
 
         } else {
             httpServletRequest.setAttribute("resourceTypeLabel", "Task");
@@ -1105,7 +1127,7 @@ public class Change_requestsService
             // Start of user code TaskSelector_setAttribute_fieldsToList
             //TODO: set the attribute "fieldsToList" to form the list of properties you want displayed in the search result
             // End of user code
-            RequestDispatcher rd = httpServletRequest.getRequestDispatcher("/co/oslc/refimpl/cm/gen/selectiondialog.jsp");
+            RequestDispatcher rd = httpServletRequest.getRequestDispatcher("/co/oslc/refimpl/cm/gen/taskselector.jsp");
             rd.forward(httpServletRequest, httpServletResponse);
             return null;
         }
@@ -1133,29 +1155,37 @@ public class Change_requestsService
         // End of user code
 
         httpServletRequest.setAttribute("selectionUri",UriBuilder.fromUri(OSLC4JUtils.getServletURI()).path(uriInfo.getPath()).build().toString());
+        httpServletResponse.setHeader("Vary", "HX-Request");
         // Start of user code ReviewTaskSelector_setAttributes
         // End of user code
 
-        if (terms != null ) {
+        if (terms != null) {
             httpServletRequest.setAttribute("terms", terms);
             final List<ReviewTask> resources = delegate.ReviewTaskSelector(httpServletRequest, terms);
-            if (resources!= null) {
-                JSONArray resourceArray = new JSONArray();
-                for (ReviewTask resource : resources) {
-                    JSONObject r = new JSONObject();
-                    r.put("oslc:label", resource.toString());
-                    r.put("rdf:resource", resource.getAbout().toString());
-                    r.put("Label", resource.toString());
-                    // Start of user code ReviewTaskSelector_setResponse
+            if (resources != null) {
+                if ("true".equalsIgnoreCase(httpServletRequest.getHeader("HX-Request"))) {
+                    httpServletRequest.setAttribute("resources", resources);
+                    RequestDispatcher rd = httpServletRequest.getRequestDispatcher("/co/oslc/refimpl/cm/gen/reviewtaskselector-results.jsp");
+                    rd.forward(httpServletRequest, httpServletResponse);
+                    return null;
+                } else {
+                    JSONArray resourceArray = new JSONArray();
+                    for (ReviewTask resource : resources) {
+                        JSONObject r = new JSONObject();
+                        r.put("oslc:label", resource.toString());
+                        r.put("rdf:resource", resource.getAbout().toString());
+                        r.put("Label", resource.toString());
+                        // Start of user code ReviewTaskSelector_setResponse
                     // End of user code
-                    resourceArray.add(r);
+                        resourceArray.add(r);
+                    }
+                    JSONObject response = new JSONObject();
+                    response.put("oslc:results", resourceArray);
+                    return Response.ok(response.write()).build();
                 }
-                JSONObject response = new JSONObject();
-                response.put("oslc:results", resourceArray);
-                return Response.ok(response.write()).build();
             }
             log.error("A empty search should return an empty list and not NULL!");
-            throw new WebApplicationException(Status.INTERNAL_SERVER_ERROR);
+            return Response.noContent().build();
 
         } else {
             httpServletRequest.setAttribute("resourceTypeLabel", "ReviewTask");
@@ -1163,7 +1193,7 @@ public class Change_requestsService
             // Start of user code ReviewTaskSelector_setAttribute_fieldsToList
             //TODO: set the attribute "fieldsToList" to form the list of properties you want displayed in the search result
             // End of user code
-            RequestDispatcher rd = httpServletRequest.getRequestDispatcher("/co/oslc/refimpl/cm/gen/selectiondialog.jsp");
+            RequestDispatcher rd = httpServletRequest.getRequestDispatcher("/co/oslc/refimpl/cm/gen/reviewtaskselector.jsp");
             rd.forward(httpServletRequest, httpServletResponse);
             return null;
         }
@@ -1191,29 +1221,37 @@ public class Change_requestsService
         // End of user code
 
         httpServletRequest.setAttribute("selectionUri",UriBuilder.fromUri(OSLC4JUtils.getServletURI()).path(uriInfo.getPath()).build().toString());
+        httpServletResponse.setHeader("Vary", "HX-Request");
         // Start of user code ChangeNoticeSelector_setAttributes
         // End of user code
 
-        if (terms != null ) {
+        if (terms != null) {
             httpServletRequest.setAttribute("terms", terms);
             final List<ChangeNotice> resources = delegate.ChangeNoticeSelector(httpServletRequest, terms);
-            if (resources!= null) {
-                JSONArray resourceArray = new JSONArray();
-                for (ChangeNotice resource : resources) {
-                    JSONObject r = new JSONObject();
-                    r.put("oslc:label", resource.toString());
-                    r.put("rdf:resource", resource.getAbout().toString());
-                    r.put("Label", resource.toString());
-                    // Start of user code ChangeNoticeSelector_setResponse
+            if (resources != null) {
+                if ("true".equalsIgnoreCase(httpServletRequest.getHeader("HX-Request"))) {
+                    httpServletRequest.setAttribute("resources", resources);
+                    RequestDispatcher rd = httpServletRequest.getRequestDispatcher("/co/oslc/refimpl/cm/gen/changenoticeselector-results.jsp");
+                    rd.forward(httpServletRequest, httpServletResponse);
+                    return null;
+                } else {
+                    JSONArray resourceArray = new JSONArray();
+                    for (ChangeNotice resource : resources) {
+                        JSONObject r = new JSONObject();
+                        r.put("oslc:label", resource.toString());
+                        r.put("rdf:resource", resource.getAbout().toString());
+                        r.put("Label", resource.toString());
+                        // Start of user code ChangeNoticeSelector_setResponse
                     // End of user code
-                    resourceArray.add(r);
+                        resourceArray.add(r);
+                    }
+                    JSONObject response = new JSONObject();
+                    response.put("oslc:results", resourceArray);
+                    return Response.ok(response.write()).build();
                 }
-                JSONObject response = new JSONObject();
-                response.put("oslc:results", resourceArray);
-                return Response.ok(response.write()).build();
             }
             log.error("A empty search should return an empty list and not NULL!");
-            throw new WebApplicationException(Status.INTERNAL_SERVER_ERROR);
+            return Response.noContent().build();
 
         } else {
             httpServletRequest.setAttribute("resourceTypeLabel", "ChangeNotice");
@@ -1221,7 +1259,7 @@ public class Change_requestsService
             // Start of user code ChangeNoticeSelector_setAttribute_fieldsToList
             //TODO: set the attribute "fieldsToList" to form the list of properties you want displayed in the search result
             // End of user code
-            RequestDispatcher rd = httpServletRequest.getRequestDispatcher("/co/oslc/refimpl/cm/gen/selectiondialog.jsp");
+            RequestDispatcher rd = httpServletRequest.getRequestDispatcher("/co/oslc/refimpl/cm/gen/changenoticeselector.jsp");
             rd.forward(httpServletRequest, httpServletResponse);
             return null;
         }
@@ -1249,29 +1287,37 @@ public class Change_requestsService
         // End of user code
 
         httpServletRequest.setAttribute("selectionUri",UriBuilder.fromUri(OSLC4JUtils.getServletURI()).path(uriInfo.getPath()).build().toString());
+        httpServletResponse.setHeader("Vary", "HX-Request");
         // Start of user code EnhancementSelector_setAttributes
         // End of user code
 
-        if (terms != null ) {
+        if (terms != null) {
             httpServletRequest.setAttribute("terms", terms);
             final List<Enhancement> resources = delegate.EnhancementSelector(httpServletRequest, terms);
-            if (resources!= null) {
-                JSONArray resourceArray = new JSONArray();
-                for (Enhancement resource : resources) {
-                    JSONObject r = new JSONObject();
-                    r.put("oslc:label", resource.toString());
-                    r.put("rdf:resource", resource.getAbout().toString());
-                    r.put("Label", resource.toString());
-                    // Start of user code EnhancementSelector_setResponse
+            if (resources != null) {
+                if ("true".equalsIgnoreCase(httpServletRequest.getHeader("HX-Request"))) {
+                    httpServletRequest.setAttribute("resources", resources);
+                    RequestDispatcher rd = httpServletRequest.getRequestDispatcher("/co/oslc/refimpl/cm/gen/enhancementselector-results.jsp");
+                    rd.forward(httpServletRequest, httpServletResponse);
+                    return null;
+                } else {
+                    JSONArray resourceArray = new JSONArray();
+                    for (Enhancement resource : resources) {
+                        JSONObject r = new JSONObject();
+                        r.put("oslc:label", resource.toString());
+                        r.put("rdf:resource", resource.getAbout().toString());
+                        r.put("Label", resource.toString());
+                        // Start of user code EnhancementSelector_setResponse
                     // End of user code
-                    resourceArray.add(r);
+                        resourceArray.add(r);
+                    }
+                    JSONObject response = new JSONObject();
+                    response.put("oslc:results", resourceArray);
+                    return Response.ok(response.write()).build();
                 }
-                JSONObject response = new JSONObject();
-                response.put("oslc:results", resourceArray);
-                return Response.ok(response.write()).build();
             }
             log.error("A empty search should return an empty list and not NULL!");
-            throw new WebApplicationException(Status.INTERNAL_SERVER_ERROR);
+            return Response.noContent().build();
 
         } else {
             httpServletRequest.setAttribute("resourceTypeLabel", "Enhancement");
@@ -1279,7 +1325,7 @@ public class Change_requestsService
             // Start of user code EnhancementSelector_setAttribute_fieldsToList
             //TODO: set the attribute "fieldsToList" to form the list of properties you want displayed in the search result
             // End of user code
-            RequestDispatcher rd = httpServletRequest.getRequestDispatcher("/co/oslc/refimpl/cm/gen/selectiondialog.jsp");
+            RequestDispatcher rd = httpServletRequest.getRequestDispatcher("/co/oslc/refimpl/cm/gen/enhancementselector.jsp");
             rd.forward(httpServletRequest, httpServletResponse);
             return null;
         }

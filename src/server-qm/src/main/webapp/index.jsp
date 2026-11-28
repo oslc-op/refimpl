@@ -56,7 +56,7 @@
             this OpenAPI specification document (yaml file) of this adaptor</a> to a <a href="<%= "https://editor.swagger.io" %>">Swagger
                  Editor</a> to generate client SDK code for a number of languages and platforms.
         </p>
-        <p>The OSLC Root Services document is available at <code><%= UriBuilder.fromUri(OSLC4JUtils.getServletURI()).path("/rootsevices").build() %></code></p>
+        <p>The OSLC Root Services document is available at <code><%= UriBuilder.fromUri(OSLC4JUtils.getServletURI()).path("/rootservices").build() %></code></p>
     </div>
 </div>
 </body>

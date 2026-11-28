@@ -132,9 +132,19 @@ function sendCancelResponse() {
 
 
 function respondWithWindowName(/*string*/ response) {
-   var returnURL = window.name;
+   var returnURL;
+   try {
+      returnURL = new URL(window.name, window.location.href);
+   } catch (error) {
+      console.error("Invalid OSLC Window Name return URL", error);
+      return;
+   }
+   if (returnURL.protocol != "http:" && returnURL.protocol != "https:") {
+      console.error("Invalid OSLC Window Name return URL scheme: " + returnURL.protocol);
+      return;
+   }
    window.name = response;
-   window.location.href = returnURL;
+   window.location.href = returnURL.href;
 
 }
 
